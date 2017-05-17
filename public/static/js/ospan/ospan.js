@@ -40,8 +40,6 @@ var finalInstructionsBlock = initInstructions(finalInstructions, [' ']);
 var timeline = [];
 timeline.push(startingInstructionsBlock);
 timeline.push(letterPracticeInstructionsBlock);
-console.log("Letter practice:");
-console.log(letterPracticeBlock);
 timeline = addObjectsToTimeline(timeline, letterPracticeBlock);
 timeline.push(mathPracticeInstructionsBlock);
 timeline = addObjectsToTimeline(timeline, mathPracticeBlock);

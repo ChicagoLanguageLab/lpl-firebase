@@ -56,9 +56,6 @@ function displayFeedback(type) {
       var totalMathResponseData = _.filter(jsPsych.data.getTrialsOfType("ospan-math-response"), function(obj) { return obj.ospan_type == type; });
       var totalMathProblemData = _.filter(jsPsych.data.getTrialsOfType("ospan-math-stim"), function(obj) { return obj.ospan_type == type; });
 
-      console.log(totalMathResponseData);
-      console.log(totalMathProblemData);
-
       // Calculate TOTAL percent correct
       var totalMathResponseSum = _.reduce(totalMathResponseData, function(memo, obj) { return memo + obj.correct; }, 0);
       var totalPercentCorrect = (totalMathResponseSum / totalMathProblemData.length) * 100.0;
@@ -290,7 +287,6 @@ function makeMathProblem(problem, answer, correct, type) {
     timing_response = function() {
       return averageResponseTime;
     }
-    console.log("Set response timeout!");
   }
 
   var timeline = [{
@@ -355,7 +351,6 @@ function makeMathProblems(type) {
           var sum = _.reduce(practiceData, function(memo, obj) { return memo + obj.rt; }, 0);
           
           averageResponseTime = sum / practiceData.length;
-          console.log("Time limit for timed math: " + averageResponseTime);
         }
       }
     });
@@ -378,13 +373,8 @@ function makeOspanTrials(sizes, type) {
 }
 
 function addObjectsToTimeline(timeline, list) {
-  console.log("Before");
-  console.log(timeline);
   _.each(list, function(item, index, list) {
-    console.log(item);
     timeline.push(item);
   });
-  console.log("After");
-  console.log(timeline);
   return timeline;
 }

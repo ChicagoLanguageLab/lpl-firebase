@@ -64,7 +64,6 @@ function initProductionTrials() {
 	var colorCount = 0;
 	var position = 1;
 	
-	console.log(params);
 	var timeline = _.chain(params)
 		.omit('workerId')
 		.map(function(value, key, list) {
@@ -76,12 +75,8 @@ function initProductionTrials() {
 
 			var condition = randomCondition();
 			var targetId = randomTarget(condition);
-
-			console.log("Item: " + item + "; Condition: " + condition);
-
+			
 			trialType = trials[item + condition]['type'];
-			console.log("Trial type: " + trialType);
-			console.log("Target type: " + targetTypes[targetId]);
 
 			if(trialType == 'Test' || trialType == 'Color') {
 

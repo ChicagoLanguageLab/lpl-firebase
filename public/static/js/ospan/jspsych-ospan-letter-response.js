@@ -70,7 +70,6 @@ jsPsych.plugins['ospan-letter-response'] = (function() {
          (function(a) {
             $("#jspsych-ospan-letter-" + a).click(function(){
               $("#jspsych-ospan-letter-response-box").html($("#jspsych-ospan-letter-response-box").html() + trial.letters[a]);
-              console.log("Clicked " + trial.letters[a]);
           });
         }(letter));
       }
