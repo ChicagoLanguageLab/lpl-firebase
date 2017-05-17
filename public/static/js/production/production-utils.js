@@ -63,91 +63,92 @@ function initProductionTrials() {
 	var testCount = 0;
 	var colorCount = 0;
 	var position = 1;
+	
+	console.log(params);
+	var timeline = _.chain(params)
+		.omit('workerId')
+		.map(function(value, key, list) {
+			var i = key.replace('q', '');
 
-	var timeline = _.map(params, function(value, key, list) {
-		
-		if(!key.includes('q')) return;
-		var i = key.replace('q', '');
+			// Get trial to use from URL params
+			var item = value;
+			item = (item == undefined ? "1" : item);
 
-		// Get trial to use from URL params
-		var item = value;
-		item = (item == undefined ? "1" : item);
+			var condition = randomCondition();
+			var targetId = randomTarget(condition);
 
-		var condition = randomCondition();
-		var targetId = randomTarget(condition);
+			console.log("Item: " + item + "; Condition: " + condition);
 
-		console.log("Item: " + item + "; Condition: " + condition);
+			trialType = trials[item + condition]['type'];
+			console.log("Trial type: " + trialType);
+			console.log("Target type: " + targetTypes[targetId]);
 
-		trialType = trials[item + condition]['type'];
-		console.log("Trial type: " + trialType);
-		console.log("Target type: " + targetTypes[targetId]);
+			if(trialType == 'Test' || trialType == 'Color') {
 
-		if(trialType == 'Test' || trialType == 'Color') {
+				while(quotas[trialType][condition]['cur_' + targetTypes[targetId]] == quotas[trialType][condition]['max_' + targetTypes[targetId]]) {
+			    
+					if(quotas[trialType]['c']['cur_target'] == quotas[trialType]['c']['max_target'] &&
+						quotas[trialType]['c']['cur_competitor'] == quotas[trialType]['c']['max_competitor'] && 
+						quotas[trialType]['c']['cur_contrastDistractor'] == quotas[trialType]['c']['max_contrastDistractor'] &&
+						quotas[trialType]['nc']['cur_target'] == quotas[trialType]['nc']['max_target'] &&
+						quotas[trialType]['nc']['cur_competitor'] == quotas[trialType]['nc']['max_competitor']) {
 
-			while(quotas[trialType][condition]['cur_' + targetTypes[targetId]] == quotas[trialType][condition]['max_' + targetTypes[targetId]]) {
-		    
-				if(quotas[trialType]['c']['cur_target'] == quotas[trialType]['c']['max_target'] &&
-					quotas[trialType]['c']['cur_competitor'] == quotas[trialType]['c']['max_competitor'] && 
-					quotas[trialType]['c']['cur_contrastDistractor'] == quotas[trialType]['c']['max_contrastDistractor'] &&
-					quotas[trialType]['nc']['cur_target'] == quotas[trialType]['nc']['max_target'] &&
-					quotas[trialType]['nc']['cur_competitor'] == quotas[trialType]['nc']['max_competitor']) {
+						console.log("Error! Test count: " + testCount + "; Color count: " + colorCount);
+						break;
+				    }
 
-					console.log("Error! Test count: " + testCount + "; Color count: " + colorCount);
-					break;
-			    }
+				    condition = randomCondition();
+				    targetId = randomTarget(condition);
+				}
 
-			    condition = randomCondition();
-			    targetId = randomTarget(condition);
+			    quotas[trialType][condition]['cur_' + targetTypes[targetId]] += 1;
 			}
 
-		    quotas[trialType][condition]['cur_' + targetTypes[targetId]] += 1;
-		}
+			// Get the objects for the trial and randomize them
+			var objects = [trials[item + condition]['target'], trials[item + condition]['competitor'], trials[item + condition]['contrastDistractor'], trials[item + condition]['distractor']];
+			var shuffledObjects = jsPsych.randomization.shuffle(objects);
 
-		// Get the objects for the trial and randomize them
-		var objects = [trials[item + condition]['target'], trials[item + condition]['competitor'], trials[item + condition]['contrastDistractor'], trials[item + condition]['distractor']];
-		var shuffledObjects = jsPsych.randomization.shuffle(objects);
-
-		// Need to find position of the target so we can point to it
-		var pos = 0;
-		for(var j = 0; j < objects.length; j++) {
-			if(shuffledObjects[j] == objects[targetId])
-				pos = j;
-		}
-
-		// Make question
-		var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="../static/images/production/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
-
-		var trial = {
-			type: 'vm-production-response',
-			preamble: 'INSTRUCTIONS: Describe the object indicated by the arrow as if you are instructing a partner to click on it. Keep in mind that this partner can only see the images, not the arrow.',
-			question: question,
-			required: true,
-			data: {
-				question_number: i, 
-				item_number: item,
-				trial_type: trialType,
-				target_type: targetTypes[targetId], 
-				target_condition: condition, 
-				target_image: trials[item + condition][targetTypes[targetId]],
-				original_target: trials[item + condition].target,
-				original_competitor: trials[item + condition].competitor,
-				original_contrastDistractor: trials[item + condition].contrastDistractor,
-				original_distractor: trials[item + condition].distractor
-			},
-			rows: 1,
-			columns: 40,
-			on_finish: function(data){
+			// Need to find position of the target so we can point to it
+			var pos = 0;
+			for(var j = 0; j < objects.length; j++) {
+				if(shuffledObjects[j] == objects[targetId])
+					pos = j;
 			}
-		}
 
-		if(i % 10 == 0) {
-		   	trial["on_finish"] = function(data){
-		    	saveData(jsPsych.data.dataAsCSV(), dataRef); 
-		    };
-		}
+			// Make question
+			var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="../static/images/production/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
 
-		return trial;
-	});
+			var trial = {
+				type: 'vm-production-response',
+				preamble: 'INSTRUCTIONS: Describe the object indicated by the arrow as if you are instructing a partner to click on it. Keep in mind that this partner can only see the images, not the arrow.',
+				question: question,
+				required: true,
+				data: {
+					question_number: i, 
+					item_number: item,
+					trial_type: trialType,
+					target_type: targetTypes[targetId], 
+					target_condition: condition, 
+					target_image: trials[item + condition][targetTypes[targetId]],
+					original_target: trials[item + condition].target,
+					original_competitor: trials[item + condition].competitor,
+					original_contrastDistractor: trials[item + condition].contrastDistractor,
+					original_distractor: trials[item + condition].distractor
+				},
+				rows: 1,
+				columns: 40,
+				on_finish: function(data){
+				}
+			}
 
+			if(i % 10 == 0) {
+			   	trial["on_finish"] = function(data){
+			    	saveData(jsPsych.data.dataAsCSV(), dataRef); 
+			    };
+			}
+
+			return trial;
+		})
+		.value();
 	return timeline;
 }
