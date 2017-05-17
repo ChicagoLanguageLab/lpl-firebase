@@ -36,7 +36,6 @@ function makeFeedback(type) {
   });
 }
 
-
 function displayFeedback(type) {
   var trialData = jsPsych.data.getLastTrialData();
   var timelineData = jsPsych.data.getLastTimelineData();
@@ -208,23 +207,21 @@ function makeLetterStimuli(sizes, type) {
   var timeline = []
   var next = 0;
   var problems;
-  var shuffledLetters;
+  var shuffledLetters = testLetters;
 
   for(var i = 0; i < sizes.length; i++) {
 
     var recallString = "";
     if(type == "BothPractice" || type == "Experiment") {
       problems = initMathProblems(sizes[i]);
-    }
-    else {
-      shuffledLetters = testLetters;
+      shuffledLetters = jsPsych.randomization.shuffle(testLetters);
+      next = 0;
     }
 
     var inner_timeline = [];
 
     for(var j = 0; j < sizes[i]; j++) {
       if(type == "BothPractice" || type == "Experiment") {
-        shuffledLetters = jsPsych.randomization.shuffle(testLetters);
         var problem = problems[j];
         inner_timeline.push(makeMathProblem(problem.problem, problem.answer, problem.correct, type));
       }
