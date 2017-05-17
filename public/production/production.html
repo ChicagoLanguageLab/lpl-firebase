@@ -1,0 +1,54 @@
+<!doctype html>
+<meta charset="UTF-8"> 
+<html>
+  <head>
+    <title>Production-OSPAN</title>
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../static/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+    <script src='https://www.gstatic.com/firebasejs/3.0.2/firebase.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-storage.js"></script>
+
+    <script src="../static/js/lib/jquery-min.js"></script>
+    <script src="../static/js/lib/jspsych.js"></script>
+    <script src="../static/js/lib/underscore-min.js"></script>
+
+    <script src="../static/js/production/jspsych-vm-production-response.js"></script>
+    <script src="../static/js/ospan/jspsych-ospan-letter-stim.js"></script>
+    <script src="../static/js/ospan/jspsych-ospan-letter-response.js"></script>
+    <script src="../static/js/ospan/jspsych-ospan-math-stim.js"></script>
+    <script src="../static/js/ospan/jspsych-ospan-math-response.js"></script>
+
+    <script src="../static/js/plugins/jspsych-text.js"></script>
+    <script src="../static/js/plugins/jspsych-single-stim.js"></script>
+    <script src="../static/js/plugins/jspsych-survey-text.js"></script>
+    
+    <script src="../static/js/utils/utils.js"></script>
+
+    <script src="../static/js/ospan/data.js"></script>
+    <script src="../static/js/production/data.js"></script>
+
+    <script src="../static/js/ospan/ospan-utils.js"></script>
+    <script src="../static/js/production/production-utils.js"></script>
+    
+    <script src="../static/js/production/experiment.js"></script>
+
+
+    <style type="text/css">
+      table, tr, td {
+        padding: 10px;
+      }
+      img .obj{
+        height: 100px !important;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="progress-bar" style="display:none"></div>
+    <div id="jspsych-target" style="display:none"></div>
+  </body>
+</html>
