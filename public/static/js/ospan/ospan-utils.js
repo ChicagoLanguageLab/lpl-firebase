@@ -232,10 +232,11 @@ function makeLetterStimuli(sizes, type) {
     }
 
     inner_timeline.push(makeLetterResponse(sizes[i], type, recallString));
-    timeline.push({timeline: [{timeline: inner_timeline}, makeFeedback(type)]});
+    timeline.push({timeline: inner_timeline});
+    timeline.push(makeFeedback(type));
   }
   
-  return ({ timeline: timeline });
+  return timeline;
 }
 
 function makeLetterResponse(size, type, recallString) {
@@ -342,42 +343,48 @@ var averageResponseTime = -1;
 function makeMathProblems(type) {
   var timeline = [];
   for(var i = 0; i < pracMathProblems.length; i++) {
-    timeline.push(makeMathProblem(pracMathProblems[i], pracMathAnswers[i], pracMathCorrect[i], type));
-  }
-  return ({
-    timeline: timeline,
-    data: {
+    timeline.push({
+      timeline: [makeMathProblem(pracMathProblems[i], pracMathAnswers[i], pracMathCorrect[i], type)],
+      data: {
       ospan_type: type
-    },
-    on_finish: function(data) {
-      if(data.ospan_type == "MathPractice") {
-       
-        var practiceData = jsPsych.data.getTrialsOfType("ospan-math-stim");
-        var sum = _.reduce(practiceData, function(memo, obj) { return memo + obj.rt; }, 0);
-        
-        averageResponseTime = sum / practiceData.length;
-        console.log("Time limit for timed math: " + averageResponseTime);
+      },
+      on_finish: function(data) {
+        if(data.ospan_type == "MathPractice") {
+         
+          var practiceData = jsPsych.data.getTrialsOfType("ospan-math-stim");
+          var sum = _.reduce(practiceData, function(memo, obj) { return memo + obj.rt; }, 0);
+          
+          averageResponseTime = sum / practiceData.length;
+          console.log("Time limit for timed math: " + averageResponseTime);
+        }
       }
-    }
-  });
+    });
+  }
+  return timeline;
 }
 
 function makeOspanTrials(sizes, type) {
-  var timeline = [];
-  
   switch (type) {
     case "LetterPractice":
-      timeline.push(makeLetterStimuli(sizes, type)); 
+      return makeLetterStimuli(sizes, type); 
       break;
     case "MathPractice":
-      timeline.push(makeMathProblems(type));
+      return makeMathProblems(type);
       break;
     case "Experiment":
     case "BothPractice":
-      timeline.push(makeLetterStimuli(sizes, type));
+      return makeLetterStimuli(sizes, type);
   }
+}
 
-  return ({
-    timeline: timeline
+function addObjectsToTimeline(timeline, list) {
+  console.log("Before");
+  console.log(timeline);
+  _.each(list, function(item, index, list) {
+    console.log(item);
+    timeline.push(item);
   });
+  console.log("After");
+  console.log(timeline);
+  return timeline;
 }

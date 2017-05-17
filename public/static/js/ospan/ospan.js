@@ -40,13 +40,15 @@ var finalInstructionsBlock = initInstructions(finalInstructions, [' ']);
 var timeline = [];
 timeline.push(startingInstructionsBlock);
 timeline.push(letterPracticeInstructionsBlock);
-timeline.push(letterPracticeBlock);
+console.log("Letter practice:");
+console.log(letterPracticeBlock);
+timeline = addObjectsToTimeline(timeline, letterPracticeBlock);
 timeline.push(mathPracticeInstructionsBlock);
-timeline.push(mathPracticeBlock);
+timeline = addObjectsToTimeline(timeline, mathPracticeBlock);
 timeline.push(bothPracticeInstructions);
-timeline.push(bothPracticeBlock);
+timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
 timeline.push(experimentInstructionsBlock);
-timeline.push(experimentBlock);
+timeline = addObjectsToTimeline(timeline, experimentBlock);
 timeline.push(finalInstructionsBlock);
 
 /* Start the experiment */

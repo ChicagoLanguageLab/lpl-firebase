@@ -51,13 +51,13 @@ var experimentBlock = makeOspanTrials(jsPsych.randomization.shuffle(testBothSetS
 
 timeline.push(startingInstructionsBlock);
 timeline.push(letterPracticeInstructionsBlock);
-timeline.push(letterPracticeBlock);
+timeline = addObjectsToTimeline(timeline, letterPracticeBlock);
 timeline.push(mathPracticeInstructionsBlock);
-timeline.push(mathPracticeBlock);
+timeline = addObjectsToTimeline(timeline, mathPracticeBlock);
 timeline.push(bothPracticeInstructions);
-timeline.push(bothPracticeBlock);
+timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
 timeline.push(experimentInstructionsBlock);
-timeline.push(experimentBlock);
+//timeline = addObjectsToTimeline(timeline, experimentBlock);
 
 var end_ospan_block = {
 type: "text",
