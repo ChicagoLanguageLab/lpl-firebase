@@ -72,7 +72,7 @@ function initProductionTrials() {
 			var condition = randomCondition();
 			var targetId = randomTarget(condition);
 			
-			trialType = trials[item + condition]['type'];
+			var trialType = trials[item + condition]['type'];
 
 			if(trialType == 'Test' || trialType == 'Color') {
 
