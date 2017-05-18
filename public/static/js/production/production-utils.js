@@ -59,10 +59,6 @@ function initProductionTrials() {
 	    }
 	  }
 	}
-
-	var testCount = 0;
-	var colorCount = 0;
-	var position = 1;
 	
 	var timeline = _.chain(params)
 		.omit('workerId')
@@ -88,7 +84,7 @@ function initProductionTrials() {
 						quotas[trialType]['nc']['cur_target'] == quotas[trialType]['nc']['max_target'] &&
 						quotas[trialType]['nc']['cur_competitor'] == quotas[trialType]['nc']['max_competitor']) {
 
-						console.log("Error! Test count: " + testCount + "; Color count: " + colorCount);
+						console.log("ERROR: Quotas are full! Current item: " + i);
 						break;
 				    }
 

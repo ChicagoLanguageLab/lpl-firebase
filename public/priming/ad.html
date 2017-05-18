@@ -124,10 +124,10 @@ $( document ).ready(function() {
     }*/
 
     primingLink += ('&verb=' + verb + '&sentence=' + sentence + '&image=' + image);
-    productionLink += ('&q1=' + productionQuestions[0]);
-
+   
+    productionLink += ('&1=' + productionQuestions[0]);
     for(var i = 1; i < productionQuestions.length; i++) {
-        productionLink += ('&q' + (i + 1) + productionQuestions[i]);
+        productionLink += ('&' + (i + 1) + '=' + productionQuestions[i]);
     }
 
     $('#expt-link-1').attr('href', primingLink);

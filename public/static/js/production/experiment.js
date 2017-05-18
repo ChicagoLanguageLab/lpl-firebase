@@ -30,9 +30,7 @@ var productionInstructionsblock = initInstructions(productionInstructions, [' ']
 var productionBlock = initProductionTrials();
 
 timeline.push(productionInstructionsblock);
-_.each(productionBlock, function(trial, index, list) {
-  timeline.push(trial);
-});
+timeline = addObjectsToTimeline(timeline, productionBlock);
 
 var productionEndBlock = initInstructions(productionEndInstructions, [' ']);
 timeline.push(productionEndBlock);
@@ -57,7 +55,7 @@ timeline = addObjectsToTimeline(timeline, mathPracticeBlock);
 timeline.push(bothPracticeInstructions);
 timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
 timeline.push(experimentInstructionsBlock);
-//timeline = addObjectsToTimeline(timeline, experimentBlock);
+timeline = addObjectsToTimeline(timeline, experimentBlock);
 
 var end_ospan_block = {
 type: "text",
