@@ -337,11 +337,12 @@ function makeMathProblem(problem, answer, correct, type) {
 var averageResponseTime = -1;
 
 function average(values) {
-  return  _.reduce(values, function(memo, obj) { return memo + obj.rt; }, 0) / list.length;
+  return  _.reduce(values, function(memo, obj) { return memo + obj.rt; }, 0) / values.length;
 }
 
-function standardDeviation(values) {
-  var squareDiffs = _.map(practiceData, function(value){
+function standardDeviation(values, average) {
+  var average = averate(values);
+  var squareDiffs = _.map(values, function(value){
     var diff = value - average;
     var sqr = diff * diff;
     return sqr;
