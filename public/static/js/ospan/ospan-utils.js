@@ -336,6 +336,19 @@ function makeMathProblem(problem, answer, correct, type) {
 
 var averageResponseTime = -1;
 
+function average(values) {
+  return  _.reduce(values, function(memo, obj) { return memo + obj.rt; }, 0) / list.length;
+}
+
+function standardDeviation(values) {
+  var squareDiffs = _.map(practiceData, function(value){
+    var diff = value - average;
+    var sqr = diff * diff;
+    return sqr;
+  });
+  return Math.sqrt(average(squareDiffs));
+}
+
 function makeMathProblems(type) {
   var timeline = [];
   for(var i = 0; i < pracMathProblems.length; i++) {
@@ -348,9 +361,10 @@ function makeMathProblems(type) {
         if(data.ospan_type == "MathPractice") {
          
           var practiceData = jsPsych.data.getTrialsOfType("ospan-math-stim");
-          var sum = _.reduce(practiceData, function(memo, obj) { return memo + obj.rt; }, 0);
-          
-          averageResponseTime = sum / practiceData.length;
+          var average_rt = average(practiceData);
+          var std_deviation = standardDeviation(practiceData);
+
+          averageResponseTime = (2.5 * std_deviation) + average_rt + 500;
         }
       }
     });
