@@ -102,26 +102,18 @@ $( document ).ready(function() {
     var primingLink = 'https://language-processing-lab.firebaseapp.com/priming/primingStimulus.html?';
     var productionLink = 'https://language-processing-lab.firebaseapp.com/production/production.html?'
 
-    /*if (assignmentId != '' && assignmentId != 'ASSIGNMENT_ID_NOT_AVAILABLE') {
-        var workerId = turkGetParam('workerId', '');*/
+    $("#afterAccept").show();
+    $("#beforeAccept").hide();
+    $("#submitButton").show();
 
-        $("#afterAccept").show();
-        $("#beforeAccept").hide();
-        $("#submitButton").show();
-
-     /*   if(workerId != '' && workerId != undefined) {
-            primingLink += 'workerId=' + workerId;
-            productionLink += 'workerId=' + workerId;
-        }
+    if(workerId != '' && workerId != undefined) {
+        primingLink += 'workerId=' + workerId;
+        productionLink += 'workerId=' + workerId;
     }
-    else {*/
+    else {
         primingLink += 'workerId=temp';
         productionLink += 'workerId=temp';
-    /*
-        $("#afterAccept").hide();
-        $("#beforeAccept").show();
-        $("#submitButton").hide();
-    }*/
+    }
 
     primingLink += ('&verb=' + verb + '&sentence=' + sentence + '&image=' + image);
    
@@ -145,8 +137,11 @@ $( document ).ready(function() {
     })
 
     $('#submitButton').appendTo($('div#submit-button-container'));
+    $('#submitButton').attr("style","width: 150px !important; margin-left:auto; margin-right: auto;");
 });
-</script><!--Before Accepting the HIT-->
+</script>
+
+<!--Before Accepting the HIT-->
 
 <div><p><a name="top"></a></p></div>
 
@@ -155,7 +150,7 @@ $( document ).ready(function() {
         <div id="beforeAccept" class="card mb-3">
             <div class="card-block">
                 
-                <h1>Describe Pictures and Record a Sentence!</h1>
+                <h1>Describe pictures and test your memory!</h1>
                 
                 <p class="lead">Language Processing Laboratory, Department of Linguistics, University of Chicago</p>
 
@@ -166,7 +161,7 @@ $( document ).ready(function() {
 
                 <h4 class="mt-5">Overview</h4>
 
-                <p>This survey examines how native speakers of English use language. It consists of two parts. In the first part, you will see a sentence and listen to a recording of said sentence. Then, you will be presented with an image and asked to record a sentence describing it. In the second part, you will see sets of four images and will be asked to describe one image from the set. The study will take approximately 20 minutes to complete.</p>
+                <p>This survey examines how native speakers of English use language. It consists of two parts. In the first part, you will see a sentence and listen to a recording of said sentence. Then, you will be presented with an image and asked to record a sentence describing it. In the second part, you will perform two tasks. First, you will see sets of four images and will be asked to describe one image from the set. Next, you will participate in a standard memory test involving simple math and strings of letters. The entire study will take approximately 40 minutes to complete.</p>
 
                 <h4 class="mt-5">System Requirements</h4>
 
@@ -207,17 +202,17 @@ $( document ).ready(function() {
         </div>
         <div id="check-javascript" class="card card-danger card-inverse mb-3">
             <div class="card-block">
-                <h4>!Error</h4>
-                <p>If you are seeing this message, your browser has either not loaded the page correctly, or is unable to run Javascript code. Please try refreshing the HIT or loading the HIT in a different browser. If this does not fix the problem, please contact the lab for assistance.</p>
+                <h4>Error</h4>
+                <p>If you are seeing this message, your browser has either not loaded the page correctly, or is unable to run Javascript code. Please try refreshing the HIT or loading the HIT in a different browser. If this does not fix the problem, please contact the requester for assistance.</p>
                 </dl>
             </div>
         </div>
         <div id="hits-carousel" class="carousel" data-interval="false">
             <div class="carousel-inner" role="listbox">
-                <div id="afterAccept" class="carousel-item active">
+                <div id="afterAccept" class="carousel-item active" style="display: none;">
                     <div class="card mb-3">
                         <div class="card-block">
-                            <h1>Describe Pictures and Record a Sentence!</h1>
+                            <h1>Describe pictures and test your memory!</h1>
                     
                             <p class="lead">Language Processing Laboratory, Department of Linguistics, University of Chicago</p>
 
@@ -228,7 +223,7 @@ $( document ).ready(function() {
 
                             <h4 class="mt-5">Overview</h4>
 
-                            <p>This survey examines how native speakers of English use language. It consists of two parts. In the first part, you will see a sentence and listen to a recording of said sentence. Then, you will be presented with an image and asked to record a sentence describing it. In the second part, you will see sets of four images and will be asked to describe one image from the set. The study will take approximately 20 minutes to complete.</p>
+                            <p>This survey examines how native speakers of English use language. It consists of two parts. In the first part, you will see a sentence and listen to a recording of said sentence. Then, you will be presented with an image and asked to record a sentence describing it. In the second part, you will perform two tasks. First, you will see sets of four images and will be asked to describe one image from the set. Next, you will participate in a standard memory test involving simple math and strings of letters. The entire study will take approximately 40 minutes to complete.</p>
 
                             <h4 class="mt-5">System Requirements</h4>
 
@@ -281,32 +276,35 @@ $( document ).ready(function() {
                             <h6 class="mb-2 text-muted">5 Minutes</h6>
 
                             <dl class="row">
-                                <dt class="col-sm-3"><b>Link:</b></dt>
-                                <dd class="col-sm-9"><a href="" id="expt-link-1" target="blank">Click here</a></dd>
-                                <dt class="col-sm-3"><b>Enter your code here:</b></dt>
-                                <dd class="col-sm-9"><input id="survey-code-1" name="survey-code-1" type="text" required /></dd>
+                                <dt class="col-sm-4"><b>Link:</b></dt>
+                                <dd class="col-sm-8"><a href="" id="expt-link-1" target="blank">Click here</a></dd>
+                                <dt class="col-sm-4"><b>Enter your code here:</b></dt>
+                                <dd class="col-sm-8"><input id="survey-code-1" name="survey-code-1" type="text" required /></dd>
                             </dl>
 
                             <h4>Part 2</h4>
-                            <h6 class="mb-2 text-muted">20 Minutes</h6>
+                            <h6 class="mb-2 text-muted">30 Minutes</h6>
 
                             <dl class="row">
-                                <dt class="col-sm-3"><b>Link:</b></dt>
-                                <dd class="col-sm-9"><a href="" id="expt-link-2" target="blank">Click here</a></dd>
-                                <dt class="col-sm-3"><b>Enter your code here:</b></dt>
-                                <dd class="col-sm-9"><input id="survey-code-2" name="survey-code-2" type="text" required /></dd>
+                                <dt class="col-sm-4"><b>Link:</b></dt>
+                                <dd class="col-sm-8"><a href="" id="expt-link-2" target="blank">Click here</a></dd>
+                                <dt class="col-sm-4"><b>Enter your code here:</b></dt>
+                                <dd class="col-sm-8"><input id="survey-code-2" name="survey-code-2" type="text" required /></dd>
                             </dl>
                         </div>
-                        <div class="card card-footer" id="submit-button-container"></div>
+                        <div class="card card-footer centered" id="submit-button-container"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- close container section -->
-<style type="text/css">td {
-    font-size:1.0em;
-    padding:5px 5px;
-}
+
+<style type="text/css">
+    td {
+        font-size:1.0em;
+        padding:5px 5px;
+    }
 </style>
