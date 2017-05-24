@@ -57,19 +57,19 @@ timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
 timeline.push(experimentInstructionsBlock);
 timeline = addObjectsToTimeline(timeline, experimentBlock);
 
-var end_ospan_block = {
-type: "text",
-  choices: [''],
-  text: function(){
-      return "<p>You have finished the second task. Press <strong>space</space> to continue to your survey code.</p>";
-  },
+var feedbackBlock = {
+  type: "text",
+  text: function() { return "<p>You have finished the memory task. In case you are interested, these are your final results:</p><p>You answered " + (results.total_math_problems - results.total_math_wrong) + " math problems correctly out of " + results.total_math_problems + " total problems. Of your incorrect answers, " + results.total_math_accuracy_errors + " were accuracy errors, and " + results.total_math_speed_errors + " were speed errors.</p><p>You recalled " + results.total_letters_correct + " letters correctly out of " + results.total_letters + " total letters. You responded with 100% accuracy on " + results.total_strings_correct + " strings out of " + results.total_strings + " total strings.</p><p>Press <strong>space</strong> to continue to your survey code.</p>"; },
+  choices: [' '],
   on_finish: function() {
     addWorker(workerId, "production-OSPAN");
     saveData(jsPsych.data.dataAsCSV(), dataRef);
   }
-}
+};
 
-var end_block = {
+timeline.push(feedbackBlock);
+
+var endBlock = {
   type: "text",
   choices: [''],
   text: function(){
@@ -77,7 +77,7 @@ var end_block = {
   }
 };
 
-timeline.push(end_block);
+timeline.push(endBlock);
 
 /* start the experiment */
 $(document).ready(function(){

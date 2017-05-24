@@ -1,5 +1,7 @@
 // ospan-utils.js
 
+var results;
+
 function initInstructions(instructions, choices) {
   if(typeof(instructions) == "object") {
     var timeline = [];
@@ -81,7 +83,7 @@ function displayFeedback(type) {
 
         // Store totals
         var dataRef = database.ref("ospan" + '/' + workerId);
-        dataRef.set({
+        results = {
           total_math_problems: totalMathProblemData.length,
           total_math_wrong: totalMathProblemData.length - totalMathResponseSum,
           total_math_accuracy_errors: _.filter(totalMathResponseData, function(obj){return obj.correct == 0}).length,
@@ -90,7 +92,8 @@ function displayFeedback(type) {
           total_letters: totalLetters,
           total_strings_correct: allOrNothingSum,
           total_letters_correct: correctLetterSum
-        });
+        }
+        dataRef.set(results);
       }
 
       totalPercentString = '<p style="color:red;">Total math score: ' + precise_round(totalPercentCorrect, 2) + '%</p>';

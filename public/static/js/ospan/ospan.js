@@ -33,7 +33,11 @@ var bothPracticeInstructions = initInstructions(bothPracticeInstructions, [' '])
 var bothPracticeBlock = makeOspanTrials(pracBothSetSize, "BothPractice");
 var experimentInstructionsBlock = initInstructions(experimentInstructions, [' ']);
 var experimentBlock = makeOspanTrials(jsPsych.randomization.shuffle(testBothSetSize), "Experiment");
-var finalInstructionsBlock = initInstructions(finalInstructions, [' ']);
+
+var feedbackBlock = {
+  type: "text",
+  text: function() { return "<p>You have finished the memory task. In case you are interested, these are your final results:</p><p>You answered " + (results.total_math_problems - results.total_math_wrong) + " math problems correctly out of " + results.total_math_problems + " total problems. Of your incorrect answers, " + results.total_math_accuracy_errors + " were accuracy errors, and " + results.total_math_speed_errors + " were speed errors.</p><p>You recalled " + results.total_letters_correct + " letters correctly out of " + results.total_letters + " total letters. You responded with 100% accuracy on " + results.total_strings_correct + " strings out of " + results.total_strings + " total strings.</p><p>Thank you for your participation!</p>"; }
+};
 
 /* Add sections to timeline */
 
@@ -47,7 +51,7 @@ timeline.push(bothPracticeInstructions);
 timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
 timeline.push(experimentInstructionsBlock);
 timeline = addObjectsToTimeline(timeline, experimentBlock);
-timeline.push(finalInstructionsBlock);
+timeline.push(feedbackBlock);
 
 /* Start the experiment */
 
