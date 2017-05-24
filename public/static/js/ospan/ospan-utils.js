@@ -340,12 +340,12 @@ function average(values) {
   return  _.reduce(values, function(memo, obj) { return memo + obj.rt; }, 0) / values.length;
 }
 
-function standardDeviation(values, average) {
-  var average = averate(values);
+function standardDeviation(values) {
+  var avg = average(values);
   var squareDiffs = _.map(values, function(value){
-    var diff = value - average;
+    var diff = value.rt - avg;
     var sqr = diff * diff;
-    return sqr;
+    return { rt: sqr };
   });
   return Math.sqrt(average(squareDiffs));
 }
@@ -360,8 +360,9 @@ function makeMathProblems(type) {
       },
       on_finish: function(data) {
         if(data.ospan_type == "MathPractice") {
-         
+          
           var practiceData = jsPsych.data.getTrialsOfType("ospan-math-stim");
+
           var average_rt = average(practiceData);
           var std_deviation = standardDeviation(practiceData);
 
