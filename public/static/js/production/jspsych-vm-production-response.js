@@ -44,7 +44,9 @@ jsPsych.plugins['vm-production-response'] = (function() {
     $("#jspsych-survey-text").append('<p class="jspsych-survey-text">' + trial.question + '</p>');
 
     // add text box
-    $("#jspsych-survey-text").append('<textarea name="#jspsych-survey-text-response" cols="' + trial.columns + '" rows="' + trial.rows + '"></textarea>');
+    $("#jspsych-survey-text").append('<input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + trial.rows + '"></input>');
+
+    
 
     // add submit button
     display_element.append($('<button>', {
@@ -52,8 +54,9 @@ jsPsych.plugins['vm-production-response'] = (function() {
       'class': 'jspsych-btn jspsych-survey-text'
     }));
     $("#jspsych-survey-text-next").html('Next');
-    $("#jspsych-survey-text-next").click(function() {
-      var response = $("div.jspsych-survey-text-question").children('textarea').val();
+
+    function submit() {
+      var response = $("div.jspsych-survey-text-question").children('input').val();
 
       if(response == '') {
         alert("Please answer the question.");
@@ -74,6 +77,17 @@ jsPsych.plugins['vm-production-response'] = (function() {
 
       // next trial
       jsPsych.finishTrial(trialdata);
+    }
+
+    $('#jspsych-survey-text-response').bind("enterKey",function(e){
+      submit();
+    });
+    $('#jspsych-survey-text-response').on('keyup', function(e){
+        if(e.keyCode == 13) $(this).trigger("enterKey");
+    });
+
+    $("#jspsych-survey-text-next").click(function() {
+      submit();
     });
 
     var startTime = (new Date()).getTime();
