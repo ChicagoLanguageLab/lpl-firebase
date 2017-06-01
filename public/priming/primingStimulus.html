@@ -116,13 +116,14 @@
 			$( document ).ready(function() {
 
 			 	var params = getAllUrlParams();
+			 	var salt = Math.floor(Math.random() * 100);
 
 			 	var sentence = params.sentence;
 			 	var image    = params.image;
 			 	var verb     = params.verb;
 			 	var workerId = params.workerId;
 
-			 	var dataRef = storageRef.child('priming/03062017/' + params.workerId + '.csv');
+			 	var dataRef = storageRef.child('priming/06-01-2017/' + params.workerId + '_' + salt + '.csv');
 
 			 	checkWorker(workerId, 'priming-study', 'main-carousel');
 
@@ -155,6 +156,24 @@
 			        if($("input[type='radio'][name='speaker-on']:checked").val() === "1") {
 			        	$('#main-carousel').carousel('next');
 			        	location.href='#top';
+			        }
+			        else {
+			        	alert("Please turn your speaker on.");
+			        }
+			    });
+
+			    $('button.btn-next-production').click(function(e) {
+			    	e.preventDefault();
+			    	location.href = "primingResponse.html?workerId=" + workerId + "&sentence=" + sentence + "&image=" + image + "&verb=" + verb;
+			    });
+
+			    $('button.btn-next-microphone').click(function(e){
+			        e.preventDefault();
+			        
+			        if($("input[type='radio'][name='mic-on']:checked").val() === "1") {
+
+			        	$('#main-carousel').carousel('next');
+			        	$('#header').hide();
 
 			        	setTimeout(function(){
 				 			$("#audio-container").removeClass("hidden");
@@ -165,17 +184,6 @@
 					 		$("#next-button").removeAttr("disabled");
 					 		$("#next-button-container").removeClass("hidden");
 					 	}, 10000);
-			        }
-			        else {
-			        	alert("Please turn your speaker on.");
-			        }
-			    });
-
-			    $('button.btn-next-microphone').click(function(e){
-			        e.preventDefault();
-			        
-			        if($("input[type='radio'][name='mic-on']:checked").val() === "1") {
-			        	location.href = "primingResponse.html?workerId=" + workerId + "&sentence=" + sentence + "&image=" + image + "&verb=" + verb;
 			        }
 			        else {
 			        	alert("Please confirm the location of your microphone.");
@@ -498,17 +506,38 @@
 				<div class="card">
 					<h3 class="card-header card-title bg-primary card-inverse">Instructions</h3>
 					<div class="card-block">
-						<p>On the next screen, you will be presented with a sentence. Take a moment to <strong>read</strong> the sentence.</p>
+						<p>You will first be presented with a sentence. Take a moment to <strong>read</strong> the sentence.</p>
 
 						<p>After a few seconds, an audio recording of the sentence will play. Please <strong>listen</strong> carefully to the recording.</p>
 
 						<p>Once the recording has finished playing, a <strong>Next</strong> button will appear.</p>
+					</div>
+					<div class="card-footer text-center">
+						<button class="btn btn-primary btn-next-carousel">Continue</button>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="card">
+					<h3 class="card-header card-title bg-primary card-inverse">Instructions</h3>
+					<div class="card-block">
+						<p>After you click "Next", you will be presented with an image and a verb.</p>
 
-						<hr/>
+						<p>Use the recorder provided on this page to <strong>record</strong> yourself describing what is happening in the image.</p>
 
+						<p>Please use only <strong>one sentence</strong> to describe the image, and be sure to <strong>use the provided verb</strong> in your sentence.</p>
+					</div>
+					<div class="card-footer text-center">
+						<button class="btn btn-primary btn-next-carousel">Continue</button>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="card">
+					<div class="card-block">
 						<form>
 			            	<fieldset class="form-group row">
-			             		<label for="consent-1" class="form-label"><strong>You will listen to some audio in the following task. Have you turned your speaker on?</strong></label>
+			             		<label for="consent-1" class="form-label"><strong>You will listen to some audio during this study. Have you turned your speaker on?</strong></label>
 			           			<div class="col-10">
 			            			<div class="form-check">
 			            				<label class="form-check-label">
@@ -527,34 +556,18 @@
 			          			</div>
 			          		</fieldset>
 			          	</form>
-					</div>
-					<div class="card-footer text-center">
-						<button class="btn btn-primary btn-next-speaker">Begin Task</button>
-					</div>
-				</div>
-			</div>
-			<div class="carousel-item">
-				<div class="card text-center">
-										<div id="sentence-container"><br/><h6 class="mb-2 text-muted">Read.</h6><p class="insert-sentence lead"></p></div>
-					<div id="audio-container" class="hidden"><h6 class="mb-2 text-muted">Listen.</h6><p><audio id="audio" class="insert-audio" controls=""></audio></p></div>
-					<div id="next-button-container" class="hidden"><p><button class="btn btn-primary btn-next-carousel">Next</button></p></div>
-				</div>
-			</div>
-			<div class="carousel-item">
+			        </div>
+			        <div class="card-footer text-center">
+			        	<button class="btn btn-primary btn-next-speaker">Continue</button>
+			        </div>
+			    </div>
+			 </div>
+			 <div class="carousel-item">
 				<div class="card">
-					<h3 class="card-header card-title bg-primary card-inverse">Instructions</h3>
 					<div class="card-block">
-						<p>In the next section, you will be presented with an image and a verb.</p>
-
-						<p>Use the recorder provided on this page to <strong>record</strong> yourself describing what is happening in the image.</p>
-
-						<p>Please use only <strong>one sentence</strong> to describe the image, and be sure to <strong>use the provided verb</strong> in your sentence.</p>
-
-						<hr/>
-
-						<form>
+			 			<form>
 			            	<fieldset class="form-group row">
-			             		<label for="consent-1" class="form-label"><strong>You will record yourself in the following task. Do you know where your mic is located?</strong></label>
+			             		<label for="consent-1" class="form-label"><strong>You will record yourself during this study. Do you know where your mic is located?</strong></label>
 			           			<div class="col-10">
 			            			<div class="form-check">
 			            				<label class="form-check-label">
@@ -573,10 +586,25 @@
 			          			</div>
 			          		</fieldset>
 			          	</form>
+			        </div>
+			        <div class="card-footer text-center">
+			        	<button class="btn btn-primary btn-next-microphone">Begin</button>
+			        </div>
+			    </div>
+			</div>
+			<div class="carousel-item">
+				<div class="card text-center" style="display: block; height: 600px; margin-top:20px;">
+					<br/><br/><br/><br/>
+					<div id="sentence-container">
+						<br/><h6 class="mb-2 text-muted">Read.</h6><p class="insert-sentence lead"></p>
 					</div>
-					<div class="panel-footer text-center">
-						<p><button class="btn btn-primary btn-next-microphone">Begin Task</button></p>
+					<br/><br/><br/><br/>
+					<div id="audio-container" class="hidden">
+						<h6 class="mb-2 text-muted">Listen.</h6><p><audio id="audio" class="insert-audio" controls=""></audio></p>
 					</div>
+					<br/><br/><br/><br/>
+					<div id="next-button-container" class="hidden"><p><button class="btn btn-primary btn-next-production">Next</button></p></div>
+					<br/><br/>
 				</div>
 			</div>
 		</div>
