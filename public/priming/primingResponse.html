@@ -81,20 +81,25 @@
 		 	window.attachEvent("onmessage", handleIFrameMessage); 
 		 }
 
-		 if(window.location.href && window.location.href.indexOf("?") > -1) {
-		 	var ifr = false; 
-		 	ifr = document.getElementById("JotFormIFrame-70556163298160"); 
-		 	
-		 	var get = window.location.href.substr(window.location.href.indexOf("?") + 1); 
-
-		 	if(ifr && get.length > 0) { 
-		 		var src = ifr.src;
-		 		src = src.indexOf("?") > -1 ? src + "&" + get : src + "?" + get; 
-		 		ifr.src = src;
-		 	}
-		 }
-
 		 $( document ).ready(function() {
+
+		 	if(window.location.href && window.location.href.indexOf("?") > -1) {
+			 	var ifr = false; 
+			 	ifr = document.getElementById("JotFormIFrame-70556163298160"); 
+			 	
+			 	var get = window.location.href.substr(window.location.href.indexOf("?") + 1); 
+			 	
+			 	console.log(get);
+			 	console.log(ifr);
+			 	
+			 	if(ifr && get.length > 0) { 
+			 		var src = ifr.src;
+			 		src = src.indexOf("?") > -1 ? src + "&" + get : src + "?" + get; 
+			 		ifr.src = src;
+			 		console.log(src);
+			 	}
+			 }
+
 		 	var params = getAllUrlParams();
 		 	var workerId = params.workerId;
 		 	var image = params.image;
