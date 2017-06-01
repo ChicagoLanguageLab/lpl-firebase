@@ -28,7 +28,7 @@ jsPsych.plugins['vm-production-response'] = (function() {
     // show preamble text
     display_element.append($('<div>', {
       "id": 'jspsych-survey-text-preamble',
-      "class": 'jspsych-survey-text-preamble'
+      "class": 'small'
     }));
 
     $('#jspsych-survey-text-preamble').html(trial.preamble);
