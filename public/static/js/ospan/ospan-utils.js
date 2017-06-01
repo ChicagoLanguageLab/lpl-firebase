@@ -2,28 +2,6 @@
 
 var results;
 
-function initInstructions(instructions, choices) {
-  if(typeof(instructions) == "object") {
-    var timeline = [];
-
-    for(i = 0; i < instructions.length; i++) {
-      timeline.push({text: instructions[i]});
-    }
-
-    return ({
-      type: "text",
-      choices: choices,
-      timeline: timeline
-    });
-  }
-
-  return ({
-    type: "text",
-    text: instructions,
-    choices: choices
-  });
-}
-
 function makeFeedback(type) {
   return ({
     type: 'single-stim',
