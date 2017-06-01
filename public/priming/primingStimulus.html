@@ -116,14 +116,12 @@
 			$( document ).ready(function() {
 
 			 	var params = getAllUrlParams();
-			 	var salt = Math.floor(Math.random() * 100);
-
 			 	var sentence = params.sentence;
 			 	var image    = params.image;
 			 	var verb     = params.verb;
 			 	var workerId = params.workerId;
 
-			 	var dataRef = storageRef.child('priming/06-01-2017/' + params.workerId + '_' + salt + '.csv');
+			 	var dataRef = storageRef.child('priming/06-01-2017/' + params.workerId + '_' + '.csv');
 
 			 	checkWorker(workerId, 'priming-study', 'main-carousel');
 

@@ -20,9 +20,8 @@ if(workerId == undefined || workerId == "")
     workerId = "TEST";
 
 var code = 'TURK' + jsPsych.randomization.randomID(10);
-var salt = Math.floor(Math.random() * 100);
 
-var dataRef = storageRef.child('production-OSPAN/06-01-2017/' + params.workerId + '_' + salt + '.csv');
+var dataRef = storageRef.child('production-OSPAN/06-01-2017/' + params.workerId + '_' + '.csv');
 
 browser_test_block = {
   timeline: [{
