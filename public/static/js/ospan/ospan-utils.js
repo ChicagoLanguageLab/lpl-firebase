@@ -125,26 +125,40 @@ function initMathProblems(size) {
 
 function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
   count++;
-  
+  //console.log("InitMathProblem1 Count: " + count);
+
   if(count == 1) {
+    //console.log("Initial values:\n" + "Opt1: " + opt1 + "\nSign: " + sign + "\nOpt2: " + opt2 + "\nCorrect: " + correct);
+    
     opt2sign = parseInt(sign + opt2, 10);
+    //console.log("Initial opt2sign: " + opt2sign);
   }
   else if(count > 1) {
     opt2sign += 3;
+    //console.log("New opt2sign: " + opt2sign);
+    
     opt2 = Math.abs(opt2sign).toString();
+    //console.log("New opt2: " + opt2);
+    
     if(opt2sign > 0) {
       sign = "+";
     }
+    //console.log("New sign: " + sign);
   }
   
   var problem = opt1 + " " + sign + " " + opt2;
+  //console.log("Problem: " + problem);
+
   var trueAnswer = eval(problem);
+  
 
   if(trueAnswer < 0 || opt2 == 0) {
+    //console.log("Re-running initialization...");
     return initMathProblem1(count, opt1, sign, opt2, correct, opt2sign);
   }
   else if(trueAnswer >= 0) {
     if(correct == "TRUE") {
+      //console.log("Correct answer is TRUE; finishing with values:\n Problem: " + problem + "\nAnswer:" + trueAnswer + "\nCorrect: " + correct);
       return ({
         problem: problem,
         answer: trueAnswer,
@@ -152,8 +166,12 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
       });
     }
     else {
+      //console.log("Correct answer is FALSE; continuing.");
+      console.log("True answer: " + trueAnswer);
       var rands = jsPsych.randomization.shuffle(mathRand);
       var rand = rands.pop();
+      //console.log("Initial rand: " + rand);
+
       return initMathProblem2(0, opt1, sign, opt2, rand, opt2sign, trueAnswer);
     }
   }
@@ -161,15 +179,21 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
 
 function initMathProblem2(count, opt1, sign, opt2, rand, opt2sign, trueAnswer) {
   count++;
+  console.log("InitMathProblem2 Count: " + count);
 
   if(count > 1) {
     rand += 2;
+    //console.log("New rand: " + rand);
   }
 
   var problem = opt1 + " " + sign + " " + opt2;
+  //console.log("Problem: " + problem);
+
   var answer = eval(problem) + rand;
-  
+  //console.log("Fake answer: " + answer);
+
   if(answer >= 0 && answer != trueAnswer) {
+    console.log("Answer is 0 or greater and not true; finishing with values:\nProblem: " + problem + "\nFake answer: " + answer + "\nTrue answer: " + trueAnswer);
     return ({
       problem: problem,
       answer: answer,
@@ -177,7 +201,8 @@ function initMathProblem2(count, opt1, sign, opt2, rand, opt2sign, trueAnswer) {
     })
   }
   else {
-    return initMathProblem2(count, opt1, sign, opt2, rand, opt2sign);
+    //console.log("Answer is less than 0 or true; continuing.");
+    return initMathProblem2(count, opt1, sign, opt2, rand, opt2sign, trueAnswer);
   }
 }
 
@@ -273,7 +298,8 @@ function makeMathProblem(problem, answer, correct, type) {
   var timeline = [{
       type: 'ospan-math-stim',
       data: {
-        ospan_type: type
+        ospan_type: type,
+        dislay_answer: answer
       },
       prompt: '<p class="center-content small">Press space when you know the answer.</p>',
       is_html: true,

@@ -99,10 +99,11 @@ timeline.push(endBlock);
 
 /* start the experiment */
 $(document).ready(function(){
-    checkWorker(workerId, 'production-study');
 
     $('#progress-bar').show();
     $('#jspsych-target').show();
+
+    checkWorker(workerId, 'production-OSPAN', 'jspsych-target');
 
     jsPsych.init({
       display_element: $('#jspsych-target'),
