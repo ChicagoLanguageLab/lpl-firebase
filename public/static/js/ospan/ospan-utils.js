@@ -62,6 +62,7 @@ function displayFeedback(type) {
         // Store totals
         var dataRef = database.ref("ospan" + '/' + workerId);
         results = {
+          workerId: workerId,
           total_math_problems: totalMathProblemData.length,
           total_math_wrong: totalMathProblemData.length - totalMathResponseSum,
           total_math_accuracy_errors: _.filter(totalMathResponseData, function(obj){return obj.correct == 0}).length,
