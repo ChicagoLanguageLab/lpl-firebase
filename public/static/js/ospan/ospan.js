@@ -20,7 +20,7 @@ if(workerId == undefined || workerId == "")
     workerId = "TEST";
 
 var code = 'TURK' + jsPsych.randomization.randomID(10);
-var dataRef = storageRef.child('ospan_testing/' + workerId + '.csv');
+var dataRef = storageRef.child('ospan/07-01-2017/' + workerId + '.csv');
 
 /* Generate OSPAN sections */
 
