@@ -102,13 +102,13 @@ jsPsych.plugins['ospan-letter-response'] = (function() {
       if(specialButtons[i] == "BLANK") {
         $("#jspsych-ospan-letter-BLANK").click(function(){
           $("#jspsych-ospan-letter-response-box").html($("#jspsych-ospan-letter-response-box").html() + "_");
-          console.log("Clicked BLANK");
+          //console.log("Clicked BLANK");
         });
       }
       else {
         $("#jspsych-ospan-letter-CLEAR").click(function(){
           $("#jspsych-ospan-letter-response-box").html("");
-          console.log("Clicked CLEAR");
+          //console.log("Clicked CLEAR");
         });
       }
     }
