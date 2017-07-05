@@ -129,7 +129,7 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
   //console.log("InitMathProblem1 Count: " + count);
 
   if(count == 1) {
-    //console.log("Initial values:\n" + "Opt1: " + opt1 + "\nSign: " + sign + "\nOpt2: " + opt2 + "\nCorrect: " + correct);
+    //console.log("*****\nInitial values:\n" + "Opt1: " + opt1 + "\nSign: " + sign + "\nOpt2: " + opt2 + "\nCorrect: " + correct);
     
     opt2sign = parseInt(sign + opt2, 10);
     //console.log("Initial opt2sign: " + opt2sign);
@@ -159,7 +159,7 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
   }
   else if(trueAnswer >= 0) {
     if(correct == "TRUE") {
-      //console.log("Correct answer is TRUE; finishing with values:\n Problem: " + problem + "\nAnswer:" + trueAnswer + "\nCorrect: " + correct);
+      //console.log("Correct answer is TRUE; finishing with values:\n Problem: " + problem + "\nAnswer:" + trueAnswer + "\nCorrect: " + correct + "\n*****");
       return ({
         problem: problem,
         answer: trueAnswer,
@@ -168,7 +168,7 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
     }
     else {
       //console.log("Correct answer is FALSE; continuing.");
-      console.log("True answer: " + trueAnswer);
+      //console.log("True answer: " + trueAnswer);
       var rands = jsPsych.randomization.shuffle(mathRand);
       var rand = rands.pop();
       //console.log("Initial rand: " + rand);
@@ -180,7 +180,7 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
 
 function initMathProblem2(count, opt1, sign, opt2, rand, opt2sign, trueAnswer) {
   count++;
-  console.log("InitMathProblem2 Count: " + count);
+  //console.log("InitMathProblem2 Count: " + count);
 
   if(count > 1) {
     rand += 2;
@@ -194,7 +194,7 @@ function initMathProblem2(count, opt1, sign, opt2, rand, opt2sign, trueAnswer) {
   //console.log("Fake answer: " + answer);
 
   if(answer >= 0 && answer != trueAnswer) {
-    console.log("Answer is 0 or greater and not true; finishing with values:\nProblem: " + problem + "\nFake answer: " + answer + "\nTrue answer: " + trueAnswer);
+    //console.log("Answer is 0 or greater and not true; finishing with values:\nProblem: " + problem + "\nFake answer: " + answer + "\nTrue answer: " + trueAnswer + "\n*****");
     return ({
       problem: problem,
       answer: answer,
