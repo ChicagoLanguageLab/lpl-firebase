@@ -60,7 +60,7 @@ function displayFeedback(type) {
         var totalLetters = _.reduce(letterData, function(memo, obj) { return memo + obj.total_letters; }, 0);
 
         // Store totals
-        var dataRef = database.ref("ospan" + '/' + workerId);
+        var dataRef = database.ref("fixed-OSPAN" + '/' + workerId);
         results = {
           workerId: workerId,
           total_math_problems: totalMathProblemData.length,
