@@ -227,14 +227,14 @@
 
 			        console.log("Gender: " + gender + " Age: " + age + " State: " + state + " Native: " + natLang + " Dominant: " + domLang + " Parent: " + prtLang + " Other: " + otherLang);
 
-			        subjectData['"workerId"'] = '"' + workerId + "'";
-			        subjectData['"gender"'] = '"' + gender + "'";
-			        subjectData['"age"'] = '"' + age + "'";
-			        subjectData['"state"'] = '"' + state + "'";
-			        subjectData['"nativeLanguage"'] = '"' + natLang + "'";
-			        subjectData['"dominantLanguage"'] = '"' + domLang + "'";
-			        subjectData['"parentLanguages"'] = '"' + prtLang + "'";
-			        subjectData['"otherLanguages"'] = '"' + otherLang + "'";
+			        subjectData['"workerId"'] = '"' + workerId + '"';
+			        subjectData['"gender"'] = '"' + gender + '"';
+			        subjectData['"age"'] = '"' + age + '"';
+			        subjectData['"state"'] = '"' + state + '"';
+			        subjectData['"nativeLanguage"'] = '"' + natLang + '"';
+			        subjectData['"dominantLanguage"'] = '"' + domLang + '"';
+			        subjectData['"parentLanguages"'] = '"' + prtLang + '"';
+			        subjectData['"otherLanguages"'] = '"' + otherLang + '"';
 
 			        saveData(objArrayToCSV({data: [subjectData]}), dataRef);
 
