@@ -108,7 +108,7 @@ function initProductionTrials() {
 
 			// Make question
 			var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="../static/images/production/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
-
+			//console.log(trialType);
 			var trial = {
 				type: 'vm-production-response',
 				preamble: 'INSTRUCTIONS: Describe the object indicated by the arrow as if you are instructing a partner to click on it. Keep in mind that this partner can only see the images, not the arrow.',
@@ -117,8 +117,10 @@ function initProductionTrials() {
 				data: {
 					question_number: i, 
 					item_number: item,
-					trial_type: trialType,
-					target_type: targetTypes[targetId], 
+					trial__type: trialType,
+					original_item_id: trials[item + condition].originalItemId,
+					target_type: targetTypes[targetId],
+					target_adjective: trials[item + condition].targetAdjective,
 					target_condition: condition, 
 					target_image: trials[item + condition][targetTypes[targetId]],
 					original_target: trials[item + condition].target,
@@ -131,6 +133,8 @@ function initProductionTrials() {
 				on_finish: function(data){
 				}
 			}
+
+			//console.log(trial);
 
 			if(i % 10 == 0) {
 			   	trial["on_finish"] = function(data){
