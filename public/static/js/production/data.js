@@ -8,49 +8,50 @@ var targetTypes = ['target', 'competitor', 'contrastDistractor'];
 // Store list of arrow images
 var arrows = ['tl_arrow.png', 'tr_arrow.png', 'bl_arrow.png', 'br_arrow.png'];
 
+// Current version: TmoreC
 trials = {
     '1c': {
         'originalItemId': '1',
         'targetAdjective': 'big',
         'type': 'Color',
-        'target': 'snowman3.jpg',
-        'competitor': 'boat5.jpg',
-        'distractor': 'trash3.jpg',
+        'target': 'snowman5.jpg',
+        'competitor': 'boat3.jpg',
+        'distractor': 'straw1.jpg',
         'contrastDistractor': 'snowman1.jpg'
     },
     '1nc': {
         'originalItemId': '1',
         'targetAdjective': 'big',
         'type': 'Color',
-        'target': 'snowman3.jpg',
-        'competitor': 'boat5.jpg',
-        'distractor': 'trash3.jpg',
+        'target': 'snowman5.jpg',
+        'competitor': 'boat3.jpg',
+        'distractor': 'straw1.jpg',
         'contrastDistractor': 'plastic_T3.jpg'
     },
     '2c': {
         'originalItemId': '2',
         'targetAdjective': 'big',
         'type': 'Color',
-        'target': 'boat3.jpg',
-        'competitor': 'snowman5.jpg',
-        'distractor': 'shirt2.jpg',
+        'target': 'boat5.jpg',
+        'competitor': 'snowman3.jpg',
+        'distractor': 'bentnail3.jpg',
         'contrastDistractor': 'boat1.jpg'
     },
     '2nc': {
         'originalItemId': '2',
         'targetAdjective': 'big',
         'type': 'Color',
-        'target': 'boat3.jpg',
-        'competitor': 'snowman5.jpg',
-        'distractor': 'shirt2.jpg',
+        'target': 'boat5.jpg',
+        'competitor': 'snowman3.jpg',
+        'distractor': 'bentnail3.jpg',
         'contrastDistractor': 'heels2.jpg'
     },
     '3c': {
         'originalItemId': '3',
         'targetAdjective': 'small',
         'type': 'Color',
-        'target': 'snowman2.jpg',
-        'competitor': 'boat1.jpg',
+        'target': 'snowman1.jpg',
+        'competitor': 'boat2.jpg',
         'distractor': 'red_F2.jpg',
         'contrastDistractor': 'snowman5.jpg'
     },
@@ -58,8 +59,8 @@ trials = {
         'originalItemId': '3',
         'targetAdjective': 'small',
         'type': 'Color',
-        'target': 'snowman2.jpg',
-        'competitor': 'boat1.jpg',
+        'target': 'snowman1.jpg',
+        'competitor': 'boat2.jpg',
         'distractor': 'red_F2.jpg',
         'contrastDistractor': 'freshstrawberry.jpg'
     },
@@ -67,8 +68,8 @@ trials = {
         'originalItemId': '4',
         'targetAdjective': 'small',
         'type': 'Color',
-        'target': 'boat2.jpg',
-        'competitor': 'snowman1.jpg',
+        'target': 'boat1.jpg',
+        'competitor': 'snowman2.jpg',
         'distractor': 'glittery_T2.jpg',
         'contrastDistractor': 'boat5.jpg'
     },
@@ -76,8 +77,8 @@ trials = {
         'originalItemId': '4',
         'targetAdjective': 'small',
         'type': 'Color',
-        'target': 'boat2.jpg',
-        'competitor': 'snowman1.jpg',
+        'target': 'boat1.jpg',
+        'competitor': 'snowman2.jpg',
         'distractor': 'glittery_T2.jpg',
         'contrastDistractor': 'freshorange.jpg'
     },
@@ -177,7 +178,7 @@ trials = {
         'type': 'Color',
         'target': 'red_F1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': 'thick4.jpg',
+        'distractor': '#thick4.jpg',
         'contrastDistractor': 'freshapple.jpg'
     },
     '10nc': {
@@ -186,7 +187,7 @@ trials = {
         'type': 'Color',
         'target': 'red_F1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': 'thick4.jpg',
+        'distractor': '#thick4.jpg',
         'contrastDistractor': 'beer5.jpg'
     },
     '11c': {
@@ -195,7 +196,7 @@ trials = {
         'type': 'Color',
         'target': 'red_F2.jpg',
         'competitor': 'yellow_T2.jpg',
-        'distractor': 'table2.jpg',
+        'distractor': '#table2.jpg',
         'contrastDistractor': 'yellow_F3.jpg'
     },
     '11nc': {
@@ -204,7 +205,7 @@ trials = {
         'type': 'Color',
         'target': 'red_F2.jpg',
         'competitor': 'yellow_T2.jpg',
-        'distractor': 'table2.jpg',
+        'distractor': '#table2.jpg',
         'contrastDistractor': 'browneggs.jpg'
     },
     '12c': {
@@ -321,7 +322,7 @@ trials = {
         'type': 'Color',
         'target': 'yellow_F3.jpg',
         'competitor': 'red_F1.jpg',
-        'distractor': 'thick3.jpg',
+        'distractor': '#thick3.jpg',
         'contrastDistractor': 'red_T2.jpg'
     },
     '18nc': {
@@ -330,7 +331,7 @@ trials = {
         'type': 'Color',
         'target': 'yellow_F3.jpg',
         'competitor': 'red_F1.jpg',
-        'distractor': 'thick3.jpg',
+        'distractor': '#thick3.jpg',
         'contrastDistractor': 'waka1.jpg'
     },
     '19c': {
@@ -375,7 +376,7 @@ trials = {
         'type': 'Color',
         'target': 'yellow_T3.jpg',
         'competitor': 'red_F2.jpg',
-        'distractor': 'thick4.jpg',
+        'distractor': '#thick4.jpg',
         'contrastDistractor': 'blackumbrella.jpg'
     },
     '21nc': {
@@ -384,7 +385,7 @@ trials = {
         'type': 'Color',
         'target': 'yellow_T3.jpg',
         'competitor': 'red_F2.jpg',
-        'distractor': 'thick4.jpg',
+        'distractor': '#thick4.jpg',
         'contrastDistractor': 'garagedoor1.jpg'
     },
     '22c': {
@@ -466,7 +467,7 @@ trials = {
         'target': 'dentedtrashcan.jpg',
         'competitor': 'dentedcar.jpg',
         'distractor': 'bw_stripe_fish4.jpg',
-        'contrastDistractor': 'trashcan.jpg'
+        'contrastDistractor': '#trashcan.jpg'
     },
     '26nc': {
         'originalItemId': '56',
@@ -484,7 +485,7 @@ trials = {
         'target': 'dentedtin.jpg',
         'competitor': 'dentedcar.jpg',
         'distractor': 'bw_stripe_fish1.jpg',
-        'contrastDistractor': 'tin.jpg'
+        'contrastDistractor': '#tin.jpg'
     },
     '27nc': {
         'originalItemId': '57',
@@ -601,7 +602,7 @@ trials = {
         'target': 'glittery_T3.jpg',
         'competitor': 'glittery_T2.jpg',
         'distractor': 'bw_stripe_fish3.jpg',
-        'contrastDistractor': 'thick4.jpg'
+        'contrastDistractor': '#thick4.jpg'
     },
     '34c': {
         'originalItemId': '64',
@@ -681,7 +682,7 @@ trials = {
         'type': 'Filler',
         'target': 'plasticknife.jpg',
         'competitor': 'plastic_T3.jpg',
-        'distractor': 'trash2.jpg',
+        'distractor': '#trash2.jpg',
         'contrastDistractor': 'knife2.jpg'
     },
     '38nc': {
@@ -690,7 +691,7 @@ trials = {
         'type': 'Filler',
         'target': 'plasticknife.jpg',
         'competitor': 'plastic_T3.jpg',
-        'distractor': 'trash2.jpg',
+        'distractor': '#trash2.jpg',
         'contrastDistractor': 'intactplate.jpg'
     },
     '39c': {
@@ -781,7 +782,7 @@ trials = {
         'target': 'wooden_F1.jpg',
         'competitor': 'stonebowl.jpg',
         'distractor': 'stack4.jpg',
-        'contrastDistractor': 'trash3.jpg'
+        'contrastDistractor': '#trash3.jpg'
     },
     '44c': {
         'originalItemId': '74',
@@ -978,7 +979,7 @@ trials = {
         'type': 'Filler',
         'target': 'happy_F2.jpg',
         'competitor': 'happy_F1.jpg',
-        'distractor': 'hallway3.jpg',
+        'distractor': 'hallway1.jpg',
         'contrastDistractor': 'garagedoor3.jpg'
     },
     '55c': {
@@ -1058,7 +1059,7 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'blue_T2.jpg',
-        'competitor': 'trash3.jpg',
+        'competitor': '#trash3.jpg',
         'distractor': 'wooden_T3.jpg',
         'contrastDistractor': 'brokenprinter.jpg'
     },
@@ -1067,7 +1068,7 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'blue_T2.jpg',
-        'competitor': 'trash3.jpg',
+        'competitor': '#trash3.jpg',
         'distractor': 'wooden_T3.jpg',
         'contrastDistractor': 'papercup.jpg'
     },
@@ -1094,7 +1095,7 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'broken_F1.jpg',
-        'competitor': 'thick1.jpg',
+        'competitor': '#thick1.jpg',
         'distractor': 'shoe2.jpg',
         'contrastDistractor': 'ladybug2.jpg'
     },
@@ -1103,7 +1104,7 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'broken_F1.jpg',
-        'competitor': 'thick1.jpg',
+        'competitor': '#thick1.jpg',
         'distractor': 'shoe2.jpg',
         'contrastDistractor': 'pillow1.jpg'
     },
@@ -1204,7 +1205,7 @@ trials = {
         'target': 'shoe1.jpg',
         'competitor': 'ladybug3.jpg',
         'distractor': 'broken_T3.jpg',
-        'contrastDistractor': 'trash2.jpg'
+        'contrastDistractor': '#trash2.jpg'
     },
     '67nc': {
         'originalItemId': '37',
@@ -1256,8 +1257,8 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'palm1.jpg',
-        'competitor': 'table4.jpg',
-        'distractor': 'thick3.jpg',
+        'competitor': '#table4.jpg',
+        'distractor': '#thick3.jpg',
         'contrastDistractor': 'red_T2.jpg'
     },
     '70nc': {
@@ -1265,15 +1266,15 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'palm1.jpg',
-        'competitor': 'table4.jpg',
-        'distractor': 'thick3.jpg',
+        'competitor': '#table4.jpg',
+        'distractor': '#thick3.jpg',
         'contrastDistractor': 'hallway2.jpg'
     },
     '71c': {
         'originalItemId': '41',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': 'trash1.jpg',
+        'target': '#trash1.jpg',
         'competitor': 'candle1.jpg',
         'distractor': 'straightrod1.jpg',
         'contrastDistractor': 'rottenstrawberry.jpg'
@@ -1282,7 +1283,7 @@ trials = {
         'originalItemId': '41',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': 'trash1.jpg',
+        'target': '#trash1.jpg',
         'competitor': 'candle1.jpg',
         'distractor': 'straightrod1.jpg',
         'contrastDistractor': 'bentnail5.jpg'
@@ -1329,7 +1330,7 @@ trials = {
         'type': 'NoAdj',
         'target': 'garagedoor1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': 'trash1.jpg',
+        'distractor': '#trash1.jpg',
         'contrastDistractor': 'orangebutterfly.jpg'
     },
     '74nc': {
@@ -1338,7 +1339,7 @@ trials = {
         'type': 'NoAdj',
         'target': 'garagedoor1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': 'trash1.jpg',
+        'distractor': '#trash1.jpg',
         'contrastDistractor': 'shirt2.jpg'
     },
     '75c': {
@@ -1382,7 +1383,7 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'cable1.jpg',
-        'competitor': 'thick2.jpg',
+        'competitor': '#thick2.jpg',
         'distractor': 'boat2.jpg',
         'contrastDistractor': 'blackumbrella.jpg'
     },
@@ -1391,26 +1392,26 @@ trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'cable1.jpg',
-        'competitor': 'thick2.jpg',
+        'competitor': '#thick2.jpg',
         'distractor': 'boat2.jpg',
-        'contrastDistractor': 'trash1.jpg'
+        'contrastDistractor': '#trash1.jpg'
     },
     '78c': {
         'originalItemId': '48',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': 'table1.jpg',
+        'target': '#table1.jpg',
         'competitor': 'palm5.jpg',
-        'distractor': 'thick1.jpg',
+        'distractor': '#thick1.jpg',
         'contrastDistractor': 'rottenorange.jpg'
     },
     '78nc': {
         'originalItemId': '48',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': 'table1.jpg',
+        'target': '#table1.jpg',
         'competitor': 'palm5.jpg',
-        'distractor': 'thick1.jpg',
+        'distractor': '#thick1.jpg',
         'contrastDistractor': 'waka1.jpg'
     },
     '79c': {
@@ -1447,13 +1448,13 @@ trials = {
         'target': 'candle1.jpg',
         'competitor': 'sofa4.jpg',
         'distractor': 'straightrod4.jpg',
-        'contrastDistractor': 'table3.jpg'
+        'contrastDistractor': '#table3.jpg'
     },
     '81c': {
         'originalItemId': '51',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': 'thick1.jpg',
+        'target': '#thick1.jpg',
         'competitor': 'chips1.jpg',
         'distractor': 'bw_stripe_fish5.jpg',
         'contrastDistractor': 'dog.jpg'
@@ -1462,7 +1463,7 @@ trials = {
         'originalItemId': '51',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': 'thick1.jpg',
+        'target': '#thick1.jpg',
         'competitor': 'chips1.jpg',
         'distractor': 'bw_stripe_fish5.jpg',
         'contrastDistractor': 'squash2.jpg'
@@ -1525,8 +1526,8 @@ trials = {
         'originalItemId': '1',
         'targetAdjective': 'plain',
         'type': 'Test',
-        'target': 'pillow2.jpg',
-        'competitor': 'bw_stripe_fish1.jpg',
+        'target': 'pillow1.jpg',
+        'competitor': 'bw_stripe_fish2.jpg',
         'distractor': 'brokencomputer.jpg',
         'contrastDistractor': 'pillow5.jpg'
     },
@@ -1534,8 +1535,8 @@ trials = {
         'originalItemId': '1',
         'targetAdjective': 'plain',
         'type': 'Test',
-        'target': 'pillow2.jpg',
-        'competitor': 'bw_stripe_fish1.jpg',
+        'target': 'pillow1.jpg',
+        'competitor': 'bw_stripe_fish2.jpg',
         'distractor': 'brokencomputer.jpg',
         'contrastDistractor': 'redbook.jpg'
     },
@@ -1543,8 +1544,8 @@ trials = {
         'originalItemId': '2',
         'targetAdjective': 'plain',
         'type': 'Test',
-        'target': 'flag2.jpg',
-        'competitor': 'pillow1.jpg',
+        'target': 'shirt1.jpg',
+        'competitor': 'pillow2.jpg',
         'distractor': 'palm4.jpg',
         'contrastDistractor': 'shirt5.jpg'
     },
@@ -1552,8 +1553,8 @@ trials = {
         'originalItemId': '2',
         'targetAdjective': 'plain',
         'type': 'Test',
-        'target': 'flag2.jpg',
-        'competitor': 'pillow1.jpg',
+        'target': 'shirt1.jpg',
+        'competitor': 'pillow2.jpg',
         'distractor': 'palm4.jpg',
         'contrastDistractor': 'saddog.jpg'
     },
@@ -1561,17 +1562,17 @@ trials = {
         'originalItemId': '3',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': 'theater2.jpg',
-        'competitor': 'trash1.jpg',
+        'target': '#trash1.jpg',
+        'competitor': 'beer2.jpg',
         'distractor': 'pillow1.jpg',
-        'contrastDistractor': 'theater5.jpg'
+        'contrastDistractor': '#trash5.jpg'
     },
     '87nc': {
         'originalItemId': '3',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': 'theater2.jpg',
-        'competitor': 'trash1.jpg',
+        'target': '#trash1.jpg',
+        'competitor': 'beer2.jpg',
         'distractor': 'pillow1.jpg',
         'contrastDistractor': 'rottenorange.jpg'
     },
@@ -1579,35 +1580,35 @@ trials = {
         'originalItemId': '4',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': 'beer2.jpg',
-        'competitor': 'theater1.jpg',
-        'distractor': 'flower_2petals.jpg',
+        'target': 'beer1.jpg',
+        'competitor': '#theater2.jpg',
+        'distractor': 'sofa5.jpg',
         'contrastDistractor': 'beer5.jpg'
     },
     '88nc': {
         'originalItemId': '4',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': 'beer2.jpg',
-        'competitor': 'theater1.jpg',
-        'distractor': 'flower_2petals.jpg',
+        'target': 'beer1.jpg',
+        'competitor': '#theater2.jpg',
+        'distractor': 'sofa5.jpg',
         'contrastDistractor': 'palm5.jpg'
     },
     '89c': {
         'originalItemId': '5',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': 'trash4.jpg',
-        'competitor': 'theater5.jpg',
+        'target': '#trash5.jpg',
+        'competitor': '#theater4.jpg',
         'distractor': 'yellow_F3.jpg',
-        'contrastDistractor': 'trash1.jpg'
+        'contrastDistractor': '#trash1.jpg'
     },
     '89nc': {
         'originalItemId': '5',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': 'trash4.jpg',
-        'competitor': 'theater5.jpg',
+        'target': '#trash5.jpg',
+        'competitor': '#theater4.jpg',
         'distractor': 'yellow_F3.jpg',
         'contrastDistractor': 'cable2.jpg'
     },
@@ -1615,8 +1616,8 @@ trials = {
         'originalItemId': '6',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': 'beer4.jpg',
-        'competitor': 'trash5.jpg',
+        'target': 'beer5.jpg',
+        'competitor': '#trash4.jpg',
         'distractor': 'curvedbridge1.jpg',
         'contrastDistractor': 'beer1.jpg'
     },
@@ -1624,8 +1625,8 @@ trials = {
         'originalItemId': '6',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': 'beer4.jpg',
-        'competitor': 'trash5.jpg',
+        'target': 'beer5.jpg',
+        'competitor': '#trash4.jpg',
         'distractor': 'curvedbridge1.jpg',
         'contrastDistractor': 'bentnail3.jpg'
     },
@@ -1633,8 +1634,8 @@ trials = {
         'originalItemId': '7',
         'targetAdjective': 'closed',
         'type': 'Test',
-        'target': 'garagedoor2.jpg',
-        'competitor': 'door1.jpg',
+        'target': 'garagedoor1.jpg',
+        'competitor': 'door2.jpg',
         'distractor': 'boat2.jpg',
         'contrastDistractor': 'garagedoor5.jpg'
     },
@@ -1642,8 +1643,8 @@ trials = {
         'originalItemId': '7',
         'targetAdjective': 'closed',
         'type': 'Test',
-        'target': 'garagedoor2.jpg',
-        'competitor': 'door1.jpg',
+        'target': 'garagedoor1.jpg',
+        'competitor': 'door2.jpg',
         'distractor': 'boat2.jpg',
         'contrastDistractor': 'stonebowl.jpg'
     },
@@ -1651,8 +1652,8 @@ trials = {
         'originalItemId': '8',
         'targetAdjective': 'closed',
         'type': 'Test',
-        'target': 'gate1_2.jpg',
-        'competitor': 'garagedoor1.jpg',
+        'target': 'gate1_1.jpg',
+        'competitor': 'garagedoor2.jpg',
         'distractor': 'broken_F1.jpg',
         'contrastDistractor': 'gate1_5.jpg'
     },
@@ -1660,8 +1661,8 @@ trials = {
         'originalItemId': '8',
         'targetAdjective': 'closed',
         'type': 'Test',
-        'target': 'gate1_2.jpg',
-        'competitor': 'garagedoor1.jpg',
+        'target': 'gate1_1.jpg',
+        'competitor': 'garagedoor2.jpg',
         'distractor': 'broken_F1.jpg',
         'contrastDistractor': 'blue_F1.jpg'
     },
@@ -1669,17 +1670,17 @@ trials = {
         'originalItemId': '9',
         'targetAdjective': 'straight',
         'type': 'Test',
-        'target': 'palm2.jpg',
-        'competitor': 'straw1.jpg',
+        'target': 'bentnail1.jpg',
+        'competitor': 'straw2.jpg',
         'distractor': 'snowman5.jpg',
-        'contrastDistractor': 'palm5.jpg'
+        'contrastDistractor': 'bentnail5.jpg'
     },
     '93nc': {
         'originalItemId': '9',
         'targetAdjective': 'straight',
         'type': 'Test',
-        'target': 'palm2.jpg',
-        'competitor': 'straw1.jpg',
+        'target': 'bentnail1.jpg',
+        'competitor': 'straw2.jpg',
         'distractor': 'snowman5.jpg',
         'contrastDistractor': 'waka1.jpg'
     },
@@ -1687,44 +1688,44 @@ trials = {
         'originalItemId': '10',
         'targetAdjective': 'straight',
         'type': 'Test',
-        'target': 'curvedbridge2.jpg',
-        'competitor': 'palm1.jpg',
-        'distractor': 'chips1.jpg',
+        'target': 'curvedpipe1.jpg',
+        'competitor': 'palm2.jpg',
+        'distractor': 'garagedoor3.jpg',
         'contrastDistractor': 'curvedpipe5.jpg'
     },
     '94nc': {
         'originalItemId': '10',
         'targetAdjective': 'straight',
         'type': 'Test',
-        'target': 'curvedbridge2.jpg',
-        'competitor': 'palm1.jpg',
-        'distractor': 'chips1.jpg',
+        'target': 'curvedpipe1.jpg',
+        'competitor': 'palm2.jpg',
+        'distractor': 'garagedoor3.jpg',
         'contrastDistractor': 'woodencup.jpg'
     },
     '95c': {
         'originalItemId': '11',
         'targetAdjective': 'smooth',
         'type': 'Test',
-        'target': 'squash2.jpg',
-        'competitor': 'shoe1.jpg',
-        'distractor': 'trash2.jpg',
+        'target': 'squash1.jpg',
+        'competitor': 'shoe2.jpg',
+        'distractor': '#trash2.jpg',
         'contrastDistractor': 'squash5.jpg'
     },
     '95nc': {
         'originalItemId': '11',
         'targetAdjective': 'smooth',
         'type': 'Test',
-        'target': 'squash2.jpg',
-        'competitor': 'shoe1.jpg',
-        'distractor': 'trash2.jpg',
+        'target': 'squash1.jpg',
+        'competitor': 'shoe2.jpg',
+        'distractor': '#trash2.jpg',
         'contrastDistractor': 'yellow_F3.jpg'
     },
     '96c': {
         'originalItemId': '12',
         'targetAdjective': 'smooth',
         'type': 'Test',
-        'target': 'shoe2.jpg',
-        'competitor': 'squash1.jpg',
+        'target': 'shoe1.jpg',
+        'competitor': 'squash2.jpg',
         'distractor': 'marker4.jpg',
         'contrastDistractor': 'shoe5.jpg'
     },
@@ -1732,8 +1733,8 @@ trials = {
         'originalItemId': '12',
         'targetAdjective': 'smooth',
         'type': 'Test',
-        'target': 'shoe2.jpg',
-        'competitor': 'squash1.jpg',
+        'target': 'shoe1.jpg',
+        'competitor': 'squash2.jpg',
         'distractor': 'marker4.jpg',
         'contrastDistractor': 'papercup.jpg'
     },
@@ -1741,8 +1742,8 @@ trials = {
         'originalItemId': '13',
         'targetAdjective': 'striped',
         'type': 'Test',
-        'target': 'bw_stripe_fish2.jpg',
-        'competitor': 'flag5.jpg',
+        'target': 'bw_stripe_fish5.jpg',
+        'competitor': 'flag2.jpg',
         'distractor': 'plastic_F3.jpg',
         'contrastDistractor': 'bw_stripe_fish1.jpg'
     },
@@ -1750,8 +1751,8 @@ trials = {
         'originalItemId': '13',
         'targetAdjective': 'striped',
         'type': 'Test',
-        'target': 'bw_stripe_fish2.jpg',
-        'competitor': 'flag5.jpg',
+        'target': 'bw_stripe_fish5.jpg',
+        'competitor': 'flag2.jpg',
         'distractor': 'plastic_F3.jpg',
         'contrastDistractor': 'lightbulb.jpg'
     },
@@ -1759,8 +1760,8 @@ trials = {
         'originalItemId': '14',
         'targetAdjective': 'striped',
         'type': 'Test',
-        'target': 'shirt2.jpg',
-        'competitor': 'bw_stripe_fish5.jpg',
+        'target': 'shirt5.jpg',
+        'competitor': 'bw_stripe_fish2.jpg',
         'distractor': 'blue_T1.jpg',
         'contrastDistractor': 'shirt1.jpg'
     },
@@ -1768,8 +1769,8 @@ trials = {
         'originalItemId': '14',
         'targetAdjective': 'striped',
         'type': 'Test',
-        'target': 'shirt2.jpg',
-        'competitor': 'bw_stripe_fish5.jpg',
+        'target': 'shirt5.jpg',
+        'competitor': 'bw_stripe_fish2.jpg',
         'distractor': 'blue_T1.jpg',
         'contrastDistractor': 'knife2.jpg'
     },
@@ -1777,8 +1778,8 @@ trials = {
         'originalItemId': '15',
         'targetAdjective': 'spotted',
         'type': 'Test',
-        'target': 'ladybug2.jpg',
-        'competitor': 'tie5.jpg',
+        'target': 'ladybug5.jpg',
+        'competitor': '#tie2.jpg',
         'distractor': 'shoe1.jpg',
         'contrastDistractor': 'ladybug1.jpg'
     },
@@ -1786,8 +1787,8 @@ trials = {
         'originalItemId': '15',
         'targetAdjective': 'spotted',
         'type': 'Test',
-        'target': 'ladybug2.jpg',
-        'competitor': 'tie5.jpg',
+        'target': 'ladybug5.jpg',
+        'competitor': '#tie2.jpg',
         'distractor': 'shoe1.jpg',
         'contrastDistractor': 'greenmug.jpg'
     },
@@ -1795,8 +1796,8 @@ trials = {
         'originalItemId': '16',
         'targetAdjective': 'spotted',
         'type': 'Test',
-        'target': 'pillow3.jpg',
-        'competitor': 'ladybug5.jpg',
+        'target': 'pillow5.jpg',
+        'competitor': 'ladybug2.jpg',
         'distractor': 'boat3.jpg',
         'contrastDistractor': 'pillow1.jpg'
     },
@@ -1804,8 +1805,8 @@ trials = {
         'originalItemId': '16',
         'targetAdjective': 'spotted',
         'type': 'Test',
-        'target': 'pillow3.jpg',
-        'competitor': 'ladybug5.jpg',
+        'target': 'pillow5.jpg',
+        'competitor': 'ladybug2.jpg',
         'distractor': 'boat3.jpg',
         'contrastDistractor': 'blackumbrella.jpg'
     },
@@ -1813,8 +1814,8 @@ trials = {
         'originalItemId': '17',
         'targetAdjective': 'open',
         'type': 'Test',
-        'target': 'garagedoor2.jpg',
-        'competitor': 'gate1_5.jpg',
+        'target': 'garagedoor5.jpg',
+        'competitor': 'gate1_2.jpg',
         'distractor': 'snowman1.jpg',
         'contrastDistractor': 'garagedoor1.jpg'
     },
@@ -1822,8 +1823,8 @@ trials = {
         'originalItemId': '17',
         'targetAdjective': 'open',
         'type': 'Test',
-        'target': 'garagedoor2.jpg',
-        'competitor': 'gate1_5.jpg',
+        'target': 'garagedoor5.jpg',
+        'competitor': 'gate1_2.jpg',
         'distractor': 'snowman1.jpg',
         'contrastDistractor': 'happy_F1.jpg'
     },
@@ -1831,8 +1832,8 @@ trials = {
         'originalItemId': '18',
         'targetAdjective': 'open',
         'type': 'Test',
-        'target': 'chips4.jpg',
-        'competitor': 'garagedoor5.jpg',
+        'target': 'chips5.jpg',
+        'competitor': 'garagedoor2.jpg',
         'distractor': 'candle5.jpg',
         'contrastDistractor': 'chips1.jpg'
     },
@@ -1840,8 +1841,8 @@ trials = {
         'originalItemId': '18',
         'targetAdjective': 'open',
         'type': 'Test',
-        'target': 'chips4.jpg',
-        'competitor': 'garagedoor5.jpg',
+        'target': 'chips5.jpg',
+        'competitor': 'garagedoor2.jpg',
         'distractor': 'candle5.jpg',
         'contrastDistractor': 'orangebutterfly.jpg'
     },
@@ -1849,8 +1850,8 @@ trials = {
         'originalItemId': '19',
         'targetAdjective': 'bent',
         'type': 'Test',
-        'target': 'bentnail2.jpg',
-        'competitor': 'straw5.jpg',
+        'target': 'bentnail5.jpg',
+        'competitor': 'straw2.jpg',
         'distractor': 'boat3.jpg',
         'contrastDistractor': 'bentnail1.jpg'
     },
@@ -1858,8 +1859,8 @@ trials = {
         'originalItemId': '19',
         'targetAdjective': 'bent',
         'type': 'Test',
-        'target': 'bentnail2.jpg',
-        'competitor': 'straw5.jpg',
+        'target': 'bentnail5.jpg',
+        'competitor': 'straw2.jpg',
         'distractor': 'boat3.jpg',
         'contrastDistractor': 'intactplate.jpg'
     },
@@ -1867,8 +1868,8 @@ trials = {
         'originalItemId': '20',
         'targetAdjective': 'bent',
         'type': 'Test',
-        'target': 'straightrod2.jpg',
-        'competitor': 'bentnail5.jpg',
+        'target': 'straightrod5.jpg',
+        'competitor': 'bentnail2.jpg',
         'distractor': 'marker2.jpg',
         'contrastDistractor': 'straightrod1.jpg'
     },
@@ -1876,26 +1877,26 @@ trials = {
         'originalItemId': '20',
         'targetAdjective': 'bent',
         'type': 'Test',
-        'target': 'straightrod2.jpg',
-        'competitor': 'bentnail5.jpg',
+        'target': 'straightrod5.jpg',
+        'competitor': 'bentnail2.jpg',
         'distractor': 'marker2.jpg',
-        'contrastDistractor': 'pillow3.jpg'
+        'contrastDistractor': 'snowman3.jpg'
     },
     '105c': {
         'originalItemId': '21',
         'targetAdjective': 'curved',
         'type': 'Test',
-        'target': 'curvedpipe2.jpg',
-        'competitor': 'sword5.jpg',
+        'target': 'sword5.jpg',
+        'competitor': 'curvedpipe2.jpg',
         'distractor': 'yellow_T2.jpg',
-        'contrastDistractor': 'curvedpipe1.jpg'
+        'contrastDistractor': 'sword1.jpg'
     },
     '105nc': {
         'originalItemId': '21',
         'targetAdjective': 'curved',
         'type': 'Test',
-        'target': 'curvedpipe2.jpg',
-        'competitor': 'sword5.jpg',
+        'target': 'sword5.jpg',
+        'competitor': 'curvedpipe2.jpg',
         'distractor': 'yellow_T2.jpg',
         'contrastDistractor': 'ladybug3.jpg'
     },
@@ -1903,8 +1904,8 @@ trials = {
         'originalItemId': '22',
         'targetAdjective': 'curved',
         'type': 'Test',
-        'target': 'palm3.jpg',
-        'competitor': 'curvedpipe5.jpg',
+        'target': 'palm5.jpg',
+        'competitor': 'curvedpipe2.jpg',
         'distractor': 'red_F3.jpg',
         'contrastDistractor': 'palm1.jpg'
     },
@@ -1912,35 +1913,35 @@ trials = {
         'originalItemId': '22',
         'targetAdjective': 'curved',
         'type': 'Test',
-        'target': 'palm3.jpg',
-        'competitor': 'curvedpipe5.jpg',
+        'target': 'palm5.jpg',
+        'competitor': 'curvedpipe2.jpg',
         'distractor': 'red_F3.jpg',
         'contrastDistractor': 'happy_F1.jpg'
     },
     '107c': {
-        'originalItemId': '26',
+        'originalItemId': '25',
         'targetAdjective': 'long ',
         'type': 'Test',
-        'target': 'knife4.jpg',
-        'competitor': 'cable4.jpg',
-        'distractor': 'palm5.jpg',
-        'contrastDistractor': 'knife1.jpg'
+        'target': 'cable5.jpg',
+        'competitor': 'knife4.jpg',
+        'distractor': 'shirt1.jpg',
+        'contrastDistractor': 'cable1.jpg'
     },
     '107nc': {
-        'originalItemId': '26',
+        'originalItemId': '25',
         'targetAdjective': 'long ',
         'type': 'Test',
-        'target': 'knife4.jpg',
-        'competitor': 'cable4.jpg',
-        'distractor': 'palm5.jpg',
-        'contrastDistractor': 'dog.jpg'
+        'target': 'cable5.jpg',
+        'competitor': 'knife4.jpg',
+        'distractor': 'shirt1.jpg',
+        'contrastDistractor': 'freshapple.jpg'
     },
     '108c': {
         'originalItemId': '29',
         'targetAdjective': 'tall',
         'type': 'Test',
-        'target': 'candle4.jpg',
-        'competitor': 'table5.jpg',
+        'target': 'candle5.jpg',
+        'competitor': '#table4.jpg',
         'distractor': 'plastic_F1.jpg',
         'contrastDistractor': 'candle1.jpg'
     },
@@ -1948,8 +1949,8 @@ trials = {
         'originalItemId': '29',
         'targetAdjective': 'tall',
         'type': 'Test',
-        'target': 'candle4.jpg',
-        'competitor': 'table5.jpg',
+        'target': 'candle5.jpg',
+        'competitor': '#table4.jpg',
         'distractor': 'plastic_F1.jpg',
         'contrastDistractor': 'bluebook.jpg'
     },
@@ -1957,8 +1958,8 @@ trials = {
         'originalItemId': '30',
         'targetAdjective': 'tall',
         'type': 'Test',
-        'target': 'stack3.jpg',
-        'competitor': 'candle5.jpg',
+        'target': 'stack5.jpg',
+        'competitor': 'candle4.jpg',
         'distractor': 'pillow5.jpg',
         'contrastDistractor': 'stack1.jpg'
     },
@@ -1966,44 +1967,44 @@ trials = {
         'originalItemId': '30',
         'targetAdjective': 'tall',
         'type': 'Test',
-        'target': 'stack3.jpg',
-        'competitor': 'candle5.jpg',
+        'target': 'stack5.jpg',
+        'competitor': 'candle4.jpg',
         'distractor': 'pillow5.jpg',
-        'contrastDistractor': 'hallway2.jpg'
+        'contrastDistractor': 'stack2.jpg'
     },
     '110c': {
-        'originalItemId': '31',
-        'targetAdjective': 'short',
+        'originalItemId': '32',
+        'targetAdjective': 'short ',
         'type': 'Test',
-        'target': 'candle3.jpg',
-        'competitor': 'stack1.jpg',
-        'distractor': 'broken_T3.jpg',
-        'contrastDistractor': 'candle5.jpg'
+        'target': 'stack1.jpg',
+        'competitor': 'knife2.jpg',
+        'distractor': 'hallway2.jpg',
+        'contrastDistractor': 'stack5.jpg'
     },
     '110nc': {
-        'originalItemId': '31',
-        'targetAdjective': 'short',
+        'originalItemId': '32',
+        'targetAdjective': 'short ',
         'type': 'Test',
-        'target': 'candle3.jpg',
-        'competitor': 'stack1.jpg',
-        'distractor': 'broken_T3.jpg',
-        'contrastDistractor': 'blackumbrella.jpg'
+        'target': 'stack1.jpg',
+        'competitor': 'knife2.jpg',
+        'distractor': 'hallway2.jpg',
+        'contrastDistractor': 'happy_T1.jpg'
     },
     '111c': {
         'originalItemId': '33',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': 'paintbrush4.jpg',
-        'competitor': 'marker5.jpg',
+        'target': 'marker5.jpg',
+        'competitor': 'paintbrush3.jpg',
         'distractor': 'squash1.jpg',
-        'contrastDistractor': 'paintbrush1.jpg'
+        'contrastDistractor': 'marker1.jpg'
     },
     '111nc': {
         'originalItemId': '33',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': 'paintbrush4.jpg',
-        'competitor': 'marker5.jpg',
+        'target': 'marker5.jpg',
+        'competitor': 'paintbrush3.jpg',
         'distractor': 'squash1.jpg',
         'contrastDistractor': 'basketball1.jpg'
     },
@@ -2011,17 +2012,17 @@ trials = {
         'originalItemId': '34',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': 'thick4.jpg',
-        'competitor': 'marker5.jpg',
+        'target': '#thick5.jpg',
+        'competitor': 'marker3.jpg',
         'distractor': 'boat1.jpg',
-        'contrastDistractor': 'thick1.jpg'
+        'contrastDistractor': '#thick1.jpg'
     },
     '112nc': {
         'originalItemId': '34',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': 'thick4.jpg',
-        'competitor': 'marker5.jpg',
+        'target': '#thick5.jpg',
+        'competitor': 'marker3.jpg',
         'distractor': 'boat1.jpg',
         'contrastDistractor': 'angryman.jpg'
     },
@@ -2029,8 +2030,8 @@ trials = {
         'originalItemId': '35',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': 'marker2.jpg',
-        'competitor': 'thick1.jpg',
+        'target': 'marker1.jpg',
+        'competitor': '#thick2.jpg',
         'distractor': 'bentnail5.jpg',
         'contrastDistractor': 'marker5.jpg'
     },
@@ -2038,8 +2039,8 @@ trials = {
         'originalItemId': '35',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': 'marker2.jpg',
-        'competitor': 'thick1.jpg',
+        'target': 'marker1.jpg',
+        'competitor': '#thick2.jpg',
         'distractor': 'bentnail5.jpg',
         'contrastDistractor': 'brokenviolin.jpg'
     },
@@ -2047,17 +2048,17 @@ trials = {
         'originalItemId': '36',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': 'paintbrush2.jpg',
-        'competitor': 'marker1.jpg',
+        'target': '#thick1.jpg',
+        'competitor': 'paintbrush2.jpg',
         'distractor': 'curvedbridge3.jpg',
-        'contrastDistractor': 'thick5.jpg'
+        'contrastDistractor': '#thick5.jpg'
     },
     '114nc': {
         'originalItemId': '36',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': 'paintbrush2.jpg',
-        'competitor': 'marker1.jpg',
+        'target': '#thick1.jpg',
+        'competitor': 'paintbrush2.jpg',
         'distractor': 'curvedbridge3.jpg',
         'contrastDistractor': 'ceramicpitcher.jpg'
     },
@@ -2065,17 +2066,17 @@ trials = {
         'originalItemId': '37',
         'targetAdjective': 'wide',
         'type': 'Test',
-        'target': 'sofa5.jpg',
-        'competitor': 'stairs5.jpg',
+        'target': 'wideroad5.jpg',
+        'competitor': 'bridge4.jpg',
         'distractor': 'yellow_F2.jpg',
-        'contrastDistractor': 'sofa1.jpg'
+        'contrastDistractor': 'wideroad1.jpg'
     },
     '115nc': {
         'originalItemId': '37',
         'targetAdjective': 'wide',
         'type': 'Test',
-        'target': 'sofa5.jpg',
-        'competitor': 'stairs5.jpg',
+        'target': 'wideroad5.jpg',
+        'competitor': 'bridge4.jpg',
         'distractor': 'yellow_F2.jpg',
         'contrastDistractor': 'chips3.jpg'
     },
@@ -2083,54 +2084,54 @@ trials = {
         'originalItemId': '38',
         'targetAdjective': 'wide',
         'type': 'Test',
-        'target': 'bridge4.jpg',
-        'competitor': 'wideroad5.jpg',
-        'distractor': 'squash3.jpg',
+        'target': 'bridge5.jpg',
+        'competitor': 'sofa5.jpg',
+        'distractor': 'stack4.jpg',
         'contrastDistractor': 'bridge1.jpg'
     },
     '116nc': {
         'originalItemId': '38',
         'targetAdjective': 'wide',
         'type': 'Test',
-        'target': 'bridge4.jpg',
-        'competitor': 'wideroad5.jpg',
-        'distractor': 'squash3.jpg',
+        'target': 'bridge5.jpg',
+        'competitor': 'sofa5.jpg',
+        'distractor': 'stack4.jpg',
         'contrastDistractor': 'stack2.jpg'
     },
     '117c': {
         'originalItemId': '39',
         'targetAdjective': 'narrow',
         'type': 'Test',
-        'target': 'hallway2.jpg',
-        'competitor': 'bridge1.jpg',
-        'distractor': 'flower_4petals.jpg',
-        'contrastDistractor': 'hallway1.jpg'
+        'target': 'wideroad2.jpg',
+        'competitor': 'sofa2.jpg',
+        'distractor': 'bw_stripe_fish3.jpg',
+        'contrastDistractor': 'wideroad5.jpg'
     },
     '117nc': {
         'originalItemId': '39',
         'targetAdjective': 'narrow',
         'type': 'Test',
-        'target': 'hallway2.jpg',
-        'competitor': 'bridge1.jpg',
-        'distractor': 'flower_4petals.jpg',
+        'target': 'wideroad2.jpg',
+        'competitor': 'sofa2.jpg',
+        'distractor': 'bw_stripe_fish3.jpg',
         'contrastDistractor': 'rottenstrawberry.jpg'
     },
     '118c': {
         'originalItemId': '40',
         'targetAdjective': 'narrow',
         'type': 'Test',
-        'target': 'stairs2.jpg',
-        'competitor': 'wideroad2.jpg',
+        'target': 'bridge1.jpg',
+        'competitor': 'hallway2.jpg',
         'distractor': 'red_T1.jpg',
-        'contrastDistractor': 'sofa5.jpg'
+        'contrastDistractor': 'bridge5.jpg'
     },
     '118nc': {
         'originalItemId': '40',
         'targetAdjective': 'narrow',
         'type': 'Test',
-        'target': 'stairs2.jpg',
-        'competitor': 'wideroad2.jpg',
+        'target': 'bridge1.jpg',
+        'competitor': 'hallway2.jpg',
         'distractor': 'red_T1.jpg',
         'contrastDistractor': 'snowman5.jpg'
-    }
+    },
 }

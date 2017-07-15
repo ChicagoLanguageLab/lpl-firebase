@@ -21,7 +21,7 @@ if(workerId == undefined || workerId == "")
 
 var code = 'TURK' + jsPsych.randomization.randomID(10);
 
-var dataRef = storageRef.child('production-OSPAN/TlessC-07-01-2017/' + params.workerId + '.csv');
+var dataRef = storageRef.child('production-OSPAN/TmoreC-07-15-2017/' + params.workerId + '.csv');
 
 browser_test_block = {
   timeline: [{

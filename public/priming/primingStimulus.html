@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	
+
 	<script src='https://www.gstatic.com/firebasejs/3.0.2/firebase.js'></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
@@ -121,7 +121,7 @@
 			 	var verb     = params.verb;
 			 	var workerId = params.workerId;
 
-			 	var dataRef = storageRef.child('priming/07-01-2017/' + params.workerId + '.csv');
+			 	var dataRef = storageRef.child('priming/07-15-2017/' + params.workerId + '.csv');
 
 			 	checkWorker(workerId, 'priming-study', 'main-carousel');
 
@@ -149,7 +149,7 @@
 
 			    $('button.btn-next-speaker').click(function(e){
 			        e.preventDefault();
-			        
+
 
 			        if($("input[type='radio'][name='speaker-on']:checked").val() === "1") {
 			        	$('#main-carousel').carousel('next');
@@ -167,7 +167,7 @@
 
 			    $('button.btn-next-microphone').click(function(e){
 			        e.preventDefault();
-			        
+
 			        if($("input[type='radio'][name='mic-on']:checked").val() === "1") {
 
 			        	$('#main-carousel').carousel('next');
@@ -202,10 +202,10 @@
 			        	$('#main-carousel').carousel('next');
 			        }
 			    });
-			 	
+
 			 	$('button.btn-submit-demographics').click(function(e) {
 			        e.preventDefault();
-			        
+
 			        var gender = $("input[type='radio'][name='gender']:checked").val();
 			        var age = $('#age').val();
 			        var state = $('#state').val();
@@ -317,7 +317,7 @@
 				        <h4>Refusal or Withdrawal of Participation</h4>
 
 				        <p>Your participation in this study is purely voluntary. You may withdraw from this study at any time, though note that doing so means that you agree to forfeit payment.</p>
-				    
+
 				        <p class="text-center"><strong>By participating in this experiment I confirm that I am at least 18 years old,  I understand the purpose of the research, the study procedures that I will undergo and the possible risks and discomforts as well as benefits that I may experience.  I have read and I understand these terms of consent.  Therefore, I agree to give my consent to participate as a subject in this research project.</strong></p>
 			    	</div>
 		        	<div class="card-footer text-center">
