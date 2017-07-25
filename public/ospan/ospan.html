@@ -1,53 +1,86 @@
 <!doctype html>
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
 <html>
-  <head>
-    <title>Automated OSPAN</title>
+    <head>
+        <title>Automated OSPAN</title>
 
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../static/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../static/css/jspsych.css" rel="stylesheet" type="text/css"></link>
 
-    <script src="../static/js/lib/jquery-min.js"></script>
-    <script src="../static/js/lib/jspsych.js"></script>
-    <script src="../static/js/lib/underscore-min.js"></script>
+        <script src="../static/js/lib/jquery-min.js"></script>
+        <script src="../static/js/lib/jspsych.js"></script>
+        <script src="../static/js/lib/underscore-min.js"></script>
 
-    <script src='https://www.gstatic.com/firebasejs/3.0.2/firebase.js'></script>
-    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-storage.js"></script>
-    
-    <script src="../static/js/ospan/data.js"></script>
-    <script src="../static/js/utils/utils.js"></script>
+        <script src='https://www.gstatic.com/firebasejs/3.0.2/firebase.js'></script>
+        <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-storage.js"></script>
 
-    <script src="../static/js/ospan/jspsych-ospan-letter-stim.js"></script>
-    <script src="../static/js/ospan/jspsych-ospan-letter-response.js"></script>
-    <script src="../static/js/ospan/jspsych-ospan-math-stim.js"></script>
-    <script src="../static/js/ospan/jspsych-ospan-math-response.js"></script>
+        <script src="../static/js/ospan/data.js"></script>
+        <script src="../static/js/utils/utils.js"></script>
 
-    <script src="../static/js/plugins/jspsych-text.js"></script>
-    <script src="../static/js/plugins/jspsych-single-stim.js"></script>
+        <script src="../static/js/ospan/jspsych-ospan-letter-stim.js"></script>
+        <script src="../static/js/ospan/jspsych-ospan-letter-response.js"></script>
+        <script src="../static/js/ospan/jspsych-ospan-math-stim.js"></script>
+        <script src="../static/js/ospan/jspsych-ospan-math-response.js"></script>
 
-    <script src="../static/js/ospan/ospan-utils.js"></script>
-    <script src="../static/js/ospan/ospan.js"></script>
-    
-    <style type="text/css">
-      table, tr, td {
-        padding: 10px;
-      }
-      img .obj{
-        height: 100px !important;
-      }
-      .hidden {
-        isplay: none;
-      }
-      .centered {
-        text-align: center;
-      }
-    </style>
-  </head>
-  
-  <body>
-    <div id="progress-bar" style="display:none"></div>
-    <div id="jspsych-target" style="display:none"></div>
-  </body>
+        <script src="../static/js/plugins/jspsych-text.js"></script>
+        <script src="../static/js/plugins/jspsych-single-stim.js"></script>
+
+        <script src="../static/js/ospan/ospan-utils.js"></script>
+        <script src="../static/js/ospan/ospan.js"></script>
+
+        <style type="text/css">
+            table, tr, td {
+              padding: 10px;
+            }
+            img .obj{
+              height: 100px !important;
+            }
+  	        .hidden {
+  	           display: none;
+  	       	}
+            .bs-callout {
+              	padding: 20px;
+              	margin: 20px 0;
+              	border: 1px solid #eee;
+              	border-left-width: 5px;
+              	border-radius: 3px;
+  	        }
+  	        .bs-callout h4 {
+  	            margin-top: 0;
+  	            margin-bottom: 5px;
+  	        }
+  	        .bs-callout p:last-child {
+  	            margin-bottom: 0;
+  	        }
+  	        .bs-callout code {
+  	            border-radius: 3px;
+  	        }
+  	        .bs-callout+.bs-callout {
+  	            margin-top: -5px;
+  	        }
+  	        .bs-callout-default {
+  	            border-left-color: #777;
+  	        }
+  	        .bs-callout-default h4 {
+  	            color: #777;
+  	        }
+  	        .bs-callout-danger {
+  	            border-left-color: #d9534f;
+  	        }
+  	        .bs-callout-danger h4 {
+  	            color: #d9534f;
+  	        }
+        </style>
+    </head>
+
+    <body>
+        <div id="error" class="bs-callout bs-callout-danger hidden">
+            <h4 class="text-danger mb-3">Oops!</h4>
+            <p>It appears that you have previously completed a study from the Language Processing Lab that used the same data as, or similar data to, the study you are attempting to complete now. Unfortunately, we cannot allow the same person to participate in an experiment more than once. We apologize for the inconvenience, but we must ask that you return your HIT now. (This will not negatively impact your ability to participate in future experiments.)</p><p>If you believe that this message is in error, you can contact the lab at <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>, and we will do our best to resolve the situation.</p>
+        </div>
+        <div id="progress-bar" class="hidden"></div>
+        <div id="jspsych-target" class="hidden"></div>
+    </body>
 </html>
