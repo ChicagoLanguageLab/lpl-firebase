@@ -40,7 +40,7 @@ function checkWorker(workerId, studyName, divToHide) {
 
             $('#' + divToHide).hide();
             $('#error').show();
-            
+
             return true;
         }
         return false;
@@ -61,7 +61,7 @@ function updateStatus(workerId, value) {
     return firebase.database().ref().update(updates);
 }
 
-function objArrayToCSV(args) {  
+function objArrayToCSV(args) {
     var result, ctr, keys, columnDelimiter, lineDelimiter, data;
 
     data = args.data || null;

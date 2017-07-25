@@ -10,7 +10,7 @@
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
 html {
-  font-family: 'Open Sans', 'Arial', sans-serif; 
+  font-family: 'Open Sans', 'Arial', sans-serif;
   font-size: 15px;
   line-height: 1.6em;
 }
@@ -20,20 +20,20 @@ body {
 }
 div[class^='jspsych-survey-text'], div[class*=' jspsych-survey-text'] {
   clear: both;
-  font-family: 'Open Sans', 'Arial', sans-serif; 
+  font-family: 'Open Sans', 'Arial', sans-serif;
   font-size: 15pt;
   line-height: 1.6em;
 }
 .jspsych-display-element {
       font-size: 15pt !important;
-      font-family: 'Open Sans', 'Arial', sans-serif !important; 
+      font-family: 'Open Sans', 'Arial', sans-serif !important;
 }
 .center-screen {
-  position: absolute; 
-  top: 50%; 
-  left: 50%; 
-  -moz-transform: translateX(-50%) translateY(-50%); 
-  -webkit-transform: translateX(-50%) translateY(-50%); 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
 p {
