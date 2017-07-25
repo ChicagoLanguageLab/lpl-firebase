@@ -6,12 +6,12 @@ function makeFeedback(type) {
   return ({
     type: 'single-stim',
     is_html: true,
-    timing_response: -1, 
+    timing_response: -1,
     choices: [' '],
     stimulus: function() { return displayFeedback(type); },
     on_finish: function(data) {
       if(data.ospan_type == "Experiment")
-        saveData(jsPsych.data.dataAsCSV(), dataRef); 
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
     }
   });
 }
@@ -25,7 +25,7 @@ function displayFeedback(type) {
   var totalPercentString = '';
 
   if(type == "LetterPractice" || type == "BothPractice" || type == "Experiment") {
-    
+
     feedback = "<p>You correctly recalled " + trialData.letters_correct + " out of " + trialData.total_letters + " letters.</p>";
 
     color = 'style="color: black"';
@@ -43,9 +43,9 @@ function displayFeedback(type) {
       // Data for LOCAL math correctness
       var localMathResponseData = _.filter(timelineData, function(obj) { return obj.trial_type == "ospan-math-response"; });
       var localMathProblemData = _.filter(timelineData, function(obj) { return obj.trial_type == "ospan-math-stim"; });
-      
+
       var localMathResponseSum = _.reduce(localMathResponseData, function(memo, obj) { return memo + obj.correct; }, 0);
-      
+
       var localMathPercentCorrect =  (localMathResponseSum / localMathProblemData.length) * 100.0;
       var localMathPercentString = '<p>You answered ' + localMathResponseSum + ' out of ' + localMathProblemData.length + ' math problems correctly (' + precise_round(localMathPercentCorrect, 2) + '%).</p>';
 
@@ -54,13 +54,13 @@ function displayFeedback(type) {
         var letterData = _.filter(jsPsych.data.getTrialsOfType("ospan-letter-response"), function(obj) {
           return obj.ospan_type == type;
         });
-        
+
         var allOrNothingSum = _.reduce(letterData, function(memo, obj) { return memo + obj.correct; }, 0);
         var correctLetterSum = _.reduce(letterData, function(memo, obj) { return memo + obj.letters_correct; }, 0);
         var totalLetters = _.reduce(letterData, function(memo, obj) { return memo + obj.total_letters; }, 0);
 
         // Store totals
-        var dataRef = database.ref("fixed-OSPAN" + '/' + workerId);
+        var dataRef = database.ref("OSPAN-07-25-17/" + workerId);
         results = {
           workerId: workerId,
           total_math_problems: totalMathProblemData.length,
@@ -113,7 +113,7 @@ function initMathProblems(size) {
   var secondOpts = jsPsych.randomization.shuffle(mathOpt2);
   var corrects = jsPsych.randomization.shuffle(mathCorrect);
 
-  for(var i = 0; i < size; i++) {    
+  for(var i = 0; i < size; i++) {
     var opt1 = firstOpts.pop();
     var sign = signs.pop();
     var opt2 = secondOpts.pop();
@@ -130,28 +130,28 @@ function initMathProblem1(count, opt1, sign, opt2, correct, opt2sign) {
 
   if(count == 1) {
     //console.log("*****\nInitial values:\n" + "Opt1: " + opt1 + "\nSign: " + sign + "\nOpt2: " + opt2 + "\nCorrect: " + correct);
-    
+
     opt2sign = parseInt(sign + opt2, 10);
     //console.log("Initial opt2sign: " + opt2sign);
   }
   else if(count > 1) {
     opt2sign += 3;
     //console.log("New opt2sign: " + opt2sign);
-    
+
     opt2 = Math.abs(opt2sign).toString();
     //console.log("New opt2: " + opt2);
-    
+
     if(opt2sign > 0) {
       sign = "+";
     }
     //console.log("New sign: " + sign);
   }
-  
+
   var problem = opt1 + " " + sign + " " + opt2;
   //console.log("Problem: " + problem);
 
   var trueAnswer = eval(problem);
-  
+
 
   if(trueAnswer < 0 || opt2 == 0) {
     //console.log("Re-running initialization...");
@@ -239,7 +239,7 @@ function makeLetterStimuli(sizes, type) {
     timeline.push({timeline: inner_timeline});
     timeline.push(makeFeedback(type));
   }
-  
+
   return timeline;
 }
 
@@ -277,7 +277,7 @@ function makeLetterResponse(size, type, recallString) {
         jsPsych.data.addDataToLastTrial({
           correct: 0,
           letters_correct: lettersCorrect
-          
+
         });
       }
     }
@@ -307,7 +307,7 @@ function makeMathProblem(problem, answer, correct, type) {
       timing_response: timing_response,
       choices: [' '],
       stimulus: '<div class="center-screen very-large">' + problem  + '</div>'
-    }, { 
+    }, {
       conditional_function: function() {
         var data = jsPsych.data.getLastTrialData();
         if(data.key_press == -1) return false;
@@ -315,7 +315,7 @@ function makeMathProblem(problem, answer, correct, type) {
       },
       timeline: [{
         type: 'ospan-math-response',
-        timing_response: -1, 
+        timing_response: -1,
         number: answer,
         data: {
           number_correct: correct,
@@ -335,7 +335,7 @@ function makeMathProblem(problem, answer, correct, type) {
         }
       }]
     }];
-    
+
     if(type == "MathPractice")
       timeline.push(makeFeedback(type));
 
@@ -368,7 +368,7 @@ function makeMathProblems(type) {
       },
       on_finish: function(data) {
         if(data.ospan_type == "MathPractice") {
-          
+
           var practiceData = jsPsych.data.getTrialsOfType("ospan-math-stim");
 
           var average_rt = average(practiceData);
@@ -385,7 +385,7 @@ function makeMathProblems(type) {
 function makeOspanTrials(sizes, type) {
   switch (type) {
     case "LetterPractice":
-      return makeLetterStimuli(sizes, type); 
+      return makeLetterStimuli(sizes, type);
       break;
     case "MathPractice":
       return makeMathProblems(type);
