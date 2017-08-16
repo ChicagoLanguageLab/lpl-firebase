@@ -10,9 +10,6 @@ var storage = firebase.storage();
 var storageRef = storage.ref();
 var database = firebase.database();
 
-/* Experiment values */
-var trial_distribution = [3,7,10,7,3];
-
 /* jsPsych data */
 var params = getAllUrlParams();
 
@@ -39,55 +36,13 @@ var dataRef = storageRef.child('2-24-2017-run1/' + workerId + condition + subtyp
 
 console.log("Worker ID: " + workerId + "\nCondition: " + condition + "\nSubtype:   " + subtype + "\nVoice:     " + voice + "\nCode:      " + code);
 
-/* The objects we will test on */
-var objects = jsPsych.randomization.shuffle([{obj_name: 'candle', property: 'tall', file: 'candle', article: 'a'},{obj_name: 'bar', property: 'bent', file: 'straightrod', article: 'a'},{obj_name: 'pillow', property: 'plain', file: 'pillow', article: 'a'}]);
+/* Each participant sees the objects in a random order */
+var shuffled_objects = jsPsych.randomization.shuffle(objects);
 
-/* Define colorsets */
-var exposure_colors = jsPsych.randomization.shuffle(['', '_red', '_blue', '_lgreen']);
-var posttest_colors = ['_purple', '_lblue', '_pink'];
-var all_colors = exposure_colors.concat(posttest_colors);
-
-var welcome_block_1 = {
-  type: 'text',
-  text: `<div class="header row">
-           <div class="col-2 text-right">
-             <img class="logo" src="../static/shield.png" alt="UChicago Logo"/>
-           </div>
-           <div class="col-10">
-             <h1>Language Processing Laboratory</h1>
-             <p class="lead">Department of Linguistics, The University of Chicago</p>
-           </div>
-         </div>
-         <div>
-           <p class="mt-4 lead">
-             Thank you for your interest in our study!
-           </p>
-           <p>
-             As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.
-           </p>
-         </div>`,
-  cont_key: [' ']
-}
-
-/* First experiment block. TODO: Write overview of experiment. */
-var welcome_block = {
-    type: "text",
-    text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the <strong>space bar</strong>.</p>',
-    choices: [' ']
-};
-
-var if_node = {
-  conditional_function: function() {
-    var data = jsPsych.data.getLastTrialData();
-    console.log(data.consented);
-    return !data.consented;
-  },
-  timeline: [{
-    type: 'text',
-    cont_key: [''],
-    text: "Oops!"
-  }]
-};
+/* The colors are also randomized. */
+var shuffled_exposure_colors = jsPsych.randomization.shuffle(exposure_colors);
+var shuffled_posttest_colors = jsPsych.randomization.shuffle(posttest_colors);
+var shuffled_colors = exposure_colors.concat(shuffled_posttest_colors);
 
 /* Generate end blocks for first calibration */
 var end_blocks_pretest = [];
@@ -107,18 +62,6 @@ for(var i = 0; i < objects.length + 1; i++) {
         });
     }(i));
 }
-
-/* Generic end-block for the other sections */
-var end_block_general = {
-    type: "text",
-    choices: [' '],
-    text: function() {
-        return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you ready to continue.</p>";
-    },
-    on_finish: function(data){
-        saveData(jsPsych.data.getDataAsCSV(), dataRef);
-    }
-};
 
 var end_block_last = {
     type: "text",
@@ -225,16 +168,6 @@ else {
 
 /* Holds the experiment structure */
 var experiment_blocks = [];
-
-var consent = {
-  type: 'consent',
-  requirements: 'You must be at least 18 years old to participate in this study. ',
-  purpose: 'In this research, we are investigating the processes involved in the comprehension of sentences and/or stories. ',
-  procedures: 'In this study, you will be presented with a series of images and descriptions and provide feedback on them, as directed in the experimental instructions. You will also listen to some audio about a set of images. ',
-  time: 'about 30-40 minutes',
-  pay: '$4 USD'
-};
-
 
 experiment_blocks.push(welcome_block_1);
 experiment_blocks.push(consent);
