@@ -76,21 +76,21 @@ var end_block_last = {
 };
 
 /* Generate all three calibration blocks */
-var calibration_data = generateCalibration("calibration", objects, trial_distribution, all_colors, subtype);
+var calibration_data = generateCalibration("calibration", objects, trial_distribution, shuffled_colors, subtype);
 var calibration_instructions    = calibration_data[0];
 var calibration_blocks          = calibration_data[1];
 
 /* Generate exposure segments; blocks come later */
-var exposure_data           = generateExposure(objects, exposure_colors, condition, '_' + subtype, '_' + voice);
+var exposure_data           = generateExposure(objects, shuffled_exposure_colors, condition, '_' + subtype, '_' + voice);
 var exposure_instructions   = exposure_data[0];
 var exposure_segments       = exposure_data[1];
 
 /* Generate posttest */
 var posttest_points = [2, 4, 8, 13, 20, 24];
-var posttest_blocks = generatePosttest(posttest_points, objects, posttest_colors, '_' + subtype, '_' + voice);
+var posttest_blocks = generatePosttest(posttest_points, objects, shuffled_posttest_colors, '_' + subtype, '_' + voice);
 
 /* Generate post-calibration blocks */
-var post_calibration_data = generateCalibration("post-calibration", objects, trial_distribution, all_colors, subtype);
+var post_calibration_data = generateCalibration("post-calibration", objects, trial_distribution, shuffled_colors, subtype);
 var post_calibration_instructions   = post_calibration_data[0];
 var post_calibration_blocks         = post_calibration_data[1];
 
@@ -169,31 +169,32 @@ else {
 /* Holds the experiment structure */
 var experiment_blocks = [];
 
-experiment_blocks.push(welcome_block_1);
+experiment_blocks.push({type: 'demographics'});
+experiment_blocks.push(pre_consent);
 experiment_blocks.push(consent);
-experiment_blocks.push(if_node);
-experiment_blocks.push(welcome_block);
+experiment_blocks.push(check_consent);
+experiment_blocks.push(expt_consented);
 
 // Add the pretests, exposure, and post-tests
 for(var x = 0; x < calibration_blocks.length; x++) {
-    experiment_blocks.push(calibration_instructions[x]);
+    /*experiment_blocks.push(calibration_instructions[x]);
     experiment_blocks.push(calibration_blocks[x]);
     experiment_blocks.push(end_blocks_pretest[x]);
 
     experiment_blocks.push(exposure_instructions[x]);
     experiment_blocks.push(audio_test_block);
     experiment_blocks.push(exposure_blocks[x]);
-    experiment_blocks.push(end_block_general);
+    experiment_blocks.push(end_block);*/
 }
 
 // Reprise the pretests
 for(var x = 0; x < post_calibration_blocks.length; x++) {
-    experiment_blocks.push(post_calibration_instructions[x]);
+    /*experiment_blocks.push(post_calibration_instructions[x]);
     experiment_blocks.push(post_calibration_blocks[x]);
     if(x == post_calibration_blocks.length-1)
         experiment_blocks.push(end_block_last);
     else
-        experiment_blocks.push(end_block_general);
+        experiment_blocks.push(end_block);*/
 }
 
 experiment_blocks.push(final_block);
