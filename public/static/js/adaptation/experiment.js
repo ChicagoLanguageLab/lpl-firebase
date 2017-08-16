@@ -47,11 +47,46 @@ var exposure_colors = jsPsych.randomization.shuffle(['', '_red', '_blue', '_lgre
 var posttest_colors = ['_purple', '_lblue', '_pink'];
 var all_colors = exposure_colors.concat(posttest_colors);
 
+var welcome_block_1 = {
+  type: 'text',
+  text: `<div class="header row">
+           <div class="col-2 text-right">
+             <img class="logo" src="../static/shield.png" alt="UChicago Logo"/>
+           </div>
+           <div class="col-10">
+             <h1>Language Processing Laboratory</h1>
+             <p class="lead">Department of Linguistics, The University of Chicago</p>
+           </div>
+         </div>
+         <div>
+           <p class="mt-4 lead">
+             Thank you for your interest in our study!
+           </p>
+           <p>
+             As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.
+           </p>
+         </div>`,
+  cont_key: [' ']
+}
+
 /* First experiment block. TODO: Write overview of experiment. */
 var welcome_block = {
     type: "text",
-    text: '<p>Thank you for doing our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the space bar.</p>',
+    text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the <strong>space bar</strong>.</p>',
     choices: [' ']
+};
+
+var if_node = {
+  conditional_function: function() {
+    var data = jsPsych.data.getLastTrialData();
+    console.log(data.consented);
+    return !data.consented;
+  },
+  timeline: [{
+    type: 'text',
+    cont_key: [''],
+    text: "Oops!"
+  }]
 };
 
 /* Generate end blocks for first calibration */
@@ -66,8 +101,8 @@ for(var i = 0; i < objects.length + 1; i++) {
                     calculateAmbiguousPoint(objects[i].obj_name);
                 return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
             },
-            on_finish: function(data){ 
-                saveData(jsPsych.data.getDataAsCSV(), dataRef); 
+            on_finish: function(data){
+                saveData(jsPsych.data.getDataAsCSV(), dataRef);
             }
         });
     }(i));
@@ -80,7 +115,7 @@ var end_block_general = {
     text: function() {
         return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you ready to continue.</p>";
     },
-    on_finish: function(data){ 
+    on_finish: function(data){
         saveData(jsPsych.data.getDataAsCSV(), dataRef);
     }
 };
@@ -91,7 +126,7 @@ var end_block_last = {
     text: function() {
         return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you ready to continue.</p>";
     },
-    on_finish: function(data){ 
+    on_finish: function(data){
         saveData(jsPsych.data.getDataAsCSV(), dataRef);
         addWorker(workerId, 'adaptation-study');
     }
@@ -191,6 +226,19 @@ else {
 /* Holds the experiment structure */
 var experiment_blocks = [];
 
+var consent = {
+  type: 'consent',
+  requirements: 'You must be at least 18 years old to participate in this study. ',
+  purpose: 'In this research, we are investigating the processes involved in the comprehension of sentences and/or stories. ',
+  procedures: 'In this study, you will be presented with a series of images and descriptions and provide feedback on them, as directed in the experimental instructions. You will also listen to some audio about a set of images. ',
+  time: 'about 30-40 minutes',
+  pay: '$4 USD'
+};
+
+
+experiment_blocks.push(welcome_block_1);
+experiment_blocks.push(consent);
+experiment_blocks.push(if_node);
 experiment_blocks.push(welcome_block);
 
 // Add the pretests, exposure, and post-tests
@@ -219,7 +267,7 @@ experiment_blocks.push(final_block);
 
 $( document ).ready(function() {
 
-    checkWorker(workerId, 'adaptation-study');
+    /*checkWorker(workerId, 'adaptation-study');
 
     $('#progress-bar').hide();
     $('#jspsych-target').hide();
@@ -269,19 +317,17 @@ $( document ).ready(function() {
         console.log("Gender: " + gender + " Age: " + age + " State: " + state + " Native: " + natLang + " Dominant: " + domLang + " Parent: " + prtLang + " Other: " + otherLang);
 
         $('#header').hide();
-        $('#demographics').hide();
-
-        $('#progress-bar').show();
-        $('#jspsych-target').show();
+        $('#demographics').hide(); */
 
         /* Initialize experiment */
         jsPsych.init({
             timeline: experiment_blocks,
             show_progress_bar: true,
+            display_element: $('#jspsych-target')
         });
 
         /* Append data */
-        jsPsych.data.addProperties({
+        /*jsPsych.data.addProperties({
             workerId: workerId,
             condition: condition,
             subtype: subtype,
@@ -295,5 +341,5 @@ $( document ).ready(function() {
             parentLgs: prtLang,
             foreignLgs: otherLang
         });
-    });
+    });*/
 });
