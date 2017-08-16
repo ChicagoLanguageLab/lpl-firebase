@@ -72,8 +72,12 @@ body {
   background-color: #f3f3f3;
 }
 
-p, h1, h2, h3, h4 {
+p, h1, h2, h3, h4  {
   margin: 20px 15px 20px 15px;
+}
+
+.contact-info {
+  margin-left: 15px;
 }
 
 #jspsych-progressbar-container {
@@ -101,7 +105,7 @@ button {
 }
 
 .footer p {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 div.header h1 {
