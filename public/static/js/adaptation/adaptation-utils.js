@@ -21,7 +21,7 @@ function generateCalibration(type, objects, trial_distribution, colors, subtype)
         var trials = [];
         for (var x = 1; x < 6; x++) {
             temp = []
-            for (var y = 0; y < all_colors.length; y++) {
+            for (var y = 0; y < shuffled_colors.length; y++) {
                 if(i != objects.length) {
                     temp.push({
                         stimulus: '../static/images/adaptation/' + objects[i].file + x + colors[y] + '.jpg',
