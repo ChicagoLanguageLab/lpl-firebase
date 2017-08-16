@@ -1,10 +1,9 @@
 /**
- * jspsych-button-response
+ * jspsych-consent
  * Josh de Leeuw
  *
- * plugin for displaying a stimulus and getting a keyboard response
+ * Plugin for displaying a consent form
  *
- * documentation: docs.jspsych.org
  *
  **/
 
@@ -21,6 +20,10 @@ jsPsych.plugins["consent"] = (function() {
     trial.procedures = trial.procedures || '{{PROCEDURES_APPEAR_HERE}}. '
     trial.time = trial.time || '{{EXPERIMENT_ESTIMATED_TIME}}'
     trial.pay = trial.pay || '{{EXPERIMENT_PAY}}'
+    trial.name = trial.name || '{{RESEARCHER_NAME}}'
+    trial.address = trial.address || '{{RESEARCHER_ADDRESS}}'
+    trial.phone = trial.phone || '{{RESEARCHER_PHONE}}'
+    trial.email = trial.email || '{{RESEARCHER_EMAIL}}'
 
     // if any trial variables are functions
     // this evaluates the function and replaces
@@ -99,14 +102,21 @@ jsPsych.plugins["consent"] = (function() {
       class: 'mt-4',
       html: 'Request for more information'
     }));
-    consent_block.append($('<p>', {
-      html: 'If you have questions about this research, please contact Dr. Ming Xiang at 1115 E. 58th St., Rosenwald 205B. Phone (773) 702-8023. Email: mxiang, followed by "at"-sign, followed by "uchicago" dot "edu".'
+    consent_block.append($('<div>', {
+      html: '<p>If you have questions about this research, you can contact ' + trial.name + ' via any of the following methods:</p>' +
+            '<div class="row contact-info"><div class="col-2 text-right">Mailing address:</div><div class="col-10">' + trial.address + '</div></div>' +
+            '<div class="row contact-info"><div class="col-2 text-right">Phone:</div><div class="col-10">' + trial.phone + '</div></div>' +
+            '<div class="row contact-info"><div class="col-2 text-right">Email:</div><div class="col-10">' +
+            '<a href="mailto:' + trial.email + '">' + trial.email + '</a></div></div>'
     }));
-    consent_block.append($('<p>', {
-      html: `If you have any questions about your rights as a participant in this research,
-        you can contact the following office at the University of Chicago:
-        Social & Behavioral Sciences Institutional Review Board, University of Chicago, 1155 E. 60th street,
-        Room 418, Chicago IL 60637. Phone: (773) 834-7835. Fax: (773) 834-8700. Email: sbs-irb@uchicago.edu.`
+    consent_block.append($('<div>', {
+      html: `<p>If you have any questions about your rights as a participant in this research,
+        you can contact the following office at the University of Chicago:</p>
+        <div class="row contact-info"><div class="col-2 text-right">Mailing address:</div>
+        <div class="col-10">Social & Behavioral Sciences Institutional Review Board, University of Chicago, 1155 E. 60th street, Room 418, Chicago IL 60637</div></div>
+        <div class="row contact-info"><div class="col-2 text-right">Phone:</div><div class="col-10">(773) 834-7835</div></div>
+        <div class="row contact-info"><div class="col-2 text-right">Email:</div><div class="col-10">
+        <a href="mailto:sbs-irb@uchicago.edu">sbs-irb@uchicago.edu</a></div></div>`
     }));
 
     consent_block.append($('<h2>', {
