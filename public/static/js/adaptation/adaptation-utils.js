@@ -11,8 +11,8 @@ function generateCalibration(type, objects, trial_distribution, colors, subtype)
         /* Instructions for this block */
         instructions.push({
             type: "text",
-            text: '<p>In this section, you will be shown a series of images.</p>' + 
-                "<p>You will be asked a question about each image. Follow the on-screen instructions to respond. Please answer based on your first instinct; there is no right or wrong answer.</p>" + 
+            text: '<p>In this section, you will be shown a series of images.</p>' +
+                "<p>You will be asked a question about each image. Follow the on-screen instructions to respond. Please answer based on your first instinct; there is no right or wrong answer.</p>" +
                 "<p>Please press the space bar when you are ready to begin.</p>",
             cont_key: [' ']
         });
@@ -41,13 +41,16 @@ function generateCalibration(type, objects, trial_distribution, colors, subtype)
             trials = trials.concat(jsPsych.randomization.sample(temp, trial_distribution[x-1], true));
         }
         trials = jsPsych.randomization.shuffle(trials);
-        
+
         /* Add a block for these trials */
         blocks.push({
-            type: type,
+            type: 'single-stim',
             choices: ['F', 'J'],
             timing_post_trial: 1000,
             timeline: trials,
+            data: {
+              'subtype': type
+            },
             on_finish: function(data){
                 var has_prop = 0;
                 if(data.key_press == '70')
@@ -148,7 +151,10 @@ function generatePosttest(points, objects, colors, type, voice) {
                                     // Return the proper image
                                     return image
                                 },
-                                type: "posttest-audio",
+                                type: "single-stim",
+                                data: {
+                                  subtype: 'posttest-audio'
+                                },
                                 prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + objects[x].file + '_question' + too_text + voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
                                 timing_post_trial: 0,
                                 response_ends_trial: false,
@@ -172,11 +178,12 @@ function generatePosttest(points, objects, colors, type, voice) {
                                     return image
                                 },
                                 prompt: '<br/><p>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
-                                type: "posttest",
-                                choices: ['F', 'J'], 
+                                type: "single-stim",
+                                choices: ['F', 'J'],
                                 data: {
                                     adjustment: y,
-                                    object: objects[x].obj_name
+                                    object: objects[x].obj_name,
+                                    subtype: 'posttest'
                                 },
                                 on_finish: function(data) {
                                     var has_prop = 0;
@@ -211,23 +218,25 @@ function generatePosttest(points, objects, colors, type, voice) {
 
                     trials.push({
                         timeline: [{
-                            type: "posttest-audio",
+                            type: "single-stim",
                             stimulus: '../static/images/adaptation/flower' + nums[0] + temp[y]  + '.jpg',
                             prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flower_question' + voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
                             data: {scalepos: nums[0] - 1,
-                                object: "flower"
+                                object: "flower",
+                                subtype: 'posttest-audio'
                             },
                             timing_post_trial: 0,
                             response_ends_trial: false,
                             timing_response: 3000
                         },
                         {
-                            type: "posttest",
+                            type: "single-stim",
                             stimulus: '../static/images/adaptation/flower' + nums[0] + temp[y]  + '.jpg',
                             prompt: '<br/><p>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
                             data: {
                                 scalepos: nums[0] - 1,
-                                object: "flower"
+                                object: "flower",
+                                subtype: 'posttest-audio'
                             },
                             choices: ['F', 'J'],
                             on_finish: function(data) {
@@ -262,21 +271,21 @@ function generateExposure(objects, colors, condition, type, voice) {
     var instruction_text;
 
     if(voice !== "_z") {
-        instruction_text = "<p>In this section you will see a sequence of images. " + 
-                           "You will also hear a verbal description of each image. " + 
-                           "Please listen carefully to each description. " + 
-                           "Periodically, you will answer some questions about the images.</p>" + 
-                           "<p>Be sure to remain focused on the center of the screen. " + 
+        instruction_text = "<p>In this section you will see a sequence of images. " +
+                           "You will also hear a verbal description of each image. " +
+                           "Please listen carefully to each description. " +
+                           "Periodically, you will answer some questions about the images.</p>" +
+                           "<p>Be sure to remain focused on the center of the screen. " +
                            "Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, " +
                            "and you will be asked a question about it. " +
                            "Please do your best to answer the question accurately.</p> " +
                            "<p>Press the space bar when you are ready to begin.</p>";
     }
     else {
-        instruction_text = "<p>In this section, you will see a sequence of images. " + 
-                           "You will also listen to sentences recorded using a speech synthesizer we are testing. " + 
-                           "Periodically, you will answer some questions.</p>" + 
-                           "<p>Be sure to remain focused on the center of the screen. " + 
+        instruction_text = "<p>In this section, you will see a sequence of images. " +
+                           "You will also listen to sentences recorded using a speech synthesizer we are testing. " +
+                           "Periodically, you will answer some questions.</p>" +
+                           "<p>Be sure to remain focused on the center of the screen. " +
                            "Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, " +
                            "and you will be asked a question about it. " +
                            "Please do your best to answer the question accurately.</p> " +
@@ -294,7 +303,7 @@ function generateExposure(objects, colors, condition, type, voice) {
         for(var x = 0; x < 4; x++) {
             for(var y = 0; y < 6; y++) {
                 (function (x, y, i) {
-                    var statement; 
+                    var statement;
                     var timing;
                     if(x == 0 && y == 0){ //&& voice != "_z") {
                         statement = 5;
@@ -304,7 +313,7 @@ function generateExposure(objects, colors, condition, type, voice) {
                        statement = x + 1;
                        timing = 4500;
                    }
-                    
+
                     if(i < objects.length) {
                         trials.push({
                             type: "exposure",
@@ -334,7 +343,7 @@ function generateExposure(objects, colors, condition, type, voice) {
                                 jsPsych.data.addDataToLastTrial({adjustedAmbiguousPoint: adjustedAmbiguousPoint});
 
                                 jsPsych.data.addDataToLastTrial({object: data.object});
-                                
+
                                 if(condition == "ambiguous") {
                                     jsPsych.data.addDataToLastTrial({scalepos: ambiguous_point});
                                 }
