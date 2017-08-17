@@ -75,7 +75,7 @@ var trial_prefabs = {
                 </p>`;
     },
     on_finish: function(data){
-        saveData(jsPsych.data.getDataAsCSV(), dataRef);
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
     }
   },
   final_block: {
@@ -144,7 +144,7 @@ var trial_prefabs = {
                </p>`;
     },
     on_finish: function(data){
-        saveData(jsPsych.data.getDataAsCSV(), dataRef);
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
         addWorker(workerId, 'adaptation-study');
     }
   },
@@ -172,7 +172,7 @@ var trial_prefabs = {
         return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
     },
     on_finish: function(data){
-        saveData(jsPsych.data.getDataAsCSV(), dataRef);
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
     }
   }
 };
