@@ -98,7 +98,7 @@ function sampleTrials(e_instance, stim_index, scale_pos) {
 
 function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
   var trials = [];
-  var block_type = is_post? 'calibration' : 'post-calibration';
+  var block_type = is_post? 'post-calibration' : 'calibration';
 
   for (var i = 1; i < e_instance.max_scalepos + 1; i++) {
       trials = trials.concat(sampleTrials(e_instance, stim_index, i));
@@ -145,7 +145,8 @@ function calculateAmbiguousPoint(stimulus) {
     lr = new LogReg(5, 1);
     lr.init([1,2,3,4,5]);
 
-    var trials = jsPsych.data.getData({stimulus: stimulus});
+    var trials = jsPsych.data.getLastTimelineData();
+    console.log(trials);
 
     _.each(trials, function(trial) {
       try {
@@ -178,13 +179,17 @@ function calculateAmbiguousPoint(stimulus) {
     }
     console.log('Best fit: ' + ambiguous_point);
 
-    originalAmbiguousPoint = ambiguous_point;
+    var adjusted_ambiguous_point;
     if(ambiguous_point <= 1)
-      adjustedAmbiguousPoint = 2;
+      adjusted_ambiguous_point = 2;
     else if(ambiguous_point >= 5)
-      adjustedAmbiguousPoint = 4;
+      adjusted_ambiguous_point = 4;
     else
-      adjustedAmbiguousPoint = ambiguous_point;
+      adjusted_ambiguous_point = ambiguous_point;
+
+    jsPsych.data.addProperties({
+      'ambiguous_point': adjusted_ambiguous_point
+    });
 }
 
 function makePosttest(experiment, prefabs) {
