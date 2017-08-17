@@ -44,27 +44,6 @@ function make_exposure_posttest(experiment, prefabs) {
 
 }
 
-function makeEndBlocks(experiment) {
-  var end_blocks_pretest = [];
-  for(var i = 0; i < experiment.stimuli.length + 1; i++) {
-      (function (i) {
-          end_blocks_pretest.push({
-              type: "text",
-              choices: [' '],
-              text: function() {
-                  if(i < experiment.stimuli.length)
-                      calculateAmbiguousPoint(experiment.stimuli[i].name);
-                  return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
-              },
-              on_finish: function(data){
-                  saveData(jsPsych.data.getDataAsCSV(), dataRef);
-              }
-          });
-      }(i));
-  }
-  return end_blocks_pretest;
-}
-
 /**
  * Generates the full set of possible trials for a single stimulus/scale position combination.
  *
@@ -114,37 +93,40 @@ function makeTrialSet(e_instance, stim_index, scale_pos) {
  * @param {number} scale_pos  - The scale position to use when generating trials.
 */
 function sampleTrials(e_instance, stim_index, scale_pos) {
-  return jsPsych.randomization.sample(makeTrialSet(experiment, stim_index, scale_pos), e_instance.trial_distribution[scale_pos - 1], true);
+  return jsPsych.randomization.sample(makeTrialSet(e_instance, stim_index, scale_pos), e_instance.trial_distribution[scale_pos - 1], true);
 }
 
-function makeCalibrationBlock(experiment, prefabs, is_post, stim_index) {
+function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
   var trials = [];
-  var blocktype = is_post? 'calibration' : 'post-calibration';
+  var block_type = is_post? 'calibration' : 'post-calibration';
 
   for (var i = 1; i < e_instance.max_scalepos + 1; i++) {
-      trials = trials.concat(sampleTrials(experiment, stim_index, i));
+      trials = trials.concat(sampleTrials(e_instance, stim_index, i));
   }
   trials = jsPsych.randomization.shuffle(trials);
 
-  return ({
+  var calibration_block = {
     type: 'single-stim',
     choices: ['F', 'J'],
-    timing_post_trial: 1000,
-    timeline: [
-      prefabs.calibration_instructions,
-      {
-        type: 'single-stim',
-        timeline: trials
-      }
-    ],
-    data: {
-      subtype: blocktype
-    },
+    timeline: trials,
     on_finish: function(data){
         var has_prop = 0;
         if(data.key_press == '70')
             has_prop = 1;
         jsPsych.data.addDataToLastTrial({has_prop: has_prop});
+    }
+  }
+
+  return ({
+    type: 'text',
+    timing_post_trial: 1000,
+    timeline: [
+      prefabs.calibration_instructions,
+      calibration_block,
+      prefabs.wrap_up
+    ],
+    data: {
+      subtype: block_type
     }
   });
 }

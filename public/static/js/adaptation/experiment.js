@@ -49,9 +49,6 @@ _e.current_stim_set = _e.stimuli[0].name;
 
 var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition + _e.subtype + _e.voice + '.csv');
 
-/* make end blocks for first calibration */
-var end_blocks_pretest = makeEndBlocks(_e);
-
 /* make all three calibration blocks */
 var calibration_blocks = makeCalibrationBlocks(_e, trial_prefabs, false);
 
@@ -77,7 +74,6 @@ var experiment_blocks = [];
 // Add the pretests, exposure, and post-tests
 for(var x = 0; x < calibration_blocks.length; x++) {
     experiment_blocks.push(calibration_blocks[x]);
-    //experiment_blocks.push(end_blocks_pretest[x]);
 
     //experiment_blocks.push(exposure_blocks[x]);
 }

@@ -161,6 +161,19 @@ var trial_prefabs = {
             Please press the <strong>space bar</strong> when you are ready to begin.
          </p>`,
     cont_key: [' ']
+  },
+  wrap_up: {
+    type: "text",
+    choices: [' '],
+    text: function() {
+        var prev_stim = jsPsych.data.getLastTrialData().stimulus
+        if(prev_stim !== 'flower')
+            calculateAmbiguousPoint(prev_stim);
+        return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
+    },
+    on_finish: function(data){
+        saveData(jsPsych.data.getDataAsCSV(), dataRef);
+    }
   }
 };
 
