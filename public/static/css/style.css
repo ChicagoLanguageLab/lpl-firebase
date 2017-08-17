@@ -129,3 +129,7 @@ hr.style-eight { padding: 0; border: none; border-top: medium double #a9afd8; co
   font-size: 0.75em;
   color: #c23d6d;
 }
+
+img#jspsych-single-stim-stimulus {
+  padding: 2em;
+}
