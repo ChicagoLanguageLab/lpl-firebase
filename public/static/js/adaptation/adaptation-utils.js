@@ -67,12 +67,11 @@ function generateEndBlocks(experiment) {
 
 function generateCalibrationTrials(experiment, index, sPos, tooText) {
   var trials = []
-  console.log(index);
   for (var y = 0; y < experiment.colors.length; y++) {
       if(index != experiment.stimuli.length) {
           trials.push({
-              stimulus: '../static/images/adaptation/' + experiment.stimuli[index].name + x + experiment.colors[y] + '.jpg',
-              prompt: '<p><br>Is this ' + experiment.stimuli[index].name + tooText + experiment.stimuli[index].property + '?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
+              stimulus: '../static/images/adaptation/' + experiment.stimuli[index].name + sPos + experiment.colors[y] + '.jpg',
+              prompt: '<p class="center-screen text-center"><br>Is this ' + experiment.stimuli[index].name + tooText + experiment.stimuli[index].adjective + '?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
               data: {scalepos: sPos, stimulus: experiment.stimuli[index].name}
           });
       }
@@ -91,7 +90,7 @@ function generateCalibrationBlocks(experiment, prefabs, isPost) {
     var calibration_blocks = [];
     var _subtype = isPost? 'calibration' : 'post-calibration';
 
-    var tooText = experiment.subcondition === 'too'? ' too ' : '';
+    var tooText = experiment.subcondition === 'too'? ' too ' : ' ';
 
     for(i = 0; i < experiment.stimuli.length + 1; i++) {
 
@@ -110,7 +109,10 @@ function generateCalibrationBlocks(experiment, prefabs, isPost) {
             timing_post_trial: 1000,
             timeline: [
               prefabs.calibration_instructions,
-              trials
+              {
+                type: 'single-stim',
+                timeline: trials
+              }
             ],
             data: {
               subtype: _subtype
@@ -123,7 +125,6 @@ function generateCalibrationBlocks(experiment, prefabs, isPost) {
             }
         });
     }
-    console.log(calibration_blocks);
     return calibration_blocks;
 }
 
