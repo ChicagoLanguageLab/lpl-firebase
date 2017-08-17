@@ -1,147 +1,10 @@
-/* Intersperse exposure phase with posttests */
-
-function make_exposure_posttest(experiment, prefabs) {
-
-  var exposure_data         = makeExposure(experiment, prefabs);
-  var exposure_instructions = exposure_data[0];
-  var exposure_segments     = exposure_data[1];
-
-  var attention_blocks = makeAttentionTrials(experiment, 4);
-  var posttest_blocks  = makePosttest(experiment, prefabs);
-
-  var exposure_blocks = [];
-  for(var x = 0; x < exposure_segments.length; x++) {
-
-    var exposure_trials = [];
-
-    for(var i = 1; i < exposure_segments[x].length + 1; i++) {
-      exposure_trials.push(exposure_segments[x][i-1]);
-
-      // At the specified points, add three posttest trials (one segment)
-      if(_.contains(experiment.posttest_points, i)) {
-          exposure_trials.push(posttest_blocks[x].shift());
-      }
-      if(_.contains(experiment.attention_points, i)) {
-          exposure_trials.push(attention_blocks[x].shift());
-      }
-    }
-
-    // Add the trials as a block
-    exposure_blocks.push({
-      type: 'single-stim',
-      timeline: [
-        exposure_instructions,
-        prefabs.audio_test_block,
-        exposure_trials,
-        prefabs.end_block
-      ],
-      timing_post_trial: 1000
-    });
-
-  }
-
-  return exposure_blocks;
-
-}
-
 /**
- * Generates the full set of possible trials for a single stimulus/scale position combination.
+ * Calculates the most ambiguous scalepos for a given stimulus.
+ * TODO: Make jsPsych an argument for maximum safety?
  *
- * @param {object} e_instance - An instance of the experiment.
- * @param {number} stim_index - The index of the stimulus to use when generating trials.
- * @param {number} scale_pos  - The scale position to use when generating trials.
+ * @param {string} stimulus - Name of the stimulus to check.
  */
-function makeTrialSet(e_instance, stim_index, scale_pos) {
-
-  var trials = []
-
-  var cur_stim = e_instance.stimuli[stim_index];
-  var key_instr = '<p class="center-screen text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>';
-  var int_text = e_instance.subcondition === 'too'? ' too ' : ' ';
-
-  var trial_data = {
-    scalepos: scale_pos,
-    stimulus: cur_stim.name
-  }
-
-  var prompt;
-  if(cur_stim.name === 'flower')
-    prompt = '<p class="center-screen text-center">Does this flower have exactly four (4) petals?</p>' + key_instr;
-  else
-    prompt = '<p class="center-screen text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
-
-  for (var i = 0; i < e_instance.colors.length; i++) {
-
-    var stim_url = '../static/images/adaptation/' + e_instance.colors[i] + cur_stim.name + scale_pos + '.jpg';
-
-    trials.push({
-      stimulus: stim_url,
-      prompt: prompt,
-      data: trial_data
-    });
-  }
-
-  return trials;
-
-}
-
-/**
- * Samples from a set of trials generated with a given stimulus/scale position combination.
- *
- * @param {object} e_instance - An instance of the experiment.
- * @param {number} stim_index - The index of the stimulus to use when generating trials.
- * @param {number} scale_pos  - The scale position to use when generating trials.
-*/
-function sampleTrials(e_instance, stim_index, scale_pos) {
-  return jsPsych.randomization.sample(makeTrialSet(e_instance, stim_index, scale_pos), e_instance.trial_distribution[scale_pos - 1], true);
-}
-
-function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
-  var trials = [];
-  var block_type = is_post? 'post-calibration' : 'calibration';
-
-  for (var i = 1; i < e_instance.max_scalepos + 1; i++) {
-      trials = trials.concat(sampleTrials(e_instance, stim_index, i));
-  }
-  trials = jsPsych.randomization.shuffle(trials);
-
-  var calibration_block = {
-    type: 'single-stim',
-    choices: ['F', 'J'],
-    timeline: trials,
-    on_finish: function(data){
-        var has_prop = 0;
-        if(data.key_press == '70')
-            has_prop = 1;
-        jsPsych.data.addDataToLastTrial({has_prop: has_prop});
-    }
-  }
-
-  return ({
-    type: 'text',
-    timing_post_trial: 1000,
-    timeline: [
-      prefabs.calibration_instructions,
-      calibration_block,
-      prefabs.wrap_up
-    ],
-    data: {
-      subtype: block_type
-    }
-  });
-}
-
-function makeCalibrationBlocks(experiment, prefabs, is_post) {
-    var calibration_blocks = [];
-
-    for(i = 0; i < experiment.stimuli.length; i++) {
-        calibration_blocks.push(makeCalibrationBlock(experiment, prefabs, is_post, i));
-    }
-
-    return calibration_blocks;
-}
-
-function calculateAmbiguousPoint(stimulus) {
+ function calculateAmbiguousPoint(stimulus) {
     lr = new LogReg(5, 1);
     lr.init([1,2,3,4,5]);
 
@@ -190,6 +53,163 @@ function calculateAmbiguousPoint(stimulus) {
     jsPsych.data.addProperties({
       'ambiguous_point': adjusted_ambiguous_point
     });
+}
+
+/**
+ * Samples from a set of trials generated with a given stimulus/scale position combination.
+ *
+ * @param {object} e_instance - An instance of the experiment.
+ * @param {number} stim_index - The index of the stimulus to use when generating trials.
+ * @param {number} scale_pos  - The scale position to use when generating trials.
+*/
+function sampleTrials(e_instance, stim_index, scale_pos) {
+  return jsPsych.randomization.sample(makeTrialSet(e_instance, stim_index, scale_pos), e_instance.trial_distribution[scale_pos - 1], true);
+}
+
+/**
+ * Generates the full set of possible trials for a single stimulus/scale position combination.
+ *
+ * @param {object} e_instance - An instance of the experiment.
+ * @param {number} stim_index - The index of the stimulus to use when generating trials.
+ * @param {number} scale_pos  - The scale position to use when generating trials.
+ */
+function makeTrialSet(e_instance, stim_index, scale_pos) {
+
+  var trials = []
+
+  var cur_stim = e_instance.stimuli[stim_index];
+  var key_instr = '<p class="center-screen text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>';
+  var int_text = e_instance.subcondition === 'too'? ' too ' : ' ';
+
+  var trial_data = {
+    scalepos: scale_pos,
+    stimulus: cur_stim.name
+  }
+
+  var prompt;
+  if(cur_stim.name === 'flower')
+    prompt = '<p class="center-screen text-center">Does this flower have exactly four (4) petals?</p>' + key_instr;
+  else
+    prompt = '<p class="center-screen text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
+
+  for (var i = 0; i < e_instance.colors.length; i++) {
+
+    var stim_url = '../static/images/adaptation/' + e_instance.colors[i] + cur_stim.name + scale_pos + '.jpg';
+
+    trials.push({
+      stimulus: stim_url,
+      prompt: prompt,
+      data: trial_data
+    });
+  }
+
+  return trials;
+
+}
+
+/**
+ * Generates a block of calibration trials.
+ *
+ * @param {object} e_instance - An instance of the experiment.
+ * @param {object} prefabs    - A collection of stock jsPsych trial definitions.
+ * @param {boolean} is_post   - If this is a post-calibration block, true. Else false.
+ * @param {number} stim_index - Index of the stimulus to use for this block.
+ */
+function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
+  var trials = [];
+  var block_type = is_post? 'post-calibration' : 'calibration';
+
+  for (var i = 1; i < e_instance.max_scalepos + 1; i++) {
+      trials = trials.concat(sampleTrials(e_instance, stim_index, i));
+  }
+  trials = jsPsych.randomization.shuffle(trials);
+
+  var calibration_block = {
+    type: 'single-stim',
+    choices: ['F', 'J'],
+    timeline: trials,
+    on_finish: function(data){
+        var has_prop = 0;
+        if(data.key_press == '70')
+            has_prop = 1;
+        jsPsych.data.addDataToLastTrial({has_prop: has_prop});
+    }
+  }
+
+  return ({
+    type: 'text',
+    timing_post_trial: 1000,
+    timeline: [
+      prefabs.calibration_instructions,
+      calibration_block,
+      prefabs.wrap_up
+    ],
+    data: {
+      subtype: block_type
+    }
+  });
+}
+
+/**
+ * Generates a set of calibration trials.
+ * @param {object} e_instance - An instance of the experiment.
+ * @param {object} prefabs    - A collection of stock jsPsych trials.
+ * @param {boolean} is_post   - If this is a post-calibration block, true. Else false.
+ */
+function makeCalibrationBlocks(experiment, prefabs, is_post) {
+    var calibration_blocks = [];
+
+    for(i = 0; i < experiment.stimuli.length; i++) {
+        calibration_blocks.push(makeCalibrationBlock(experiment, prefabs, is_post, i));
+    }
+
+    return calibration_blocks;
+}
+
+/* Intersperse exposure phase with posttests */
+
+function make_exposure_posttest(experiment, prefabs) {
+
+  var exposure_data         = makeExposure(experiment, prefabs);
+  var exposure_instructions = exposure_data[0];
+  var exposure_segments     = exposure_data[1];
+
+  var attention_blocks = makeAttentionTrials(experiment, 4);
+  var posttest_blocks  = makePosttest(experiment, prefabs);
+
+  var exposure_blocks = [];
+  for(var x = 0; x < exposure_segments.length; x++) {
+
+    var exposure_trials = [];
+
+    for(var i = 1; i < exposure_segments[x].length + 1; i++) {
+      exposure_trials.push(exposure_segments[x][i-1]);
+
+      // At the specified points, add three posttest trials (one segment)
+      if(_.contains(experiment.posttest_points, i)) {
+          exposure_trials.push(posttest_blocks[x].shift());
+      }
+      if(_.contains(experiment.attention_points, i)) {
+          exposure_trials.push(attention_blocks[x].shift());
+      }
+    }
+
+    // Add the trials as a block
+    exposure_blocks.push({
+      type: 'single-stim',
+      timeline: [
+        exposure_instructions,
+        prefabs.audio_test_block,
+        exposure_trials,
+        prefabs.end_block
+      ],
+      timing_post_trial: 1000
+    });
+
+  }
+
+  return exposure_blocks;
+
 }
 
 function makePosttest(experiment, prefabs) {
