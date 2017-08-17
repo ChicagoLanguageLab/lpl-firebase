@@ -28,7 +28,7 @@ var experiment_instance = {
   },
 
   condition: params.condition,
-  subtype: params.subtype,
+  subcondition: params.subcondition,
   voice: params.voice,
 
   exposure_colors: jsPsych.randomization.shuffle(init_data.exposure_colors),
@@ -52,14 +52,10 @@ var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition 
 var end_blocks_pretest = generateEndBlocks(_e);
 
 /* Generate all three calibration blocks */
-var calibration_data         = generateCalibration(_e, trial_prefabs, false);
-var calibration_instructions = calibration_data[0];
-var calibration_blocks       = calibration_data[1];
+var calibration_blocks = generateCalibrationBlocks(_e, trial_prefabs, false);
 
 /* Generate post-calibration blocks */
-var post_calibration_data         = generateCalibration(_e, trial_prefabs, true);
-var post_calibration_instructions = post_calibration_data[0];
-var post_calibration_blocks       = post_calibration_data[1];
+var post_calibration_blocks = generateCalibrationBlocks(_e, trial_prefabs, true);
 
 /* Generate exposure, , and attention trials */
 var exposure_blocks = generate_exposure_posttest(_e, trial_prefabs);
@@ -67,40 +63,34 @@ var exposure_blocks = generate_exposure_posttest(_e, trial_prefabs);
 /* Depending on the voice condition, the audio instructions need to differ */
 var audio_test_block;
 if(_e.voice === 'z')
-  audio_test_block = audio_test_block_synth;
+  audio_test_block = trial_prefabs.audio_test_block_synth;
 else
-  audio_test_block = audio_test_block_human;
+  audio_test_block = trial_prefabs.audio_test_block_human;
 
 /* Holds the experiment structure */
 var experiment_blocks = [];
 
 /* Initial pre-experiment displays */
-experiment_blocks.push({type: 'demographics'});
-experiment_blocks.push(pre_consent);
-experiment_blocks.push(consent);
-experiment_blocks.push(check_consent);
-experiment_blocks.push(expt_consented);
+//experiment_blocks.push(pre_experiment_block);
 
 // Add the pretests, exposure, and post-tests
 for(var x = 0; x < calibration_blocks.length; x++) {
-    experiment_blocks.push(calibration_instructions[x]);
     experiment_blocks.push(calibration_blocks[x]);
-    experiment_blocks.push(end_blocks_pretest[x]);
+    //experiment_blocks.push(end_blocks_pretest[x]);
 
-    experiment_blocks.push(exposure_blocks[x]);
+    //experiment_blocks.push(exposure_blocks[x]);
 }
 
 // Reprise the pretests
-for(var x = 0; x < post_calibration_blocks.length; x++) {
-    experiment_blocks.push(post_calibration_instructions[x]);
+/*for(var x = 0; x < post_calibration_blocks.length; x++) {
     experiment_blocks.push(post_calibration_blocks[x]);
     if(x == post_calibration_blocks.length-1)
-        experiment_blocks.push(end_block_last);
+        experiment_blocks.push(trial_prefabs.end_block_last);
     else
-        experiment_blocks.push(end_block);
-}
+        experiment_blocks.push(trial_prefabs.end_block);
+}*/
 
-experiment_blocks.push(final_block);
+experiment_blocks.push(trial_prefabs.final_block);
 
 $( document ).ready(function() {
 

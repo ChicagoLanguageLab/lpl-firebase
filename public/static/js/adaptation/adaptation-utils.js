@@ -1,13 +1,13 @@
 /* Intersperse exposure phase with posttests */
 
-function generate_exposure_posttest(exp, prefabs) {
+function generate_exposure_posttest(experiment, prefabs) {
 
-  var exposure_data         = generateExposure(exp.shuffled_stimuli, exp.shuffled_exposure_colors, exp.condition, exp.subtype, exp.voice);
+  var exposure_data         = generateExposure(experiment, prefabs);
   var exposure_instructions = exposure_data[0];
   var exposure_segments     = exposure_data[1];
 
-  var attention_blocks = generateAttentionTrials(4, exp.shuffled_stimuli);
-  var posttest_blocks  = generatePosttest(exp.posttest_points, exp.shuffled_stimuli, exp.shuffled_posttest_colors, exp.subtype, exp.voice);
+  var attention_blocks = generateAttentionTrials(experiment, 4);
+  var posttest_blocks  = generatePosttest(experiment, prefabs);
 
   var exposure_blocks = [];
   for(var x = 0; x < exposure_segments.length; x++) {
@@ -18,10 +18,10 @@ function generate_exposure_posttest(exp, prefabs) {
       exposure_trials.push(exposure_segments[x][i-1]);
 
       // At the specified points, add three posttest trials (one segment)
-      if(_.contains(exp.posttest_points, i)) {
+      if(_.contains(experiment.posttest_points, i)) {
           exposure_trials.push(posttest_blocks[x].shift());
       }
-      if(_.contains(data.attention_points, i)) {
+      if(_.contains(experiment.attention_points, i)) {
           exposure_trials.push(attention_blocks[x].shift());
       }
     }
@@ -65,94 +65,88 @@ function generateEndBlocks(experiment) {
   return end_blocks_pretest;
 }
 
-function generateCalibration(type, objects, trial_distribution, colors, subtype) {
-    var blocks = []
-    var instructions = []
+function generateCalibrationTrials(experiment, index, sPos, tooText) {
+  var trials = []
+  for (var y = 0; y < experiment.colors.length; y++) {
+      if(index != experiment.stimuli.length) {
+          trials.push({
+              stimulus: '../static/images/adaptation/' + experiment.stimuli[index].name + x + experiment.colors[y] + '.jpg',
+              prompt: '<p><br>Is this ' + experiment.stimuli[index].name + tooText + experiment.stimuli[index].property + '?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
+              data: {scalepos: sPos, stimulus: experiment.stimuli[index].name}
+          });
+      }
+      else {
+          trials.push({
+              stimulus: '../static/images/adaptation/flower' + (sPos + 1) + experiment.colors[y] + '.jpg',
+              prompt: '<p><br/>Does this flower have exactly four (4) petals?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
+              data: {scalepos: sPos, stimulus: "flower"}
+          });
+      }
+  }
+  return trials;
+}
 
-    var too_text = ' ';
-    if(subtype === 'too')
-        too_text = ' too ';
+function generateCalibrationBlocks(experiment, prefabs, isPost) {
+    var calibration_blocks = [];
+    var _subtype = isPost? 'calibration' : 'post-calibration';
 
-    for(i = 0; i < objects.length + 1; i++) {
+    var tooText = experiment.subcondition === 'too'? ' too ' : '';
 
-        /* Instructions for this block */
-        instructions.push({
-            type: "text",
-            text: '<p>In this section, you will be shown a series of images.</p>' +
-                "<p>You will be asked a question about each image. Follow the on-screen instructions to respond. Please answer based on your first instinct; there is no right or wrong answer.</p>" +
-                "<p>Please press the space bar when you are ready to begin.</p>",
-            cont_key: [' ']
-        });
+    for(i = 0; i < experiment.stimuli.length + 1; i++) {
 
         /* Generate trials */
-        var trials = [];
-        for (var x = 1; x < max_scalepos + 1; x++) {
-            temp = []
-            for (var y = 0; y < shuffled_colors.length; y++) {
-                if(i != objects.length) {
-                    temp.push({
-                        stimulus: '../static/images/adaptation/' + objects[i].file + x + colors[y] + '.jpg',
-                        prompt: '<p><br>Is this ' + objects[i].obj_name + too_text + objects[i].property + '?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
-                        data: {scalepos: x, object: objects[i].obj_name}
-                    });
-                }
-                else {
-                    temp.push({
-                        stimulus: '../static/images/adaptation/flower' + (x + 1) + colors[y] + '.jpg',
-                        prompt: '<p><br/>Does this flower have four (4) petals?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
-                        data: {scalepos: x, object: "flower"}
-                    });
-                }
 
-            }
-            trials = trials.concat(jsPsych.randomization.sample(temp, trial_distribution[x-1], true));
+        var trials = [];
+        for (var x = 1; x < experiment.max_scalepos + 1; x++) {
+            trials = trials.concat(jsPsych.randomization.sample(generateCalibrationTrials(experiment, i, x, tooText), experiment.trial_distribution[x-1], true));
         }
         trials = jsPsych.randomization.shuffle(trials);
 
         /* Add a block for these trials */
-        blocks.push({
+        calibration_blocks.push({
             type: 'single-stim',
             choices: ['F', 'J'],
             timing_post_trial: 1000,
-            timeline: trials,
+            timeline: [
+              prefabs.calibration_instructions,
+              trials
+            ],
             data: {
-              'subtype': type
+              subtype: _subtype
             },
             on_finish: function(data){
                 var has_prop = 0;
                 if(data.key_press == '70')
                     has_prop = 1;
                 jsPsych.data.addDataToLastTrial({has_prop: has_prop});
-                jsPsych.data.addDataToLastTrial({scalepos: data.scalepos});
-                jsPsych.data.addDataToLastTrial({object: data.object});
             }
         });
     }
-    return [instructions, blocks];
+    return calibration_blocks;
 }
 
-function calculateAmbiguousPoint(object) {
+function calculateAmbiguousPoint(stimulus) {
     lr = new LogReg(5, 1);
     lr.init([1,2,3,4,5]);
 
-    var trials = jsPsych.data.getData({object: object});
+    var trials = jsPsych.data.getData({stimulus: stimulus});
 
     _.each(trials, function(trial) {
-        try {
-            lr.addObs(trial.scalepos - 1, trial.has_prop);
-        }
-        catch (e) {
-            xint = 3;
-            console.log("Error");
-            return;
-        }
+      try {
+        lr.addObs(trial.scalepos - 1, trial.has_prop);
+      }
+      catch (e) {
+        xint = 3;
+        console.log("Error");
+        return;
+      }
     });
 
     lr.fit();
 
     var xint = this.lr.xint();
     if(xint == null || isNaN(xint)) {
-        xint = 3;
+      xint = 3;
     }
 
     console.log('Xint: ' + xint)
@@ -160,44 +154,44 @@ function calculateAmbiguousPoint(object) {
     var best = 10000;
     var ambiguous_point = -1;
     for (var j=0; j<6; j++) {
-        var dif = Math.abs(xint-j);
-        if (dif < best) {
-            best = dif;
-            ambiguous_point = j;
-        }
+      var dif = Math.abs(xint-j);
+      if (dif < best) {
+          best = dif;
+          ambiguous_point = j;
+      }
     }
     console.log('Best fit: ' + ambiguous_point);
 
     originalAmbiguousPoint = ambiguous_point;
     if(ambiguous_point <= 1)
-        adjustedAmbiguousPoint = 2;
+      adjustedAmbiguousPoint = 2;
     else if(ambiguous_point >= 5)
-        adjustedAmbiguousPoint = 4;
+      adjustedAmbiguousPoint = 4;
     else
-        adjustedAmbiguousPoint = ambiguous_point;
+      adjustedAmbiguousPoint = ambiguous_point;
 }
 
-function generatePosttest(points, objects, colors, type, voice) {
+function generatePosttest(experiment, prefabs) {
     var blocks = [];
 
     var too_text = '';
-    if(type === '_too')
-        too_text = '_too';
+    if(experiment.subcondition === 'too')
+      too_text = '_too';
 
-    for(var x = 0; x < objects.length + 1; x++) {
+    for(var x = 0; x < experiment.stimuli.length + 1; x++) {
         // Each posttest block consists of points.length segments
         var segments = [];
 
         // Create the segments
-        for(var z = 0; z < points.length; z++) {
+        for(var z = 0; z < experiment.posttest_points.length; z++) {
 
             // Store trials
             var trials = [];
 
             // If we're not doing flowers, each segment contains three trials
-            if(x < objects.length) {
+            if(x < experiment.stimuli.length) {
                 // We want to randomize the colors so the candles are less similar
-                var temp = jsPsych.randomization.shuffle(colors);
+                var temp = jsPsych.randomization.shuffle(experiment.colors);
 
                 // For points to the left, center and right...
                 for(var y = -1; y < 2; y++) {
@@ -209,11 +203,11 @@ function generatePosttest(points, objects, colors, type, voice) {
                                     // We need to make sure we don't use endpoints
                                     var image;
                                     if(ambiguous_point + y > 1 && ambiguous_point + y < 5)
-                                        image =  '../static/images/adaptation/' + objects[x].file + (ambiguous_point + y) + temp[y + 1] + '.jpg'
+                                        image =  '../static/images/adaptation/' + experiment.stimuli[x].name + (ambiguous_point + y) + temp[y + 1] + '.jpg'
                                     else if(ambiguous_point + y <= 1)
-                                        image =  '../static/images/adaptation/' + objects[x].file + 2 + temp[y + 1] + '.jpg';
+                                        image =  '../static/images/adaptation/' + experiment.stimuli[x].name + 2 + temp[y + 1] + '.jpg';
                                     else
-                                        image = '../static/images/adaptation/' + objects[x].file + 4 + temp[y + 1] + '.jpg';
+                                        image = '../static/images/adaptation/' + experiment.stimuli[x].name + 4 + temp[y + 1] + '.jpg';
 
                                     // Return the proper image
                                     return image
@@ -222,7 +216,7 @@ function generatePosttest(points, objects, colors, type, voice) {
                                 data: {
                                   subtype: 'posttest-audio'
                                 },
-                                prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + objects[x].file + '_question' + too_text + voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
+                                prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + experiment.stimuli[x].name + '_question' + too_text + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
                                 timing_post_trial: 0,
                                 response_ends_trial: false,
                                 timing_response: 3000,
@@ -235,11 +229,11 @@ function generatePosttest(points, objects, colors, type, voice) {
                                     var ambiguous_point = adjustedAmbiguousPoint;
                                     console.log('Scale point in trial: ' + (ambiguous_point + y));
                                     if(ambiguous_point + y > 1 && ambiguous_point + y < 5)
-                                        image =  '../static/images/adaptation/' + objects[x].file + (ambiguous_point + y) + temp[y + 1] + '.jpg'
+                                        image =  '../static/images/adaptation/' + experiment.stimuli[x].name + (ambiguous_point + y) + temp[y + 1] + '.jpg'
                                     else if(ambiguous_point + y <= 1)
-                                        image =  '../static/images/adaptation/' + objects[x].file + 2 + temp[y + 1] + '.jpg';
+                                        image =  '../static/images/adaptation/' + experiment.stimuli[x].name + 2 + temp[y + 1] + '.jpg';
                                     else
-                                        image = '../static/images/adaptation/' + objects[x].file + 4 + temp[y + 1] + '.jpg';
+                                        image = '../static/images/adaptation/' + experiment.stimuli[x].name + 4 + temp[y + 1] + '.jpg';
 
                                     // Return the proper image
                                     return image
@@ -249,7 +243,7 @@ function generatePosttest(points, objects, colors, type, voice) {
                                 choices: ['F', 'J'],
                                 data: {
                                     adjustment: y,
-                                    object: objects[x].obj_name,
+                                    stimulus: experiment.stimuli[x].name,
                                     subtype: 'posttest'
                                 },
                                 on_finish: function(data) {
@@ -260,7 +254,7 @@ function generatePosttest(points, objects, colors, type, voice) {
                                     var ambiguous_point = adjustedAmbiguousPoint;
 
                                     jsPsych.data.addDataToLastTrial({has_prop: has_prop});
-                                    jsPsych.data.addDataToLastTrial({object: data.object});
+                                    jsPsych.data.addDataToLastTrial({stimulus: data.stimulus});
 
                                     jsPsych.data.addDataToLastTrial({originalAmbiguousPoint: originalAmbiguousPoint});
                                     jsPsych.data.addDataToLastTrial({adjustedAmbiguousPoint: adjustedAmbiguousPoint});
@@ -280,16 +274,16 @@ function generatePosttest(points, objects, colors, type, voice) {
             else { // For flowers, just do one random posttest
                 (function (y) {
                     // Get a random color and number of petals
-                    var temp = jsPsych.randomization.shuffle(colors);
+                    var temp = jsPsych.randomization.shuffle(experiment.colors);
                     var nums = jsPsych.randomization.shuffle([2,3,4,5,6]);
 
                     trials.push({
                         timeline: [{
                             type: "single-stim",
                             stimulus: '../static/images/adaptation/flower' + nums[0] + temp[y]  + '.jpg',
-                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flower_question' + voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
+                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flower_question' + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
                             data: {scalepos: nums[0] - 1,
-                                object: "flower",
+                                stimulus: "flower",
                                 subtype: 'posttest-audio'
                             },
                             timing_post_trial: 0,
@@ -302,7 +296,7 @@ function generatePosttest(points, objects, colors, type, voice) {
                             prompt: '<br/><p>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
                             data: {
                                 scalepos: nums[0] - 1,
-                                object: "flower",
+                                stimulus: "flower",
                                 subtype: 'posttest-audio'
                             },
                             choices: ['F', 'J'],
@@ -312,7 +306,7 @@ function generatePosttest(points, objects, colors, type, voice) {
                                     has_prop = 1;
 
                                 jsPsych.data.addDataToLastTrial({has_prop: has_prop});
-                                jsPsych.data.addDataToLastTrial({object: data.object});
+                                jsPsych.data.addDataToLastTrial({stimulus: data.object});
                                 jsPsych.data.addDataToLastTrial({scalepos: data.scalepos});
                             }
                         }]
@@ -332,12 +326,12 @@ function generatePosttest(points, objects, colors, type, voice) {
     return blocks;
 }
 
-function generateExposure(objects, colors, condition, type, voice) {
+function generateExposure(experiment, prefabs) {
     var segments = [];
     var instructions = [];
     var instruction_text;
 
-    if(voice !== "_z") {
+    if(experiment.voice !== "z") {
         instruction_text = "<p>In this section you will see a sequence of images. " +
                            "You will also hear a verbal description of each image. " +
                            "Please listen carefully to each description. " +
@@ -358,7 +352,7 @@ function generateExposure(objects, colors, condition, type, voice) {
                            "Please do your best to answer the question accurately.</p> " +
                            "<p>Press the space bar when you are ready to begin.</p>";
     }
-    for(var i = 0; i < objects.length + 1; i++) {
+    for(var i = 0; i < experiment.stimuli.length + 1; i++) {
         /* Add the instructions */
         instructions.push({
             type: "text",
@@ -381,7 +375,7 @@ function generateExposure(objects, colors, condition, type, voice) {
                        timing = 4500;
                    }
 
-                    if(i < objects.length) {
+                    if(i < experiment.stimuli.length) {
                         trials.push({
                             type: "exposure",
                             response_ends_trial: false,
@@ -390,26 +384,26 @@ function generateExposure(objects, colors, condition, type, voice) {
                             stimulus: function(){
                                 var ambiguous_point = adjustedAmbiguousPoint;
                                 if(condition == "ambiguous") {
-                                    return '../static/images/adaptation/' + objects[i].file + ambiguous_point + colors[x] + '.jpg'
+                                    return '../static/images/adaptation/' + experiment.stimuli[i].name + ambiguous_point + experiment.colors[x] + '.jpg'
                                 }
                                 else if (condition == "prototypical") {
                                     if (type == "_neg") {
-                                        return '../static/images/adaptation/' + objects[i].file + 1 + colors[x] + '.jpg'
+                                        return '../static/images/adaptation/' + experiment.stimuli[i].name + 1 + experiment.colors[x] + '.jpg'
                                     }
                                     else {
-                                        return '../static/images/adaptation/' + objects[i].file + 5 + colors[x] + '.jpg'
+                                        return '../static/images/adaptation/' + experiment.stimuli[i].name + 5 + experiment.colors[x] + '.jpg'
                                     }
                                 }
                             },
-                            data: {object: objects[i].obj_name},
-                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + objects[i].file + '_statement' + statement + type + voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>',
+                            data: {stimulus: experiment.stimuli[i].name},
+                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + experiment.stimuli[i].name + '_statement' + statement + experiment.subcondition + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>',
                             on_finish: function(data){
                                 var ambiguous_point = adjustedAmbiguousPoint;
 
                                 jsPsych.data.addDataToLastTrial({originalAmbiguousPoint: originalAmbiguousPoint});
                                 jsPsych.data.addDataToLastTrial({adjustedAmbiguousPoint: adjustedAmbiguousPoint});
 
-                                jsPsych.data.addDataToLastTrial({object: data.object});
+                                jsPsych.data.addDataToLastTrial({stimulus: data.object});
 
                                 if(condition == "ambiguous") {
                                     jsPsych.data.addDataToLastTrial({scalepos: ambiguous_point});
@@ -432,11 +426,11 @@ function generateExposure(objects, colors, condition, type, voice) {
                             timing_response: timing,
                             choices: [],
                             stimulus: function(){
-                                return '../static/images/adaptation/flower4' + colors[x] + '.jpg'
+                                return '../static/images/adaptation/flower4' + experiment.colors[x] + '.jpg'
                             },
-                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flower_statement' + statement + voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>',
+                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flower_statement' + statement + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>',
                             on_finish: function(data){
-                                jsPsych.data.addDataToLastTrial({object: "flower"});
+                                jsPsych.data.addDataToLastTrial({stimulus: "flower"});
                                 jsPsych.data.addDataToLastTrial({scalepos: 4});
                             }
                         });
@@ -449,25 +443,25 @@ function generateExposure(objects, colors, condition, type, voice) {
     return [instructions, segments];
 }
 
-function generateAttentionTrials(num, objects) {
+function generateAttentionTrials(experiment, num) {
     var blocks = []
-    for(var x = 0; x < objects.length + 1; x++) {
+    for(var x = 0; x < experiment.stimuli.length + 1; x++) {
         var segments = []
         var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
         for(var i = 0; i < num; i++) {
-            console.log(colors[i]);
+            console.log(experiment.colors[i]);
             segments.push({
                 type: "attention",
                 choices: ['R', 'B'],
                 is_html: true,
                 timeline: [{
-                    stimulus: '<p><span style="font-size: 24pt; color:' + colors[i] + ';"><b>+</b></span></p>',
+                    stimulus: '<p><span style="font-size: 24pt; color:' + experiment.colors[i] + ';"><b>+</b></span></p>',
                     response_ends_trial: false,
                     timing_response: 500
                 }, {
                     stimulus: '<p></p>',
                     prompt: '<p>What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
-                    data: {color: colors[i]},
+                    data: {color: experiment.colors[i]},
                     on_finish: function(data) {
                         if(data.key_press == '82' && data.color == 'red') {
                             jsPsych.data.addDataToLastTrial({correct: 1});
