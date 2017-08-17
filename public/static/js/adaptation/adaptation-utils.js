@@ -1,3 +1,70 @@
+/* Intersperse exposure phase with posttests */
+
+function generate_exposure_posttest(exp, prefabs) {
+
+  var exposure_data         = generateExposure(exp.shuffled_stimuli, exp.shuffled_exposure_colors, exp.condition, exp.subtype, exp.voice);
+  var exposure_instructions = exposure_data[0];
+  var exposure_segments     = exposure_data[1];
+
+  var attention_blocks = generateAttentionTrials(4, exp.shuffled_stimuli);
+  var posttest_blocks  = generatePosttest(exp.posttest_points, exp.shuffled_stimuli, exp.shuffled_posttest_colors, exp.subtype, exp.voice);
+
+  var exposure_blocks = [];
+  for(var x = 0; x < exposure_segments.length; x++) {
+
+    var exposure_trials = [];
+
+    for(var i = 1; i < exposure_segments[x].length + 1; i++) {
+      exposure_trials.push(exposure_segments[x][i-1]);
+
+      // At the specified points, add three posttest trials (one segment)
+      if(_.contains(exp.posttest_points, i)) {
+          exposure_trials.push(posttest_blocks[x].shift());
+      }
+      if(_.contains(data.attention_points, i)) {
+          exposure_trials.push(attention_blocks[x].shift());
+      }
+    }
+
+    // Add the trials as a block
+    exposure_blocks.push({
+      type: 'single-stim',
+      timeline: [
+        exposure_instructions,
+        prefabs.audio_test_block,
+        exposure_trials,
+        prefabs.end_block
+      ],
+      timing_post_trial: 1000
+    });
+
+  }
+
+  return exposure_blocks;
+
+}
+
+function generateEndBlocks(e) {
+  var end_blocks_pretest = [];
+  for(var i = 0; i < e.stimuli.length + 1; i++) {
+      (function (i) {
+          end_blocks_pretest.push({
+              type: "text",
+              choices: [' '],
+              text: function() {
+                  if(i < e.stimuli.length)
+                      calculateAmbiguousPoint(e.stimuli[i].name);
+                  return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
+              },
+              on_finish: function(data){
+                  saveData(jsPsych.data.getDataAsCSV(), dataRef);
+              }
+          });
+      }(i));
+  }
+  return end_blocks_pretest;
+}
+
 function generateCalibration(type, objects, trial_distribution, colors, subtype) {
     var blocks = []
     var instructions = []
@@ -19,7 +86,7 @@ function generateCalibration(type, objects, trial_distribution, colors, subtype)
 
         /* Generate trials */
         var trials = [];
-        for (var x = 1; x < 6; x++) {
+        for (var x = 1; x < max_scalepos + 1; x++) {
             temp = []
             for (var y = 0; y < shuffled_colors.length; y++) {
                 if(i != objects.length) {
