@@ -13,8 +13,6 @@ jsPsych.plugins["ospan-letter-stim"] = (function() {
 
   var plugin = {};
 
-  jsPsych.pluginAPI.registerPreload('ospan-letter-stim', 'stimulus', 'image');
-
   plugin.trial = function(display_element, trial) {
 
     // if any trial variables are functions
@@ -35,17 +33,10 @@ jsPsych.plugins["ospan-letter-stim"] = (function() {
     var setTimeoutHandlers = [];
 
     // display stimulus
-    if (!trial.is_html) {
-      display_element.append($('<img>', {
-        src: trial.stimulus,
-        id: 'jspsych-single-stim-stimulus'
-      }));
-    } else {
-      display_element.append($('<div>', {
-        html: trial.stimulus,
-        id: 'jspsych-single-stim-stimulus'
-      }));
-    }
+    display_element.append($('<div>', {
+      html: trial.stimulus,
+      id: 'jspsych-single-stim-stimulus'
+    }));
 
     //show prompt if there is one
     if (trial.prompt !== "") {

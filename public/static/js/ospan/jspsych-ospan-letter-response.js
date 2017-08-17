@@ -53,13 +53,13 @@ jsPsych.plugins['ospan-letter-response'] = (function() {
 
       for (var j = 0; j < trial.ncols; j++) {
         var letter = i * trial.ncols + j;
-        
+
         row.append($('<td>', {
           "id": 'jspsych-ospan-letter-grid-entry-' + i + '-' + j
         }));
 
         var cell = $('#jspsych-ospan-letter-grid-entry-' + i + '-' + j);
-        
+
         cell.append($('<button>', {
           "id": 'jspsych-ospan-letter-' + letter,
           "class": 'jspsych-btn jspsych-ospan-letter'
@@ -123,7 +123,7 @@ jsPsych.plugins['ospan-letter-response'] = (function() {
 
     // add text boxpan-response" cols="1" rows="10"></textarea>');
     $("#jspsych-ospan-letter-response").append('<p>Selected letters:&nbsp;&nbsp;&nbsp;&nbsp;<span id="jspsych-ospan-letter-response-box" name="jspsych-ospan-letter-response-box"></span></p>');
-    
+
     display_element.append($('<div>', {
         "id": 'jspsych-ospan-letter-submit-container',
         "class": 'jspsych-ospan-letter-submit-container',

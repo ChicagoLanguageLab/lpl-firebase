@@ -14,8 +14,6 @@ jsPsych.plugins["ospan-letter-practice"] = (function() {
 
   var plugin = {};
 
-  jsPsych.pluginAPI.registerPreload('ospan-letter-practice', 'stimuli', 'image');
-
   plugin.trial = function(display_element, trial) {
 
     // default parameters
@@ -39,7 +37,7 @@ jsPsych.plugins["ospan-letter-practice"] = (function() {
     // this array holds handlers from setTimeout calls
     // that need to be cleared if the trial ends early
     var setTimeoutHandlers = [];
-`
+
     // function to end trial when it is time
     var end_trial = function() {
 

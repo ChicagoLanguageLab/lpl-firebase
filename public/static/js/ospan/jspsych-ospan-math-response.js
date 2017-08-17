@@ -14,7 +14,7 @@ jsPsych.plugins['ospan-math-response'] = (function() {
   var plugin = {};
 
   plugin.trial = function(display_element, trial) {
-    
+
     // if any trial variables are functions
     // this evaluates the function and replaces
     // it with the output of the function
@@ -34,7 +34,7 @@ jsPsych.plugins['ospan-math-response'] = (function() {
       "id": 'jspsych-ospan-math-number',
       "class": 'jspsych-ospan-math-number center-screen center-content very-large'
     }));
-    
+
     $('#jspsych-ospan-math-number').html('<p>' + trial.number + '</p>');
 
     display_element.append($('<div>', {
