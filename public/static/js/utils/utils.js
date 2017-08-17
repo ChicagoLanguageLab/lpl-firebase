@@ -1,7 +1,3 @@
-var originalAmbiguousPoint;
-var adjustedAmbiguousPoint;
-
-
 function sign(num) {
     // IE does not support method sign here
     if (typeof Math.sign === 'undefined') {
@@ -28,22 +24,18 @@ function saveData(filedata, dataRef){
     });
 }
 
-function checkWorker(workerId, studyName, divToHide) {
+function checkWorker(workerId, studyName, divsToRemove) {
     return firebase.database().ref(studyName + '/' + workerId).once('value').then(function(snapshot) {
-        if(!snapshot.val()) {
-            console.log("Not found!");
-            return false;
-        }
-        console.log("Found!");
         if(snapshot.val().complete == 1) {
-            console.log(workerId + " has done the thing!");
-
-            $('#' + divToHide).hide();
-            $('#error').show();
-
-            return true;
+           _.each(divsToRemove, function(elem, index, list) {
+             elem.remove();
+           });
+           $(document).append($('<div>', {
+             id: 'error',
+             class: 'text-center',
+             html: '<p>It appears that you have previously completed a study from the Language Processing Lab that used the same data as, or similar data to, the study you are attempting to complete now. Unfortunately, we cannot allow the same person to participate in an experiment more than once. We apologize for the inconvenience, but we must ask that you return your HIT now. (This will not negatively impact your ability to participate in future experiments.)</p><p>If you believe that this message is in error, you can contact the lab at <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>, and we will do our best to resolve the situation.</div>'
+           }));
         }
-        return false;
     });
 }
 
