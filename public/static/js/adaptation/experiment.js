@@ -43,22 +43,23 @@ var experiment_instance = {
 
 var _e = experiment_instance; // shorthand for experiment instance
 
+_e.stimuli.push({name: 'flower', adjective: ''}); // flower always comes last
 _e.colors = _e.exposure_colors.concat(_e.posttest_colors);
 _e.current_stim_set = _e.stimuli[0].name;
 
 var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition + _e.subtype + _e.voice + '.csv');
 
-/* Generate end blocks for first calibration */
-var end_blocks_pretest = generateEndBlocks(_e);
+/* make end blocks for first calibration */
+var end_blocks_pretest = makeEndBlocks(_e);
 
-/* Generate all three calibration blocks */
-var calibration_blocks = generateCalibrationBlocks(_e, trial_prefabs, false);
+/* make all three calibration blocks */
+var calibration_blocks = makeCalibrationBlocks(_e, trial_prefabs, false);
 
-/* Generate post-calibration blocks */
-var post_calibration_blocks = generateCalibrationBlocks(_e, trial_prefabs, true);
+/* make post-calibration blocks */
+var post_calibration_blocks = makeCalibrationBlocks(_e, trial_prefabs, true);
 
-/* Generate exposure, , and attention trials */
-var exposure_blocks = generate_exposure_posttest(_e, trial_prefabs);
+/* make exposure, , and attention trials */
+var exposure_blocks = make_exposure_posttest(_e, trial_prefabs);
 
 /* Depending on the voice condition, the audio instructions need to differ */
 var audio_test_block;

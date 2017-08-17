@@ -169,17 +169,14 @@ var init_data = {
     {
       name: 'candle',
       adjective: 'tall',
-      article: 'a'
     },{
       name: 'bar',
       adjective: 'bent',
-      article: 'a'
     },{
       name: 'pillow',
       adjective: 'plain',
-      article: 'a'
     }
   ],
-  exposure_colors: ['', 'red', 'blue', 'lgreen'],
+  exposure_colors: ['plain', 'red', 'blue', 'lgreen'],
   posttest_colors: ['purple', 'lblue', 'pink']
 }

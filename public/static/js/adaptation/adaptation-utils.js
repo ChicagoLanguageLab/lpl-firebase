@@ -1,13 +1,13 @@
 /* Intersperse exposure phase with posttests */
 
-function generate_exposure_posttest(experiment, prefabs) {
+function make_exposure_posttest(experiment, prefabs) {
 
-  var exposure_data         = generateExposure(experiment, prefabs);
+  var exposure_data         = makeExposure(experiment, prefabs);
   var exposure_instructions = exposure_data[0];
   var exposure_segments     = exposure_data[1];
 
-  var attention_blocks = generateAttentionTrials(experiment, 4);
-  var posttest_blocks  = generatePosttest(experiment, prefabs);
+  var attention_blocks = makeAttentionTrials(experiment, 4);
+  var posttest_blocks  = makePosttest(experiment, prefabs);
 
   var exposure_blocks = [];
   for(var x = 0; x < exposure_segments.length; x++) {
@@ -44,7 +44,7 @@ function generate_exposure_posttest(experiment, prefabs) {
 
 }
 
-function generateEndBlocks(experiment) {
+function makeEndBlocks(experiment) {
   var end_blocks_pretest = [];
   for(var i = 0; i < experiment.stimuli.length + 1; i++) {
       (function (i) {
@@ -65,66 +65,90 @@ function generateEndBlocks(experiment) {
   return end_blocks_pretest;
 }
 
-function generateCalibrationTrials(experiment, index, sPos, tooText) {
+/**
+ * Generates the full set of possible trials for a single stimulus/scale position combination.
+ *
+ * @param {object} e_instance - An instance of the experiment.
+ * @param {number} stim_index - The index of the stimulus in e_instance.stimuli.
+ * @param {number} s_pos      - The scalepos to use when generating.
+ */
+function makeTrialSet(e_instance, stim_index, s_pos) {
+
   var trials = []
-  for (var y = 0; y < experiment.colors.length; y++) {
-      if(index != experiment.stimuli.length) {
-          trials.push({
-              stimulus: '../static/images/adaptation/' + experiment.stimuli[index].name + sPos + experiment.colors[y] + '.jpg',
-              prompt: '<p class="center-screen text-center"><br>Is this ' + experiment.stimuli[index].name + tooText + experiment.stimuli[index].adjective + '?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
-              data: {scalepos: sPos, stimulus: experiment.stimuli[index].name}
-          });
-      }
-      else {
-          trials.push({
-              stimulus: '../static/images/adaptation/flower' + (sPos + 1) + experiment.colors[y] + '.jpg',
-              prompt: '<p><br/>Does this flower have exactly four (4) petals?<br/><br/>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
-              data: {scalepos: sPos, stimulus: "flower"}
-          });
-      }
+
+  var cur_stim = e_instance.stimuli[stim_index];
+  var key_instr = '<p class="center-screen text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>';
+  var int_text = e_instance.subcondition === 'too'? ' too ' : ' ';
+
+  var trial_data = {
+    scalepos: s_pos,
+    stimulus: cur_stim.name
   }
+
+  var prompt;
+  if(cur_stim.name === 'flower')
+    prompt = '<p class="center-screen text-center">Does this flower have exactly four (4) petals?</p>' + key_instr;
+  else
+    prompt = '<p class="center-screen text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
+
+  for (var i = 0; i < e_instance.colors.length; i++) {
+
+    var stim_url = '../static/images/adaptation/' + e_instance.colors[i] + cur_stim.name + s_pos + '.jpg';
+
+    trials.push({
+      stimulus: stim_url,
+      prompt: prompt,
+      data: trial_data
+    });
+  }
+
   return trials;
+
 }
 
-function generateCalibrationBlocks(experiment, prefabs, isPost) {
-    var calibration_blocks = [];
-    var _subtype = isPost? 'calibration' : 'post-calibration';
+function sampleTrials(experiment, stim_index, scale_pos) {
+  return jsPsych.randomization.sample(makeTrialSet(experiment, stim_index, scale_pos), experiment.trial_distribution[scale_pos - 1], true);
+}
 
-    var tooText = experiment.subcondition === 'too'? ' too ' : ' ';
+function makeCalibrationBlock(experiment, prefabs, is_post, stim_index) {
+  var trials = [];
+  var blocktype = is_post? 'calibration' : 'post-calibration';
 
-    for(i = 0; i < experiment.stimuli.length + 1; i++) {
+  for (var i = 1; i < experiment.max_scalepos + 1; i++) {
+      trials = trials.concat(sampleTrials(experiment, stim_index, i));
+  }
+  trials = jsPsych.randomization.shuffle(trials);
 
-        /* Generate trials */
-
-        var trials = [];
-        for (var x = 1; x < experiment.max_scalepos + 1; x++) {
-            trials = trials.concat(jsPsych.randomization.sample(generateCalibrationTrials(experiment, i, x, tooText), experiment.trial_distribution[x-1], true));
-        }
-        trials = jsPsych.randomization.shuffle(trials);
-
-        /* Add a block for these trials */
-        calibration_blocks.push({
-            type: 'single-stim',
-            choices: ['F', 'J'],
-            timing_post_trial: 1000,
-            timeline: [
-              prefabs.calibration_instructions,
-              {
-                type: 'single-stim',
-                timeline: trials
-              }
-            ],
-            data: {
-              subtype: _subtype
-            },
-            on_finish: function(data){
-                var has_prop = 0;
-                if(data.key_press == '70')
-                    has_prop = 1;
-                jsPsych.data.addDataToLastTrial({has_prop: has_prop});
-            }
-        });
+  return ({
+    type: 'single-stim',
+    choices: ['F', 'J'],
+    timing_post_trial: 1000,
+    timeline: [
+      prefabs.calibration_instructions,
+      {
+        type: 'single-stim',
+        timeline: trials
+      }
+    ],
+    data: {
+      subtype: blocktype
+    },
+    on_finish: function(data){
+        var has_prop = 0;
+        if(data.key_press == '70')
+            has_prop = 1;
+        jsPsych.data.addDataToLastTrial({has_prop: has_prop});
     }
+  });
+}
+
+function makeCalibrationBlocks(experiment, prefabs, is_post) {
+    var calibration_blocks = [];
+
+    for(i = 0; i < experiment.stimuli.length; i++) {
+        calibration_blocks.push(makeCalibrationBlock(experiment, prefabs, is_post, i));
+    }
+
     return calibration_blocks;
 }
 
@@ -174,7 +198,7 @@ function calculateAmbiguousPoint(stimulus) {
       adjustedAmbiguousPoint = ambiguous_point;
 }
 
-function generatePosttest(experiment, prefabs) {
+function makePosttest(experiment, prefabs) {
     var blocks = [];
 
     var too_text = '';
@@ -329,7 +353,7 @@ function generatePosttest(experiment, prefabs) {
     return blocks;
 }
 
-function generateExposure(experiment, prefabs) {
+function makeExposure(experiment, prefabs) {
     var segments = [];
     var instructions = [];
     var instruction_text;
@@ -446,7 +470,7 @@ function generateExposure(experiment, prefabs) {
     return [instructions, segments];
 }
 
-function generateAttentionTrials(experiment, num) {
+function makeAttentionTrials(experiment, num) {
     var blocks = []
     for(var x = 0; x < experiment.stimuli.length + 1; x++) {
         var segments = []
