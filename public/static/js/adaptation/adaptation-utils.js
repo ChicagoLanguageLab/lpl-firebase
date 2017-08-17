@@ -44,16 +44,16 @@ function generate_exposure_posttest(exp, prefabs) {
 
 }
 
-function generateEndBlocks(e) {
+function generateEndBlocks(experiment) {
   var end_blocks_pretest = [];
-  for(var i = 0; i < e.stimuli.length + 1; i++) {
+  for(var i = 0; i < experiment.stimuli.length + 1; i++) {
       (function (i) {
           end_blocks_pretest.push({
               type: "text",
               choices: [' '],
               text: function() {
-                  if(i < e.stimuli.length)
-                      calculateAmbiguousPoint(e.stimuli[i].name);
+                  if(i < experiment.stimuli.length)
+                      calculateAmbiguousPoint(experiment.stimuli[i].name);
                   return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
               },
               on_finish: function(data){

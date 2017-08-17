@@ -19,50 +19,50 @@ var params = getAllUrlParams();
 /* Create a unique instance of the experiment */
 
 var experiment_instance = {
+
   stimuli: jsPsych.randomization.shuffle(init_data.stimuli),
+
   subject: {
     id: params.workerId,
     code: 'TURK' + jsPsych.randomization.randomID(10)
   },
-  data: {
-    condition: params.condition,
-    subtype: params.subtype,
-    voice: params.voice,
 
-    exposure_colors: jsPsych.randomization.shuffle(init_data.exposure_colors),
-    posttest_colors: jsPsych.randomization.shuffle(init_data.posttest_colors),
+  condition: params.condition,
+  subtype: params.subtype,
+  voice: params.voice,
 
-    max_scalepos: 5,
-    trial_distribution: [3,7,10,7,3],
-    posttest_points: [2, 4, 8, 13, 20, 24],
-    attention_points: [5, 10, 17, 22],
+  exposure_colors: jsPsych.randomization.shuffle(init_data.exposure_colors),
+  posttest_colors: jsPsych.randomization.shuffle(init_data.posttest_colors),
 
-    colors: undefined,
-    current_stim_set: undefined
-  }
+  max_scalepos: 5,
+  trial_distribution: [3,7,10,7,3],
+  posttest_points: [2, 4, 8, 13, 20, 24],
+  attention_points: [5, 10, 17, 22]
+
 }
+
 var _e = experiment_instance; // shorthand for experiment instance
 
-_e.colors = _e.data.exposure_colors.concat(_e.data.posttest_colors);
-_e.data.current_stim_set = _e.stimuli[0].name;
+_e.colors = _e.exposure_colors.concat(_e.posttest_colors);
+_e.current_stim_set = _e.stimuli[0].name;
 
-var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + condition + subtype + voice + '.csv');
+var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition + _e.subtype + _e.voice + '.csv');
 
 /* Generate end blocks for first calibration */
-var end_blocks_pretest = generateEndBlocks();
+var end_blocks_pretest = generateEndBlocks(_e);
 
 /* Generate all three calibration blocks */
-var calibration_data         = generateCalibration(experiment, prefabs, false);
+var calibration_data         = generateCalibration(_e, trial_prefabs, false);
 var calibration_instructions = calibration_data[0];
 var calibration_blocks       = calibration_data[1];
 
 /* Generate post-calibration blocks */
-var post_calibration_data         = generateCalibration(experiment, prefabs, true);
+var post_calibration_data         = generateCalibration(_e, trial_prefabs, true);
 var post_calibration_instructions = post_calibration_data[0];
 var post_calibration_blocks       = post_calibration_data[1];
 
 /* Generate exposure, , and attention trials */
-var exposure_blocks = generate_exposure_(experiment, prefabs);
+var exposure_blocks = generate_exposure_posttest(_e, trial_prefabs);
 
 /* Depending on the voice condition, the audio instructions need to differ */
 var audio_test_block;
