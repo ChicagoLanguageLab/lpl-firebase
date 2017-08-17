@@ -148,17 +148,17 @@ var trial_prefabs = {
         addWorker(workerId, 'adaptation-study');
     }
   },
-  pretest_instructions: {
+  calibration_instructions: {
     type: 'text',
-    text: `<p>
+    text: `<p class="lead">
              In this section, you will be shown a series of images.
            </p>
            <p>
-             You will be asked a question about each image. Follow the on-screen instructions to respond.
-             Please answer based on your first instinct; there is no right or wrong answer.
+             You will be asked a question about each image. You will respond by pressing buttons on the keyboard.
+             Please answer each question based on your first instinct; there is no right or wrong answer.
           </p>
           <p>
-            Please press the space bar when you are ready to begin.
+            Please press the <strong>space bar</strong> when you are ready to begin.
          </p>`,
     cont_key: [' ']
   }

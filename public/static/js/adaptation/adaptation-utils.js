@@ -67,6 +67,7 @@ function generateEndBlocks(experiment) {
 
 function generateCalibrationTrials(experiment, index, sPos, tooText) {
   var trials = []
+  console.log(index);
   for (var y = 0; y < experiment.colors.length; y++) {
       if(index != experiment.stimuli.length) {
           trials.push({
@@ -122,6 +123,7 @@ function generateCalibrationBlocks(experiment, prefabs, isPost) {
             }
         });
     }
+    console.log(calibration_blocks);
     return calibration_blocks;
 }
 
