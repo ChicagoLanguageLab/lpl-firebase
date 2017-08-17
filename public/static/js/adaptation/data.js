@@ -3,7 +3,7 @@
 
 /* Premade jsPsych trials */
 
-var pre_experiment_block: [
+var pre_experiment_block = [
   {
     type: 'text',
     text: `<div class="header row">
@@ -47,7 +47,7 @@ var pre_experiment_block: [
       type: 'text',
       cont_key: [''],
       text: '<p class="lead">Thank you for considering participation in this study!</p><p>We\'re sorry it wasn\'t for you. You may close this window and return your HIT. There is no penalty for returning our lab\'s HITs.</p>'
-    }];
+    }]
   },
   {
     type: "text",

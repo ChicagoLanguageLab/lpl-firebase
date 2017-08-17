@@ -7,34 +7,35 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var storageRef = firebase.storage.ref();
+var storageRef = firebase.storage().ref();
 var database = firebase.database();
-var dataRef = storageRef.child('2-24-2017-run1/' + workerId + condition + subtype + voice + '.csv');
+
 
 /* Read in data sent from Mechanical Turk */
 
 var params = getAllUrlParams();
 
+
 /* Create a unique instance of the experiment */
 
 var experiment_instance = {
-  stimuli: jsPsych.randomization.shuffle(init_data.stimuli);
-  subject_data: {
-    worker_id: params.workerId,
+  stimuli: jsPsych.randomization.shuffle(init_data.stimuli),
+  subject: {
+    id: params.workerId,
     code: 'TURK' + jsPsych.randomization.randomID(10)
-  }
+  },
   data: {
     condition: params.condition,
     subtype: params.subtype,
     voice: params.voice,
 
     exposure_colors: jsPsych.randomization.shuffle(init_data.exposure_colors),
-    posttest_colors: jsPsych.randomization.shuffle(init_data._colors),
+    posttest_colors: jsPsych.randomization.shuffle(init_data.posttest_colors),
 
-    max_scalepos = 5,
+    max_scalepos: 5,
     trial_distribution: [3,7,10,7,3],
     posttest_points: [2, 4, 8, 13, 20, 24],
-    attention_points = [5, 10, 17, 22]
+    attention_points: [5, 10, 17, 22],
 
     colors: undefined,
     current_stim_set: undefined
@@ -42,8 +43,10 @@ var experiment_instance = {
 }
 var _e = experiment_instance; // shorthand for experiment instance
 
-_e.colors = _e.exposure_colors.concat(_e._colors);
-_e.current_stim_set = _e.stimuli.peek().name;
+_e.colors = _e.data.exposure_colors.concat(_e.data.posttest_colors);
+_e.data.current_stim_set = _e.stimuli[0].name;
+
+var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + condition + subtype + voice + '.csv');
 
 /* Generate end blocks for first calibration */
 var end_blocks_pretest = generateEndBlocks();
