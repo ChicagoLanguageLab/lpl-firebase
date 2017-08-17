@@ -9,7 +9,6 @@
     lr.init([1,2,3,4,5]);
 
     var trials = jsPsych.data.getLastTimelineData();
-    console.log(trials);
 
     _.each(trials, function(trial) {
       try {
@@ -17,7 +16,6 @@
       }
       catch (e) {
         xint = 3;
-        console.log("Error");
         return;
       }
     });
@@ -40,19 +38,24 @@
           ambiguous_point = j;
       }
     }
-    console.log('Best fit: ' + ambiguous_point);
-
-    var adjusted_ambiguous_point;
-    if(ambiguous_point <= 1)
-      adjusted_ambiguous_point = 2;
-    else if(ambiguous_point >= 5)
-      adjusted_ambiguous_point = 4;
-    else
-      adjusted_ambiguous_point = ambiguous_point;
 
     jsPsych.data.addProperties({
-      'ambiguous_point': adjusted_ambiguous_point
+      'ambiguous_point': tweakAmbiguousPoint(ambiguous_point)
     });
+}
+
+/**
+ * Adjusts the ambiguous point as needed.
+ *
+ * @param {number} ambiguous_point - The original ambiguous point.
+ */
+function tweakAmbiguousPoint(ambiguous_point) {
+  if(ambiguous_point <= 1)
+    return 2;
+  else if(ambiguous_point >= 5)
+    return 4;
+  else
+    return ambiguous_point;
 }
 
 /**
@@ -63,7 +66,8 @@
  * @param {number} scale_pos  - The scale position to use when generating trials.
 */
 function sampleTrials(e_instance, stim_index, scale_pos) {
-  return jsPsych.randomization.sample(makeTrialSet(e_instance, stim_index, scale_pos), e_instance.trial_distribution[scale_pos - 1], true);
+  var full_trials = makeTrialSet(e_instance, stim_index, scale_pos);
+  return jsPsych.randomization.sample(full_trials, e_instance.trial_distribution[scale_pos - 1], true);
 }
 
 /**
