@@ -243,7 +243,6 @@ function makePosttest(experiment, prefabs) {
                                     // We need to make sure we don't use endpoints
                                     var image;
                                     var ambiguous_point = adjustedAmbiguousPoint;
-                                    console.log('Scale point in trial: ' + (ambiguous_point + y));
                                     if(ambiguous_point + y > 1 && ambiguous_point + y < 5)
                                         image =  '../static/images/adaptation/' + experiment.stimuli[x].name + (ambiguous_point + y) + temp[y + 1] + '.jpg'
                                     else if(ambiguous_point + y <= 1)
@@ -465,7 +464,6 @@ function makeAttentionTrials(experiment, num) {
         var segments = []
         var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
         for(var i = 0; i < num; i++) {
-            console.log(experiment.colors[i]);
             segments.push({
                 type: "attention",
                 choices: ['R', 'B'],
