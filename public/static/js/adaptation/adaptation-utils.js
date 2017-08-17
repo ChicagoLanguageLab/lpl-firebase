@@ -69,10 +69,10 @@ function makeEndBlocks(experiment) {
  * Generates the full set of possible trials for a single stimulus/scale position combination.
  *
  * @param {object} e_instance - An instance of the experiment.
- * @param {number} stim_index - The index of the stimulus in e_instance.stimuli.
- * @param {number} s_pos      - The scalepos to use when generating.
+ * @param {number} stim_index - The index of the stimulus to use when generating trials.
+ * @param {number} scale_pos  - The scale position to use when generating trials.
  */
-function makeTrialSet(e_instance, stim_index, s_pos) {
+function makeTrialSet(e_instance, stim_index, scale_pos) {
 
   var trials = []
 
@@ -81,7 +81,7 @@ function makeTrialSet(e_instance, stim_index, s_pos) {
   var int_text = e_instance.subcondition === 'too'? ' too ' : ' ';
 
   var trial_data = {
-    scalepos: s_pos,
+    scalepos: scale_pos,
     stimulus: cur_stim.name
   }
 
@@ -93,7 +93,7 @@ function makeTrialSet(e_instance, stim_index, s_pos) {
 
   for (var i = 0; i < e_instance.colors.length; i++) {
 
-    var stim_url = '../static/images/adaptation/' + e_instance.colors[i] + cur_stim.name + s_pos + '.jpg';
+    var stim_url = '../static/images/adaptation/' + e_instance.colors[i] + cur_stim.name + scale_pos + '.jpg';
 
     trials.push({
       stimulus: stim_url,
@@ -106,15 +106,22 @@ function makeTrialSet(e_instance, stim_index, s_pos) {
 
 }
 
-function sampleTrials(experiment, stim_index, scale_pos) {
-  return jsPsych.randomization.sample(makeTrialSet(experiment, stim_index, scale_pos), experiment.trial_distribution[scale_pos - 1], true);
+/**
+ * Samples from a set of trials generated with a given stimulus/scale position combination.
+ *
+ * @param {object} e_instance - An instance of the experiment.
+ * @param {number} stim_index - The index of the stimulus to use when generating trials.
+ * @param {number} scale_pos  - The scale position to use when generating trials.
+*/
+function sampleTrials(e_instance, stim_index, scale_pos) {
+  return jsPsych.randomization.sample(makeTrialSet(experiment, stim_index, scale_pos), e_instance.trial_distribution[scale_pos - 1], true);
 }
 
 function makeCalibrationBlock(experiment, prefabs, is_post, stim_index) {
   var trials = [];
   var blocktype = is_post? 'calibration' : 'post-calibration';
 
-  for (var i = 1; i < experiment.max_scalepos + 1; i++) {
+  for (var i = 1; i < e_instance.max_scalepos + 1; i++) {
       trials = trials.concat(sampleTrials(experiment, stim_index, i));
   }
   trials = jsPsych.randomization.shuffle(trials);
