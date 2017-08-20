@@ -69,11 +69,11 @@ form {
 }
 
 body {
-  background-color: #f3f3f3;
+  background-color: #f3f3f3 !important;
 }
 
 p, h1, h2, h3, h4  {
-  margin: 20px 15px 20px 15px;
+  margin: 20px 15px 20px 15px !important;
 }
 
 .contact-info {
