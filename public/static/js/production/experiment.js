@@ -1,114 +1,149 @@
-/* Firebase initialization */
+// production-utils.js
 
-var config = {
-    apiKey: "AIzaSyAlzTpCs3uxIXW6i6I7zsHLElb1GUpoDh8",
-    databaseURL: "https://language-processing-lab.firebaseio.com/",
-    storageBucket: "gs://language-processing-lab.appspot.com"
-};
-firebase.initializeApp(config);
-
-var storage = firebase.storage();
-var storageRef = storage.ref();
-var database = firebase.database();
-
-/* Get parameters */
-
-var params = getAllUrlParams();
-
-var workerId = params.workerId;
-if(workerId == undefined || workerId == "")
-    workerId = "TEST";
-
-var code = 'TURK' + jsPsych.randomization.randomID(10);
-
-var dataRef = storageRef.child('production-OSPAN/TmoreC-07-15-2017/' + params.workerId + '.csv');
-
-browser_test_block = {
-  timeline: [{
-      type: "text",
-      cont_key: ['Y', 'N'],
-      text: '<p>This experiment works best if you have maximized your browser window. Is your browser window maximized?</p><p>Press <b>Y</b> for "yes" and <b>N</b> for "no".</p>',
-      timing_post_trial: 1000
-  }],
-  loop_function: function(data){
-    if(jsPsych.pluginAPI.convertKeyCharacterToKeyCode('n') == data[0].key_press){
-        return true;
-    } else {
-        return false;
-    }
+function randomCondition() {
+  var coinFlip = Math.floor(Math.random() * 2);
+  if(coinFlip == 1) { // If "NoContrast", choose from target and competitor
+    return 'nc'
+  }
+  else { // Else, choose from target, competitor, and contrastDistractor
+    return 'c'
   }
 }
 
-/* Init and add production trials */
+function randomTarget(condition) {
+	if(condition == 'c') 
+		return Math.floor(Math.random() * 3);
 
-var timeline = [];
+	return targetId = Math.floor(Math.random() * 2);
+}
 
-var productionInstructionsblock = initInstructions(productionInstructions, [' ']);
-var productionBlock = initProductionTrials();
+function initProductionTrials() {
+	var params = getAllUrlParams();
 
-timeline.push(productionInstructionsblock);
-timeline.push(browser_test_block);
-timeline = addObjectsToTimeline(timeline, productionBlock);
+	// questions holds HTML-formated strings; targets stores chosen target for description
+	var questions = [];
+	var targets = [];
 
-var productionEndBlock = initInstructions(productionEndInstructions, [' ']);
-timeline.push(productionEndBlock);
+	// Keep track of how many of each contrast/nocontrast condition has been added to the experiment
+	var quotas = {
+	  'Test': {
+	    'c': {
+	      'max_target': 2,
+	      'cur_target': 0,
+	      'max_competitor': 2,
+	      'cur_competitor': 0,
+	      'max_contrastDistractor': 2,
+	      'cur_contrastDistractor': 0
+	    },
+	    'nc': {
+	      'max_target': 2,
+	      'cur_target': 0,
+	      'max_competitor': 2,
+	      'cur_competitor': 0
+	    }
+	  },
+	  'Color': {
+	    'c': {
+	      'max_target': 1,
+	      'cur_target': 0,
+	      'max_competitor': 1,
+	      'cur_competitor': 0,
+	      'max_contrastDistractor': 1,
+	      'cur_contrastDistractor': 0
+	    },
+	    'nc': {
+	      'max_target': 1,
+	      'cur_target': 0,
+	      'max_competitor': 1,
+	      'cur_competitor': 0
+	    }
+	  }
+	}
+	
+	var timeline = _.chain(params)
+		.omit('workerId')
+		.map(function(value, key, list) {
+			var i = key.replace('q', '');
 
-/* Init and add OSPAN trials */
+			// Get trial to use from URL params
+			var item = value;
+			item = (item == undefined ? "1" : item);
 
-var startingInstructionsBlock = initInstructions(startingInstructions, [' ']);
-var letterPracticeInstructionsBlock = initInstructions(letterPracticeInstructions, [' ']);
-var letterPracticeBlock = makeOspanTrials(pracLetterSize, "LetterPractice");
-var mathPracticeInstructionsBlock = initInstructions(mathPracticeInstructions, [' ']);
-var mathPracticeBlock = makeOspanTrials([], "MathPractice");
-var bothPracticeInstructions = initInstructions(bothPracticeInstructions, [' ']);
-var bothPracticeBlock = makeOspanTrials(pracBothSetSize, "BothPractice");
-var experimentInstructionsBlock = initInstructions(experimentInstructions, [' ']);
-var experimentBlock = makeOspanTrials(jsPsych.randomization.shuffle(testBothSetSize), "Experiment");
+			var condition = randomCondition();
+			var targetId = randomTarget(condition);
+			
+			var trialType = trials[item + condition]['type'];
 
-timeline.push(startingInstructionsBlock);
-timeline.push(letterPracticeInstructionsBlock);
-timeline = addObjectsToTimeline(timeline, letterPracticeBlock);
-timeline.push(mathPracticeInstructionsBlock);
-timeline = addObjectsToTimeline(timeline, mathPracticeBlock);
-timeline.push(bothPracticeInstructions);
-timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
-timeline.push(experimentInstructionsBlock);
-timeline = addObjectsToTimeline(timeline, experimentBlock);
+			if(trialType == 'Test' || trialType == 'Color') {
 
-var feedbackBlock = {
-  type: "text",
-  text: function() { return "<p>You have finished the memory task. These are your final results:</p><p>You answered " + (results.total_math_problems - results.total_math_wrong) + " math problems correctly out of " + results.total_math_problems + " total problems. Of your incorrect answers, " + results.total_math_accuracy_errors + " were accuracy errors, and " + results.total_math_speed_errors + " were speed errors.</p><p>You recalled " + results.total_letters_correct + " letters correctly out of " + results.total_letters + " total letters. You responded with 100% accuracy on " + results.total_strings_correct + " strings out of " + results.total_strings + " total strings.</p><p>Press <strong>space</strong> to continue to your survey code.</p>"; },
-  cont_key: [' '],
-  on_finish: function() {
-    addWorker(workerId, "production-OSPAN");
-    saveData(jsPsych.data.dataAsCSV(), dataRef);
-  }
-};
+				while(quotas[trialType][condition]['cur_' + targetTypes[targetId]] == quotas[trialType][condition]['max_' + targetTypes[targetId]]) {
+			    
+					if(quotas[trialType]['c']['cur_target'] == quotas[trialType]['c']['max_target'] &&
+						quotas[trialType]['c']['cur_competitor'] == quotas[trialType]['c']['max_competitor'] && 
+						quotas[trialType]['c']['cur_contrastDistractor'] == quotas[trialType]['c']['max_contrastDistractor'] &&
+						quotas[trialType]['nc']['cur_target'] == quotas[trialType]['nc']['max_target'] &&
+						quotas[trialType]['nc']['cur_competitor'] == quotas[trialType]['nc']['max_competitor']) {
 
-timeline.push(feedbackBlock);
+						console.log("ERROR: Quotas are full! Current item: " + i);
+						break;
+				    }
 
-var endBlock = {
-  type: "text",
-  cont_key: [''],
-  text: function(){
-      return "<p>Thank you for your participation! Your responses have been saved.</p><p>Your survey code is <b>" + code + "</b>. Please enter this code into your HIT. You may then close this window.</p><p>If you have any questions or concerns, please do not hesitate to contact the lab at <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.";
-  }
-};
+				    condition = randomCondition();
+				    targetId = randomTarget(condition);
+				}
 
-timeline.push(endBlock);
+			    quotas[trialType][condition]['cur_' + targetTypes[targetId]] += 1;
+			}
 
-/* start the experiment */
-$(document).ready(function(){
+			// Get the objects for the trial and randomize them
+			var objects = [trials[item + condition]['target'], trials[item + condition]['competitor'], trials[item + condition]['contrastDistractor'], trials[item + condition]['distractor']];
+			var shuffledObjects = jsPsych.randomization.shuffle(objects);
 
-    $('#progress-bar').show();
-    $('#jspsych-target').show();
+			// Need to find position of the target so we can point to it
+			var pos = 0;
+			for(var j = 0; j < objects.length; j++) {
+				if(shuffledObjects[j] == objects[targetId])
+					pos = j;
+			}
 
-    checkWorker(workerId, 'production-OSPAN', 'jspsych-target');
+			// Make question
+			var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="../static/images/production/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
+			//console.log(trialType);
+			var trial = {
+				type: 'vm-production-response',
+				preamble: 'INSTRUCTIONS: Describe the object indicated by the arrow as if you are instructing a partner to click on it. Keep in mind that this partner can only see the images, not the arrow.',
+				question: question,
+				required: true,
+				data: {
+					question_number: i, 
+					item_number: item,
+					trial__type: trialType,
+					original_item_id: trials[item + condition].originalItemId,
+					target_type: targetTypes[targetId],
+					target_adjective: trials[item + condition].targetAdjective,
+					target_condition: condition, 
+					target_image: trials[item + condition][targetTypes[targetId]],
+					original_target: trials[item + condition].target,
+					original_competitor: trials[item + condition].competitor,
+					original_contrastDistractor: trials[item + condition].contrastDistractor,
+					original_distractor: trials[item + condition].distractor
+				},
+				rows: 1,
+				columns: 40,
+				on_finish: function(data){
+				}
+			}
 
-    jsPsych.init({
-      display_element: $('#jspsych-target'),
-      timeline: timeline,
-      show_progress_bar: true,
-      timing_post_trial: 0
-  });
-});
+			//console.log(trial);
+
+			if(i % 10 == 0) {
+			   	trial["on_finish"] = function(data){
+			    	saveData(jsPsych.data.dataAsCSV(), dataRef); 
+			    };
+			}
+
+			return trial;
+		})
+		.value();
+	return timeline;
+}
