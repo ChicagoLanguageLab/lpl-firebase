@@ -10,7 +10,7 @@ var pre_experiment_block = {
       type: 'text',
       text: `<div class="header row">
                <div class="col-2 text-right">
-                 <img class="logo" src="../static/shield.png" alt="UChicago Logo"/>
+                 <img class="logo" src="../static/images/shield.png" alt="UChicago Logo"/>
                </div>
                <div class="col-10">
                  <h1>Language Processing Laboratory</h1>
