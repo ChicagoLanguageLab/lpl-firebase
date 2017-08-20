@@ -1,3 +1,38 @@
+function Experiment(params) {
+  this.stimuli = jsPsych.randomization.shuffle(params.stimuli);
+
+  var url_params = jsPsych.data.urlVariables();
+
+  this.subject = {
+    id: url_params.workerId,
+    code: 'TURK' + jsPsych.randomization.randomID(10)
+  };
+
+  this.condition = url_params.condition;
+  this.subcondition = url_params.subcondition;
+  this.voice = url_params.voice;
+
+  this.exposure_colors = jsPsych.randomization.shuffle(params.exposure_colors);
+  this.posttest_colors = jsPsych.randomization.shuffle(params.posttest_colors);
+
+  this.max_scalepos = params.max_scalepos;
+  this.trial_distribution = params.trial_distribution;
+  this.posttest_points = params.posttest_points;
+  this.attention_points = params.attention_points;
+
+  // Add data to jsPsych instance
+  jsPsych.data.addProperties({
+    workerId: this.subject.id,
+    code: this.subject.code,
+    condition: this.condition,
+    subcondition: this.subcondition,
+    voice: this.voice
+  });
+
+  return this;
+}
+
+
 /**
  * Calculates the most ambiguous scalepos for a given stimulus.
  * TODO: Make jsPsych an argument for maximum safety?
@@ -26,8 +61,6 @@
     if(xint == null || isNaN(xint)) {
       xint = 3;
     }
-
-    console.log('Xint: ' + xint)
 
     var best = 10000;
     var ambiguous_point = -1;
