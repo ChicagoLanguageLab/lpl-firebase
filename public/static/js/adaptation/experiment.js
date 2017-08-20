@@ -5,49 +5,20 @@ var config = {
     databaseURL: "https://language-processing-lab.firebaseio.com/",
     storageBucket: "gs://language-processing-lab.appspot.com"
 };
-firebase.initializeApp(config);
+//firebase.initializeApp(config);
 
-var storageRef = firebase.storage().ref();
-var database = firebase.database();
-
-
-/* Read in data sent from Mechanical Turk */
-
-var params = getAllUrlParams();
-
+//var storageRef = firebase.storage().ref();
+//var database = firebase.database();
 
 /* Create a unique instance of the experiment */
 
-var experiment_instance = {
-
-  stimuli: jsPsych.randomization.shuffle(init_data.stimuli),
-
-  subject: {
-    id: params.workerId,
-    code: 'TURK' + jsPsych.randomization.randomID(10)
-  },
-
-  condition: params.condition,
-  subcondition: params.subcondition,
-  voice: params.voice,
-
-  exposure_colors: jsPsych.randomization.shuffle(init_data.exposure_colors),
-  posttest_colors: jsPsych.randomization.shuffle(init_data.posttest_colors),
-
-  max_scalepos: 5,
-  trial_distribution: [3,7,10,7,3],
-  posttest_points: [2, 4, 8, 13, 20, 24],
-  attention_points: [5, 10, 17, 22]
-
-}
-
-var _e = experiment_instance; // shorthand for experiment instance
+var _e = new Experiment(params);
 
 _e.stimuli.push({name: 'flower', adjective: ''}); // flower always comes last
 _e.colors = _e.exposure_colors.concat(_e.posttest_colors);
 _e.current_stim_set = _e.stimuli[0].name;
 
-var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition + _e.subtype + _e.voice + '.csv');
+//var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition + _e.subtype + _e.voice + '.csv');
 
 /* make all three calibration blocks */
 var calibration_blocks = makeCalibrationBlocks(_e, trial_prefabs, false);
