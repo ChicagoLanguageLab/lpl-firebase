@@ -62,7 +62,7 @@ var pre_experiment_block = {
   ]
 };
 
-var trial_prefabs = {
+var prefabs = {
   end_block: {
     type: 'text',
     choices: [' '],
@@ -75,7 +75,7 @@ var trial_prefabs = {
                 </p>`;
     },
     on_finish: function(data){
-        //saveData(jsPsych.data.dataAsCSV(), dataRef);
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
     }
   },
   final_block: {
@@ -93,45 +93,6 @@ var trial_prefabs = {
                 </p>`;
     }
   },
-  audio_test_block_human: {
-    timeline: [{
-      type: 'text',
-      choices: ['F', 'J'],
-      text: `<p>
-               You will listen to some verbal statements in this section. Did you turn your speaker on?
-             </p>
-             <p>
-               Press <b>F</b> for "yes" and <b>J</b> for "no".
-             </p>`,
-      timing_post_trial: 1000
-    }],
-    loop_function: function(data){
-      if(jsPsych.pluginAPI.convertKeyCharacterToKeyCode('j') == data[0].key_press){
-        return true;
-      } else {
-        return false;
-      }
-    }
-  },
-  audio_test_block_synth: {
-    timeline: [{
-        type: 'text',
-        choices: ['F', 'J'],
-        text: `<p>
-                 We are testing a speech synthesizer that can imitate human voice.
-                 In this section you will hear some verbal statements made by this synthesizer.
-                 Did you turn your speaker on?</p><p>Press <b>F</b> for "yes" and <b>J</b> for "no".
-              </p>`,
-        timing_post_trial: 1000
-    }],
-    loop_function: function(data){
-      if(jsPsych.pluginAPI.convertKeyCharacterToKeyCode('j') == data[0].key_press){
-        return true;
-      } else {
-        return false;
-      }
-    }
-  },
   end_block_last: {
     type: 'text',
     choices: [' '],
@@ -144,8 +105,8 @@ var trial_prefabs = {
                </p>`;
     },
     on_finish: function(data){
-        //saveData(jsPsych.data.dataAsCSV(), dataRef);
-        //addWorker(workerId, 'adaptation-study');
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
+        addWorker(workerId, 'adaptation-study');
     }
   },
   calibration_instructions: {
@@ -172,10 +133,52 @@ var trial_prefabs = {
         return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
     },
     on_finish: function(data){
-        //saveData(jsPsych.data.dataAsCSV(), dataRef);
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
     }
   }
 };
+
+var audio_test_blocks = {
+  human: {
+    timeline: [{
+      type: 'text',
+      choices: ['F', 'J'],
+      text: `<p>
+               You will listen to some verbal statements in this section. Have you turned your speaker on?
+             </p>
+             <p>
+               Press <b>F</b> for "yes" and <b>J</b> for "no".
+             </p>`,
+      timing_post_trial: 1000
+    }],
+    loop_function: function(data){
+      if(jsPsych.pluginAPI.convertKeyCharacterToKeyCode('j') == data[0].key_press){
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  synth: {
+    timeline: [{
+        type: 'text',
+        choices: ['F', 'J'],
+        text: `<p>
+                 We are testing a speech synthesizer that can imitate human voice.
+                 In this section you will hear some verbal statements made by this synthesizer.
+                 Have you turned your speaker on?</p><p>Press <b>F</b> for "yes" and <b>J</b> for "no".
+              </p>`,
+        timing_post_trial: 1000
+    }],
+    loop_function: function(data){
+      if(jsPsych.pluginAPI.convertKeyCharacterToKeyCode('j') == data[0].key_press){
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+}
 
 var params = {
   stimuli: [

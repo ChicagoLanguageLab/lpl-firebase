@@ -1,7 +1,6 @@
 /**
- * Constructor for the experiment object.
- *
- * @Constructor
+ * Creates a new Experiment.
+ * @constructor
  */
 function Experiment(params) {
   this.stimuli = jsPsych.randomization.shuffle(params.stimuli);
@@ -18,6 +17,13 @@ function Experiment(params) {
   this.subcondition = url_params.subcondition;
   this.voice = url_params.voice;
 
+  this.prefabs = prefabs;
+  switch(this.voice) {
+    case 'en':
+    case 'ch': this.prefabs.audio_test_block = audio_test_blocks.human; break;
+    case 'z': this.prefabs.audio_test_block = audio_test_blocks.synth; break;
+  }
+
   this.exposure_colors = jsPsych.randomization.shuffle(params.exposure_colors);
   this.posttest_colors = jsPsych.randomization.shuffle(params.posttest_colors);
   this.colors = this.exposure_colors.concat(this.posttest_colors);
@@ -26,8 +32,6 @@ function Experiment(params) {
   this.trial_distribution = params.trial_distribution;
   this.posttest_points = params.posttest_points;
   this.attention_points = params.attention_points;
-
-  this.prefabs = trial_prefabs;
 
   this.current_stim_set = this.stimuli[0].name;
 
@@ -45,7 +49,7 @@ function Experiment(params) {
 
     var calibration_blocks = makeCalibrationBlocks(this, false);
     var exposure_blocks = make_exposure_posttest(this);
-    var post_calibration_blocks = makeCalibrationBlocks(this,true);
+    var post_calibration_blocks = makeCalibrationBlocks(this, true);
 
     this.timeline.push(pre_experiment_block);
 
@@ -270,7 +274,7 @@ function make_exposure_posttest(experiment) {
       type: 'single-stim',
       timeline: [
         exposure_instructions,
-        experiment.prefabs.audio_test_block_human, //TODO: Make this depend on voice
+        experiment.prefabs.audio_test_block,
         exposure_trials,
         experiment.prefabs.end_block
       ],
