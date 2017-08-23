@@ -122,7 +122,8 @@ jsPsych.plugins["demographics"] = (function() {
     });
 
     $(':invalid').on('click', function(e) {
-      $(this).next().remove();
+      if($(this).next().hasClass('form-error'))
+        $(this).next().remove();
       $(this).removeProp('invalid');
       $(this).removeClass('is-invalid');
     });
