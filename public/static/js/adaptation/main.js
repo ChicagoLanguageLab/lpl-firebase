@@ -13,10 +13,7 @@ var config = {
 /* Create a unique instance of the experiment */
 
 var Experiment = new Experiment(params);
-
-Experiment.stimuli.push({name: 'flower', adjective: ''}); // flower always comes last
-Experiment.colors = Experiment.exposure_colors.concat(Experiment.posttest_colors);
-Experiment.current_stim_set = Experiment.stimuli[0].name;
+Experiment.init();
 
 //var dataRef = storageRef.child('2-24-2017-run1/' + _e.subject.id + _e.condition + _e.subtype + _e.voice + '.csv');
 
@@ -28,7 +25,7 @@ $( document ).ready(function() {
     /* Initialize experiment */
 
     jsPsych.init({
-      timeline: makeExperiment(Experiment, trial_prefabs),
+      timeline: Experiment.timeline,
       show_progress_bar: true,
       display_element: $('#jspsych-target')
     });

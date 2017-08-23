@@ -176,10 +176,13 @@ jsPsych.plugins["demographics"] = (function() {
 
         $('input[name=age]').addClass('is-invalid');
         $('input[name=age]').prop('invalid');
-        $('input[name=age]').after($('<div>', {
-          html: 'Age must be a number.',
-          class: 'form-error'
-        }));
+
+        if(!$('input[name=age]').next().hasClass("form-error")) {
+          $('input[name=age]').after($('<div>', {
+            html: 'Age must be a number.',
+            class: 'form-error'
+          }));
+        }
       }
 
       if(valid === false) return;

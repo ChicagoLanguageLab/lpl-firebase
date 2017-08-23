@@ -5,6 +5,7 @@
  */
 function Experiment(params) {
   this.stimuli = jsPsych.randomization.shuffle(params.stimuli);
+  this.timeline = [];
 
   var url_params = jsPsych.data.urlVariables();
 
@@ -19,11 +20,16 @@ function Experiment(params) {
 
   this.exposure_colors = jsPsych.randomization.shuffle(params.exposure_colors);
   this.posttest_colors = jsPsych.randomization.shuffle(params.posttest_colors);
+  this.colors = this.exposure_colors.concat(this.posttest_colors);
 
   this.max_scalepos = params.max_scalepos;
   this.trial_distribution = params.trial_distribution;
   this.posttest_points = params.posttest_points;
   this.attention_points = params.attention_points;
+
+  this.prefabs = trial_prefabs;
+
+  this.current_stim_set = this.stimuli[0].name;
 
   // Add data to jsPsych instance
   jsPsych.data.addProperties({
@@ -34,40 +40,44 @@ function Experiment(params) {
     voice: this.voice
   });
 
-  this.makeExperiment = function() {
-    function makeExperiment(e_instance, prefabs) {
-      /* TODO: comment this */
+  this.init = function() {
+    /* TODO: comment this */
 
-      var experiment_blocks = [];
+    var calibration_blocks = makeCalibrationBlocks(this, false);
+    var exposure_blocks = make_exposure_posttest(this);
+    var post_calibration_blocks = makeCalibrationBlocks(this,true);
 
-      var calibration_blocks = makeCalibrationBlocks(e_instance, trial_prefabs, false);
-      var exposure_blocks = make_exposure_posttest(e_instance, trial_prefabs);
-      var post_calibration_blocks = makeCalibrationBlocks(e_instance, trial_prefabs, true);
+    this.timeline.push(pre_experiment_block);
 
-      experiment_blocks.push(pre_experiment_block);
-
-      for(var x = 0; x < calibration_blocks.length; x++) {
-          experiment_blocks.push(calibration_blocks[x]);
-          experiment_blocks.push(exposure_blocks[x]);
-      }
-
-      // Reprise the pretests
-      for(var x = 0; x < post_calibration_blocks.length; x++) {
-          experiment_blocks.push(post_calibration_blocks[x]);
-          if(x == post_calibration_blocks.length-1)
-              experiment_blocks.push(trial_prefabs.end_block_last);
-          else
-              experiment_blocks.push(trial_prefabs.end_block);
-      }
-
-      experiment_blocks.push(trial_prefabs.final_block);
-
-      return experiment_blocks;
+    for(var x = 0; x < calibration_blocks.length; x++) {
+        this.timeline.push(calibration_blocks[x]);
+        this.timeline.push(exposure_blocks[x]);
     }
+
+    // Reprise the pretests
+    for(var x = 0; x < post_calibration_blocks.length; x++) {
+        this.timeline.push(post_calibration_blocks[x]);
+        if(x == post_calibration_blocks.length-1)
+            this.timeline.push(this.prefabs.end_block_last);
+        else
+            this.timeline.push(this.prefabs.end_block);
+    }
+
+    this.timeline.push(this.prefabs.final_block);
   }
 }
 
-
+/**
+ * Samples from a set of trials generated with a given stimulus/scale position combination.
+ *
+ * @param {object} experiment - An instance of the experiment.
+ * @param {number} stim_index - The index of the stimulus to use when generating trials.
+ * @param {number} scale_pos  - The scale position to use when generating trials.
+ */
+function sampleTrials(experiment, stim_index, scale_pos) {
+  var full_trials = makeTrialSet(experiment, stim_index, scale_pos);
+  return jsPsych.randomization.sample(full_trials, experiment.trial_distribution[scale_pos - 1], true);
+}
 
 /**
  * Calculates the most ambiguous scalepos for a given stimulus.
@@ -127,32 +137,22 @@ function tweakAmbiguousPoint(ambiguous_point) {
     return ambiguous_point;
 }
 
-/**
- * Samples from a set of trials generated with a given stimulus/scale position combination.
- *
- * @param {object} e_instance - An instance of the experiment.
- * @param {number} stim_index - The index of the stimulus to use when generating trials.
- * @param {number} scale_pos  - The scale position to use when generating trials.
-*/
-function sampleTrials(e_instance, stim_index, scale_pos) {
-  var full_trials = makeTrialSet(e_instance, stim_index, scale_pos);
-  return jsPsych.randomization.sample(full_trials, e_instance.trial_distribution[scale_pos - 1], true);
-}
+
 
 /**
  * Generates the full set of possible trials for a single stimulus/scale position combination.
  *
- * @param {object} e_instance - An instance of the experiment.
+ * @param {object} experiment - An instance of the experiment.
  * @param {number} stim_index - The index of the stimulus to use when generating trials.
  * @param {number} scale_pos  - The scale position to use when generating trials.
  */
-function makeTrialSet(e_instance, stim_index, scale_pos) {
+function makeTrialSet(experiment, stim_index, scale_pos) {
 
   var trials = []
 
-  var cur_stim = e_instance.stimuli[stim_index];
+  var cur_stim = experiment.stimuli[stim_index];
   var key_instr = '<p class="center-screen text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>';
-  var int_text = e_instance.subcondition === 'too'? ' too ' : ' ';
+  var int_text = experiment.subcondition === 'too'? ' too ' : ' ';
 
   var trial_data = {
     scalepos: scale_pos,
@@ -165,9 +165,9 @@ function makeTrialSet(e_instance, stim_index, scale_pos) {
   else
     prompt = '<p class="center-screen text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
 
-  for (var i = 0; i < e_instance.colors.length; i++) {
+  for (var i = 0; i < experiment.colors.length; i++) {
 
-    var stim_url = '../static/images/adaptation/' + e_instance.colors[i] + cur_stim.name + scale_pos + '.jpg';
+    var stim_url = '../static/images/adaptation/' + experiment.colors[i] + cur_stim.name + scale_pos + '.jpg';
 
     trials.push({
       stimulus: stim_url,
@@ -183,17 +183,16 @@ function makeTrialSet(e_instance, stim_index, scale_pos) {
 /**
  * Generates a block of calibration trials.
  *
- * @param {object} e_instance - An instance of the experiment.
- * @param {object} prefabs    - A collection of stock jsPsych trial definitions.
+ * @param {object} experiment - An instance of the experiment.
  * @param {boolean} is_post   - If this is a post-calibration block, true. Else false.
  * @param {number} stim_index - Index of the stimulus to use for this block.
  */
-function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
+function makeCalibrationBlock(experiment, is_post, stim_index) {
   var trials = [];
   var block_type = is_post? 'post-calibration' : 'calibration';
 
-  for (var i = 1; i < e_instance.max_scalepos + 1; i++) {
-      trials = trials.concat(sampleTrials(e_instance, stim_index, i));
+  for (var i = 1; i < experiment.max_scalepos + 1; i++) {
+      trials = trials.concat(sampleTrials(experiment, stim_index, i));
   }
   trials = jsPsych.randomization.shuffle(trials);
 
@@ -213,9 +212,9 @@ function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
     type: 'text',
     timing_post_trial: 1000,
     timeline: [
-      prefabs.calibration_instructions,
+      experiment.prefabs.calibration_instructions,
       calibration_block,
-      prefabs.wrap_up
+      experiment.prefabs.wrap_up
     ],
     data: {
       subtype: block_type
@@ -225,15 +224,14 @@ function makeCalibrationBlock(e_instance, prefabs, is_post, stim_index) {
 
 /**
  * Generates a set of calibration trials.
- * @param {object} e_instance - An instance of the experiment.
- * @param {object} prefabs    - A collection of stock jsPsych trials.
+ * @param {object} experiment - An instance of the experiment.
  * @param {boolean} is_post   - If this is a post-calibration block, true. Else false.
  */
-function makeCalibrationBlocks(experiment, prefabs, is_post) {
+function makeCalibrationBlocks(experiment, is_post) {
     var calibration_blocks = [];
 
     for(i = 0; i < experiment.stimuli.length; i++) {
-        calibration_blocks.push(makeCalibrationBlock(experiment, prefabs, is_post, i));
+        calibration_blocks.push(makeCalibrationBlock(experiment, is_post, i));
     }
 
     return calibration_blocks;
@@ -241,14 +239,14 @@ function makeCalibrationBlocks(experiment, prefabs, is_post) {
 
 /* Intersperse exposure phase with posttests */
 
-function make_exposure_posttest(experiment, prefabs) {
+function make_exposure_posttest(experiment) {
 
-  var exposure_data         = makeExposure(experiment, prefabs);
+  var exposure_data         = makeExposure(experiment);
   var exposure_instructions = exposure_data[0];
   var exposure_segments     = exposure_data[1];
 
   var attention_blocks = makeAttentionTrials(experiment, 4);
-  var posttest_blocks  = makePosttest(experiment, prefabs);
+  var posttest_blocks  = makePosttest(experiment);
 
   var exposure_blocks = [];
   for(var x = 0; x < exposure_segments.length; x++) {
@@ -272,9 +270,9 @@ function make_exposure_posttest(experiment, prefabs) {
       type: 'single-stim',
       timeline: [
         exposure_instructions,
-        prefabs.audio_test_block_human, //TODO: Make this depend on voice
+        experiment.prefabs.audio_test_block_human, //TODO: Make this depend on voice
         exposure_trials,
-        prefabs.end_block
+        experiment.prefabs.end_block
       ],
       timing_post_trial: 1000
     });
@@ -285,7 +283,7 @@ function make_exposure_posttest(experiment, prefabs) {
 
 }
 
-function makePosttest(experiment, prefabs) {
+function makePosttest(experiment) {
     var blocks = [];
 
     var too_text = '';
@@ -439,7 +437,7 @@ function makePosttest(experiment, prefabs) {
     return blocks;
 }
 
-function makeExposure(experiment, prefabs) {
+function makeExposure(experiment) {
     var segments = [];
     var instructions = [];
     var instruction_text;
