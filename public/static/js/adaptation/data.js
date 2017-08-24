@@ -138,7 +138,7 @@ var prefabs = {
   }
 };
 
-var audio_test_blocks = {
+var audio_test_prefabs = {
   human: {
     timeline: [{
       type: 'text',
@@ -180,17 +180,27 @@ var audio_test_blocks = {
   }
 }
 
+var exposure_instructions = {
+  header: '<p>In this section, you will see a sequence of images. ',
+  footer: 'Periodically, you will answer some questions.</p><p>Be sure to remain focused on the center of the screen. ' +
+          'Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, and you will be asked a question about it. ' +
+          'Please do your best to answer the question accurately.</p><p>Press the space bar when you are ready to begin.</p>'
+}
+
 var params = {
   stimuli: [
     {
       name: 'candle',
       adjective: 'tall',
+      ambiguous_point: 3
     },{
       name: 'bar',
       adjective: 'bent',
+      ambiguous_point: 3
     },{
       name: 'pillow',
       adjective: 'plain',
+      ambiguous_point: 3
     }
   ],
   exposure_colors: ['plain', 'red', 'blue', 'lgreen'],

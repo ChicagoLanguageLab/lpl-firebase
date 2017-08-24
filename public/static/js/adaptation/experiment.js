@@ -18,10 +18,23 @@ function Experiment(params) {
   this.voice = url_params.voice;
 
   this.prefabs = prefabs;
+
+  var exposure_variable_text;
   switch(this.voice) {
-    case 'en':
-    case 'ch': this.prefabs.audio_test_block = audio_test_blocks.human; break;
-    case 'z': this.prefabs.audio_test_block = audio_test_blocks.synth; break;
+    case 'z':
+      this.prefabs.audio_test_block = audio_test_prefabs.synth;
+      exposure_variable_text += 'You will also listen to sentences recorded using a speech synthesizer we are testing. ';
+      break;
+    default:
+      this.prefabs.audio_test_block = audio_test_prefabs.human;
+      exposure_variable_text += 'You will also hear a verbal description of each image. ';
+      break;
+  }
+
+  this.prefabs.exposure_instructions = {
+      type: 'text',
+      text: exposure_instructions.header + exposure_variable_text + exposure_instructions.footer,
+      cont_key: [' ']
   }
 
   this.exposure_colors = jsPsych.randomization.shuffle(params.exposure_colors);
@@ -48,24 +61,25 @@ function Experiment(params) {
     /* TODO: comment this */
 
     var calibration_blocks = makeCalibrationBlocks(this, false);
-    var exposure_blocks = make_exposure_posttest(this);
+    var exposure_blocks = makeExposurePosttestBlocks(this);
     var post_calibration_blocks = makeCalibrationBlocks(this, true);
 
-    this.timeline.push(pre_experiment_block);
+    //this.timeline.push(pre_experiment_block);
 
+    // TODO: change this to use Underscore
     for(var x = 0; x < calibration_blocks.length; x++) {
-        this.timeline.push(calibration_blocks[x]);
+        //this.timeline.push(calibration_blocks[x]);
         this.timeline.push(exposure_blocks[x]);
     }
 
     // Reprise the pretests
-    for(var x = 0; x < post_calibration_blocks.length; x++) {
+    /*for(var x = 0; x < post_calibration_blocks.length; x++) {
         this.timeline.push(post_calibration_blocks[x]);
         if(x == post_calibration_blocks.length-1)
             this.timeline.push(this.prefabs.end_block_last);
         else
             this.timeline.push(this.prefabs.end_block);
-    }
+    }*/
 
     this.timeline.push(this.prefabs.final_block);
   }
@@ -122,9 +136,14 @@ function sampleTrials(experiment, stim_index, scale_pos) {
       }
     }
 
-    jsPsych.data.addProperties({
-      'ambiguous_point': tweakAmbiguousPoint(ambiguous_point)
-    });
+    var ambig_prop;
+    var tweaked_ambiguous_point = tweakAmbiguousPoint(ambiguous_point);
+    switch(stimulus) {
+      case 'candle': ambig_prop = {candle_ambiguous_point: tweaked_ambiguous_point}; break;
+      case 'pillow': ambig_prop = {pillow_ambiguous_point: tweaked_ambiguous_point}; break;
+      case 'bar': ambig_prop = {bar_ambiguous_point: tweaked_ambiguous_point}; break;
+    }
+    jsPsych.data.addProperties(ambig_prop);
 }
 
 /**
@@ -140,8 +159,6 @@ function tweakAmbiguousPoint(ambiguous_point) {
   else
     return ambiguous_point;
 }
-
-
 
 /**
  * Generates the full set of possible trials for a single stimulus/scale position combination.
@@ -241,50 +258,174 @@ function makeCalibrationBlocks(experiment, is_post) {
     return calibration_blocks;
 }
 
-/* Intersperse exposure phase with posttests */
+function interleaveTrials(experiment, exposure_trials, attention_trials, posttest_trials) {
+  var interleaved_trials = [];
 
-function make_exposure_posttest(experiment) {
+  for(var i = 0; i < exposure_trials.length; i++) {
+    interleaved_trials.push(exposure_trials.shift());
 
-  var exposure_data         = makeExposure(experiment);
-  var exposure_instructions = exposure_data[0];
-  var exposure_segments     = exposure_data[1];
+    if(_.contains(experiment.posttest_points, i + 1)) {
+        interleaved_trials.push(posttest_trials.shift());
+    }
+    if(_.contains(experiment.attention_points, i + 1)) {
+        interleaved_trials.push(attention_trials.shift());
+    }
+  }
+  return ({timeline: interleaved_trials});
+}
 
+function makeExposurePosttestBlock(experiment, exposure_trials, attention_trials, posttest_trials) {
+  var exposure_posttest_trials = interleaveTrials(experiment, exposure_trials, attention_trials, posttest_trials);
+
+  return ({
+    type: 'single-stim',
+    timeline: [
+      experiment.prefabs.exposure_instructions,
+      experiment.prefabs.audio_test_block,
+      exposure_posttest_trials,
+      experiment.prefabs.end_block
+    ],
+    timing_post_trial: 1000
+  });
+}
+
+function makeExposurePosttestBlocks(experiment) {
+
+  var exposure_blocks  = makeExposureBlocks(experiment);
   var attention_blocks = makeAttentionTrials(experiment, 4);
   var posttest_blocks  = makePosttest(experiment);
 
-  var exposure_blocks = [];
-  for(var x = 0; x < exposure_segments.length; x++) {
+  exp_post_blocks = [];
 
-    var exposure_trials = [];
-
-    for(var i = 1; i < exposure_segments[x].length + 1; i++) {
-      exposure_trials.push(exposure_segments[x][i-1]);
-
-      // At the specified points, add three posttest trials (one segment)
-      if(_.contains(experiment.posttest_points, i)) {
-          exposure_trials.push(posttest_blocks[x].shift());
-      }
-      if(_.contains(experiment.attention_points, i)) {
-          exposure_trials.push(attention_blocks[x].shift());
-      }
-    }
-
-    // Add the trials as a block
-    exposure_blocks.push({
-      type: 'single-stim',
-      timeline: [
-        exposure_instructions,
-        experiment.prefabs.audio_test_block,
-        exposure_trials,
-        experiment.prefabs.end_block
-      ],
-      timing_post_trial: 1000
-    });
-
+  for(var x = 0; x < exposure_blocks.length; x++) {
+      exp_post_blocks.push(makeExposurePosttestBlock(experiment, exposure_blocks[x], attention_blocks[x], posttest_blocks[x]));
   }
 
-  return exposure_blocks;
+  console.log(exp_post_blocks)
 
+  return exp_post_blocks;
+
+}
+
+function calculateExposureScalepos(condition, subcondition, stimulus) {
+  if(condition === 'ambiguous') {
+    return stimulus.ambiguous_point;
+  }
+
+  if(condition === 'prototypical' && subcondition == 'neg') {
+    return 1;
+  }
+
+  return 5;
+}
+
+function makeExposureTrial(experiment, statement_index, trial_index, stim_index) {
+
+  var stimulus = experiment.stimuli[stim_index];
+  var color_index = statement_index;
+
+  var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="';
+  var audio_footer = '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>';
+
+  var statement;
+  var timing;
+
+  if(statement_index == 0 && trial_index == 0) {
+      statement_index = 5;
+      timing = 7500;
+  } else {
+     statement_index = statement_index + 1;
+     timing = 4500;
+  }
+
+  var trial = {
+    type: 'single-stim',
+    response_ends_trial: false,
+    timing_response: timing,
+    choices: [],
+    data: {
+      stimulus: stimulus.name,
+      subtype: 'exposure'
+    }
+  }
+
+  if(stimulus.name !== 'flower') {
+
+    var cur_scalepos = calculateExposureScalepos(experiment.condition, experiment.subcondition, stimulus);
+
+    trial.stimulus = '../static/images/adaptation/' + experiment.colors[color_index] + stimulus.name + cur_scalepos + '.jpg';
+    trial.data.scalepos = cur_scalepos;
+    trial.prompt = audio_header + '../static/sound/adaptation/' + experiment.subcondition + stimulus.name + statement + experiment.voice + audio_footer;
+
+  } else {
+
+    trial.stimulus = '../static/images/adaptation/flower4' + experiment.colors[color_index] + '.jpg';
+    trial.prompt = audio_header + '../static/sound/adaptation/flower' + statement + experiment.voice + audio_footer;
+    trial.data = {
+      scalepos: 4
+    }
+
+  }
+  return trial;
+}
+
+function makeExposureBlock(experiment, stim_index) {
+
+  var trials = [];
+  var stimulus = experiment.stimuli[stim_index];
+
+  for(var x = 0; x < 4; x++) {
+    for(var y = 0; y < 6; y++) {
+      trials.push(makeExposureTrial(experiment, x, y, stim_index));
+    }
+  }
+  return trials;
+}
+
+function makeExposureBlocks(experiment) {
+    var blocks = [];
+    for(var i = 0; i < experiment.stimuli.length; i++) {
+        var block = makeExposureBlock(experiment, i);
+        blocks.push(block);
+    }
+    return blocks;
+}
+
+function makeAttentionTrials(experiment, num) {
+  var blocks = []
+  for(var x = 0; x < experiment.stimuli.length + 1; x++) {
+    var segments = []
+    var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
+    for(var i = 0; i < num; i++) {
+      segments.push({
+        type: "single-stim",
+        choices: ['R', 'B'],
+        is_html: true,
+        timeline: [{
+          stimulus: '<p><span style="font-size: 24pt; color:' + experiment.colors[i] + ';"><b>+</b></span></p>',
+          response_ends_trial: false,
+          timing_response: 500
+        }, {
+          stimulus: '<p></p>',
+          prompt: '<p>What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
+          data: {color: experiment.colors[i], subtype: 'attention'},
+          on_finish: function(data) {
+            if(data.key_press == '82' && data.color == 'red') {
+                jsPsych.data.addDataToLastTrial({correct: 1});
+            }
+            else if (data.key_press == '66' && data.color == 'blue') {
+                jsPsych.data.addDataToLastTrial({correct: 1});
+            }
+            else {
+                jsPsych.data.addDataToLastTrial({correct: 0});
+            }
+          }
+        }]
+      });
+    }
+    blocks.push(segments);
+  }
+  return blocks;
 }
 
 function makePosttest(experiment) {
@@ -315,7 +456,7 @@ function makePosttest(experiment) {
                         trials.push({
                             timeline: [{
                                 stimulus: function(){
-                                    var ambiguous_point = adjustedAmbiguousPoint;
+                                    var ambiguous_point = experiment.stimuli[x].ambiguous_point;
                                     // We need to make sure we don't use endpoints
                                     var image;
                                     if(ambiguous_point + y > 1 && ambiguous_point + y < 5)
@@ -342,8 +483,8 @@ function makePosttest(experiment) {
                                 stimulus: function(){
                                     // We need to make sure we don't use endpoints
                                     var image;
-                                    var ambiguous_point = adjustedAmbiguousPoint;
-                                    if(ambiguous_point + y > 1 && ambiguous_point + y < 5)
+                                    var ambiguous_point = experiment.stimuli[x].ambiguous_point;;
+                                    if(ambiguous_point + y > 1 && experiment.stimuli[x].ambiguous_point; + y < 5)
                                         image =  '../static/images/adaptation/' + experiment.stimuli[x].name + (ambiguous_point + y) + temp[y + 1] + '.jpg'
                                     else if(ambiguous_point + y <= 1)
                                         image =  '../static/images/adaptation/' + experiment.stimuli[x].name + 2 + temp[y + 1] + '.jpg';
@@ -366,13 +507,10 @@ function makePosttest(experiment) {
                                     if(data.key_press == '70')
                                         has_prop = 1;
 
-                                    var ambiguous_point = adjustedAmbiguousPoint;
+                                    var ambiguous_point = experiment.stimuli[x].ambiguous_point;;
 
                                     jsPsych.data.addDataToLastTrial({has_prop: has_prop});
                                     jsPsych.data.addDataToLastTrial({stimulus: data.stimulus});
-
-                                    jsPsych.data.addDataToLastTrial({originalAmbiguousPoint: originalAmbiguousPoint});
-                                    jsPsych.data.addDataToLastTrial({adjustedAmbiguousPoint: adjustedAmbiguousPoint});
 
                                     if(ambiguous_point + data.adjustment > 1 && ambiguous_point + data.adjustment < 5)
                                         jsPsych.data.addDataToLastTrial({scalepos: ambiguous_point + data.adjustment});
@@ -431,165 +569,11 @@ function makePosttest(experiment) {
 
             // Now we push the trials to a segment
             segments.push({
-                type: "posttest",
+                type: "single-stim",
                 timeline: trials
             });
         }
         // Push all segments to the block
-        blocks.push(segments);
-    }
-    return blocks;
-}
-
-function makeExposure(experiment) {
-    var segments = [];
-    var instructions = [];
-    var instruction_text;
-
-    if(experiment.voice !== "z") {
-        instruction_text = "<p>In this section you will see a sequence of images. " +
-                           "You will also hear a verbal description of each image. " +
-                           "Please listen carefully to each description. " +
-                           "Periodically, you will answer some questions about the images.</p>" +
-                           "<p>Be sure to remain focused on the center of the screen. " +
-                           "Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, " +
-                           "and you will be asked a question about it. " +
-                           "Please do your best to answer the question accurately.</p> " +
-                           "<p>Press the space bar when you are ready to begin.</p>";
-    }
-    else {
-        instruction_text = "<p>In this section, you will see a sequence of images. " +
-                           "You will also listen to sentences recorded using a speech synthesizer we are testing. " +
-                           "Periodically, you will answer some questions.</p>" +
-                           "<p>Be sure to remain focused on the center of the screen. " +
-                           "Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, " +
-                           "and you will be asked a question about it. " +
-                           "Please do your best to answer the question accurately.</p> " +
-                           "<p>Press the space bar when you are ready to begin.</p>";
-    }
-    for(var i = 0; i < experiment.stimuli.length + 1; i++) {
-        /* Add the instructions */
-        instructions.push({
-            type: "text",
-            text: instruction_text,
-            cont_key: [' ']
-        });
-
-        var trials = [];
-        for(var x = 0; x < 4; x++) {
-            for(var y = 0; y < 6; y++) {
-                (function (x, y, i) {
-                    var statement;
-                    var timing;
-                    if(x == 0 && y == 0){ //&& voice != "_z") {
-                        statement = 5;
-                        timing = 7500;
-                    }
-                    else {
-                       statement = x + 1;
-                       timing = 4500;
-                   }
-
-                    if(i < experiment.stimuli.length) {
-                        trials.push({
-                            type: "exposure",
-                            response_ends_trial: false,
-                            timing_response: timing,
-                            choices: [],
-                            stimulus: function(){
-                                var ambiguous_point = adjustedAmbiguousPoint;
-                                if(condition == "ambiguous") {
-                                    return '../static/images/adaptation/' + experiment.stimuli[i].name + ambiguous_point + experiment.colors[x] + '.jpg'
-                                }
-                                else if (condition == "prototypical") {
-                                    if (type == "_neg") {
-                                        return '../static/images/adaptation/' + experiment.stimuli[i].name + 1 + experiment.colors[x] + '.jpg'
-                                    }
-                                    else {
-                                        return '../static/images/adaptation/' + experiment.stimuli[i].name + 5 + experiment.colors[x] + '.jpg'
-                                    }
-                                }
-                            },
-                            data: {stimulus: experiment.stimuli[i].name},
-                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + experiment.stimuli[i].name + '_statement' + statement + experiment.subcondition + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>',
-                            on_finish: function(data){
-                                var ambiguous_point = adjustedAmbiguousPoint;
-
-                                jsPsych.data.addDataToLastTrial({originalAmbiguousPoint: originalAmbiguousPoint});
-                                jsPsych.data.addDataToLastTrial({adjustedAmbiguousPoint: adjustedAmbiguousPoint});
-
-                                jsPsych.data.addDataToLastTrial({stimulus: data.object});
-
-                                if(condition == "ambiguous") {
-                                    jsPsych.data.addDataToLastTrial({scalepos: ambiguous_point});
-                                }
-                                else if (condition == "prototypical") {
-                                    if (type == "_neg") {
-                                        jsPsych.data.addDataToLastTrial({scalepos: 1});
-                                    }
-                                    else {
-                                        jsPsych.data.addDataToLastTrial({scalepos: 5});
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        trials.push({
-                            type: "exposure",
-                            response_ends_trial: false,
-                            timing_response: timing,
-                            choices: [],
-                            stimulus: function(){
-                                return '../static/images/adaptation/flower4' + experiment.colors[x] + '.jpg'
-                            },
-                            prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flower_statement' + statement + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>',
-                            on_finish: function(data){
-                                jsPsych.data.addDataToLastTrial({stimulus: "flower"});
-                                jsPsych.data.addDataToLastTrial({scalepos: 4});
-                            }
-                        });
-                    }
-                }(x, y, i));
-            }
-        }
-        segments.push(trials);
-    }
-    return [instructions, segments];
-}
-
-function makeAttentionTrials(experiment, num) {
-    var blocks = []
-    for(var x = 0; x < experiment.stimuli.length + 1; x++) {
-        var segments = []
-        var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
-        for(var i = 0; i < num; i++) {
-            segments.push({
-                type: "attention",
-                choices: ['R', 'B'],
-                is_html: true,
-                timeline: [{
-                    stimulus: '<p><span style="font-size: 24pt; color:' + experiment.colors[i] + ';"><b>+</b></span></p>',
-                    response_ends_trial: false,
-                    timing_response: 500
-                }, {
-                    stimulus: '<p></p>',
-                    prompt: '<p>What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
-                    data: {color: experiment.colors[i]},
-                    on_finish: function(data) {
-                        if(data.key_press == '82' && data.color == 'red') {
-                            jsPsych.data.addDataToLastTrial({correct: 1});
-                        }
-                        else if (data.key_press == '66' && data.color == 'blue') {
-                            jsPsych.data.addDataToLastTrial({correct: 1});
-                        }
-                        else {
-                            jsPsych.data.addDataToLastTrial({correct: 0});
-                        }
-                    }
-                }]
-            });
-        }
         blocks.push(segments);
     }
     return blocks;
