@@ -57,7 +57,7 @@ var pre_experiment_block = {
     {
       type: 'text',
       text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the <strong>space bar</strong>.</p>',
-      choices: [' ']
+      cont_key: [' ']
     }
   ]
 };
@@ -65,7 +65,7 @@ var pre_experiment_block = {
 var prefabs = {
   end_block: {
     type: 'text',
-    choices: [' '],
+    cont_key: [' '],
     text: function() {
         return `<p>
                   You have finished this section. You can take a short break now if you want to.
@@ -80,7 +80,7 @@ var prefabs = {
   },
   final_block: {
     type: 'text',
-    choices: [''],
+    cont_key: [''],
     text: function(){
         return `<p>
                   You have finished the experiment! Your responses have been saved.
@@ -95,7 +95,7 @@ var prefabs = {
   },
   end_block_last: {
     type: 'text',
-    choices: [' '],
+    cont_key: [' '],
     text: function() {
         return `<p>
                   You have finished this section. You can take a short break now if you want to.
@@ -124,8 +124,8 @@ var prefabs = {
     cont_key: [' ']
   },
   wrap_up: {
-    type: "text",
-    choices: [' '],
+    type: 'text',
+    cont_key: [' '],
     text: function() {
         var prev_stim = jsPsych.data.getLastTrialData().stimulus
         if(prev_stim !== 'flower')
@@ -142,7 +142,7 @@ var audio_test_prefabs = {
   human: {
     timeline: [{
       type: 'text',
-      choices: ['F', 'J'],
+      cont_key: ['F', 'J'],
       text: `<p>
                You will listen to some verbal statements in this section. Have you turned your speaker on?
              </p>
@@ -162,7 +162,7 @@ var audio_test_prefabs = {
   synth: {
     timeline: [{
         type: 'text',
-        choices: ['F', 'J'],
+        cont_key: ['F', 'J'],
         text: `<p>
                  We are testing a speech synthesizer that can imitate human voice.
                  In this section you will hear some verbal statements made by this synthesizer.

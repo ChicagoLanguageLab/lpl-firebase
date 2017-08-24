@@ -355,8 +355,8 @@ function makeExposureTrial(experiment, statement_index, trial_index, stim_index)
 
     trial.stimulus = '../static/images/adaptation/' + experiment.colors[color_index] + stimulus.name + cur_scalepos + '.jpg';
     trial.data.scalepos = cur_scalepos;
-    trial.prompt = audio_header + '../static/sound/adaptation/' + experiment.subcondition + stimulus.name + statement + experiment.voice + audio_footer;
-
+    trial.prompt = audio_header + '../static/sound/adaptation/' + experiment.subcondition + stimulus.name + statement_index + experiment.voice + audio_footer;
+    console.log(trial.prompt);
   } else {
 
     trial.stimulus = '../static/images/adaptation/flower4' + experiment.colors[color_index] + '.jpg';
@@ -483,8 +483,8 @@ function makePosttest(experiment) {
                                 stimulus: function(){
                                     // We need to make sure we don't use endpoints
                                     var image;
-                                    var ambiguous_point = experiment.stimuli[x].ambiguous_point;;
-                                    if(ambiguous_point + y > 1 && experiment.stimuli[x].ambiguous_point; + y < 5)
+                                    var ambiguous_point = experiment.stimuli[x].ambiguous_point;
+                                    if(ambiguous_point + y > 1 && experiment.stimuli[x].ambiguous_point + y < 5)
                                         image =  '../static/images/adaptation/' + experiment.stimuli[x].name + (ambiguous_point + y) + temp[y + 1] + '.jpg'
                                     else if(ambiguous_point + y <= 1)
                                         image =  '../static/images/adaptation/' + experiment.stimuli[x].name + 2 + temp[y + 1] + '.jpg';
