@@ -92,6 +92,15 @@ button {
   font-family: 'Open Sans', 'Arial', sans-serif !important;
 }
 
+.center-screen {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 .header {
   background-color: #36418C;
   color: #a9afd8;

@@ -291,7 +291,7 @@ function makeExposurePosttestBlock(experiment, exposure_trials, attention_trials
 function makeExposurePosttestBlocks(experiment) {
 
   var exposure_blocks  = makeExposureBlocks(experiment);
-  var attention_blocks = makeAttentionTrials(experiment, 4);
+  var attention_blocks = makeAttentionBlocks(experiment, 4);
   var posttest_blocks  = makePosttestBlocks(experiment);
 
   exp_post_blocks = [];
@@ -390,39 +390,54 @@ function makeExposureBlocks(experiment) {
     return blocks;
 }
 
-function makeAttentionTrials(experiment, num) {
-  var blocks = []
-  for(var x = 0; x < experiment.stimuli.length + 1; x++) {
-    var segments = []
-    var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
-    for(var i = 0; i < num; i++) {
-      segments.push({
-        type: "single-stim",
-        choices: ['R', 'B'],
-        is_html: true,
-        timeline: [{
-          stimulus: '<p><span style="font-size: 24pt; color:' + experiment.colors[i] + ';"><b>+</b></span></p>',
-          response_ends_trial: false,
-          timing_response: 500
-        }, {
-          stimulus: '<p></p>',
-          prompt: '<p class="text-center">What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
-          data: {color: experiment.colors[i], subtype: 'attention'},
-          on_finish: function(data) {
-            if(data.key_press == '82' && data.color == 'red') {
-                jsPsych.data.addDataToLastTrial({correct: 1});
-            }
-            else if (data.key_press == '66' && data.color == 'blue') {
-                jsPsych.data.addDataToLastTrial({correct: 1});
-            }
-            else {
-                jsPsych.data.addDataToLastTrial({correct: 0});
-            }
-          }
-        }]
-      });
+function makeAttentionTrial(experiment, stim_index, trial_index, color) {
+  var trial = {
+    type: 'single-stim',
+    choices: ['R', 'B'],
+    is_html: true
+  };
+
+  var presentation_slide = {
+    stimulus: '<p class="text-center center-screen"><span style="font-size: 24pt; color:' + color + ';"><b>+</b></span></p>',
+    response_ends_trial: false,
+    timing_response: 500
+  };
+
+  var response_slide = {
+    stimulus: '<p></p>',
+    prompt: '<p class="text-center center-screen">What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
+    data: {color: experiment.colors[i], subtype: 'attention'},
+    on_finish: function() {
+      var data = jsPsych.data.getLastTrialData();
+      var key = data.key_press;
+      var _correct;
+      if((key == '82' && data.color == 'red') || (key == '66' && data.color == 'blue')) {
+          _correct = 1
+      }
+      else {
+          _correct = 0
+      }
+      jsPsych.data.addDataToLastTrial({correct: _correct});
     }
-    blocks.push(segments);
+  };
+
+  trial.timeline = [presentation_slide, response_slide];
+  return trial;
+}
+
+function makeAttentionBlock(experiment, stim_index, num) {
+  var trials = []
+  var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
+  for(var i = 0; i < num; i++) {
+    trials.push(makeAttentionTrial(experiment, stim_index, i, colors[i]));
+  }
+  return trials;
+}
+
+function makeAttentionBlocks(experiment, num) {
+  var blocks = []
+  for(var x = 0; x < experiment.stimuli.length; x++) {
+    blocks.push(makeAttentionBlock(experiment, x, num));
   }
   return blocks;
 }
