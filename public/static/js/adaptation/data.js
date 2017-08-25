@@ -143,10 +143,10 @@ var audio_test_prefabs = {
     timeline: [{
       type: 'text',
       cont_key: ['F', 'J'],
-      text: `<p>
+      text: `<p class="text-center">
                You will listen to some verbal statements in this section. Have you turned your speaker on?
              </p>
-             <p>
+             <p class="text-center">
                Press <b>F</b> for "yes" and <b>J</b> for "no".
              </p>`,
       timing_post_trial: 1000

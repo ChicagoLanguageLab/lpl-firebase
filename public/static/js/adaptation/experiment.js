@@ -23,12 +23,11 @@ function Experiment(params) {
   switch(this.voice) {
     case 'z':
       this.prefabs.audio_test_block = audio_test_prefabs.synth;
-      exposure_variable_text += 'You will also listen to sentences recorded using a speech synthesizer we are testing. ';
+      exposure_variable_text = 'You will also listen to sentences recorded using a speech synthesizer we are testing. ';
       break;
     default:
       this.prefabs.audio_test_block = audio_test_prefabs.human;
-      exposure_variable_text += 'You will also hear a verbal description of each image. ';
-      break;
+      exposure_variable_text = 'You will also hear a verbal description of each image. ';
   }
 
   this.prefabs.exposure_instructions = {
@@ -172,7 +171,7 @@ function makeTrialSet(experiment, stim_index, scale_pos) {
   var trials = []
 
   var cur_stim = experiment.stimuli[stim_index];
-  var key_instr = '<p class="center-screen text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>';
+  var key_instr = '<p class="text-center text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>';
   var int_text = experiment.subcondition === 'too'? ' too ' : ' ';
 
   var trial_data = {
@@ -182,9 +181,9 @@ function makeTrialSet(experiment, stim_index, scale_pos) {
 
   var prompt;
   if(cur_stim.name === 'flower')
-    prompt = '<p class="center-screen text-center">Does this flower have exactly four (4) petals?</p>' + key_instr;
+    prompt = '<p class="text-center text-center">Does this flower have exactly four (4) petals?</p>' + key_instr;
   else
-    prompt = '<p class="center-screen text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
+    prompt = '<p class="text-center text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
 
   for (var i = 0; i < experiment.colors.length; i++) {
 
@@ -407,7 +406,7 @@ function makeAttentionTrials(experiment, num) {
           timing_response: 500
         }, {
           stimulus: '<p></p>',
-          prompt: '<p>What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
+          prompt: '<p class="text-center">What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
           data: {color: experiment.colors[i], subtype: 'attention'},
           on_finish: function(data) {
             if(data.key_press == '82' && data.color == 'red') {
@@ -459,7 +458,7 @@ function makePosttestObjectTrial(experiment, stim_index, scale_adjustment, color
 
   var response_trial = {
     stimulus: img_url,
-    prompt: '<br/><p>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
+    prompt: '<br/><p class="text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
     response_ends_trial: true,
     choices: ['F', 'J'],
     data: {
@@ -500,7 +499,7 @@ function makePosttestFlowerTrial(experiment, colors) {
 
   var response_trial = {
     stimulus: '../static/images/adaptation/' + color + 'flower' + num_petals + '.jpg',
-    prompt: '<br/><p>Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
+    prompt: '<br/><p class="text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
     data: {
         scalepos: num_petals,
         stimulus: 'flower',
