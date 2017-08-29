@@ -3,7 +3,17 @@
  * @constructor
  */
 function Experiment(params) {
+
+  // The primary stimuli appear in a random order
   this.stimuli = jsPsych.randomization.shuffle(params.stimuli);
+
+  // The flower trials must always come last
+  this.stimuli.push({
+        name: 'flower',
+        adjective: '',
+        ambiguous_point: 4
+  });
+
   this.timeline = [];
 
   var url_params = jsPsych.data.urlVariables();
@@ -19,25 +29,28 @@ function Experiment(params) {
 
   this.prefabs = prefabs;
 
+  // Some text depends on whether or not the voice is synthesized
+  // Create a prefab with the appropriate text
   var exposure_variable_text;
   switch(this.voice) {
     case 'z':
       this.prefabs.audio_test_block = audio_test_prefabs.synth;
-      exposure_variable_text = 'You will also listen to sentences recorded using a speech synthesizer we are testing. ';
+      exposure_variable_text = '<p>You will also listen to sentences recorded using a speech synthesizer we are testing. ';
       break;
     default:
       this.prefabs.audio_test_block = audio_test_prefabs.human;
-      exposure_variable_text = 'You will also hear a verbal description of each image. ';
+      exposure_variable_text = '<p>You will also hear a verbal description of each image. ';
   }
-
   this.prefabs.exposure_instructions = {
       type: 'text',
       text: exposure_instructions.header + exposure_variable_text + exposure_instructions.footer,
       cont_key: [' ']
   }
 
-  this.exposure_colors = jsPsych.randomization.shuffle(params.exposure_colors);
-  this.posttest_colors = jsPsych.randomization.shuffle(params.posttest_colors);
+  // The posttests must use different colors from the exposure trials
+  // For the calibration and follow-up phases, though, all colors can be used
+  this.exposure_colors = params.exposure_colors;
+  this.posttest_colors = params.posttest_colors;
   this.colors = this.exposure_colors.concat(this.posttest_colors);
 
   this.max_scalepos = params.max_scalepos;
@@ -47,39 +60,54 @@ function Experiment(params) {
 
   this.current_stim_set = this.stimuli[0].name;
 
-  // Add data to jsPsych instance
-  jsPsych.data.addProperties({
-    workerId: this.subject.id,
-    code: this.subject.code,
-    condition: this.condition,
-    subcondition: this.subcondition,
-    voice: this.voice
-  });
+  /**
+   * Adds experiment data to jsPsych's data object
+   * @function
+   */
+  this.addPropertiesTojsPsych = function () {
+    jsPsych.data.addProperties({
+      workerId: this.subject.id,
+      code: this.subject.code,
+      condition: this.condition,
+      subcondition: this.subcondition,
+      voice: this.voice
+    });
+  };
 
+  /**
+   * Generates all trials that cannot be pre-constructed
+   * @function
+   */
   this.init = function() {
-    /* TODO: comment this */
 
+    // Add the pre-experiment block to the timeline
+    this.timeline.push(this.prefabs.pre_experiment_block);
+    console.log(this.timeline);
+
+    // Generate the three main phases of the experiment
     var calibration_blocks = makeCalibrationBlocks(this, false);
     var exposure_blocks = makeExposurePosttestBlocks(this);
     var post_calibration_blocks = makeCalibrationBlocks(this, true);
 
-    //this.timeline.push(pre_experiment_block);
-
-    // TODO: change this to use Underscore
-    for(var x = 0; x < calibration_blocks.length; x++) {
-        this.timeline.push(calibration_blocks[x]);
-        this.timeline.push(exposure_blocks[x]);
+    // Prepare end blocks
+    // If there are n stimuli, there are n-1 reps of end_block followed by 1 end_block_last
+    var end_blocks = [];
+    for(var x = 0; x < this.stimuli.length - 1; x++) {
+       end_blocks.push(this.prefabs.end_block);
     }
+    end_blocks.push(this.prefabs.end_block_last);
 
-    // Reprise the pretests
-    /*for(var x = 0; x < post_calibration_blocks.length; x++) {
-        this.timeline.push(post_calibration_blocks[x]);
-        if(x == post_calibration_blocks.length-1)
-            this.timeline.push(this.prefabs.end_block_last);
-        else
-            this.timeline.push(this.prefabs.end_block);
-    }*/
+    // Create sets of [calibration, exposure, post_calibration, end_block] for each object
+    // The resulting array is flattened so that it can be easily added to the timeline
+    var experiment_blocks = _.flatten(
+      _.zip(calibration_blocks, exposure_blocks, post_calibration_blocks, end_blocks)
+    );
 
+    // Concat the flattened experiement blocks
+    this.timeline = this.timeline.concat(experiment_blocks);
+    console.log(this.timeline);
+
+    // Add on the final block
     this.timeline.push(this.prefabs.final_block);
   }
 }
