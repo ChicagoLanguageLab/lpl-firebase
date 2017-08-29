@@ -371,7 +371,7 @@ function makeExposureTrial(experiment, statement_index, trial_index, stim_index)
   var stimulus = experiment.stimuli[stim_index];
   var color_index = statement_index;
 
-  var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="';
+  var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/';
   var audio_footer = '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>';
 
   var statement;
@@ -402,12 +402,12 @@ function makeExposureTrial(experiment, statement_index, trial_index, stim_index)
 
     trial.stimulus = '../static/images/adaptation/' + experiment.colors[color_index] + stimulus.name + cur_scalepos + '.jpg';
     trial.data.scalepos = cur_scalepos;
-    trial.prompt = audio_header + '../static/sound/adaptation/' + experiment.subcondition + stimulus.name + statement_index + experiment.voice + audio_footer;
+    trial.prompt = audio_header + stimulus.name + '_' + experiment.subcondition +  + statement_index + experiment.voice + audio_footer;
     console.log(trial.prompt);
   } else {
 
     trial.stimulus = '../static/images/adaptation/flower4' + experiment.colors[color_index] + '.jpg';
-    trial.prompt = audio_header + '../static/sound/adaptation/flower' + statement + experiment.voice + audio_footer;
+    trial.prompt = audio_header + 'flower' + statement + experiment.voice + audio_footer;
     trial.data = {
       scalepos: 4
     }
@@ -512,7 +512,7 @@ function makePosttestObjectTrial(experiment, stim_index, scale_adjustment, color
     data: {
       subtype: 'posttest-audio'
     },
-    prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + experiment.subcondition + stimulus.name + 'question' + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
+    prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + stimulus.name + '_question' + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
     timing_post_trial: 0,
     response_ends_trial: false,
     timing_response: 3000,
