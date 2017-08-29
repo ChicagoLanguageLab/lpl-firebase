@@ -506,13 +506,17 @@ function makePosttestObjectTrial(experiment, stim_index, scale_adjustment, color
   var corrected_ambiguous_point = correctAmbiguousPoint(stimulus.ambiguous_point, scale_adjustment);
   var img_url = '../static/images/adaptation/' + color + stimulus.name + corrected_ambiguous_point + '.jpg'
 
+  var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/';
+  var audio_footer = '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>';
+  var subcondition = experiment.subcondition === 'too'? 'too' : '';
+
   var presentation_trial = {
     stimulus: img_url,
     type: "single-stim",
     data: {
       subtype: 'posttest-audio'
     },
-    prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/' + stimulus.name + '_question' + experiment.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
+    prompt: audio_header + stimulus.name + '_question' + subcondition + experiment.voice + audio_footer,
     timing_post_trial: 0,
     response_ends_trial: false,
     timing_response: 3000,
