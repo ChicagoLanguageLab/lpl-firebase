@@ -67,7 +67,7 @@ function Experiment(params) {
 
     // TODO: change this to use Underscore
     for(var x = 0; x < calibration_blocks.length; x++) {
-        //this.timeline.push(calibration_blocks[x]);
+        this.timeline.push(calibration_blocks[x]);
         this.timeline.push(exposure_blocks[x]);
     }
 
@@ -85,15 +85,13 @@ function Experiment(params) {
 }
 
 /**
- * Samples from a set of trials generated with a given stimulus/scale position combination.
+ * Samples trials from a set of trials.
  *
- * @param {object} experiment - An instance of the experiment.
- * @param {number} stim_index - The index of the stimulus to use when generating trials.
- * @param {number} scale_pos  - The scale position to use when generating trials.
+ * @param {Array} trials - An array of trials to cample from.
+ * @param {number} sample_size - The number of trials to sample.
  */
-function sampleTrials(experiment, stim_index, scale_pos) {
-  var full_trials = makeTrialSet(experiment, stim_index, scale_pos);
-  return jsPsych.randomization.sample(full_trials, experiment.trial_distribution[scale_pos - 1], true);
+function sampleTrials(trials, sample_size) {
+  return jsPsych.randomization.sample(trials, sample_size, true);
 }
 
 /**
@@ -103,46 +101,39 @@ function sampleTrials(experiment, stim_index, scale_pos) {
  * @param {string} stimulus - Name of the stimulus to check.
  */
  function calculateAmbiguousPoint(stimulus) {
-    lr = new LogReg(5, 1);
-    lr.init([1,2,3,4,5]);
+  lr = new LogReg(5, 1);
+  lr.init([1,2,3,4,5]);
 
-    var trials = jsPsych.data.getLastTimelineData();
+  var trials = jsPsych.data.getLastTimelineData();
 
-    _.each(trials, function(trial) {
-      try {
-        lr.addObs(trial.scalepos - 1, trial.has_prop);
-      }
-      catch (e) {
-        xint = 3;
-        return;
-      }
-    });
-
-    lr.fit();
-
-    var xint = this.lr.xint();
-    if(xint == null || isNaN(xint)) {
+  _.each(trials, function(trial) {
+    try {
+      lr.addObs(trial.scalepos - 1, trial.has_prop);
+    }
+    catch (e) {
       xint = 3;
+      return;
     }
+  });
 
-    var best = 10000;
-    var ambiguous_point = -1;
-    for (var j=0; j<6; j++) {
-      var dif = Math.abs(xint-j);
-      if (dif < best) {
-          best = dif;
-          ambiguous_point = j;
-      }
-    }
+  lr.fit();
 
-    var ambig_prop;
-    var tweaked_ambiguous_point = tweakAmbiguousPoint(ambiguous_point);
-    switch(stimulus) {
-      case 'candle': ambig_prop = {candle_ambiguous_point: tweaked_ambiguous_point}; break;
-      case 'pillow': ambig_prop = {pillow_ambiguous_point: tweaked_ambiguous_point}; break;
-      case 'bar': ambig_prop = {bar_ambiguous_point: tweaked_ambiguous_point}; break;
+  var xint = this.lr.xint();
+  if(xint == null || isNaN(xint)) {
+    xint = 3;
+  }
+
+  var best = 10000;
+  var ambiguous_point = -1;
+  for (var j=0; j<6; j++) {
+    var dif = Math.abs(xint-j);
+    if (dif < best) {
+        best = dif;
+        ambiguous_point = j;
     }
-    jsPsych.data.addProperties(ambig_prop);
+  }
+
+  return ambiguous_point;
 }
 
 /**
@@ -153,10 +144,23 @@ function sampleTrials(experiment, stim_index, scale_pos) {
 function tweakAmbiguousPoint(ambiguous_point) {
   if(ambiguous_point <= 1)
     return 2;
-  else if(ambiguous_point >= 5)
+  if(ambiguous_point >= 5)
     return 4;
-  else
-    return ambiguous_point;
+  return ambiguous_point;
+}
+
+function addAmbiguousPointToData(experiment, stim_name, ambiguous_point) {
+  var ambig_prop = {};
+  var tweaked_ambiguous_point = tweakAmbiguousPoint(ambiguous_point);
+
+  ambig_prop[stim_name + '_ambiguous_point'] = tweaked_ambiguous_point;
+  ambig_prop[stim_name + '_original_ambiguous_point'] = ambiguous_point;
+
+  var stim_obj = _.find(experiment.stimuli, function(stimulus){ return stimulus.name === stim_name; });
+  stim_obj.ambiguous_point = tweaked_ambiguous_point;
+  stim_obj.original_ambiguous_point = ambiguous_point;
+
+  jsPsych.data.addProperties(ambig_prop);
 }
 
 /**
@@ -212,7 +216,8 @@ function makeCalibrationBlock(experiment, is_post, stim_index) {
   var block_type = is_post? 'post-calibration' : 'calibration';
 
   for (var i = 1; i < experiment.max_scalepos + 1; i++) {
-      trials = trials.concat(sampleTrials(experiment, stim_index, i));
+      var full_trials = makeTrialSet(experiment, stim_index, i);
+      trials = trials.concat(sampleTrials(full_trials, experiment.trial_distribution[i - 1]));
   }
   trials = jsPsych.randomization.shuffle(trials);
 
@@ -228,13 +233,28 @@ function makeCalibrationBlock(experiment, is_post, stim_index) {
     }
   }
 
+  var wrap_up = {
+    type: 'text',
+    cont_key: [' '],
+    text: function() {
+        var prev_stim = jsPsych.data.getLastTrialData().stimulus
+        if(prev_stim !== 'flower')
+            var ambiguous_point = calculateAmbiguousPoint(prev_stim);
+            addAmbiguousPointToData(experiment, prev_stim, ambiguous_point);
+        return "<p>You have finished this section. You can take a short break now if you want to.</p><p>Please press the space bar when you are ready to continue.</p>";
+    },
+    on_finish: function(){
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
+    }
+  }
+
   return ({
     type: 'text',
     timing_post_trial: 1000,
     timeline: [
       experiment.prefabs.calibration_instructions,
       calibration_block,
-      experiment.prefabs.wrap_up
+      wrap_up
     ],
     data: {
       subtype: block_type
