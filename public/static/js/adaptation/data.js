@@ -23,7 +23,7 @@ var prefabs = {
                    Thank you for your interest in our study!
                  </p>
                  <p>
-                   As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.
+                   As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
                  </p>
                </div>`,
         cont_key: [' ']
@@ -57,7 +57,7 @@ var prefabs = {
       },
       {
         type: 'text',
-        text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the <strong>space bar</strong>.</p>',
+        text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the  <strong>space bar</strong> .</p>',
         cont_key: [' ']
       }
     ]
@@ -70,7 +70,7 @@ var prefabs = {
                   You have finished this section.
                 </p>
                 <p>
-                  You can take a short break now if you want to. Please press the<strong>space bar</strong>when you ready to continue.
+                  You can take a short break now if you want to. Please press the <strong>space bar</strong> when you ready to continue.
                 </p>`;
     },
     on_finish: function(){
@@ -165,10 +165,10 @@ var audio_test_prefabs = {
 }
 
 var exposure_instructions = {
-  header: '<p class="lead">In this section, you will see a sequence of images.</p>',
+  header: '<p class="lead">In this section, you will be shown a series of images. ',
   footer: 'Periodically, you will answer some questions.</p><p>Be sure to remain focused on the center of the screen. ' +
           'Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, and you will be asked a question about it. ' +
-          'Please do your best to answer the question accurately.</p><p>Press the<strong>space bar</strong>when you are ready to begin.</p>'
+          'Please do your best to answer the question accurately.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
 }
 
 var params = {

@@ -12,11 +12,11 @@ var database = firebase.database();
 
 /* Create a unique instance of the experiment */
 
-var Experiment = new Experiment(params);
-Experiment.init();
+var Experiment = new Experiment(_.extend(params, jsPsych.data.urlVariables()));
+Experiment.createTimeline();
+Experiment.addPropertiesTojsPsych();
 
-var params = jsPsych.data.urlVariables;
-var dataRef = storageRef.child('2-24-2017-run1/' + params.workerId + params.condition + params.subtype + params.voice + '.csv');
+var dataRef = storageRef.child('2-24-2017-run1/' + Experiment.subject.id + Experiment.condition + Experiment.subtype + Experiment.voice + '.csv');
 
 $( document ).ready(function() {
 
