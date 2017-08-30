@@ -62,21 +62,6 @@ var prefabs = {
       }
     ]
   },
-  end_block: {
-    type: 'text',
-    cont_key: [' '],
-    text: function() {
-        return `<p class="lead">
-                  You have finished this section.
-                </p>
-                <p>
-                  You can take a short break now if you want to. Please press the <strong>space bar</strong> when you ready to continue.
-                </p>`;
-    },
-    on_finish: function(){
-        saveData(jsPsych.data.dataAsCSV(), dataRef);
-    }
-  },
   final_block: {
     type: 'text',
     cont_key: [''],
@@ -90,22 +75,6 @@ var prefabs = {
                   please do not hesitate to contact the lab at
                   <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
                 </p>`;
-    }
-  },
-  end_block_last: {
-    type: 'text',
-    cont_key: [' '],
-    text: function() {
-        return `<p class="lead">
-                  You have finished this section.
-               </p>
-               <p>
-                 You can take a short break now if you want to. Please press the <strong>space bar</strong> when you ready to continue.
-               </p>`;
-    },
-    on_finish: function(){
-        saveData(jsPsych.data.dataAsCSV(), dataRef);
-        addWorker(workerId, 'adaptation-study');
     }
   },
   calibration_instructions: {

@@ -26,14 +26,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// static/js/experiment.js
+            <pre class="prettyprint source linenums"><code>// experiment.js
 // Defines the experiment object.
 
-/**
- * Construct an instance of the Experiment class.
- * @constructor
- * @param {obect} params - A collection of parameters.
- */
+/** Construct an instance of the Experiment class.
+  * @constructor
+  * @param {Object} params - A collection of parameters.
+  * @property {Array} stimuli - The list of stimuli.
+  */
 function Experiment(params) {
 
   /** The stimuli used in the experiment.
@@ -52,14 +52,66 @@ function Experiment(params) {
    * @property {string} code - The subject's completion code.
   */
   this.subject = {
-    id: params.workerId,
+    id: '',
     code: 'TURK' + jsPsych.randomization.randomID(10)
   };
+  this.subject.id = params.workerId ? '' : params.workerId,
 
   /** The condition assigned to the experiment.
    * @type {string}
    */
-  this.condition = params.condition;
+  this.condition = params.condition ? 'ambiguous' : params.condition;
+
+  /** The subcondition assigned to the experiment.
+    * @type {string}
+    */
+  this.subcondition = params.subcondition ? 'pos' : params.subcondition;
+
+  /** The voice used in the experiment.
+    * @type {string}
+    */
+  this.voice = params.voice ? 'en' : params.voice;
+
+  /** Static jsPsych trials.
+    * @type {Array&lt;object>}
+    */
+  this.prefabs = prefabs;
+
+  /** The colors to be used during the exposure phase.
+   * @type {Array&lt;string>}
+   */
+  this.exposure_colors = params.exposure_colors;
+
+  /** The colors to be used during the posttest phase.
+   * @type {Array&lt;string>}
+   */
+  this.posttest_colors = params.posttest_colors;
+
+  /** The colors used in the calibration phase.
+   * The union of exposure_colors and posttest_colors.
+   * @type {Array&lt;string>}
+   */
+  this.calibration_colors = this.exposure_colors.concat(this.posttest_colors);
+
+  /** The highest possible scale point.
+   * @type {number}
+   */
+  this.max_scalepos = params.max_scalepos;
+
+  /** The number of times to repeat each scale point.
+   * @type {Array&lt;number>}
+   */
+  this.trial_distribution = params.trial_distribution;
+
+  /** The points during the exposure phase at which to insert post-test trials.
+    * @type {Array&lt;number>}
+    */
+  this.posttest_points = params.posttest_points;
+
+  /** The points during the exposure phase at which to insert attention trials.
+    * @type {Array&lt;number>}
+    */
+  this.attention_points = params.attention_points;
 
   // The flower blocks must always come last
   this.stimuli.push({
@@ -67,21 +119,6 @@ function Experiment(params) {
         adjective: '',
         ambiguous_point: 4
   });
-
-  /** @type {string} * The subcondition assigned to the experiment. */
-  this.subcondition = params.subcondition;
-
-  /**
-   * The voice used in the experiment.
-   * @type {string}
-   */
-  this.voice = params.voice;
-
-  /**
-   * Static jsPsych trials. These remain the same across instances of the experiment.
-   * @type {Array&lt;object>}
-   */
-  this.prefabs = prefabs;
 
   // Some text depends on whether or not the voice is synthesized
   // Create a prefab with the appropriate text
@@ -100,48 +137,6 @@ function Experiment(params) {
       text: exposure_instructions.header + exposure_variable_text + exposure_instructions.footer,
       cont_key: [' ']
   }
-
-  /**
-   * The colors to be used during the exposure phase.
-   * @type {Array&lt;string>}
-   */
-  this.exposure_colors = params.exposure_colors;
-
-  /**
-   * The colors to be used during the posttest phase.
-   * @type {Array&lt;string>}
-   */
-  this.posttest_colors = params.posttest_colors;
-
-  /**
-   * The colors used in the calibration phase.
-   * The union of exposure_colors and posttest_colors.
-   * @type {Array&lt;string>}
-   */
-  this.calibration_colors = this.exposure_colors.concat(this.posttest_colors);
-
-  /**
-   * The highest possible scale point.
-   * @type {number}
-   */
-  this.max_scalepos = params.max_scalepos;
-
-  /**
-   * The number of times to repeat each scale point.
-   * @type {Array&lt;number>}
-   */
-  this.trial_distribution = params.trial_distribution;
-
-  /**
-   * The points during the exposure phase to insert post-test trials.
-   */
-  this.posttest_points = params.posttest_points;
-
-  /**
-   * The points during the exposure phase to insert attention trials.
-   * @type {Array&lt;number>}
-   */
-  this.attention_points = params.attention_points;
 
   /**
    * Add experimental data to jsPsych's data object.
@@ -193,13 +188,12 @@ function Experiment(params) {
     this.timeline.push(this.prefabs.final_block);
   }
 
-  /**
-   * Generates a set of calibration trials.
+  /** Generate a set of calibration blocks.
    * @param {object} experiment - An instance of the experiment.
    * @param {boolean} is_post   - If this is a post-calibration block, true. Else false.
    * @returns {Array&lt;object>}
    */
-  this.makeCalibrationBlocks = function(is_post) {
+  this.makeCalibrationPhase = function(is_post) {
       var calibration_blocks = [];
 
       for(i = 0; i &lt; this.stimuli.length; i++) {
@@ -208,8 +202,7 @@ function Experiment(params) {
       return calibration_blocks;
   }
 
-  /**
-   * Generates a block of calibration trials.
+  /** Generate a block of calibration trials.
    *
    * @param {object} experiment - An instance of the experiment.
    * @param {boolean} is_post   - If this is a post-calibration block, true. Else false.
@@ -267,8 +260,7 @@ function Experiment(params) {
   }
 }
 
-/**
- * Samples trials from a set of trials.
+/** Sample trials from a set of trials.
  *
  * @param {Array&lt;object>} trials - An array of trials to cample from.
  * @param {Number} sample_size - The number of trials to sample.
@@ -278,8 +270,7 @@ function sampleTrials(trials, sample_size) {
   return jsPsych.randomization.sample(trials, sample_size, true);
 }
 
-/**
- * Calculates the most ambiguous scalepos for a given stimulus.
+/** Calculate the most ambiguous scale point for a given stimulus.
  *
  * @param {String} stimulus - Name of the stimulus to check.
  * @returns {Number}
@@ -320,8 +311,7 @@ function sampleTrials(trials, sample_size) {
   return ambiguous_point;
 }
 
-/**
- * Adjusts the ambiguous point as needed.
+/** Adjust the ambiguous point as needed.
  *
  * @param {number} ambiguous_point - The original ambiguous point.
  */
@@ -728,7 +718,7 @@ function makePosttestBlocks(experiment) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Tue Aug 29 2017 15:44:52 GMT-0500 (CDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Tue Aug 29 2017 21:11:16 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>
