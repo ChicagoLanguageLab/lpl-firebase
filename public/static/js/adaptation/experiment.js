@@ -454,14 +454,26 @@ function makeExposureTrial(experiment, statement_index, trial_index, stim_index)
     }
   }
 
+  var stim_function = function() {
+    var prev_data = jsPsych.data.getLastTrialData();
+    var cur_data  = jsPsych.currentTrial().data;
+
+    cur_data.scalepos = calculateExposureScalepos(cur_data.condition, cur_data.subcondition, cur_data.stimulus);
+
+    return '../static/images/adaptation/' + cur_data.color + cur_data.stimulus + cur_data.scalepos + '.jpg';
+  };
+
   if(stimulus.name !== 'flower') {
 
-    var cur_scalepos = calculateExposureScalepos(experiment.condition, experiment.subcondition, stimulus);
+    trial.stimulus = stim_function;
 
-    trial.stimulus = '../static/images/adaptation/' + experiment.calibration_colors[color_index] + stimulus.name + cur_scalepos + '.jpg';
-    trial.data.scalepos = cur_scalepos;
+    trial.data.condition = experiment.condition;
+    trial.data.subcondition = experiment.subcondition;
+    trial.data.stimulus = stimulus.name;
+    trial.data.color = experiment.exposure_colors[color_index]
+
     trial.prompt = audio_header + stimulus.name + '_' + experiment.subcondition +  + statement_index + experiment.voice + audio_footer;
-    console.log(trial.prompt);
+
   } else {
 
     trial.stimulus = '../static/images/adaptation/flower4' + experiment.calibration_colors[color_index] + '.jpg';
@@ -667,7 +679,7 @@ function makePosttestBlock(experiment, stim_index) {
   for(var z = 0; z < experiment.posttest_points.length; z++) {
 
       var trialset = [];
-      var reshuffled_colors = jsPsych.randomization.shuffle(experiment.calibration_colors);
+      var reshuffled_colors = jsPsych.randomization.shuffle(experiment.posttest_colors);
 
       // If we're not doing flowers, each segment contains three trials
       if(experiment.stimuli[stim_index] !== 'flower') {
