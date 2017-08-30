@@ -28,7 +28,7 @@ function checkWorker(workerId, studyName, divsToRemove) {
     return firebase.database().ref(studyName + '/' + workerId).once('value').then(function(snapshot) {
         if(snapshot.val().complete == 1) {
            _.each(divsToRemove, function(elem, index, list) {
-             elem.remove();
+             $('#' + elem).remove();
            });
            $(document).append($('<div>', {
              id: 'error',
