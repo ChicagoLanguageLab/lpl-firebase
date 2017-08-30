@@ -21,7 +21,7 @@ var dataRef = storageRef.child('2-24-2017-run1/' + Experiment.subject.id + Exper
 $( document ).ready(function() {
 
     /* Initialize experiment */
-
+    checkWorker(Experiment.subject.id, 'adaptation-workers', 'jspsych-target');
     jsPsych.init({
       timeline: Experiment.timeline,
       show_progress_bar: true,

@@ -41,7 +41,7 @@ jsPsych.plugins['ospan-math-response'] = (function() {
       "id": 'jspsych-ospan-math-response',
       "class": 'jspsych-ospan-math-response center-content',
       "css": {
-        'position': 'relative',
+        'position': 'relative'
       }
     }));
 
@@ -51,7 +51,7 @@ jsPsych.plugins['ospan-math-response'] = (function() {
       "css": {
         'position': 'fixed',
         'bottom': '25%',
-        'width': '800px'
+        'width': '100%'
       }
     }));
 

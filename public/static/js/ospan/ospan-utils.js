@@ -26,7 +26,7 @@ function displayFeedback(type) {
 
   if(type == "LetterPractice" || type == "BothPractice" || type == "Experiment") {
 
-    feedback = "<p>You correctly recalled " + trialData.letters_correct + " out of " + trialData.total_letters + " letters.</p>";
+    feedback = '<p class="large">You correctly recalled ' + trialData.letters_correct + " out of " + trialData.total_letters + " letters.";
 
     color = 'style="color: black"';
 
@@ -82,23 +82,23 @@ function displayFeedback(type) {
 
   if(type == "MathPractice") {
     if(trialData.correct) {
-      feedback = '<p class="large">Correct</p>';
+      feedback = 'Correct';
       color = 'style="color: green"';
     }
     else {
-      feedback = '<p class="large">Incorrect</p>';
+      feedback = 'Incorrect';
       color = 'style="color: red"';
     }
   }
 
-  return totalPercentString + '<div class="center-screen center-content"><span ' + color + '>' + feedback + '</span><p class="center-content small">Press space to continue.</p></div>';
+  return totalPercentString + '<div class="center-screen text-center"><p class="large"><span ' + color + '>' + feedback + '</span></p><br/><br/><p class="small">Press space to continue.</p></div>';
 }
 
 function makeLetterStimulus(letter) {
   return ({
     type: "ospan-letter-stim",
     is_html: true,
-    stimulus: '<div class="center-screen very-large">' + letter + '</div>',
+    stimulus: '<div class="center-screen text-center very-large">' + letter + '</div>',
     timing_response: 1000,
     response_ends_trial: false,
     choices: []
@@ -246,7 +246,7 @@ function makeLetterStimuli(sizes, type) {
 function makeLetterResponse(size, type, recallString) {
   return ({
     type: 'ospan-letter-response',
-    instructions: 'Select the letters in the order you saw them.',
+    instructions: '<p>Select the letters in the order you saw them.</p>',
     nrows: 4,
     ncols: 3,
     letters: letters,
@@ -302,11 +302,11 @@ function makeMathProblem(problem, answer, correct, type) {
         ospan_type: type,
         dislay_answer: answer
       },
-      prompt: '<p class="center-content small">Press space when you know the answer.</p>',
+      prompt: '<p class="text-center small">Press space when you know the answer.</p>',
       is_html: true,
       timing_response: timing_response,
       choices: [' '],
-      stimulus: '<div class="center-screen very-large">' + problem  + '</div>'
+      stimulus: '<div class="center-screen text-center very-large">' + problem  + '</div>'
     }, {
       conditional_function: function() {
         var data = jsPsych.data.getLastTrialData();

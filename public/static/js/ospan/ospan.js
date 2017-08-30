@@ -77,7 +77,7 @@ $(document).ready(function(){
     $('#progress-bar').show();
     $('#jspsych-target').show();
 
-    checkWorker(workerId, 'production-study', 'jspsych-target');
+    checkWorker(workerId, 'ospan', 'jspsych-target');
 
     jsPsych.init({
       display_element: $('#jspsych-target'),

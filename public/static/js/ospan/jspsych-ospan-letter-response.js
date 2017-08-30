@@ -29,7 +29,7 @@ jsPsych.plugins['ospan-letter-response'] = (function() {
       "id": 'jspsych-ospan-instructions',
       "class": 'jspsych-ospan-instructions'
     }));
-    $('#jspsych-ospan-instructions').html(trial.instructions + "<br/><br/>");
+    $('#jspsych-ospan-instructions').html(trial.instructions);
 
 
     display_element.append($('<table>', {
