@@ -130,7 +130,7 @@ function Experiment(params) {
   this.createTimeline = function() {
 
     // Add the pre-experiment block to the timeline
-    //this.timeline.push(this.prefabs.pre_experiment_block);
+    this.timeline.push(this.prefabs.pre_experiment_block);
 
     // Generate the three main phases of the experiment
     var calibration_blocks = this.makeCalibrationBlocks(false);
