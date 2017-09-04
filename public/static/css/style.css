@@ -1,18 +1,6 @@
 .hidden {
    display: none;
 }
-.container {
-  width: 80%;
-  margin: auto;
-}
-.carousel {
-  width: 100%;
-  margin: auto;
-}
-.card {
-  width: 100%;
-  margin: auto;
-}
 form {
   margin-left: 15px;
 }
@@ -71,4 +59,86 @@ form {
 }
 .bs-callout-info h4 {
     color: #5bc0de;
+}
+
+.jspsych-display-element {
+  width: 100% !important;
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  font-size: 18px;
+  margin: auto;
+}
+
+body {
+  background-color: #f3f3f3 !important;
+}
+
+p, h1, h2, h3, h4  {
+  margin: 20px 15px 20px 15px !important;
+}
+
+.contact-info {
+  margin-left: 15px;
+}
+
+#jspsych-progressbar-container {
+  margin-bottom: 0 !important;
+  width: 100%;
+  position: sticky;
+  top: 0px;
+  z-index: 1071;
+}
+
+button {
+  font-family: 'Open Sans', 'Arial', sans-serif !important;
+}
+
+.center-screen {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.header {
+  background-color: #36418C;
+  color: #a9afd8;
+  padding: 1rem 15px;
+}
+
+.footer {
+  background-color: #36418C;
+  color: #a9afd8;
+  padding: 1rem 15px;
+}
+
+.footer p {
+  font-size: 1rem;
+}
+
+div.header h1 {
+  font-size: 2.5rem;
+  color: #f3f3f3;
+  font-weight: 300;
+}
+
+div.header p {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.logo {
+  width: 100px;
+}
+
+hr.style-eight { padding: 0; border: none; border-top: medium double #a9afd8; color: #a9afd8; text-align: center; } hr.style-eight:after { content: "§"; display: inline-block; position: relative; top: -0.7em; font-size: 1.5em; padding: 0 0.25em; }
+
+.form-error {
+  font-size: 0.75em;
+  color: #c23d6d;
+}
+
+img#jspsych-single-stim-stimulus {
+  padding: 2em;
 }
