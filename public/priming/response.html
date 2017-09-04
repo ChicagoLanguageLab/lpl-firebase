@@ -33,68 +33,65 @@
 		var storageRef = storage.ref();
 		var database = firebase.database();
 
-		window.handleIFrameMessage = function(e) { 
-		 	var args = e.data.split(":"); 
-		 	var iframe = false; 
-		 	if (args.length > 2) { 
-		 		iframe = document.getElementById("JotFormIFrame-" + args[2]); 
-		 	} 
-		 	else { 
-		 		iframe = document.getElementById("JotFormIFrame"); 
-		 	} 
-		 	if (!iframe) 
+		window.handleIFrameMessage = function(e) {
+		 	var args = e.data.split(":");
+		 	var iframe = false;
+		 	if (args.length > 2) {
+		 		iframe = document.getElementById("JotFormIFrame-" + args[2]);
+		 	}
+		 	else {
+		 		iframe = document.getElementById("JotFormIFrame");
+		 	}
+		 	if (!iframe)
 		 		return;
 
-		 	switch (args[0]) { 
-		 		case "scrollIntoView": 
-		 			iframe.scrollIntoView(); 
+		 	switch (args[0]) {
+		 		case "scrollIntoView":
+		 			iframe.scrollIntoView();
 		 			break;
-		 		case "setHeight": 
-		 			iframe.style.height = args[1] + "px"; 
-		 			break; 
-		 		case "collapseErrorPage": 
-		 			if (iframe.clientHeight > window.innerHeight) { 
-		 				iframe.style.height = window.innerHeight + "px"; 
-		 			} 
-		 			break; 
-		 		case "reloadPage": 
-		 			window.location.reload(); 
-		 			break; 
-		 	} 
+		 		case "setHeight":
+		 			iframe.style.height = args[1] + "px";
+		 			break;
+		 		case "collapseErrorPage":
+		 			if (iframe.clientHeight > window.innerHeight) {
+		 				iframe.style.height = window.innerHeight + "px";
+		 			}
+		 			break;
+		 		case "reloadPage":
+		 			window.location.reload();
+		 			break;
+		 	}
 
-		 	var isJotForm = (e.origin.indexOf("jotform") > -1) ? true : false; 
+		 	var isJotForm = (e.origin.indexOf("jotform") > -1) ? true : false;
 
-		 	if(isJotForm && "contentWindow" in iframe && "postMessage" in iframe.contentWindow) { 
+		 	if(isJotForm && "contentWindow" in iframe && "postMessage" in iframe.contentWindow) {
 		 		var urls = {
 		 			"docurl":encodeURIComponent(document.URL),
 		 			"referrer":encodeURIComponent(document.referrer)
-		 		}; 
-		 		
-		 		iframe.contentWindow.postMessage(JSON.stringify({"type":"urls","value":urls}), "*"); 
-		 	} 
-		 }; 
+		 		};
 
-		 if (window.addEventListener) { 
-		 	window.addEventListener("message", handleIFrameMessage, false); 
-		 } 
-		 else if (window.attachEvent) { 
-		 	window.attachEvent("onmessage", handleIFrameMessage); 
+		 		iframe.contentWindow.postMessage(JSON.stringify({"type":"urls","value":urls}), "*");
+		 	}
+		 };
+
+		 if (window.addEventListener) {
+		 	window.addEventListener("message", handleIFrameMessage, false);
+		 }
+		 else if (window.attachEvent) {
+		 	window.attachEvent("onmessage", handleIFrameMessage);
 		 }
 
 		 $( document ).ready(function() {
 
 		 	if(window.location.href && window.location.href.indexOf("?") > -1) {
-			 	var ifr = false; 
-			 	ifr = document.getElementById("JotFormIFrame-70556163298160"); 
-			 	
-			 	var get = window.location.href.substr(window.location.href.indexOf("?") + 1); 
-			 	
-			 	console.log(get);
-			 	console.log(ifr);
-			 	
-			 	if(ifr && get.length > 0) { 
+			 	var ifr = false;
+			 	ifr = document.getElementById("JotFormIFrame-70556163298160");
+
+			 	var get = window.location.href.substr(window.location.href.indexOf("?") + 1);
+
+			 	if(ifr && get.length > 0) {
 			 		var src = ifr.src;
-			 		src = src.indexOf("?") > -1 ? src + "&" + get : src + "?" + get; 
+			 		src = src.indexOf("?") > -1 ? src + "&" + get : src + "?" + get;
 			 		ifr.src = src;
 			 		console.log(src);
 			 	}
@@ -102,25 +99,19 @@
 
 		 	var params = getAllUrlParams();
 		 	var workerId = params.workerId;
-		 	var image = params.image;
-		 	var audio = params.audio;
-		 	var sentence = params.sentence;
-		 	var verb = params.verb;
+			var image = params.image;
 
 		 	addWorker(workerId, 'priming-study');
+			$(".insert-image").attr("src", "../static/images/priming/" + image + ".jpg");
 
-		 	$(".insert-image").attr("src", "../static/images/priming/" + image + ".jpg");
-		 	$(".insert-verb").html('Use this verb in your description: <strong>"' + verb + '"</strong>');
 		 });
 	</script>
 
 	</head>
 
 	<body>
-		<div class="card text-center mt-5" style="width: 50%; margin: auto;">
+		<div class="text-center mt-2" style="width: 50%; margin: auto;">
 			<img class="insert-image" style="width: 350px; margin: auto;"></img>
-			<p class="lead ">What is happening in this image?</p>
-			<p class="lead insert-verb"></p>
 		</div>
 
 		<div id="recording-form"><iframe id="JotFormIFrame-70556163298160" onload="window.parent.scrollTo(0,0)" allowtransparency="true" src="https://form.jotform.com/70556163298160" frameborder="0" style="width:100%; height:539px; border:none;" scrolling="no"></iframe></div>

@@ -17,11 +17,9 @@ function precise_round(num, decimals) {
     return (Math.round((num * t) + (decimals>0?1:0)*(sign(num) * (10 / Math.pow(100, decimals)))) / t).toFixed(decimals);
 }
 
-function saveData(filedata, dataRef){
+function saveData(filedata, dataRef, thenFunc){
     console.log("Saving progress...");
-    dataRef.putString(filedata).then(function(snapshot) {
-        console.log('Data has been uploaded!');
-    });
+    dataRef.putString(filedata).then(thenFunc);
 }
 
 function checkWorker(workerId, studyName, divsToRemove) {

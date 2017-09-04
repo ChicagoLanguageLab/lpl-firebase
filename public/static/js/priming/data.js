@@ -210,11 +210,18 @@ sentences = {'1a': 'Daniel planned to send his mother a note, but after work he 
 			 '29h': 'Carl did not want to sell the car to the organization, so he was ashamed.'
 };
 
-var instructions = `<p>You will first be presented with a sentence. Take a moment to <strong>read</strong> the sentence.</p>
-						<p>After a few seconds, an audio recording of the sentence will play. Please <strong>listen</strong> carefully to the recording.</p>
-						<p>Once the recording has finished playing, a <strong>Next</strong> button will appear.</p>
-            <div class="card-block">
-						<p>After you click "Next", you will be presented with an image and a verb.</p>
-						<p>Use the recorder provided on this page to <strong>record</strong> yourself describing what is happening in the image.</p>
-						<p>Please use only <strong>one sentence</strong> to describe the image, and be sure to <strong>use the provided verb</strong> in your sentence.</p>
-					</div>`
+var instructions = `<p>In the first phase of this study, you will be shown a sentence.
+                       After a few seconds, an audio recording of the sentence will play.
+                       Please read the sentence and listen carefully to the recording before continuing.
+                    </p>
+						        <p>In the second phase, you will be shown an image and a verb.
+                       (A verb is a word such as <i>jump</i>, <i>think</i>, <i>happen</i>, or <i>exist</i> that expresses an action, occurrence, or state of being.)
+                    </p>
+                    <p>
+                       Using the recorder provided on the same page, please describe what is happening in the image.
+                       Your description should be limited to one sentence and <strong>must use</strong> the provided verb.
+                    </p>
+                    <p>
+                      For example, if the image depicts a smiling girl and is accompanied by the verb "grin", you might provide the description, "A girl is grinning."
+                    </p>
+                    <p>Press the <strong>space bar</strong> when you are ready to continue.</p>`
