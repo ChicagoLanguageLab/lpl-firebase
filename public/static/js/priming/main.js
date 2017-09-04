@@ -12,7 +12,7 @@ var database = firebase.database();
 
 var subjectData = {};
 
-var timeline = [];//[prefabs.pre_experiment_block];
+var timeline = [prefabs.pre_experiment_block];
 
 timeline.push({
   type: 'text',
@@ -22,8 +22,6 @@ timeline.push({
 
 timeline.push(prefabs.speaker);
 timeline.push(prefabs.microphone);
-
-console.log(timeline);
 
 $( document ).ready(function() {
 
