@@ -18,6 +18,7 @@ function AdaptationExperiment(params, prefabs) {
   this.timeline = []
 
   this.pre_experiment = prefabs.pre_experiment_block;
+
   this.post_experiment = prefabs.final_block;
 
   /** The subject completing the experiment.
@@ -116,8 +117,7 @@ function AdaptationExperiment(params, prefabs) {
     max_scalepos: params.calibration.max_scalepos
   }
 
-  /**
-   * Add experimental data to jsPsych's data object.
+  /** Add experimental data to jsPsych's data object.
    * @function
    */
   this.addPropertiesTojsPsych = function () {
@@ -130,8 +130,7 @@ function AdaptationExperiment(params, prefabs) {
     });
   };
 
-  /**
-   * Generate all trials that cannot be pre-constructed.
+  /** Generate all trials that cannot be pre-constructed.
    * @function
    */
   this.createTimeline = function() {
@@ -290,8 +289,7 @@ function AdaptationExperiment(params, prefabs) {
     return exp_posttest_blocks;
   }
 
-  /**
-   * Generates the full set of possible calibration trials for a given stimulus/scale position combination.
+  /** Generate the full set of possible calibration trials for a given stimulus/scale position combination.
    *
    * @param {Object} stimulus - The stimulus to use when generating trials.
    * @param {Number} scale_pos  - The scale position to use when generating trials.
