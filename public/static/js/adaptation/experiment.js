@@ -69,6 +69,16 @@ function AdaptationExperiment(params) {
    */
   this.max_scalepos = params.max_scalepos;
 
+  /** The number of unique audio clips in the exposure phase.
+   * @type {number}
+   */
+  this.num_exposure_audio = params.num_exposure_audio;
+
+  /** The number of times to repeat each audio clip in the exposure phase.
+   * @type {number}
+   */
+  this.reps_per_audio = params.reps_per_audio;
+
   /** The number of times to repeat each scale point.
    * @type {Array<number>}
    */
@@ -130,7 +140,7 @@ function AdaptationExperiment(params) {
     }
 
     // Add the pre-experiment block to the timeline
-    this.timeline.push(this.prefabs.pre_experiment_block);
+    //this.timeline = this.timeline.concat(this.prefabs.pre_experiment_block);
 
     // Generate the three main phases of the experiment
     var calibration_blocks = this.makeCalibrationBlocks(false);
@@ -360,10 +370,10 @@ function AdaptationExperiment(params) {
     var timing;
 
     if(statement_index == 0 && trial_index == 0) {
-        statement_index = 5;
+        statement = 5;
         timing = 7500;
     } else {
-       statement_index = statement_index + 1;
+       statement = statement_index + 1;
        timing = 4500;
     }
 
@@ -384,14 +394,13 @@ function AdaptationExperiment(params) {
     var stim_function = function() {
       var trial_data  = jsPsych.currentTrial().data;
       trial_data.scalepos = calculateExposureScalepos(trial_data.condition, trial_data.subcondition, trial_data.stim_object);
-
-      return '../static/images/adaptation/' + trial_data.color + trial_data.stimulus + trial_data.scalepos + '.jpg';
+      return '../static/images/adaptation/' + trial_data.color + trial_data.stim_object + trial_data.scalepos + '.jpg';
     };
 
     if(stimulus.name !== 'flower') {
 
       trial.stimulus = stim_function;
-      trial.prompt = audio_header + stimulus.name + '_' + this.subcondition +  + statement_index + this.voice + audio_footer;
+      trial.prompt = audio_header + stimulus.name + '_' + this.subcondition + statement + this.voice + audio_footer;
 
     } else {
 
@@ -400,7 +409,7 @@ function AdaptationExperiment(params) {
       trial.data.scalepos = 4;
 
     }
-
+    
     return trial;
   }
 
@@ -411,8 +420,8 @@ function AdaptationExperiment(params) {
    */
   this.makeExposureBlock = function(stimulus) {
     var trials = [];
-    for(var x = 0; x < 4; x++) {
-      for(var y = 0; y < 6; y++) {
+    for(var x = 0; x < this.num_exposure_audio; x++) {
+      for(var y = 0; y < this.reps_per_audio; y++) {
         trials.push(this.makeExposureTrial(x, y, stimulus));
       }
     }
@@ -425,9 +434,9 @@ function AdaptationExperiment(params) {
    */
   this.makeExposureBlocks = function() {
       var blocks = [];
-      for(var i = 0; i < this.stimuli.length; i++) {
-          blocks.push(this.makeExposureBlock(i));
-      }
+      _.each(this.stimuli, function(stimulus) {
+        blocks.push(this.makeExposureBlock(stimulus));
+      }, this);
       return blocks;
   }
 
@@ -523,6 +532,8 @@ function AdaptationExperiment(params) {
       var corrected_ambiguous_point = adjustAmbiguousPoint(prev_trial_data[trial_data.stim_obj + 'CorrectedAmbiguousPoint'], trial_data.adjustment);
 
       trial_data.scalepos = corrected_ambiguous_point;
+      console.log(trial_data);
+
       return '../static/images/adaptation/' + trial_data.color + trial_data.stim_obj + corrected_ambiguous_point + '.jpg';
     };
 
