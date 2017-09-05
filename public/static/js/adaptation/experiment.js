@@ -143,12 +143,13 @@ function AdaptationExperiment(params) {
       _.zip(calibration_blocks, exposure_blocks, post_calibration_blocks)
     );
 
-    // Concat the flattened experiement blocks
+    // Concat the flattened experiment blocks
     this.timeline = this.timeline.concat(experiment_blocks);
-    console.log(this.timeline);
 
     // Add on the final block
     this.timeline.push(this.prefabs.final_block);
+
+    console.log(this.timeline);
   }
 
   /** Generate a set of calibration blocks.
@@ -175,7 +176,7 @@ function AdaptationExperiment(params) {
     var block_type = is_post? 'post-calibration' : 'calibration';
 
     for (var i = 1; i < this.max_scalepos + 1; i++) {
-        var full_trials = makeCalibrationTrials(this, stim_index, i);
+        var full_trials = this.makeCalibrationTrials(stim_index, i);
         trials = trials.concat(sampleTrials(full_trials, this.trial_distribution[i - 1]));
     }
     trials = jsPsych.randomization.shuffle(trials);
@@ -242,25 +243,6 @@ function AdaptationExperiment(params) {
 
   /** Generate a block of exposure-posttest trials.
    *
-   * @returns {Attay<Object>}
-   */
-  this.makeExposurePosttestBlocks = function() {
-
-    var exposure_blocks  = this.makeExposureBlocks();
-    var attention_blocks = this.makeAttentionBlocks(4);
-    var posttest_blocks  = this.makePosttestBlocks();
-
-    var eap_blocks = _.zip(exposure_blocks, attention_blocks, posttest_blocks);
-
-    var exp_post_blocks = _.map(eap_blocks, function(block_set) {
-      return this.makeExposurePosttestBlock(block_set[0], block_set[1], block_set[2]);
-    });
-
-    return exp_post_blocks;
-  }
-
-  /** Generate a block of exposure-posttest trials.
-   *
    * @param {Array<Object>} exposure_trials - An array of exposure trials.
    * @param {Array<Object>} attention_trials - An array of attention trials.
    * @param {Array<Object>} posttest_trials - An array of post-test trials.
@@ -279,6 +261,24 @@ function AdaptationExperiment(params) {
       ],
       timing_post_trial: 1000
     });
+  }
+
+  /** Generate a block of exposure-posttest trials.
+   *
+   * @returns {Attay<Object>}
+   */
+  this.makeExposurePosttestBlocks = function() {
+
+    var exposure_blocks  = this.makeExposureBlocks();
+    var attention_blocks = this.makeAttentionBlocks(4);
+    var posttest_blocks  = this.makePosttestBlocks();
+
+    var eap_blocks = _.zip(exposure_blocks, attention_blocks, posttest_blocks);
+    var exp_posttest_blocks = _.map(eap_blocks, function(block_set) {
+      return this.makeExposurePosttestBlock(block_set[0], block_set[1], block_set[2]);
+    }, this);
+
+    return exp_posttest_blocks;
   }
 
   /**
@@ -413,7 +413,7 @@ function AdaptationExperiment(params) {
     var trials = [];
     for(var x = 0; x < 4; x++) {
       for(var y = 0; y < 6; y++) {
-        trials.push(makeExposureTrial(x, y, stimulus));
+        trials.push(this.makeExposureTrial(x, y, stimulus));
       }
     }
     return trials;
@@ -425,8 +425,8 @@ function AdaptationExperiment(params) {
    */
   this.makeExposureBlocks = function() {
       var blocks = [];
-      for(var i = 0; i < experiment.stimuli.length; i++) {
-          blocks.push(makeExposureBlock(i));
+      for(var i = 0; i < this.stimuli.length; i++) {
+          blocks.push(this.makeExposureBlock(i));
       }
       return blocks;
   }
@@ -483,7 +483,7 @@ function AdaptationExperiment(params) {
   */
   this.makeAttentionBlock = function() {
     var trials = []
-    var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
+    var colors = jsPsych.randomization.sample(["red", "blue"], this.stimuli.length, true);
     for(var i = 0; i < this.attention_points.length; i++) {
       trials.push(this.makeAttentionTrial(colors[i]));
     }
@@ -652,7 +652,7 @@ function AdaptationExperiment(params) {
   this.makePosttestBlocks = function() {
     var blocks = [];
     for(var x = 0; x < this.stimuli.length; x++) {
-        blocks.push(makePosttestBlock(experiment, x));
+        blocks.push(this.makePosttestBlock(x));
     }
     return blocks;
   }
