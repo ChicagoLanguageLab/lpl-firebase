@@ -5,7 +5,7 @@
   * @constructor
   * @param {Object} params - The experiment parameters.
   */
-function AdaptationExperiment(params) {
+function AdaptationExperiment(params, prefabs) {
 
   /** The stimuli used in the experiment.
    * @type {Array<object>}
@@ -121,19 +121,18 @@ function AdaptationExperiment(params) {
 
     // Some text depends on whether or not the voice is synthesized
     // Create a prefab with the appropriate text
-    var exposure_variable_text;
+    var exposure_text;
     switch(this.voice) {
       case 'z':
-        this.prefabs.audio_test_block = audio_test_prefabs.synth;
-        exposure_variable_text = 'You will also listen to sentences recorded using a speech synthesizer we are testing. ';
+        this.prefabs.audio_test_block = this.prefabs.audio_test_prefabs.synth;
+        exposure_text = this.prefabs.exposure_instructions.header + exposure_variable_text + exposure_instructions.footer
         break;
       default:
-        this.prefabs.audio_test_block = audio_test_prefabs.human;
-        exposure_variable_text = 'You will also hear a verbal description of each image. ';
+        this.prefabs.audio_test_block = this.prefabs.audio_test_prefabs.human;
     }
-    this.prefabs.exposure_instructions = {
+    this.exposure.instructions = {
         type: 'text',
-        text: exposure_instructions.header + exposure_variable_text + exposure_instructions.footer,
+        text: ,
         cont_key: [' ']
     }
 
