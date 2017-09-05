@@ -3,7 +3,7 @@
 
 /** Construct an instance of the AdaptationExperiment class.
   * @constructor
-  * @param {Object} params - A collection of parameters.
+  * @param {Object} params - The experiment parameters.
   */
 function AdaptationExperiment(params) {
 

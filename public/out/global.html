@@ -104,6 +104,340 @@
     
 
     
+    <h4 class="name" id="addAmbiguousPointToData"><span class="type-signature"></span>addAmbiguousPointToData<span class="signature">(stim_name, ambiguous_point)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Add the subject's ambiguous point and tweaked ambiguous point to jsPsych's data.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>stim_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the stimulus.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ambiguous_point</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The base ambiguous point for this stimulus.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line738">line 738</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="adjustAmbiguousPoint"><span class="type-signature"></span>adjustAmbiguousPoint<span class="signature">(ambiguous_point, scale_adjustment)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Adjust the ambiguous point a given amount.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ambiguous_point</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ambiguous point.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scale_adjustment</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The amount to adjust the ambiguous point by.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line773">line 773</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="calculateAmbiguousPoint"><span class="type-signature"></span>calculateAmbiguousPoint<span class="signature">(stimulus)</span><span class="type-signature"> &rarr; {Number}</span></h4>
     
 
@@ -205,7 +539,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line250">line 250</a>
+        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line685">line 685</a>
     </li></ul></dd>
     
 
@@ -257,7 +591,7 @@
     
 
     
-    <h4 class="name" id="makeTrialSet"><span class="type-signature"></span>makeTrialSet<span class="signature">(experiment, stim_index, scale_pos)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="calculateExposureScalepos"><span class="type-signature"></span>calculateExposureScalepos<span class="signature">(condition, subcondition, stimulus)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
     
 
     
@@ -265,7 +599,7 @@
 
 
 <div class="description">
-    Generates the full set of possible trials for a single stimulus/scale position combination.
+    Calculate the scale position to use in an exposure trial.
 </div>
 
 
@@ -301,13 +635,13 @@
 
         <tr>
             
-                <td class="name"><code>experiment</code></td>
+                <td class="name"><code>condition</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">String</span>
 
 
             
@@ -317,20 +651,20 @@
 
             
 
-            <td class="description last">An instance of the experiment.</td>
+            <td class="description last">The experimental condition.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>stim_index</code></td>
+                <td class="name"><code>subcondition</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">String</span>
 
 
             
@@ -340,20 +674,20 @@
 
             
 
-            <td class="description last">The index of the stimulus to use when generating trials.</td>
+            <td class="description last">The experimental subcondition.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>scale_pos</code></td>
+                <td class="name"><code>stimulus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">String</span>
 
 
             
@@ -363,7 +697,7 @@
 
             
 
-            <td class="description last">The scale position to use when generating trials.</td>
+            <td class="description last">The name of the stimulus.</td>
         </tr>
 
     
@@ -404,7 +738,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line319">line 319</a>
+        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line755">line 755</a>
     </li></ul></dd>
     
 
@@ -427,6 +761,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -562,7 +914,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line241">line 241</a>
+        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line676">line 676</a>
     </li></ul></dd>
     
 
@@ -715,7 +1067,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line290">line 290</a>
+        <a href="experiment.js.html">experiment.js</a>, <a href="experiment.js.html#line725">line 725</a>
     </li></ul></dd>
     
 
@@ -759,13 +1111,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Experiment.html">Experiment</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calculateAmbiguousPoint">calculateAmbiguousPoint</a></li><li><a href="global.html#makeTrialSet">makeTrialSet</a></li><li><a href="global.html#sampleTrials">sampleTrials</a></li><li><a href="global.html#tweakAmbiguousPoint">tweakAmbiguousPoint</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptationExperiment.html">AdaptationExperiment</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addAmbiguousPointToData">addAmbiguousPointToData</a></li><li><a href="global.html#adjustAmbiguousPoint">adjustAmbiguousPoint</a></li><li><a href="global.html#calculateAmbiguousPoint">calculateAmbiguousPoint</a></li><li><a href="global.html#calculateExposureScalepos">calculateExposureScalepos</a></li><li><a href="global.html#sampleTrials">sampleTrials</a></li><li><a href="global.html#tweakAmbiguousPoint">tweakAmbiguousPoint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Tue Aug 29 2017 21:11:16 GMT-0500 (CDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Tue Sep 05 2017 15:16:26 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>
