@@ -48,51 +48,49 @@ function AdaptationExperiment(params) {
     */
   this.prefabs = prefabs;
 
-  /** The colors to be used during the exposure phase.
-   * @type {Array<string>}
-   */
-  this.exposure_colors = params.exposure_colors;
+  /** Data for the exposure phase.
+   * @type {Object}
+   * @property {Array<String>} colors - The colors to be used during the exposure phase.
+   * @property {Number} num_audio - The number of unique audio clips in the exposure phase.
+   * @property {Number} reps - The number of times to repeat each audio clip in the exposure phase.
+  */
+  this.exposure = {
+    colors: jsPsych.randomization.shuffle(params.exposure.colors),
+    num_audio: params.exposure.num_audio,
+    reps: params.exposure.reps
+  }
 
-  /** The colors to be used during the posttest phase.
-   * @type {Array<string>}
-   */
-  this.posttest_colors = params.posttest_colors;
+  /** Data for the posttest trials.
+   * @type {Object}
+   * @property {Array<String>} colors - The colors to be used for posttest trials.
+   * @property {Array<Number>} locations - The points in the exposure phase at which to insert posttest trials.
+  */
+  this.posttest = {
+    colors: jsPsych.randomization.shuffle(params.posttest.colors),
+    locations: params.posttest.locations
+  }
 
-  /** The colors used in the calibration phase.
-   * The union of exposure_colors and posttest_colors.
-   * @type {Array<string>}
-   */
-  this.calibration_colors = this.exposure_colors.concat(this.posttest_colors);
+  /** Data for the attention trials.
+   * @type {Object}
+   * @property {Array<String>} colors - The colors to be used for attention trials.
+   * @property {Array<Number>} locations - The points in the exposure phase at which to insert attention trials.
+  */
+  this.attention = {
+    colors: params.attention.colors,
+    locations: params.attention.locations
+  }
 
-  /** The highest possible scale point.
-   * @type {number}
-   */
-  this.max_scalepos = params.max_scalepos;
-
-  /** The number of unique audio clips in the exposure phase.
-   * @type {number}
-   */
-  this.num_exposure_audio = params.num_exposure_audio;
-
-  /** The number of times to repeat each audio clip in the exposure phase.
-   * @type {number}
-   */
-  this.reps_per_audio = params.reps_per_audio;
-
-  /** The number of times to repeat each scale point.
-   * @type {Array<number>}
-   */
-  this.trial_distribution = params.trial_distribution;
-
-  /** The points during the exposure phase at which to insert post-test trials.
-    * @type {Array<number>}
-    */
-  this.posttest_points = params.posttest_points;
-
-  /** The points during the exposure phase at which to insert attention trials.
-    * @type {Array<number>}
-    */
-  this.attention_points = params.attention_points;
+  /** Data for the calibration phase.
+   * @type {Object}
+   * @property {Array<String>} colors - The colors used during the calibration phase.
+   * @property {Array<Number>} distribution - The number of times to repeat each scale point during calibration.
+   * @property {Number} max_scalepos - The highest possible scale point.
+  */
+  this.calibration = {
+    colors: this.exposure.colors.concat(this.posttest.colors),
+    distribution: params.calibration.distribution,
+    max_scalepos: params.calibration.max_scalepos
+  }
 
   /**
    * Add experimental data to jsPsych's data object.
@@ -185,9 +183,9 @@ function AdaptationExperiment(params) {
     var trials = [];
     var block_type = is_post? 'post-calibration' : 'calibration';
 
-    for (var i = 1; i < this.max_scalepos + 1; i++) {
+    for (var i = 1; i < this.calibration.max_scalepos + 1; i++) {
         var full_trials = this.makeCalibrationTrials(stim_index, i);
-        trials = trials.concat(sampleTrials(full_trials, this.trial_distribution[i - 1]));
+        trials = trials.concat(sampleTrials(full_trials, this.calibration.distribution[i - 1]));
     }
     trials = jsPsych.randomization.shuffle(trials);
 
@@ -317,9 +315,9 @@ function AdaptationExperiment(params) {
     else
       prompt = '<p class="text-center text-center">Is this ' + cur_stim.name + int_text + cur_stim.adjective + '?</p>' + key_instr;
 
-    for (var i = 0; i < this.calibration_colors.length; i++) {
+    for (var i = 0; i < this.calibration.colors.length; i++) {
 
-      var stim_url = '../static/images/adaptation/' + this.calibration_colors[i] + cur_stim.name + scale_pos + '.jpg';
+      var stim_url = '../static/images/adaptation/' + this.calibration.colors[i] + cur_stim.name + scale_pos + '.jpg';
 
       trials.push({
         stimulus: stim_url,
@@ -345,10 +343,10 @@ function AdaptationExperiment(params) {
     for(var i = 0; i < exposure_trials.length; i++) {
       interleaved_trials.push(exposure_trials.shift());
 
-      if(_.contains(this.posttest_points, i + 1)) {
+      if(_.contains(this.posttest.locations, i + 1)) {
           interleaved_trials.push(posttest_trials.shift());
       }
-      if(_.contains(this.attention_points, i + 1)) {
+      if(_.contains(this.attention.locations, i + 1)) {
           interleaved_trials.push(attention_trials.shift());
       }
     }
@@ -385,7 +383,7 @@ function AdaptationExperiment(params) {
       data: {
         subtype: 'exposure',
         stim_object: stimulus.name,
-        color: this.exposure_colors[color_index],
+        color: this.exposure.colors[color_index],
         condition: this.condition,
         subcondition: this.subcondition
       }
@@ -404,12 +402,12 @@ function AdaptationExperiment(params) {
 
     } else {
 
-      trial.stimulus = '../static/images/adaptation/flower4' + this.exposure_colors[color_index] + '.jpg';
+      trial.stimulus = '../static/images/adaptation/flower4' + this.exposure.colors[color_index] + '.jpg';
       trial.prompt = audio_header + 'flower' + statement + this.voice + audio_footer;
       trial.data.scalepos = 4;
 
     }
-    
+
     return trial;
   }
 
@@ -420,8 +418,8 @@ function AdaptationExperiment(params) {
    */
   this.makeExposureBlock = function(stimulus) {
     var trials = [];
-    for(var x = 0; x < this.num_exposure_audio; x++) {
-      for(var y = 0; y < this.reps_per_audio; y++) {
+    for(var x = 0; x < this.exposure.num_audio; x++) {
+      for(var y = 0; y < this.exposure.reps; y++) {
         trials.push(this.makeExposureTrial(x, y, stimulus));
       }
     }
@@ -493,7 +491,7 @@ function AdaptationExperiment(params) {
   this.makeAttentionBlock = function() {
     var trials = []
     var colors = jsPsych.randomization.sample(["red", "blue"], this.stimuli.length, true);
-    for(var i = 0; i < this.attention_points.length; i++) {
+    for(var i = 0; i < this.attention.locations.length; i++) {
       trials.push(this.makeAttentionTrial(colors[i]));
     }
     return trials;
@@ -632,10 +630,10 @@ function AdaptationExperiment(params) {
   */
   this.makePosttestBlock = function(stim_index) {
     var trials = [];
-    for(var z = 0; z < this.posttest_points.length; z++) {
+    for(var z = 0; z < this.posttest.locations.length; z++) {
 
         var ptest_timeline = [];
-        var reshuffled_colors = jsPsych.randomization.shuffle(this.posttest_colors);
+        var reshuffled_colors = jsPsych.randomization.shuffle(this.posttest.colors);
 
         // If we're not doing flowers, each segment contains three trials
         if(this.stimuli[stim_index] !== 'flower') {

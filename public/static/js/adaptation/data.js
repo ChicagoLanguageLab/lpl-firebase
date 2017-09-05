@@ -156,12 +156,21 @@ var params = {
       ambiguous_point: 3
     }
   ],
-  exposure_colors: ['plain', 'red', 'blue', 'lgreen'],
-  posttest_colors: ['purple', 'lblue', 'pink'],
-  max_scalepos: 5,
-  num_exposure_audio: 4,
-  reps_per_audio: 6,
-  trial_distribution: [3,7,10,7,3],
-  posttest_points: [2, 4, 8, 13, 20, 24],
-  attention_points: [5, 10, 17, 22]
+  calibration: {
+    max_scalepos: 5,
+    distribution: [3,7,10,7,3]
+  },
+  exposure: {
+    colors: ['plain', 'red', 'blue', 'lgreen'],
+    num_audio: 4,
+    reps: 6
+  },
+  posttest: {
+    colors: ['purple', 'lblue', 'pink'],
+    locations: [2, 4, 8, 13, 20, 24]
+  },
+  attention: {
+    colors: ['red', 'blue'],
+    locations: [5, 10, 17, 22]
+  }
 }
