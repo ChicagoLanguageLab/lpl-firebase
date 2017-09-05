@@ -30,8 +30,31 @@ var AdaptationData = {
     },
 
     exposure: {
+
+      /** Instructions for the exposure section. */
+      instructions: {
+        /** Text displayed before the voice-specific text. */
+        header: '<p class="lead">In this section, you will be shown a series of images. ',
+
+        /** Text displayed if the voice is human. */
+        body_human: 'You will also hear a verbal description of each image. ',
+
+        /** Text displayed if the voice is synthesized. */
+        body_synth: 'You will also listen to sentences recorded using a speech synthesizer we are testing. ',
+
+        /** Text displayed after the voice-specific text. */
+        footer: 'Periodically, you will answer some questions.</p><p>Be sure to remain focused on the center of the screen. ' +
+                'Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, and you will be asked a question about it. ' +
+                'Please do your best to answer the question accurately.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
+      },
+
+      /** Colors for the exposure section. */
       colors: ['plain', 'red', 'blue', 'lgreen'],
+
+      /** Number of unique audio clips. */
       num_audio: 4,
+
+      /** Number of times to rep each audio clip. */
       reps: 6
     },
 
@@ -50,7 +73,7 @@ var AdaptationData = {
    * @property {Array<Obejct>} pre_experiment_block - The consent form, demographics questionnaire, etc.
    * @property {Object} final_block - The last trial of the experiment.
    * @property {Object} calibration_instructions - Instructions for the calibration phase.
-   * @property {Object} audio_test_prefabs - Trials for checking subjects' microphones.
+   * @property {Object} audio_test - Trials for checking subjects' microphones.
    */
   prefabs: {
     pre_experiment_block: [
@@ -108,6 +131,14 @@ var AdaptationData = {
         cont_key: [' ']
       }
     ],
+    end_block: {
+      type: 'text',
+      cont_key: [' '],
+      text: `<p class="lead">You have finished this section.</p>
+             <p>You can take a short break now if you want to.
+                Please press the <strong>space bar</strong> when you are ready to continue.
+             </p>`
+    },
     final_block: {
       type: 'text',
       cont_key: [''],
@@ -137,7 +168,7 @@ var AdaptationData = {
            </p>`,
       cont_key: [' ']
     },
-    audio_test_prefabs: {
+    audio_test: {
       human: {
         timeline: [{
           type: 'text',
@@ -176,21 +207,6 @@ var AdaptationData = {
         }
       }
     }
-  },
-
-  /** Instructions for the exposure section.
-   * @property {String} header - Text displayed before the voice-specific text.
-   * @property {String} body_human - Text displayed if the voice is human.
-   * @property {String} body_synthesized - Text displayed if the voice is synthesized.
-   * @property {String} footer - Text displayed after the voice-specific text.
-   */
-  exposure_instructions: {
-    header: '<p class="lead">In this section, you will be shown a series of images. ',
-    body_human: 'You will also hear a verbal description of each image. ',
-    body_synth: 'You will also listen to sentences recorded using a speech synthesizer we are testing. ',
-    footer: 'Periodically, you will answer some questions.</p><p>Be sure to remain focused on the center of the screen. ' +
-            'Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, and you will be asked a question about it. ' +
-            'Please do your best to answer the question accurately.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
   },
   audio_header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/',
   audio_footer:'.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>'
