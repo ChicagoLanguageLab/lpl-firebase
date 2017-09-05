@@ -11,7 +11,7 @@ function randomCondition() {
 }
 
 function randomTarget(condition) {
-	if(condition == 'c') 
+	if(condition == 'c')
 		return Math.floor(Math.random() * 3);
 
 	return targetId = Math.floor(Math.random() * 2);
@@ -59,7 +59,7 @@ function initProductionTrials() {
 	    }
 	  }
 	}
-	
+
 	var timeline = _.chain(params)
 		.omit('workerId')
 		.map(function(value, key, list) {
@@ -71,15 +71,15 @@ function initProductionTrials() {
 
 			var condition = randomCondition();
 			var targetId = randomTarget(condition);
-			
+
 			var trialType = trials[item + condition]['type'];
 
 			if(trialType == 'Test' || trialType == 'Color') {
 
 				while(quotas[trialType][condition]['cur_' + targetTypes[targetId]] == quotas[trialType][condition]['max_' + targetTypes[targetId]]) {
-			    
+
 					if(quotas[trialType]['c']['cur_target'] == quotas[trialType]['c']['max_target'] &&
-						quotas[trialType]['c']['cur_competitor'] == quotas[trialType]['c']['max_competitor'] && 
+						quotas[trialType]['c']['cur_competitor'] == quotas[trialType]['c']['max_competitor'] &&
 						quotas[trialType]['c']['cur_contrastDistractor'] == quotas[trialType]['c']['max_contrastDistractor'] &&
 						quotas[trialType]['nc']['cur_target'] == quotas[trialType]['nc']['max_target'] &&
 						quotas[trialType]['nc']['cur_competitor'] == quotas[trialType]['nc']['max_competitor']) {
@@ -115,13 +115,13 @@ function initProductionTrials() {
 				question: question,
 				required: true,
 				data: {
-					question_number: i, 
+					question_number: i,
 					item_number: item,
 					trial__type: trialType,
 					original_item_id: trials[item + condition].originalItemId,
 					target_type: targetTypes[targetId],
 					target_adjective: trials[item + condition].targetAdjective,
-					target_condition: condition, 
+					target_condition: condition,
 					target_image: trials[item + condition][targetTypes[targetId]],
 					original_target: trials[item + condition].target,
 					original_competitor: trials[item + condition].competitor,
@@ -138,7 +138,7 @@ function initProductionTrials() {
 
 			if(i % 10 == 0) {
 			   	trial["on_finish"] = function(data){
-			    	saveData(jsPsych.data.dataAsCSV(), dataRef); 
+			    	saveData(jsPsych.data.dataAsCSV(), dataRef);
 			    };
 			}
 

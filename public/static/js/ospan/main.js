@@ -74,15 +74,21 @@ timeline.push(endBlock);
 
 $(document).ready(function(){
 
-    $('#progress-bar').show();
-    $('#jspsych-target').show();
+  checkWorker(workerId, 'ospan').then(function(snapshot) {
+    if(snapshot.val() && snapshot.val().complete == 1) {
+      console.log('Worker has already completed the experiment.');
+      showError();
+    }
+    else {
+      console.log('Worker has not yet completed the experiment.');
 
-    checkWorker(workerId, 'ospan', 'jspsych-target');
-
-    jsPsych.init({
-      display_element: $('#jspsych-target'),
-      timeline: timeline,
-      show_progress_bar: true,
-      timing_post_trial: 0
+      jsPsych.init({
+        display_element: $('#jspsych-target'),
+        timeline: timeline,
+        show_progress_bar: true,
+        timing_post_trial: 0
+      });
+    }
   });
+
 });

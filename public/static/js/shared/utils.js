@@ -22,19 +22,8 @@ function saveData(filedata, dataRef, thenFunc){
     dataRef.putString(filedata).then(thenFunc);
 }
 
-function checkWorker(workerId, studyName, divsToRemove) {
-    return firebase.database().ref(studyName + '/' + workerId).once('value').then(function(snapshot) {
-        if(snapshot.val().complete == 1) {
-           _.each(divsToRemove, function(elem, index, list) {
-             $('#' + elem).remove();
-           });
-           $(document).append($('<div>', {
-             id: 'error',
-             class: 'text-center',
-             html: '<p>It appears that you have previously completed a study from the Language Processing Lab that used the same data as, or similar data to, the study you are attempting to complete now. Unfortunately, we cannot allow the same person to participate in an experiment more than once. We apologize for the inconvenience, but we must ask that you return your HIT now. (This will not negatively impact your ability to participate in future experiments.)</p><p>If you believe that this message is in error, you can contact the lab at <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>, and we will do our best to resolve the situation.</div>'
-           }));
-        }
-    });
+function checkWorker(workerId, studyName) {
+    return firebase.database().ref(studyName + '/' + workerId).once('value');
 }
 
 function addWorker(workerId, studyName) {
@@ -43,6 +32,14 @@ function addWorker(workerId, studyName) {
         complete : 1
     });
     console.log("Added a worker with completion value 1.");
+}
+
+function showError() {
+  $( '#jspsych-target' ).append($('<div>', {
+     id: 'error',
+     class: 'text-center',
+     html: '<p>It appears that you have previously completed a study from the Language Processing Lab that used the same data as, or similar data to, the study you are attempting to complete now. Unfortunately, we cannot allow the same person to participate in an experiment more than once. We apologize for the inconvenience, but we must ask that you return your HIT now. (This will not negatively impact your ability to participate in future experiments.)</p><p>If you believe that this message is in error, you can contact the lab at <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>, and we will do our best to resolve the situation.</div>'
+   }));
 }
 
 function updateStatus(workerId, value) {

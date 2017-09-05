@@ -20,12 +20,19 @@ var dataRef = storageRef.child('2-24-2017-run1/' + Experiment.subject.id + Exper
 
 $( document ).ready(function() {
 
-    /* Initialize jsPsych */
-    checkWorker(Experiment.subject.id, 'adaptation-workers', 'jspsych-target');
-    jsPsych.init({
-      timeline: Experiment.timeline,
-      show_progress_bar: true,
-      display_element: $('#jspsych-target')
+    checkWorker(Experiment.subject.id, 'adaptation-workers').then(function(snapshot) {
+      if(snapshot.val() && snapshot.val().complete == 1) {
+        console.log('Worker has already completed the experiment.');
+        showError();
+      }
+      else {
+        console.log('Worker has not yet completed the experiment.');
+        jsPsych.init({
+          timeline: Experiment.timeline,
+          show_progress_bar: true,
+          display_element: $('#jspsych-target')
+        });
+      }
     });
 
 });
