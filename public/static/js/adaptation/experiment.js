@@ -490,8 +490,10 @@ function AdaptationExperiment(params) {
   */
   this.makeAttentionBlock = function() {
     var trials = []
-    var colors = jsPsych.randomization.sample(this.attention.colors, this.stimuli.length, true);
-    for(var i = 0; i < this.attention.locations.length; i++) {
+    var num_trials = this.attention.locations.length;
+
+    var colors = jsPsych.randomization.sample(this.attention.colors, num_trials, true);
+    for(var i = 0; i < num_trials; i++) {
       trials.push(this.makeAttentionTrial(colors[i]));
     }
     return trials;
@@ -503,7 +505,7 @@ function AdaptationExperiment(params) {
   */
   this.makeAttentionBlocks = function() {
     var blocks = []
-    for(var x = 0; x < this.stimuli.length; x++) {
+    for(var i = 0; i < this.stimuli.length; i++) {
       blocks.push(this.makeAttentionBlock());
     }
     return blocks;
