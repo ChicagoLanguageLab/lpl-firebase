@@ -12,7 +12,7 @@ var database = firebase.database();
 
 /* Create a unique instance of the experiment */
 
-var Experiment = new Experiment(_.extend(params, jsPsych.data.urlVariables()));
+var Experiment = new AdaptationExperiment(_.extend(params, jsPsych.data.urlVariables()));
 Experiment.createTimeline();
 Experiment.addPropertiesTojsPsych();
 
