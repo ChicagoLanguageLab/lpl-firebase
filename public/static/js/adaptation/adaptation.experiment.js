@@ -185,7 +185,7 @@ function AdaptationExperiment(params) {
 
     for (var i = 1; i < this.calibration.max_scalepos + 1; i++) {
         var full_trials = this.makeCalibrationTrials(stim_index, i);
-        trials = trials.concat(sampleTrials(full_trials, this.calibration.distribution[i - 1]));
+        trials = trials.concat(AdaptationUtils.sampleTrials(full_trials, this.calibration.distribution[i - 1]));
     }
     trials = jsPsych.randomization.shuffle(trials);
 
@@ -213,8 +213,8 @@ function AdaptationExperiment(params) {
       wrap_up.text = function() {
         var prev_stim = jsPsych.data.getLastTrialData().stimulus
         if(prev_stim !== 'flower') {
-          var ambiguous_point = calculateAmbiguousPoint(prev_stim);
-          addAmbiguousPointToData(prev_stim, ambiguous_point);
+          var ambiguous_point = AdaptationUtils.calculateAmbiguousPoint(prev_stim);
+          AdaptationUtils.addAmbiguousPointToData(prev_stim, ambiguous_point);
         }
         return `<p class="lead">You have finished this section.</p>
                 <p>You can take a short break now if you want to.
@@ -391,7 +391,7 @@ function AdaptationExperiment(params) {
 
     var stim_function = function() {
       var trial_data  = jsPsych.currentTrial().data;
-      trial_data.scalepos = calculateExposureScalepos(trial_data.condition, trial_data.subcondition, trial_data.stim_object);
+      trial_data.scalepos = AdaptationUtils.calculateExposureScalepos(trial_data.condition, trial_data.subcondition, trial_data.stim_object);
       return '../static/images/adaptation/' + trial_data.color + trial_data.stim_object + trial_data.scalepos + '.jpg';
     };
 
@@ -489,7 +489,7 @@ function AdaptationExperiment(params) {
     * @returns {Array<Object>}
   */
   this.makeAttentionBlock = function() {
-    var trials = []
+    var trials = [];
     var num_trials = this.attention.locations.length;
 
     var colors = jsPsych.randomization.sample(this.attention.colors, num_trials, true);
@@ -529,7 +529,7 @@ function AdaptationExperiment(params) {
     var stim_function = function() {
       var prev_trial_data = jsPsych.data.getLastTrialData();
       var trial_data = jsPsych.currentTrial().data;
-      var corrected_ambiguous_point = adjustAmbiguousPoint(prev_trial_data[trial_data.stim_obj + 'CorrectedAmbiguousPoint'], trial_data.adjustment);
+      var corrected_ambiguous_point = AdaptationUtils.adjustAmbiguousPoint(prev_trial_data[trial_data.stim_obj + 'CorrectedAmbiguousPoint'], trial_data.adjustment);
 
       trial_data.scalepos = corrected_ambiguous_point;
       console.log(trial_data);
@@ -667,116 +667,4 @@ function AdaptationExperiment(params) {
     }
     return blocks;
   }
-}
-
-/** Sample trials from a set of trials.
- *
- * @param {Array<object>} trials - An array of trials to cample from.
- * @param {Number} sample_size - The number of trials to sample.
- * @returns {Array<object>}
- */
-function sampleTrials(trials, sample_size) {
-  return jsPsych.randomization.sample(trials, sample_size, true);
-}
-
-/** Calculate the most ambiguous scale point for a given stimulus.
- *
- * @param {String} stimulus - Name of the stimulus to check.
- * @returns {Number}
- */
- function calculateAmbiguousPoint(stimulus) {
-  lr = new LogReg(5, 1);
-  lr.init([1,2,3,4,5]);
-
-  var trials = jsPsych.data.getLastTimelineData();
-
-  _.each(trials, function(trial) {
-    try {
-      lr.addObs(trial.scalepos - 1, trial.has_prop);
-    }
-    catch (e) {
-      xint = 3;
-      return;
-    }
-  });
-
-  lr.fit();
-
-  var xint = this.lr.xint();
-  if(xint == null || isNaN(xint)) {
-    xint = 3;
-  }
-
-  var best = 10000;
-  var ambiguous_point = -1;
-  for (var j=0; j<6; j++) {
-    var dif = Math.abs(xint-j);
-    if (dif < best) {
-        best = dif;
-        ambiguous_point = j;
-    }
-  }
-
-  return ambiguous_point;
-}
-
-/** Adjust the ambiguous point as needed.
- *
- * @param {number} ambiguous_point - The original ambiguous point.
- */
-function tweakAmbiguousPoint(ambiguous_point) {
-  if(ambiguous_point <= 1)
-    return 2;
-  if(ambiguous_point >= 5)
-    return 4;
-  return ambiguous_point;
-}
-
-/** Add the subject's ambiguous point and tweaked ambiguous point to jsPsych's data.
- *
- * @param {String} stim_name - The name of the stimulus.
- * @param {Number} ambiguous_point - The base ambiguous point for this stimulus.
- */
-function addAmbiguousPointToData(stim_name, ambiguous_point) {
-  var ambig_prop = {};
-  var tweaked_ambiguous_point = tweakAmbiguousPoint(ambiguous_point);
-
-  ambig_prop[stim_name + 'CorrectedAmbiguousPoint'] = tweaked_ambiguous_point;
-  ambig_prop[stim_name + 'OriginalAmbiguousPoint'] = ambiguous_point;
-
-  jsPsych.data.addProperties(ambig_prop);
-}
-
-/**
-  * Calculate the scale position to use in an exposure trial.
-  * @param {String} condition - The experimental condition.
-  * @param {String} subcondition - The experimental subcondition.
-  * @param {String} stimulus - The name of the stimulus.
-  * @returns {Array<Object>}
-*/
-function calculateExposureScalepos(condition, subcondition, stimulus) {
-  if(condition === 'ambiguous') {
-    return jsPsych.data.getLastTrialData()[stimulus + 'CorrectedAmbiguousPoint'];
-  }
-
-  if(condition === 'prototypical' && subcondition == 'neg') {
-    return 1;
-  }
-
-  return 5;
-}
-
-/**
-  * Adjust the ambiguous point a given amount.
-  * @param {Number} ambiguous_point - The ambiguous point.
-  * @param {Number} scale_adjustment - The amount to adjust the ambiguous point by.
-  * @returns {Array<Object>}
-*/
-function adjustAmbiguousPoint(ambiguous_point, scale_adjustment) {
-  if(ambiguous_point + scale_adjustment > 1 && ambiguous_point + scale_adjustment < 5)
-    return ambiguous_point + scale_adjustment;
-  else if(ambiguous_point + scale_adjustment <= 1)
-    return 2;
-
-  return 4;
 }
