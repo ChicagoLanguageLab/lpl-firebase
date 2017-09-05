@@ -375,7 +375,7 @@ function AdaptationExperiment(params) {
       data: {
         subtype: 'exposure',
         stim_object: stimulus.name,
-        color = this.exposure_colors[color_index],
+        color: this.exposure_colors[color_index],
         condition: this.condition,
         subcondition: this.subcondition
       }
@@ -436,7 +436,7 @@ function AdaptationExperiment(params) {
     * @param {String} attn_color - The color of the stimulus.
     * @returns {Object}
   */
-  this.makeAttentionTrial(attn_color) {
+  this.makeAttentionTrial = function(attn_color) {
     var trial = {
       type: 'single-stim',
       choices: ['R', 'B'],
@@ -481,7 +481,7 @@ function AdaptationExperiment(params) {
     * Create a block of attention trials.
     * @returns {Array<Object>}
   */
-  this.makeAttentionBlock() {
+  this.makeAttentionBlock = function() {
     var trials = []
     var colors = jsPsych.randomization.sample(["red", "blue"], num, true);
     for(var i = 0; i < this.attention_points.length; i++) {
@@ -761,7 +761,7 @@ function calculateExposureScalepos(condition, subcondition, stimulus) {
   * @param {Number} scale_adjustment - The amount to adjust the ambiguous point by.
   * @returns {Array<Object>}
 */
-adjustAmbiguousPoint(ambiguous_point, scale_adjustment) {
+function adjustAmbiguousPoint(ambiguous_point, scale_adjustment) {
   if(ambiguous_point + scale_adjustment > 1 && ambiguous_point + scale_adjustment < 5)
     return ambiguous_point + scale_adjustment;
   else if(ambiguous_point + scale_adjustment <= 1)
