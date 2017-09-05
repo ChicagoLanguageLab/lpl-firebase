@@ -140,6 +140,9 @@ var exposure_instructions = {
           'Please do your best to answer the question accurately.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
 }
 
+var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/';
+var audio_footer = '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>';
+
 var params = {
   stimuli: [
     {
