@@ -10,14 +10,6 @@ firebase.initializeApp(config);
 var storageRef = firebase.storage().ref();
 var database = firebase.database();
 
-/* Create a unique instance of the experiment */
-
-var experiment = new AdaptationExperiment(_.extend(AdaptationData.getParams(), jsPsych.data.urlVariables()), AdaptationData.getPrefabs());
-experiment.createTimeline();
-experiment.addPropertiesTojsPsych();
-
-var dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
-
 function makeLoadingFun() {
   if($('#load-text').html() === 'Loading experiment....')
     $('#load-text').html('Loading experiment.');
@@ -40,12 +32,25 @@ $( document ).ready(function() {
     }
     else {
       console.log('Worker has not yet completed the experiment.');
-      jsPsych.init({
-        timeline: experiment.getTimeline(),
-        show_progress_bar: true,
-        display_element: $('#jspsych-target')
+
+      $.getJSON("../static/js/adaptation/params.json", function(json) {
+
+        var experiment = new AdaptationExperiment(_.extend(json, jsPsych.data.urlVariables()));
+        var dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
+
+        experiment.createTimeline();
+        experiment.addPropertiesTojsPsych();
+
+        jsPsych.init({
+          timeline: experiment.getTimeline(),
+          show_progress_bar: true,
+          display_element: $('#jspsych-target')
+        });
+
+        clearInterval(loadMessage);
+
+      }).fail(function(d, textStatus, error) {
+        console.error("getJSON failed, status: " + textStatus + ", error: " + error);
       });
-      clearInterval(loadMessage);
     }
-  });
 });

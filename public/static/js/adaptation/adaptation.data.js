@@ -8,11 +8,15 @@
 var AdaptationData = (function() {
   /** @lends AdaptationData */
 
-  /** The experimental parameters. */
+  /** The experimental parameters.
+   * @memberof AdaptationData
+   * @type {Object}
+   * @property {Array<Stimulus>} stimuli - The stimuli used in the experiment.
+   * @property {Object} calibration - Data for the calibration phase.
+  */
   var params = {
 
-    /** The stimuli used in the experiment.
-     * @type {Array<Stimulus>}
+    /**
      * @typedef {Obejct} Stimulus
      * @property {String} name - The name of the stimulus.
      * @property {String} adjective - The adjective associated with the stimulus.
@@ -34,7 +38,7 @@ var AdaptationData = (function() {
       }
     ],
 
-    /** Data for the calibration phase.
+    /**
      * @type {Object}
      * @property {Number} max_scalepos - The maximum possible scale position.
      * @property {Array<Number>} distribution - The numer of trials to generate for each scale position.
