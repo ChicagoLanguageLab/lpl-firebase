@@ -12,11 +12,11 @@ var database = firebase.database();
 
 /* Create a unique instance of the experiment */
 
-var Experiment = new AdaptationExperiment(_.extend(AdaptationData.params, jsPsych.data.urlVariables()), AdaptationData.prefabs);
-Experiment.createTimeline();
-Experiment.addPropertiesTojsPsych();
+var experiment = new AdaptationExperiment(_.extend(AdaptationData.getParams(), jsPsych.data.urlVariables()), AdaptationData.getPrefabs());
+experiment.createTimeline();
+experiment.addPropertiesTojsPsych();
 
-var dataRef = storageRef.child('2-24-2017-run1/' + Experiment.getSubjectId() + Experiment.getCondition() + Experiment.getSubcondition() + Experiment.getVoice() + '.csv');
+var dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
 
 function makeLoadingFun() {
   if($('#load-text').html() === 'Loading experiment....')
@@ -31,7 +31,7 @@ $( document ).ready(function() {
     makeLoadingFun();
   }, 500);
 
-  checkWorker(Experiment.getSubjectId(), 'adaptation-workers').then(function(snapshot) {
+  checkWorker(experiment.getSubjectId(), 'adaptation-workers').then(function(snapshot) {
     if(snapshot.val() && snapshot.val().complete == 1) {
       console.log('Worker has already completed the experiment.');
       clearInterval(loadDisplay);
@@ -41,7 +41,7 @@ $( document ).ready(function() {
     else {
       console.log('Worker has not yet completed the experiment.');
       jsPsych.init({
-        timeline: Experiment.getTimeline(),
+        timeline: experiment.getTimeline(),
         show_progress_bar: true,
         display_element: $('#jspsych-target')
       });

@@ -1,13 +1,23 @@
-// adaptation.data.js
+/** adaptation.data.js
+ * @fileoverview Static data for the adaptation experiment.
+ */
 
-/** Static data pertaining to the adaptation experiment.
+/**
  * @namespace
  */
-var AdaptationData = {
-  /** The experimental parameters. */
-  params: {
+var AdaptationData = (function() {
+  /** @lends AdaptationData */
 
-    /** The stimuli used in the experiment. */
+  /** The experimental parameters. */
+  var params = {
+
+    /** The stimuli used in the experiment.
+     * @type {Array<Stimulus>}
+     * @typedef {Obejct} Stimulus
+     * @property {String} name - The name of the stimulus.
+     * @property {String} adjective - The adjective associated with the stimulus.
+     * @property {Number} ambiguous_point - The default ambiguous point for this stimulus.
+    */
     stimuli: [
       {
         name: 'candle',
@@ -24,11 +34,19 @@ var AdaptationData = {
       }
     ],
 
+    /** Data for the calibration phase.
+     * @type {Object}
+     * @property {Number} max_scalepos - The maximum possible scale position.
+     * @property {Array<Number>} distribution - The numer of trials to generate for each scale position.
+    */
     calibration: {
       max_scalepos: 5,
       distribution: [3,7,10,7,3]
     },
 
+    /** Data for the exposure phase.
+     * @type {Object}
+    */
     exposure: {
 
       /** Instructions for the exposure section. */
@@ -58,16 +76,26 @@ var AdaptationData = {
       reps: 6
     },
 
+    /** Data for posttest trials.
+     * @type {Object}
+     * @property {Array<String>} colors - The colors to use in this phase.
+     * @property {Array<Number>} locations - The points at which to insert trials of this type.
+    */
     posttest: {
       colors: ['purple', 'lblue', 'pink'],
       locations: [2, 4, 8, 13, 20, 24]
     },
 
+    /** Data for attention trials.
+     * @type {Object}
+     * @property {Array<String>} colors - The colors to use in this phase.
+     * @property {Array<Number>} locations - The points at which to insert trials of this type.
+    */
     attention: {
       colors: ['red', 'blue'],
       locations: [5, 10, 17, 22]
     }
-  },
+  };
 
   /** Premade trials and blocks.
    * @property {Array<Obejct>} pre_experiment_block - The consent form, demographics questionnaire, etc.
@@ -75,7 +103,7 @@ var AdaptationData = {
    * @property {Object} calibration_instructions - Instructions for the calibration phase.
    * @property {Object} audio_test - Trials for checking subjects' microphones.
    */
-  prefabs: {
+  var prefabs = {
     pre_experiment_block: [
       {
         type: 'text',
@@ -206,8 +234,13 @@ var AdaptationData = {
           }
         }
       }
-    }
-  },
-  audio_header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/',
-  audio_footer:'.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>'
-}
+    },
+    audio_header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/',
+    audio_footer:'.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>'
+  };
+
+  return ({
+    getParams: function() {return params;},
+    getPrefabs: function() {return prefabs;}
+  });
+})();

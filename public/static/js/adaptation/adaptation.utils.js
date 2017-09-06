@@ -1,7 +1,8 @@
-// adaptation.utils.js
+/** adaptation.utils.js
+ * @fileoverview Utilities for the adaptation experiment.
+ */
 
 /**
- * Utilities for the adaptation experiment.
  * @namespace
  */
 var AdaptationUtils = {
