@@ -16,7 +16,7 @@ var Experiment = new AdaptationExperiment(_.extend(AdaptationData.params, jsPsyc
 Experiment.createTimeline();
 Experiment.addPropertiesTojsPsych();
 
-var dataRef = storageRef.child('2-24-2017-run1/' + Experiment.subject.id + Experiment.condition + Experiment.subtype + Experiment.voice + '.csv');
+var dataRef = storageRef.child('2-24-2017-run1/' + Experiment.getSubjectId() + Experiment.getCondition() + Experiment.getSubcondition() + Experiment.getVoice() + '.csv');
 
 function makeLoadingFun() {
   if($('#load-text').html() === 'Loading experiment....')
@@ -31,7 +31,7 @@ $( document ).ready(function() {
     makeLoadingFun();
   }, 500);
 
-  checkWorker(Experiment.subject.id, 'adaptation-workers').then(function(snapshot) {
+  checkWorker(Experiment.getSubjectId(), 'adaptation-workers').then(function(snapshot) {
     if(snapshot.val() && snapshot.val().complete == 1) {
       console.log('Worker has already completed the experiment.');
       clearInterval(loadDisplay);
@@ -41,7 +41,7 @@ $( document ).ready(function() {
     else {
       console.log('Worker has not yet completed the experiment.');
       jsPsych.init({
-        timeline: Experiment.timeline,
+        timeline: Experiment.getTimeline(),
         show_progress_bar: true,
         display_element: $('#jspsych-target')
       });

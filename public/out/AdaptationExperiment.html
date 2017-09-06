@@ -190,7 +190,7 @@
 
         
             
-<h4 class="name" id="attention"><span class="type-signature"></span>attention<span class="type-signature"> :Object</span></h4>
+<h4 class="name" id="~attention"><span class="type-signature">(inner) </span>attention<span class="type-signature"> :Object</span></h4>
 
 
 
@@ -319,7 +319,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line78">line 78</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -337,13 +337,13 @@
 
         
             
-<h4 class="name" id="calibration"><span class="type-signature"></span>calibration<span class="type-signature"> :Object</span></h4>
+<h4 class="name" id="~data"><span class="type-signature">(inner) </span>data<span class="type-signature"> :object</span></h4>
 
 
 
 
 <div class="description">
-    Data for the calibration phase.
+    The subject completing the experiment.
 </div>
 
 
@@ -352,7 +352,7 @@
     <ul>
         <li>
             
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
 
 
         </li>
@@ -388,13 +388,13 @@
 
         <tr>
             
-                <td class="name"><code>colors</code></td>
+                <td class="name"><code>condition</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">string</span>
 
 
             
@@ -404,20 +404,20 @@
 
             
 
-            <td class="description last">The colors used during the calibration phase.</td>
+            <td class="description last">The experimental condition.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>distribution</code></td>
+                <td class="name"><code>subcondition</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;Number></span>
+<span class="param-type">string</span>
 
 
             
@@ -427,20 +427,20 @@
 
             
 
-            <td class="description last">The number of times to repeat each scale point during calibration.</td>
+            <td class="description last">The experimental subcondition.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>max_scalepos</code></td>
+                <td class="name"><code>voice</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">string</span>
 
 
             
@@ -450,7 +450,7 @@
 
             
 
-            <td class="description last">The highest possible scale point.</td>
+            <td class="description last">The experimental voice.</td>
         </tr>
 
     
@@ -489,7 +489,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line89">line 89</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line52">line 52</a>
     </li></ul></dd>
     
 
@@ -507,79 +507,7 @@
 
         
             
-<h4 class="name" id="condition"><span class="type-signature"></span>condition<span class="type-signature"> :string</span></h4>
-
-
-
-
-<div class="description">
-    The condition assigned to the experiment.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">string</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line34">line 34</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="exposure"><span class="type-signature"></span>exposure<span class="type-signature"> :Object</span></h4>
+<h4 class="name" id="~exposure"><span class="type-signature">(inner) </span>exposure<span class="type-signature"> :Object</span></h4>
 
 
 
@@ -626,6 +554,75 @@
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instructions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number of unique audio clips in the exposure phase.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>audio_test</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The audio test trial to display.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>end_block</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The end block to display.</td>
+        </tr>
+
     
 
         <tr>
@@ -731,7 +728,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line57">line 57</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -749,7 +746,79 @@
 
         
             
-<h4 class="name" id="posttest"><span class="type-signature"></span>posttest<span class="type-signature"> :Object</span></h4>
+<h4 class="name" id="~post_experiment"><span class="type-signature">(inner) </span>post_experiment<span class="type-signature"> :Array.&lt;object></span></h4>
+
+
+
+
+<div class="description">
+    The trials that occur after the main experiment.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;object></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~posttest"><span class="type-signature">(inner) </span>posttest<span class="type-signature"> :Object</span></h4>
 
 
 
@@ -878,7 +947,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line68">line 68</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -896,13 +965,13 @@
 
         
             
-<h4 class="name" id="prefabs"><span class="type-signature"></span>prefabs<span class="type-signature"> :Array.&lt;object></span></h4>
+<h4 class="name" id="~pre_experiment"><span class="type-signature">(inner) </span>pre_experiment<span class="type-signature"> :Array.&lt;object></span></h4>
 
 
 
 
 <div class="description">
-    Static jsPsych trials.
+    The trials that occur before the main experiment.
 </div>
 
 
@@ -950,7 +1019,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line49">line 49</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -968,13 +1037,13 @@
 
         
             
-<h4 class="name" id="stimuli"><span class="type-signature"></span>stimuli<span class="type-signature"> :Array.&lt;object></span></h4>
+<h4 class="name" id="~stimuli"><span class="type-signature">(inner) </span>stimuli<span class="type-signature"> :Array.&lt;object></span></h4>
 
 
 
 
 <div class="description">
-    The stimuli used in the experiment.
+    The stimuli used in the experiment. The flower trials always come last.
 </div>
 
 
@@ -1040,79 +1109,7 @@
 
         
             
-<h4 class="name" id="subcondition"><span class="type-signature"></span>subcondition<span class="type-signature"> :string</span></h4>
-
-
-
-
-<div class="description">
-    The subcondition assigned to the experiment.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">string</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line39">line 39</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="subject"><span class="type-signature"></span>subject<span class="type-signature"> :object</span></h4>
+<h4 class="name" id="~subject"><span class="type-signature">(inner) </span>subject<span class="type-signature"> :object</span></h4>
 
 
 
@@ -1241,7 +1238,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line25">line 25</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -1259,7 +1256,7 @@
 
         
             
-<h4 class="name" id="timeline"><span class="type-signature"></span>timeline<span class="type-signature"> :Array.&lt;object></span></h4>
+<h4 class="name" id="~timeline"><span class="type-signature">(inner) </span>timeline<span class="type-signature"> :Array.&lt;object></span></h4>
 
 
 
@@ -1313,79 +1310,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line18">line 18</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="voice"><span class="type-signature"></span>voice<span class="type-signature"> :string</span></h4>
-
-
-
-
-<div class="description">
-    The voice used in the experiment.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">string</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line44">line 44</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -1465,7 +1390,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line99">line 99</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -1551,7 +1476,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line113">line 113</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line180">line 180</a>
     </li></ul></dd>
     
 
@@ -1574,6 +1499,526 @@
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getCondition"><span class="type-signature"></span>getCondition<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Return the experimental condition.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line139">line 139</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getSubcondition"><span class="type-signature"></span>getSubcondition<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Return the experimental subcondition.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line146">line 146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getSubjectId"><span class="type-signature"></span>getSubjectId<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Return the subject's ID.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line132">line 132</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getTimeline"><span class="type-signature"></span>getTimeline<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Return the timeline.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line160">line 160</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getVoice"><span class="type-signature"></span>getVoice<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Return the experimental voice..
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line153">line 153</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1732,7 +2177,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line340">line 340</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line375">line 375</a>
     </li></ul></dd>
     
 
@@ -1836,7 +2281,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line491">line 491</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line526">line 526</a>
     </li></ul></dd>
     
 
@@ -1940,7 +2385,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line506">line 506</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line541">line 541</a>
     </li></ul></dd>
     
 
@@ -2093,7 +2538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line446">line 446</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line481">line 481</a>
     </li></ul></dd>
     
 
@@ -2145,7 +2590,7 @@
     
 
     
-    <h4 class="name" id="makeCalibrationBlock"><span class="type-signature"></span>makeCalibrationBlock<span class="signature">(is_post, stim_index)</span><span class="type-signature"> &rarr; {Attay.&lt;Object>}</span></h4>
+    <h4 class="name" id="makeCalibrationBlock"><span class="type-signature"></span>makeCalibrationBlock<span class="signature">(is_post, stimulus)</span><span class="type-signature"> &rarr; {Attay.&lt;Object>}</span></h4>
     
 
     
@@ -2212,13 +2657,13 @@
 
         <tr>
             
-                <td class="name"><code>stim_index</code></td>
+                <td class="name"><code>stimulus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">Object</span>
 
 
             
@@ -2228,7 +2673,7 @@
 
             
 
-            <td class="description last">Index of the stimulus to use for this block.</td>
+            <td class="description last">Index stimulus to use for this block.</td>
         </tr>
 
     
@@ -2269,7 +2714,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line182">line 182</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -2422,7 +2867,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line167">line 167</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -2474,7 +2919,7 @@
     
 
     
-    <h4 class="name" id="makeCalibrationTrials"><span class="type-signature"></span>makeCalibrationTrials<span class="signature">(stim_index, scale_pos)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+    <h4 class="name" id="makeCalibrationTrials"><span class="type-signature"></span>makeCalibrationTrials<span class="signature">(stimulus, scale_pos)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
     
 
     
@@ -2482,7 +2927,7 @@
 
 
 <div class="description">
-    Generates the full set of possible calibration trials for a given stimulus/scale position combination.
+    Generate the full set of possible calibration trials for a given stimulus/scale position combination.
 </div>
 
 
@@ -2518,13 +2963,13 @@
 
         <tr>
             
-                <td class="name"><code>stim_index</code></td>
+                <td class="name"><code>stimulus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">Object</span>
 
 
             
@@ -2534,7 +2979,7 @@
 
             
 
-            <td class="description last">The index of the stimulus to use when generating trials.</td>
+            <td class="description last">The stimulus to use when generating trials.</td>
         </tr>
 
     
@@ -2598,7 +3043,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line299">line 299</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -2751,7 +3196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line419">line 419</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line454">line 454</a>
     </li></ul></dd>
     
 
@@ -2855,7 +3300,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line433">line 433</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line468">line 468</a>
     </li></ul></dd>
     
 
@@ -3054,7 +3499,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line259">line 259</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line296">line 296</a>
     </li></ul></dd>
     
 
@@ -3158,7 +3603,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line278">line 278</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -3357,7 +3802,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line363">line 363</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line398">line 398</a>
     </li></ul></dd>
     
 
@@ -3409,7 +3854,7 @@
     
 
     
-    <h4 class="name" id="makePosttestBlock"><span class="type-signature"></span>makePosttestBlock<span class="signature">(stim_index)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+    <h4 class="name" id="makePosttestBlock"><span class="type-signature"></span>makePosttestBlock<span class="signature">(stimulus)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
     
 
     
@@ -3453,13 +3898,13 @@
 
         <tr>
             
-                <td class="name"><code>stim_index</code></td>
+                <td class="name"><code>stimulus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">Object</span>
 
 
             
@@ -3469,7 +3914,7 @@
 
             
 
-            <td class="description last">The index of the stimulus to use.</td>
+            <td class="description last">The stimulus to use.</td>
         </tr>
 
     
@@ -3510,7 +3955,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line633">line 633</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line667">line 667</a>
     </li></ul></dd>
     
 
@@ -3614,7 +4059,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line663">line 663</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line697">line 697</a>
     </li></ul></dd>
     
 
@@ -3767,7 +4212,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line585">line 585</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line619">line 619</a>
     </li></ul></dd>
     
 
@@ -3819,7 +4264,7 @@
     
 
     
-    <h4 class="name" id="makePosttestObjectTrial"><span class="type-signature"></span>makePosttestObjectTrial<span class="signature">(stim_index, scale_adjustment, color)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="makePosttestObjectTrial"><span class="type-signature"></span>makePosttestObjectTrial<span class="signature">(stimulus, scale_adjustment, color)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -3863,13 +4308,13 @@
 
         <tr>
             
-                <td class="name"><code>stim_index</code></td>
+                <td class="name"><code>stimulus</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">Object</span>
 
 
             
@@ -3879,7 +4324,7 @@
 
             
 
-            <td class="description last">The index of the stimulus used in this trial.</td>
+            <td class="description last">The stimulus used in this trial.</td>
         </tr>
 
     
@@ -3966,7 +4411,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line521">line 521</a>
+        <a href="adaptation.experiment.js.html">adaptation.experiment.js</a>, <a href="adaptation.experiment.js.html#line556">line 556</a>
     </li></ul></dd>
     
 
@@ -4028,13 +4473,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptationExperiment.html">AdaptationExperiment</a></li></ul><h3>Namespaces</h3><ul><li><a href="AdaptationUtils.html">AdaptationUtils</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptationExperiment.html">AdaptationExperiment</a></li></ul><h3>Namespaces</h3><ul><li><a href="AdaptationData.html">AdaptationData</a></li><li><a href="AdaptationUtils.html">AdaptationUtils</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Tue Sep 05 2017 15:44:00 GMT-0500 (CDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Wed Sep 06 2017 14:09:40 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>
