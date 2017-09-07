@@ -29,9 +29,12 @@ var AdaptationUtils = {
 
     _.each(trials, function(trial) {
       try {
-        lr.addObs(trial.scalepos - 1, trial.has_prop);
+        if(trial.trial_type === "single-stim") {
+          lr.addObs(trial.scalepos - 1, trial.has_prop);
+        }
       }
       catch (e) {
+        console.log("Error adding objects.");
         xint = 3;
         return;
       }

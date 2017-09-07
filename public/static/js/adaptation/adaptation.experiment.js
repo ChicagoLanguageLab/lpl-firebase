@@ -61,10 +61,10 @@ function AdaptationExperiment(params) {
   var exp_aud_test;
   if(data.voice === 'z') {
     exp_aud_test = prefabs.audio_test.synth;
-    exp_instr_body = params.exposure.instructions.synth;
+    exp_instr_body = params.exposure.instructions.body.synth;
   } else {
     exp_aud_test = prefabs.audio_test.human;
-    exp_instr_body = params.exposure.instructions.human;
+    exp_instr_body = params.exposure.instructions.body.human;
   }
 
   /** Data for the exposure phase.
@@ -84,8 +84,8 @@ function AdaptationExperiment(params) {
     },
     audio_test: exp_aud_test,
     audio: {
-      header: prefabs.audio_header,
-      footer: prefabs.audio_footer
+      header: prefabs.audio.header,
+      footer: prefabs.audio.footer
     },
     end_block: prefabs.end_block,
     colors: jsPsych.randomization.shuffle(params.exposure.colors),
@@ -180,7 +180,7 @@ function AdaptationExperiment(params) {
    */
   this.createTimeline = function() {
 
-    timeline = timeline.concat(pre_experiment);
+    //timeline = timeline.concat(pre_experiment);
 
     // Generate the three main phases of the experiment
     var calibration_blocks = this.makeCalibrationBlocks(false);
@@ -248,7 +248,10 @@ function AdaptationExperiment(params) {
       text: `<p class="lead">You have finished this section.</p>
              <p>You can take a short break now if you want to.
                 Please press the <strong>space bar</strong> when you are ready to continue.
-             </p>`
+             </p>`,
+      data: {
+        stimulus: stimulus.name
+      }
     };
 
     if(is_post) {
@@ -265,7 +268,7 @@ function AdaptationExperiment(params) {
     } else {
       wrap_up.on_finish = function() {
         saveData(jsPsych.data.dataAsCSV(), dataRef);
-        var prev_stim = jsPsych.data.getLastTrialData().stimulus
+        var prev_stim = jsPsych.data.getLastTrialData().stimulus;
         if(prev_stim !== 'flower') {
           var ambiguous_point = AdaptationUtils.calculateAmbiguousPoint(prev_stim);
           AdaptationUtils.addAmbiguousPointToData(prev_stim, ambiguous_point);
@@ -418,7 +421,7 @@ function AdaptationExperiment(params) {
       choices: [],
       data: {
         subtype: 'exposure',
-        stim_object: stimulus.name,
+        stimulus: stimulus.name,
         color: exposure.colors[color_index],
         condition: data.condition,
         subcondition: data.subcondition
@@ -427,14 +430,14 @@ function AdaptationExperiment(params) {
 
     var stim_function = function() {
       var trial_data  = jsPsych.currentTrial().data;
-      trial_data.scalepos = AdaptationUtils.calculateExposureScalepos(trial_data.condition, trial_data.subcondition, trial_data.stim_object);
-      return '../static/images/adaptation/' + trial_data.color + trial_data.stim_object + trial_data.scalepos + '.jpg';
+      trial_data.scalepos = AdaptationUtils.calculateExposureScalepos(trial_data.condition, trial_data.subcondition, trial_data.stimulus);
+      return '../static/images/adaptation/' + trial_data.color + trial_data.stimulus + trial_data.scalepos + '.jpg';
     };
 
     if(stimulus.name !== 'flower') {
 
       trial.stimulus = stim_function;
-      trial.prompt = exposure.audio.footer + stimulus.name + '_' + data.subcondition + statement + data.voice + exposure.audio.footer;
+      trial.prompt = exposure.audio.header + stimulus.name + '_' + data.subcondition + statement + data.voice + exposure.audio.footer;
 
     } else {
 
@@ -491,7 +494,8 @@ function AdaptationExperiment(params) {
       response_ends_trial: false,
       timing_response: 500,
       data: {
-        subtype: 'attention-stimulus'
+        subtype: 'attention-stimulus',
+        stimulus: 'attn_color'
       }
     };
 
@@ -499,14 +503,14 @@ function AdaptationExperiment(params) {
       stimulus: '<p></p>',
       prompt: '<p class="text-center center-screen">What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
       data: {
-        'color': attn_color,
+        stimulus: attn_color,
         subtype: 'attention-response'
       },
       on_finish: function() {
         var data = jsPsych.data.getLastTrialData();
         var key = data.key_press;
         var respCorrect;
-        if((key == '82' && data.color == 'red') || (key == '66' && data.color == 'blue')) {
+        if((key == '82' && data.stimulus == 'red') || (key == '66' && data.stimulus == 'blue')) {
             respCorrect = 1
         }
         else {
@@ -564,12 +568,11 @@ function AdaptationExperiment(params) {
     var stim_function = function() {
       var prev_trial_data = jsPsych.data.getLastTrialData();
       var trial_data = jsPsych.currentTrial().data;
-      var corrected_ambiguous_point = AdaptationUtils.adjustAmbiguousPoint(prev_trial_data[trial_data.stim_obj + 'CorrectedAmbiguousPoint'], trial_data.adjustment);
+      var corrected_ambiguous_point = AdaptationUtils.adjustAmbiguousPoint(prev_trial_data[trial_data.stimulus + 'CorrectedAmbiguousPoint'], trial_data.adjustment);
 
       trial_data.scalepos = corrected_ambiguous_point;
-      console.log(trial_data);
 
-      return '../static/images/adaptation/' + trial_data.color + trial_data.stim_obj + corrected_ambiguous_point + '.jpg';
+      return '../static/images/adaptation/' + trial_data.color + trial_data.stimulus + corrected_ambiguous_point + '.jpg';
     };
 
     var presentation_trial = {
@@ -577,7 +580,7 @@ function AdaptationExperiment(params) {
       data: {
         subtype: 'posttest-stimulus',
         adjustment: scale_adjustment,
-        stim_obj: stimulus.name,
+        stimulus: stimulus.name,
         'color': color
       },
       prompt: audio_header + stimulus.name + '_question' + subcondition + data.voice + audio_footer,
@@ -595,7 +598,7 @@ function AdaptationExperiment(params) {
       data: {
         subtype: 'posttest-response',
         adjustment: scale_adjustment,
-        stim_obj: stimulus.name,
+        stimulus: stimulus.name,
         'color': color
       },
       on_finish: function(data) {
@@ -628,7 +631,7 @@ function AdaptationExperiment(params) {
       prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flowerquestion' + data.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
       data: {
         scalepos: (num_petals + 1),
-        stim_obj: 'flower',
+        stimulus: 'flower',
         subtype: 'posttest-stimulus'
       },
       timing_post_trial: 0,
@@ -641,7 +644,7 @@ function AdaptationExperiment(params) {
       prompt: '<br/><p class="text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
       data: {
           scalepos: (num_petals + 1),
-          stim_obj: 'flower',
+          stimulus: 'flower',
           subtype: 'posttest-response'
       },
       choices: ['F', 'J'],
@@ -697,9 +700,9 @@ function AdaptationExperiment(params) {
   */
   this.makePosttestBlocks = function() {
     var blocks = [];
-    for(var x = 0; x < stimuli.length; x++) {
-        blocks.push(this.makePosttestBlock(x));
-    }
+    _.each(stimuli, function(stimulus) {
+      blocks.push(this.makePosttestBlock(stimulus));
+    }, this);
     return blocks;
   }
 }
@@ -743,7 +746,6 @@ var prefabs = {
     {
       conditional_function: function() {
         var data = jsPsych.data.getLastTrialData();
-        console.log(data.consented);
         return !data.consented;
       },
       timeline: [{
@@ -821,10 +823,12 @@ var prefabs = {
       timeline: [{
           type: 'text',
           cont_key: ['F', 'J'],
-          text: `<p>
+          text: `<p class="text-center center-screen">
                    We are testing a speech synthesizer that can imitate human voice.
                    In this section you will hear some verbal statements made by this synthesizer.
-                   Have you turned your speaker on?</p><p>Press <b>F</b> for "yes" and <b>J</b> for "no".
+                   Have you turned your speaker on?
+                   <br/<br/>
+                   Press <b>F</b> for "yes" and <b>J</b> for "no".
                 </p>`,
           timing_post_trial: 1000
       }],
@@ -837,6 +841,8 @@ var prefabs = {
       }
     }
   },
-  audio_header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/',
-  audio_footer:'.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio>'
+  audio: {
+    header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/',
+    footer:'.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p>'
+  }
 };
