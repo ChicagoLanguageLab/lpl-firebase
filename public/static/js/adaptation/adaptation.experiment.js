@@ -36,11 +36,9 @@ function AdaptationExperiment(params) {
   /** The subject completing the experiment.
    * @type {object}
    * @property {string} id - The subject's Worker ID.
-   * @property {string} code - The subject's completion code.
   */
   var subject = {
-    id: '',
-    code: 'TURK' + jsPsych.randomization.randomID(10)
+    id: ''
   };
   subject.id = params.workerId ? params.workerId : '';
 
@@ -168,7 +166,6 @@ function AdaptationExperiment(params) {
   this.addPropertiesTojsPsych = function () {
     jsPsych.data.addProperties({
       workerId: subject.id,
-      code: subject.code,
       condition: data.condition,
       subcondition: data.subcondition,
       voice: data.voice
@@ -180,7 +177,7 @@ function AdaptationExperiment(params) {
    */
   this.createTimeline = function() {
 
-    //timeline = timeline.concat(pre_experiment);
+    timeline = timeline.concat(pre_experiment);
 
     // Generate the three main phases of the experiment
     var calibration_blocks = this.makeCalibrationBlocks(false);
@@ -775,12 +772,15 @@ var prefabs = {
     type: 'text',
     cont_key: [''],
     text: function(){
-        return `<p class="lead">
-                  You have finished the experiment! Your responses have been saved.
-                </p>
-                <p>
-                  Your survey code is <b>" + code + "</b>. Please enter this code into your HIT.
-                  You may then close this window.</p><p>If you have any questions or concerns,
+        var code = 'TURK' + jsPsych.randomization.randomID(10);
+
+        jsPsych.data.addProperties({
+          code: code
+        });
+
+        return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
+                '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT.' +
+                `You may then close this window.</p><p>If you have any questions or concerns,
                   please do not hesitate to contact the lab at
                   <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
                 </p>`;
