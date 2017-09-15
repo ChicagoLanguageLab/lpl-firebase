@@ -47,5 +47,11 @@ function Production2Experiment(params) {
   }
 
   var subjectId = params.subjectId;
-  
+  this.getSubjectId = function() {
+    return subjectId;
+  }
+
+  this.initTimeline = function() {
+    var timeline = [];
+  }
 }
