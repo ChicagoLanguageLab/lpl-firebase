@@ -23,59 +23,22 @@ var loadInterval = setInterval(function() {
 }, 500);
 
 function loadExperimentFromJSON(json) {
-  var experiment = new AdaptationExperiment(_.extend(json, jsPsych.data.urlVariables()));
+  var url_params = jsPsych.data.urlVariables();
+  console.log(url_params);
+  var trials = {
+    trials: url_params
+  }
+
+  console.log(trials);
+  var experiment = new Production2Experiment(_.extend(json, trials));
   initializeExperiment(experiment);
 }
 
 function loadExperimentFromJS(d, textStatus, error) {
   console.error("getJSON failed, status: " + textStatus + ", error: " + error);
-  var params = {
-    stimuli: [
-      {
-        name: 'candle',
-        adjective: 'tall',
-        ambiguous_point: 3
-      },{
-        name: 'bar',
-        adjective: 'bent',
-        ambiguous_point: 3
-      },{
-        name: 'pillow',
-        adjective: 'plain',
-        ambiguous_point: 3
-      }
-    ],
-    calibration: {
-      max_scalepos: 5,
-      distribution: [3,7,10,7,3]
-    },
-    exposure: {
-      instructions: {
-        header: '<p class="lead">In this section, you will be shown a series of images. ',
-        body: {
-          human: 'You will also hear a verbal description of each image. ',
-          synth: 'You will also listen to sentences recorded using a speech synthesizer we are testing. '
-        },
-        footer: 'Periodically, you will answer some questions.</p><p>Be sure to remain focused on the center of the screen. ' +
-                'Every so often, a \"+\" symbol will be briefly displayed in the center of the screen, and you will be asked a question about it. ' +
-                'Please do your best to answer the question accurately.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
-      },
-      colors: ['plain', 'red', 'blue', 'lgreen'],
-      num_audio: 4,
-      reps: 6
-    },
-    posttest: {
-      colors: ['purple', 'lblue', 'pink'],
-      locations: [2, 4, 8, 13, 20, 24]
-    },
-    attention: {
-      colors: ['red', 'blue'],
-      locations: [5, 10, 17, 22]
-    }
-  };
-  var experiment = new AdaptationExperiment(_.extend(params, jsPsych.data.urlVariables()));
-  initializeExperiment(experiment);
-}
+  var params = {"items":{"1":{"name":"Rick","noun":"jar","conditions":{"a":"lured","b":"labeled"}},"2":{"name":"Joanna","noun":"puzzle","conditions":{"a":"amused","b":"completed"}},"3":{"name":"Katie","noun":"plan","conditions":{"a":"delighted","b":"altered"}},"4":{"name":"Julia","noun":"ritual","conditions":{"a":"bored","b":"finished"}},"5":{"name":"Maya","noun":"song","conditions":{"a":"annoyed","b":"muted"}},"6":{"name":"Alana","noun":"cliff","conditions":{"a":"impressed","b":"evaded"}},"7":{"name":"Mia","noun":"parade","conditions":{"a":"frustrated","b":"escorted"}},"8":{"name":"Sarah","noun":"omen","conditions":{"a":"disturbed","b":"heeded"}},"9":{"name":"Marina","noun":"compliment","conditions":{"a":"excited","b":"rejected"}},"10":{"name":"Hannah","noun":"necklace","conditions":{"a":"soothed","b":"weighed"}},"11":{"name":"Jack","noun":"advertisement","conditions":{"a":"angered","b":"wrote"}},"12":{"name":"Camille","noun":"pyramid","conditions":{"a":"awed","b":"built"}},"13":{"name":"Christina","noun":"criticism","conditions":{"a":"disappointed","b":"recorded"}},"14":{"name":"Cindy","noun":"doll","conditions":{"a":"interested","b":"embraced"}},"15":{"name":"Nikki","noun":"article","conditions":{"a":"alarmed","b":"edited"}},"16":{"name":"Rebecca","noun":"announcement","conditions":{"a":"bothered","b":"released"}},"17":{"name":"Isabel","noun":"plane","conditions":{"a":"amazed","b":"controlled"}},"18":{"name":"Lisa","noun":"label","conditions":{"a":"tempted","b":"scratched"}},"19":{"name":"Brian","noun":"tests","conditions":{"a":"convinced","b":"reproduced"}},"20":{"name":"Louis","noun":"house","conditions":{"a":"astounded","b":"neglected"}},"21":{"name":"Mark","noun":"sermon","conditions":{"a":"provoked","b":"denounced"}},"22":{"name":"Jeremy","noun":"interview","conditions":{"a":"embarrassed","b":"authorized"}},"23":{"name":"Liam","noun":"fight","conditions":{"a":"frightened","b":"taped"}},"24":{"name":"Isaac","noun":"","conditions":{"a":"demoralized","b":"lost"}},"25":{"name":"Jackson","noun":"dust","conditions":{"a":"shocked","b":"removed"}},"26":{"name":"Solomon","noun":"match","conditions":{"a":"thrilled","b":"timed"}},"27":{"name":"Kevin","noun":"book","conditions":{"a":"pleased","b":"praised"}},"28":{"name":"Zach","noun":"finances","conditions":{"a":"upset","b":"analyzed"}},"29":{"name":"Christian","noun":"ropes","conditions":{"a":"terrified","b":"cut"}},"30":{"name":"James","noun":"lecture","conditions":{"a":"discouraged","b":"interrupted"}},"31":{"name":"Steve","noun":"flash","conditions":{"a":"scared","b":"identified"}},"32":{"name":"Christopher","noun":"jewel","conditions":{"a":"stunned","b":"concealed"}}}};
+  loadExperimentFromJSON(params);
+  }
 
 function attemptLoad() {
   $.getJSON("production.data.json",
@@ -84,10 +47,10 @@ function attemptLoad() {
 }
 
 function initializeExperiment(experiment) {
-  dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
+  //dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
 
-  experiment.createTimeline();
-  experiment.addPropertiesTojsPsych();
+  //experiment.createTimeline();
+  //experiment.addPropertiesTojsPsych();
 
   jsPsych.init({
     timeline: experiment.getTimeline(),
