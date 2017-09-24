@@ -47,7 +47,7 @@ function attemptLoad() {
 }
 
 function initializeExperiment(experiment) {
-  //dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
+  dataRef = storageRef.child('production-2/9-24-2017/' + experiment.getSubjectId() + '.csv');
 
   experiment.initTimeline();
   experiment.addPropertiesTojsPsych();

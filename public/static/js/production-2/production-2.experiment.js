@@ -18,7 +18,7 @@ function Production2Experiment(params) {
   subject.id = params.subjectId;
 
   this.getSubjectId = function() {
-    return subjectId;
+    return subject.id;
   }
 
   this.initTimeline = function() {
@@ -60,10 +60,8 @@ function Production2Experiment(params) {
 
     });
 
-    console.log(trials);
-
     timeline = prefabs.pre_experiment_block.concat(trials);
-    console.log(timeline);
+    timeline = timeline.concat(prefabs.post_experiment);
   };
 
   this.addPropertiesTojsPsych = function() {
@@ -130,6 +128,27 @@ var prefabs = {
              <p>Please limit your response to one sentence. You may use articles ('a', 'an', 'the') or other supporting words as necessary, but please do not use any nouns or verbs besides those provided.</p>
              <p>There will be 32 items. When you are ready to begin, please press the <strong>space bar</strong>.</p>`,
       cont_key: [' ']
+    }
+  ],
+  post_experiment: [
+    {
+      type: 'text',
+      cont_key: [''],
+      text: function(){
+          var code = 'TURK' + jsPsych.randomization.randomID(10);
+          saveData(jsPsych.data.dataAsCSV(), dataRef);
+
+          jsPsych.data.addProperties({
+            code: code
+          });
+
+          return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
+                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT.' +
+                  `You may then close this window.</p><p>If you have any questions or concerns,
+                    please do not hesitate to contact the lab at
+                    <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
+                  </p>`;
+      }
     }
   ]
 }
