@@ -15,7 +15,7 @@ function Production2Experiment(params) {
   }
 
   var subject = {};
-  subject.id = params.subjectId;
+  subject.id = params.workerId;
 
   this.getSubjectId = function() {
     return subject.id;
@@ -29,10 +29,13 @@ function Production2Experiment(params) {
       0: 'name_first',
       1: 'noun_first'
     }
+
+    console.log(raw_trials);
+
     _.each(raw_trials, function(trial, i) {
 
-      var item = trial[0];
-      var condition = trial[1];
+      var item = trial.slice(0, trial.length-1);
+      var condition = trial[trial.length-1];
 
       var jsp_trial = {
         'type': 'production-response',
@@ -40,6 +43,7 @@ function Production2Experiment(params) {
         'data': {
           'item': item,
           'condition': condition,
+          'trial_num': i,
           'name': params.items[item].name,
           'noun': params.items[item].noun,
           'verb': params.items[item].conditions[condition],
@@ -133,7 +137,7 @@ var prefabs = {
   post_experiment: [
     {
       type: 'text',
-      cont_key: [''],
+      cont_key: [],
       text: function(){
           var code = 'TURK' + jsPsych.randomization.randomID(10);
           saveData(jsPsych.data.dataAsCSV(), dataRef);
@@ -143,8 +147,8 @@ var prefabs = {
           });
 
           return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
-                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT.' +
-                  `You may then close this window.</p><p>If you have any questions or concerns,
+                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
+                  `You may then close this window.</p><p>If you have any questions or concerns, 
                     please do not hesitate to contact the lab at
                     <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
                   </p>`;

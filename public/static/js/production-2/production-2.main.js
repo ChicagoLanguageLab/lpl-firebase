@@ -50,7 +50,6 @@ function initializeExperiment(experiment) {
   dataRef = storageRef.child('production-2/9-24-2017/' + experiment.getSubjectId() + '.csv');
 
   experiment.initTimeline();
-  experiment.addPropertiesTojsPsych();
 
   jsPsych.init({
     timeline: experiment.getTimeline(),
@@ -58,6 +57,7 @@ function initializeExperiment(experiment) {
     display_element: $('#jspsych-target')
   });
 
+  experiment.addPropertiesTojsPsych();
   clearInterval(loadInterval);
 }
 
