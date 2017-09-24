@@ -24,13 +24,13 @@ var loadInterval = setInterval(function() {
 
 function loadExperimentFromJSON(json) {
   var url_params = jsPsych.data.urlVariables();
-  console.log(url_params);
-  var trials = {
-    trials: url_params
-  }
 
-  console.log(trials);
-  var experiment = new Production2Experiment(_.extend(json, trials));
+  var params = {
+    workerId: url_params.workerId,
+    trials: _.omit(url_params, 'workerId')
+  };
+
+  var experiment = new Production2Experiment(_.extend(json, params));
   initializeExperiment(experiment);
 }
 
@@ -49,8 +49,8 @@ function attemptLoad() {
 function initializeExperiment(experiment) {
   //dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
 
-  //experiment.createTimeline();
-  //experiment.addPropertiesTojsPsych();
+  experiment.initTimeline();
+  experiment.addPropertiesTojsPsych();
 
   jsPsych.init({
     timeline: experiment.getTimeline(),

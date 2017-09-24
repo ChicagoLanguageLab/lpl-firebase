@@ -7,51 +7,129 @@
   */
 function Production2Experiment(params) {
 
-  var trials = []
-  _.each(params.trials, function(trial) {
-
-    var item = trial[0];
-    var condition = trial[1];
-
-    var coinflip = Math.floor(Math.random() * 2 + 1);
-    var order = coinflip === 1? 'name_first' : 'noun_first';
-
-    var jsp_trial = {
-      'type': 'production-response',
-      'verb': params.items[item].conditions[condition],
-      'data': {
-        'item': item,
-        'condition': condition,
-        'name': params.items[item].name,
-        'noun': params.items[item].noun,
-        'verb': params.items[item].conditions[condition],
-        'order': order
-      }
-    };
-
-    if(order === 'name_first') {
-      jsp_trial.noun1 = jsp_trial.data.name;
-      jsp_trial.noun2 = jsp_trial.data.noun;
-    }
-    else {
-      jsp_trial.noun1 = jsp_trial.data.noun;
-      jsp_trial.noun2 = jsp_trial.data.name;
-    }
-
-    trials.push(jsp_trial);
-
-  });
+  var timeline = [];
+  var raw_trials = params.trials;
 
   this.getTimeline = function() {
-    return trials;
+    return timeline;
   }
 
-  var subjectId = params.subjectId;
+  var subject = {};
+  subject.id = params.subjectId;
+
   this.getSubjectId = function() {
     return subjectId;
   }
 
   this.initTimeline = function() {
-    var timeline = [];
+
+    var trials = [];
+    var order = jsPsych.randomization.shuffle([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    var orderEnum = {
+      0: 'name_first',
+      1: 'noun_first'
+    }
+    _.each(raw_trials, function(trial, i) {
+
+      var item = trial[0];
+      var condition = trial[1];
+
+      var jsp_trial = {
+        'type': 'production-response',
+        'verb': params.items[item].conditions[condition],
+        'data': {
+          'item': item,
+          'condition': condition,
+          'name': params.items[item].name,
+          'noun': params.items[item].noun,
+          'verb': params.items[item].conditions[condition],
+          'order': orderEnum[order[i]]
+        }
+      };
+
+      if(orderEnum[order[i]] === 'name_first') {
+        jsp_trial.noun1 = jsp_trial.data.name;
+        jsp_trial.noun2 = jsp_trial.data.noun;
+      }
+      else {
+        jsp_trial.noun1 = jsp_trial.data.noun;
+        jsp_trial.noun2 = jsp_trial.data.name;
+      }
+
+      trials.push(jsp_trial);
+
+    });
+
+    console.log(trials);
+
+    timeline = prefabs.pre_experiment_block.concat(trials);
+    console.log(timeline);
+  };
+
+  this.addPropertiesTojsPsych = function() {
+    jsPsych.data.addProperties({
+      workerId: subject.id
+    });
   }
+}
+
+var prefabs = {
+  pre_experiment_block: [
+    {
+      type: 'text',
+      text: `<div class="header row">
+               <div class="col-2 text-right">
+                 <img class="logo" src="../static/images/shield.png" alt="UChicago Logo"/>
+               </div>
+               <div class="col-10">
+                 <h1>Language Processing Laboratory</h1>
+                 <p class="lead">Department of Linguistics, The University of Chicago</p>
+               </div>
+             </div>
+             <div>
+               <p class="mt-4 lead">
+                 Thank you for your interest in our study!
+               </p>
+               <p>
+                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
+               </p>
+             </div>`,
+      cont_key: [' ']
+    },
+    {
+      type: 'consent',
+      requirements: 'You must be at least 18 years old to participate in this study. ',
+      purpose: 'In this research, we are investigating the processes involved in the comprehension of sentences. ',
+      procedures: 'In this study, you will be presented with sets of words and use them to create sentences. ',
+      time: 'about 15 minutes',
+      pay: '$1.5 USD',
+      name: 'Dr. Ming Xiang',
+      address: '1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637',
+      phone: '(773) 702-8023',
+      email: 'mxiang@uchicago.edu'
+    },
+    {
+      conditional_function: function() {
+        var data = jsPsych.data.getLastTrialData();
+        return !data.consented;
+      },
+      timeline: [{
+        type: 'text',
+        cont_key: [''],
+        text: '<p class="lead">Thank you for considering participation in this study!</p><p>We\'re sorry it wasn\'t for you. You may close this window and return your HIT. There is no penalty for returning our lab\'s HITs.</p>'
+      }]
+    },
+    {
+      type: 'demographics'
+    },
+    {
+      type: 'text',
+      text: `<p class="lead mt-4">Thank you for deciding to participate in our study!</p>
+             <p>In this study, you will be presented with sets of three words. The first two will be nouns (denoting people or things) and the last one will be a verb (denoting an action).</p>
+             <p>For each set, you task is to create a sentence using these three words.
+             <p>Please limit your response to one sentence. You may use articles ('a', 'an', 'the') or other supporting words as necessary, but please do not use any nouns or verbs besides those provided.</p>
+             <p>There will be 32 items. When you are ready to begin, please press the <strong>space bar</strong>.</p>`,
+      cont_key: [' ']
+    }
+  ]
 }
