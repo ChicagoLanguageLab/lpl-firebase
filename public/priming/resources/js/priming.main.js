@@ -44,7 +44,7 @@ timeline.push({
 
 timeline.push({
   type: 'single-stim',
-  prompt: '<p class="text-center"><audio controls preload="auto" autoplay="autoplay"><source src="../static/sound/priming/' + sentence + '.mp3" type="audio/mp3" />[NOT SUPPORTED]</audio></p>',
+  prompt: '<p class="text-center"><audio controls preload="auto" autoplay="autoplay"><source src="resources/sound/' + sentence + '.mp3" type="audio/mp3" />[NOT SUPPORTED]</audio></p>',
   is_html: true,
   stimulus: '<p class="center-screen text-center very-large">' + sentences[sentence] + '</p>',
   timing_response: 7000,
@@ -54,7 +54,7 @@ timeline.push({
 
 timeline.push({
   type: 'single-stim',
-  prompt: '<p class="text-center"><audio controls preload="auto"><source src="../static/sound/priming/' + sentence + '.mp3" type="audio/mp3" />[NOT SUPPORTED]</audio><br/>Press the <strong>space bar</strong> to continue.</p>',
+  prompt: '<p class="text-center"><audio controls preload="auto"><source src="resources/sound/' + sentence + '.mp3" type="audio/mp3" />[NOT SUPPORTED]</audio><br/>Press the <strong>space bar</strong> to continue.</p>',
   is_html: true,
   stimulus: '<p class="center-screen text-center very-large">' + sentences[sentence] + '</p>',
   timing_response: -1,

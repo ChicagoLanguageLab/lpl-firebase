@@ -78,7 +78,7 @@ function loadExperimentFromJS(d, textStatus, error) {
 }
 
 function attemptLoad() {
-  $.getJSON("https://language-processing-lab.firebaseapp.com/static/js/adaptation/params.json",
+  $.getJSON("resources/data/adaptation.data.json",
             loadExperimentFromJSON)
    .fail(loadExperimentFromJS);
 }

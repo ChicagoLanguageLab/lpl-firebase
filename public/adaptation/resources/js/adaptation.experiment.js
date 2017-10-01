@@ -353,7 +353,7 @@ function AdaptationExperiment(params) {
 
     for (var i = 0; i < calibration.colors.length; i++) {
 
-      var stim_url = '../static/images/adaptation/' + calibration.colors[i] + stimulus.name + scale_pos + '.jpg';
+      var stim_url = 'resources/images/' + calibration.colors[i] + stimulus.name + scale_pos + '.jpg';
 
       trials.push({
         stimulus: stim_url,
@@ -428,7 +428,7 @@ function AdaptationExperiment(params) {
     var stim_function = function() {
       var trial_data  = jsPsych.currentTrial().data;
       trial_data.scalepos = AdaptationUtils.calculateExposureScalepos(trial_data.condition, trial_data.subcondition, trial_data.stimulus);
-      return '../static/images/adaptation/' + trial_data.color + trial_data.stimulus + trial_data.scalepos + '.jpg';
+      return 'resources/images/' + trial_data.color + trial_data.stimulus + trial_data.scalepos + '.jpg';
     };
 
     if(stimulus.name !== 'flower') {
@@ -438,7 +438,7 @@ function AdaptationExperiment(params) {
 
     } else {
 
-      trial.stimulus = '../static/images/adaptation/flower4' + exposure.colors[color_index] + '.jpg';
+      trial.stimulus = 'resources/images/flower4' + exposure.colors[color_index] + '.jpg';
       trial.prompt = exposure.audio.header + 'flower' + statement + data.voice + exposure.audio.footer;
       trial.data.scalepos = 4;
 
@@ -558,7 +558,7 @@ function AdaptationExperiment(params) {
   this.makePosttestObjectTrial = function(stimulus, scale_adjustment, color) {
     var trial = {}
 
-    var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/';
+    var audio_header = '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="resources/sound/';
     var audio_footer = '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>';
     var subcondition = data.subcondition === 'too'? 'too' : '';
 
@@ -569,7 +569,7 @@ function AdaptationExperiment(params) {
 
       trial_data.scalepos = corrected_ambiguous_point;
 
-      return '../static/images/adaptation/' + trial_data.color + trial_data.stimulus + corrected_ambiguous_point + '.jpg';
+      return 'resources/images/' + trial_data.color + trial_data.stimulus + corrected_ambiguous_point + '.jpg';
     };
 
     var presentation_trial = {
@@ -624,8 +624,8 @@ function AdaptationExperiment(params) {
     var color = jsPsych.randomization.sample(colors, 1, false);
 
     var presentation_trial = {
-      stimulus: '../static/images/adaptation/' + color + 'flower' + num_petals + '.jpg',
-      prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/flowerquestion' + data.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
+      stimulus: 'resources/images/' + color + 'flower' + num_petals + '.jpg',
+      prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="resources/sound/flowerquestion' + data.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
       data: {
         scalepos: (num_petals + 1),
         stimulus: 'flower',
@@ -637,7 +637,7 @@ function AdaptationExperiment(params) {
     };
 
     var response_trial = {
-      stimulus: '../static/images/adaptation/' + color + 'flower' + num_petals + '.jpg',
+      stimulus: 'resources/images/' + color + 'flower' + num_petals + '.jpg',
       prompt: '<br/><p class="text-center">Press <b>F</b> for <b>yes</b> and <b>J</b> for <b>no</b>.</p>',
       data: {
           scalepos: (num_petals + 1),
@@ -842,7 +842,7 @@ var prefabs = {
     }
   },
   audio: {
-    header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="../static/sound/adaptation/',
+    header:'<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="resources/sound/',
     footer:'.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p>'
   }
 };

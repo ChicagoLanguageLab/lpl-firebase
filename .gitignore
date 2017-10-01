@@ -38,6 +38,5 @@ Thumbs.db
 
 ########
 
-public/static/images/
-public/static/sound/
-unused-resources/
+images
+sound

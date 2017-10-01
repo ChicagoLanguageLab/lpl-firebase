@@ -43,7 +43,7 @@ function loadExperimentFromJS(d, textStatus, error) {
   }
 
 function attemptLoad() {
-  $.getJSON("production.data.json",
+  $.getJSON("resources/data/production-2.data.json",
             loadExperimentFromJSON)
    .fail(loadExperimentFromJS);
 }
