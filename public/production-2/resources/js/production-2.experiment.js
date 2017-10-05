@@ -141,7 +141,7 @@ var prefabs = {
   post_experiment: [
     {
       type: 'text',
-      cont_key: [],
+      cont_key: [''],
       text: function(){
           var code = 'TURK' + jsPsych.randomization.randomID(10);
           saveData(jsPsych.data.dataAsCSV(), dataRef);
