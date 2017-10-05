@@ -39,6 +39,7 @@ function Production2Experiment(params) {
 
       var jsp_trial = {
         'type': 'production-response',
+        'preamble': "Make a sentence using the following words.",
         'verb': params.items[item].conditions[condition],
         'data': {
           'item': item,
@@ -130,6 +131,23 @@ var prefabs = {
              <p>In this study, you will be presented with sets of a few words each. Your task is to create a sentence using these words. You may add additional words as necessary.</p>
              <p>When you are ready to begin, please press the space bar. You will first see a practice question.</p>`,
       cont_key: [' ']
+    },
+    {
+      'type': 'production-response',
+      'verb': 'barked',
+      'noun1': 'loudly',
+      'noun2': 'dog',
+      'practice': true,
+      'preamble': "Make a sentence using the following words.",
+      'data': {
+        'item': -1,
+        'condition': -1,
+        'trial_num': -1,
+        'name': 'dog',
+        'noun': 'loudly',
+        'verb': 'barked',
+        'order': 'noun_first'
+      }
     },
     {
       type: 'text',

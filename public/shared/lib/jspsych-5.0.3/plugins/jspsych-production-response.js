@@ -21,6 +21,7 @@ jsPsych.plugins['production-response'] = (function() {
     trial.noun1 = typeof trial.noun1 == 'undefined' ? false : trial.noun1;
     trial.noun2 = typeof trial.noun2 == 'undefined' ? false : trial.noun2;
     trial.verb = typeof trial.verb == 'undefined' ? false : trial.verb;
+    trial.practice = typeof trial.practice == 'undefined' ? false : trial.practice;
 
     // if any trial variables are functions
     // this evaluates the function and replaces
@@ -28,12 +29,12 @@ jsPsych.plugins['production-response'] = (function() {
     trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
     // show preamble text
-    display_element.append($('<div>', {
-      "id": 'jspsych-survey-text-preamble',
-      "class": 'small text-center'
-    }));
+      display_element.append($('<div>', {
+        "id": 'jspsych-survey-text-preamble',
+        "class": 'text-center mt-4 small'
+      }));
 
-    $('#jspsych-survey-text-preamble').html(trial.preamble);
+      $('#jspsych-survey-text-preamble').html(trial.preamble);
 
     // add question
 
