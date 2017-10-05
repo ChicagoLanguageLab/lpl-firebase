@@ -24,18 +24,18 @@ function Production2Experiment(params) {
   this.initTimeline = function() {
 
     var trials = [];
-    var order = jsPsych.randomization.shuffle([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    var order_list = jsPsych.randomization.shuffle([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+
     var orderEnum = {
       0: 'name_first',
       1: 'noun_first'
     }
 
-    console.log(raw_trials);
-
     _.each(raw_trials, function(trial, i) {
 
       var item = trial.slice(0, trial.length-1);
       var condition = trial[trial.length-1];
+      var order = orderEnum[order_list[i]];
 
       var jsp_trial = {
         'type': 'production-response',
@@ -47,15 +47,15 @@ function Production2Experiment(params) {
           'name': params.items[item].name,
           'noun': params.items[item].noun,
           'verb': params.items[item].conditions[condition],
-          'order': orderEnum[order[i]]
+          'order': order
         }
       };
 
-      if(orderEnum[order[i]] === 'name_first') {
+      if(order === 'name_first') {
         jsp_trial.noun1 = jsp_trial.data.name;
         jsp_trial.noun2 = jsp_trial.data.noun;
       }
-      else {
+      else if(order === 'noun_first'){
         jsp_trial.noun1 = jsp_trial.data.noun;
         jsp_trial.noun2 = jsp_trial.data.name;
       }
@@ -81,7 +81,7 @@ var prefabs = {
       type: 'text',
       text: `<div class="header row">
                <div class="col-2 text-right">
-                 <img class="logo" src="../static/images/shield.png" alt="UChicago Logo"/>
+                 <img class="logo" src="../shared/images/shield.png" alt="UChicago Logo"/>
                </div>
                <div class="col-10">
                  <h1>Language Processing Laboratory</h1>
@@ -127,9 +127,13 @@ var prefabs = {
     {
       type: 'text',
       text: `<p class="lead mt-4">Thank you for deciding to participate in our study!</p>
-             <p>In this study, you will be presented with sets of three words. The first two will be nouns (denoting people or things) and the last one will be a verb (denoting an action).</p>
-             <p>For each set, you task is to create a sentence using these three words.
-             <p>Please limit your response to one sentence. You may use articles ('a', 'an', 'the') or other supporting words as necessary, but please do not use any nouns or verbs besides those provided.</p>
+             <p>In this study, you will be presented with sets of a few words each. Your task is to create a sentence using these words. You may add additional words as necessary.</p>
+             <p>When you are ready to begin, please press the space bar. You will first see a practice question.</p>`,
+      cont_key: [' ']
+    },
+    {
+      type: 'text',
+      text: `<p>What sentence did you come up with? Here is one possibility: "The dog was barking loudly". Here is another: "A dog barked loudly". There are many other ways to create a sentence using the words "dog", "loudly", and "barked". There is no need to overthink; just write down the first thing that comes to your mind.</p>
              <p>There will be 32 items. When you are ready to begin, please press the <strong>space bar</strong>.</p>`,
       cont_key: [' ']
     }
@@ -148,7 +152,7 @@ var prefabs = {
 
           return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
                   '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
-                  `You may then close this window.</p><p>If you have any questions or concerns, 
+                  `You may then close this window.</p><p>If you have any questions or concerns,
                     please do not hesitate to contact the lab at
                     <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
                   </p>`;

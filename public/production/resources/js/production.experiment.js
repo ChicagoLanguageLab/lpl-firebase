@@ -107,7 +107,7 @@ function initProductionTrials() {
 			}
 
 			// Make question
-			var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="../static/images/production/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="../static/images/production/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="../static/images/production/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
+			var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
 			//console.log(trialType);
 			var trial = {
 				type: 'vm-production-response',
