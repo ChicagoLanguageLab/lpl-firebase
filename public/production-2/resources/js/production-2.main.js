@@ -49,7 +49,7 @@ function attemptLoad() {
 }
 
 function initializeExperiment(experiment) {
-  dataRef = storageRef.child('production-2/9-24-2017/' + experiment.getSubjectId() + '.csv');
+  dataRef = storageRef.child('production-2/10-07-2017/' + experiment.getSubjectId() + '.csv');
 
   experiment.initTimeline();
 

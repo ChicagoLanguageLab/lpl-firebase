@@ -163,6 +163,7 @@ var prefabs = {
       text: function(){
           var code = 'TURK' + jsPsych.randomization.randomID(10);
           saveData(jsPsych.data.dataAsCSV(), dataRef);
+          addWorker(jsPsych.data.urlVariables().workerId, 'production-2');
 
           jsPsych.data.addProperties({
             code: code
