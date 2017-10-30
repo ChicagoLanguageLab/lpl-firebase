@@ -64,7 +64,7 @@ function initializeExperiment(experiment) {
 }
 
 $( document ).ready(function() {
-  checkWorker(jsPsych.data.urlVariables().workerId, 'adaptation-workers').then(function(snapshot) {
+  checkWorker(jsPsych.data.urlVariables().workerId, 'production-2').then(function(snapshot) {
     if(snapshot.val() && snapshot.val().complete == 1) {
       console.log('Worker has already completed the experiment.');
       clearInterval(loadInterval);

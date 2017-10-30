@@ -17,7 +17,7 @@ jsPsych.plugins['vm-production-response'] = (function() {
 
     trial.preamble = typeof trial.preamble == 'undefined' ? "" : trial.preamble;
     trial.rows = typeof trial.rows == 'undefined' ? 1 : trial.rows;
-    trial.columns = typeof trial.columns == 'undefined' ? 40 : trial.columns;
+    trial.columns = typeof trial.columns == 'undefined' ? 80 : trial.columns;
     trial.required = typeof trial.required == 'undefined' ? false : trial.required;
 
     // if any trial variables are functions
@@ -31,10 +31,10 @@ jsPsych.plugins['vm-production-response'] = (function() {
       "class": 'small'
     }));
 
-    $('#jspsych-survey-text-preamble').html(trial.preamble);
+    $('#jspsych-survey-text-preamble').html('<p>' + trial.preamble + '</p>');
 
     // add question
-    
+
     display_element.append($('<div>', {
         "id": 'jspsych-survey-text',
         "class": 'jspsych-survey-text-question'
@@ -44,9 +44,9 @@ jsPsych.plugins['vm-production-response'] = (function() {
     $("#jspsych-survey-text").append('<p class="jspsych-survey-text">' + trial.question + '</p>');
 
     // add text box
-    $("#jspsych-survey-text").append('<input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + trial.rows + '"></input>');
+    $("#jspsych-survey-text").append('<p><input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + trial.rows + ' columns="' + trial.columns + '"></p></input>');
 
-    
+
 
     // add submit button
     display_element.append($('<button>', {

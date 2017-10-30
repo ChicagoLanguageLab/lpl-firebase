@@ -97,7 +97,7 @@ $( document ).ready(function() {
     var assignmentId = turkGetParam('assignmentId', '');
     var workerId = turkGetParam('workerId', '');
 
-    var questions = ['${Trial1}','${Trial2}','${Trial3}','${Trial4}','${Trial5}','${Trial6}','${Trial7}','${Trial8}','${Trial9}','${Trial10}','${Trial11}','${Trial12}','${Trial13}','${Trial14}','${Trial15}','${Trial16}','${Trial17}','${Trial18}','${Trial19}','${Trial20}','${Trial21}','${Trial22}','${Trial23}','${Trial24}','${Trial25}','${Trial26}','${Trial27}','${Trial28}','${Trial29}','${Trial30}','${Trial31}','${Trial32}'];
+    var questions = ['${Trial1}','${Trial2}','${Trial3}','${Trial4}','${Trial5}','${Trial6}','${Trial7}','${Trial8}','${Trial9}','${Trial10}','${Trial11}','${Trial12}','${Trial13}','${Trial14}','${Trial15}','${Trial16}','${Trial17}'];
 
     var studyLink = 'https://language-processing-lab.firebaseapp.com/production-2/experiment.html?';
 
@@ -204,22 +204,24 @@ $( document ).ready(function() {
                 </div>
 
                 <div class="carousel-item" id="studyLink">
-                   <div class="card">
-                        <div class="card-block">
-                            <p>The following link will direct you to the study. Please be sure to open the link in a new tab or window.</p>
+                  <div class="card">
+                       <div class="card-block">
+                           <p>The following link will direct you to the study. Please be sure to open the link in a new tab or window.</p>
 
-                            <h4>Study</h4>
-                            <h6 class="mb-2 text-muted">15 Minutes</h6>
+                           <dl class="row">
+                               <dt class="col-sm-4"><h3>Study link:</h3></dt>
+                               <dd class="col-sm-8"><h3><a href="" id="expt-link" target="blank">Click here</a></h3></dd>
+                           </dl>
 
-                            <dl class="row">
-                                <dt class="col-sm-4"><b>Link:</b></dt>
-                                <dd class="col-sm-8"><a href="" id="expt-link" target="blank">Click here</a></dd>
-                                <dt class="col-sm-4"><b>Enter your code here:</b></dt>
-                                <dd class="col-sm-8"><input id="survey-code" name="survey-code" type="text" required /></dd>
-                            </dl>
+                           <p>Once you have finished the study, please enter your survey code into the box below.</p>
 
-                        <div class="card card-footer centered" id="submit-button-container"></div>
-                    </div>
+                           <dl class="row">
+                               <dt class="col-sm-4"><b>Enter your code here after finishing the study:</b></dt>
+                               <dd class="col-sm-8"><input id="survey-code" name="survey-code" type="text" required /></dd>
+                           </dl>
+
+                       <div class="card card-footer centered" id="submit-button-container"></div>
+                   </div>
                 </div>
             </div>
         </div>

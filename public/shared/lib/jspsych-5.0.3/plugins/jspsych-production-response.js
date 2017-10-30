@@ -34,7 +34,7 @@ jsPsych.plugins['production-response'] = (function() {
         "class": 'text-center mt-4 small'
       }));
 
-      $('#jspsych-survey-text-preamble').html(trial.preamble);
+      $('#jspsych-survey-text-preamble').html('<p>' + trial.preamble + '</p>');
 
     // add question
 
@@ -47,7 +47,7 @@ jsPsych.plugins['production-response'] = (function() {
     $("#jspsych-survey-text").append('<p class="jspsych-survey-text">' + trial.noun1 + ', ' + trial.noun2 + ', ' + trial.verb + '</p>');
 
     // add text box
-    $("#jspsych-survey-text").append('<input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + 80 + '"></input>');
+    $("#jspsych-survey-text").append('<input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" size="' + 80 + '"></input>');
 
     // add submit button
     var div = $('<div>', {
