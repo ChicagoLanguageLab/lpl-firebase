@@ -67,13 +67,9 @@ function initProductionTrials() {
 			var trialType = trials[item + condition]['type'];
 
 			if(trialType == 'Test' || trialType == 'Color') {
-
-        console.log('Trying #' + item + ': ' + trialType + ' ' + condition + ' ' + targetTypes[targetId]);
-
         var x = 0;
 				while(quotas[trialType][condition]['cur_' + targetTypes[targetId]] == quotas[trialType][condition]['max_' + targetTypes[targetId]]) {
           x++;
-          console.log("Failed.");
 					if(quotas[trialType]['c']['cur_distractor'] == quotas[trialType]['c']['max_distractor'] &&
 						quotas[trialType]['nc']['cur_distractor'] == quotas[trialType]['nc']['max_distractor'] &&
 						quotas[trialType]['nc']['cur_contrastDistractor'] == quotas[trialType]['nc']['max_contrastDistractor']) {
@@ -82,22 +78,17 @@ function initProductionTrials() {
 						break;
 				    }
 
-            if(x > 10) {
+            if(x > 20) {
               console.log("ERROR: Exceeded threshold.");
-              console.log(quotas);
               break;
             }
 
 				    condition = randomCondition();
 				    targetId = randomTarget(condition);
-
-            console.log('Trying #' + item + ': ' + trialType + ' ' + condition + ' ' + targetTypes[targetId]);
 				}
 
 			    quotas[trialType][condition]['cur_' + targetTypes[targetId]] += 1;
 			}
-
-      console.log(targetId);
 
 			// Get the objects for the trial and randomize them
 			var objects = [trials[item + condition]['distractor'], trials[item + condition]['contrastDistractor'], trials[item + condition]['target'], trials[item + condition]['competitor']];
