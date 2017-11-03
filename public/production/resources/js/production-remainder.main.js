@@ -88,7 +88,7 @@ timeline.push(browser_test_block);
 
 timeline = addObjectsToTimeline(timeline, productionBlock);
 
-var productionEndBlock = initInstructions(productionEndInstructions);
+var productionEndBlock = initText(productionEndInstructions);
 productionEndBlock.on_finish = function() {
   saveData(jsPsych.data.dataAsCSV(), dataRef, function() {
     console.log('Complete.');

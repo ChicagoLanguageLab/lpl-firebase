@@ -134,10 +134,25 @@ function getAllUrlParams(url) {
 }
 
 function initInstructions(pages) {
-  console.log(pages);
   return ({
     'type': "instructions",
     'pages': pages,
     'show_clickable_nav': true
   });
+}
+
+function initText(textArray) {
+  var textBlock = {
+    timeline: [],
+    type: 'text'
+  }
+
+  _.each(textArray, function(text) {
+    textBlock.timeline.push({
+      'cont_key': [' '],
+      'text': text
+    });
+  });
+
+  return textBlock;
 }
