@@ -114,6 +114,7 @@ $(document).ready(function(){
         timing_post_trial: 0,
         on_finish: function() {
           $('#jspsych-target').append('<p>Thank you for your participation! Your responses have been saved.</p><p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. You may then close this window.</p><p>If you have any questions or concerns, please do not hesitate to contact the lab at <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>.</p>');
+          addWorker(workerId, 'production-OSPAN')
         }
       });
     }
