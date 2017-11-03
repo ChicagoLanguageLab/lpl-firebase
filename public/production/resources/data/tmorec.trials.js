@@ -2122,5 +2122,5 @@ var trials = {
         'competitor': 'hallway2.jpg',
         'distractor': 'red_T1.jpg',
         'contrastDistractor': 'snowman5.jpg'
-    },
+    }
 }
