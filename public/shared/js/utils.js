@@ -133,24 +133,11 @@ function getAllUrlParams(url) {
   return obj;
 }
 
-function initInstructions(instructions, choices) {
-  if(typeof(instructions) == "object") {
-    var timeline = [];
-
-    for(i = 0; i < instructions.length; i++) {
-      timeline.push({text: instructions[i]});
-    }
-
-    return ({
-      type: "text",
-      cont_key: choices,
-      timeline: timeline
-    });
-  }
-
+function initInstructions(pages) {
+  console.log(pages);
   return ({
-    type: "text",
-    text: instructions,
-    cont_key: choices
+    'type': "instructions",
+    'pages': pages,
+    'show_clickable_nav': true
   });
 }
