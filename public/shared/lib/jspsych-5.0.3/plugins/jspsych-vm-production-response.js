@@ -56,7 +56,7 @@ jsPsych.plugins['vm-production-response'] = (function() {
     }));
 
     function submit() {
-      var response = $("div.jspsych-survey-text-question").children('input').val();
+      var response = $("#jspsych-survey-text-response").val();
 
       if(response == '') {
         alert("Please answer the question.");
@@ -68,7 +68,7 @@ jsPsych.plugins['vm-production-response'] = (function() {
       var response_time = endTime - startTime;
 
       // save data
-      var trialdata = {
+      var trial_data = {
         "rt": response_time,
         "response": response
       };
@@ -76,7 +76,7 @@ jsPsych.plugins['vm-production-response'] = (function() {
       display_element.html('');
 
       // next trial
-      jsPsych.finishTrial(trialdata);
+      jsPsych.finishTrial(trial_data);
     }
 
     $('#jspsych-survey-text-response').bind("enterKey",function(e){
