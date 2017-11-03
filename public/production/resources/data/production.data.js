@@ -3,7 +3,7 @@ var productionInstructions = ['<p>This experiment consists of two tasks.</p><p>I
 var productionEndInstructions = ['<p>You have finished the first task!</p><p>Press <strong>space</strong> to continue to the second task.</p>'];
 
 // Define possible targets
-var targetTypes = ['target', 'competitor', 'contrastDistractor'];
+var targetTypes = ['distractor', 'contrastDistractor'];
 
 // Store list of arrow images
 var arrows = ['tl_arrow.png', 'tr_arrow.png', 'bl_arrow.png', 'br_arrow.png'];

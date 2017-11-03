@@ -12,7 +12,7 @@ function randomCondition() {
 
 function randomTarget(condition) {
 	if(condition == 'c')
-		return Math.floor(Math.random() * 3);
+		return 0;
 
 	return targetId = Math.floor(Math.random() * 2);
 }
@@ -68,26 +68,43 @@ function initProductionTrials() {
 
 			if(trialType == 'Test' || trialType == 'Color') {
 
+        console.log('Trying #' + item + ': ' + trialType + ' ' + condition + ' ' + targetTypes[targetId]);
+
+        var x = 0;
 				while(quotas[trialType][condition]['cur_' + targetTypes[targetId]] == quotas[trialType][condition]['max_' + targetTypes[targetId]]) {
+          x++;
+          console.log("Failed.");
+					if(quotas[trialType]['c']['cur_distractor'] == quotas[trialType]['c']['max_distractor'] &&
+						quotas[trialType]['nc']['cur_distractor'] == quotas[trialType]['nc']['max_distractor'] &&
+						quotas[trialType]['nc']['cur_contrastDistractor'] == quotas[trialType]['nc']['max_contrastDistractor']) {
 
-					if(quotas[trialType]['c']['cur_distractor'] == quotas[trialType]['c']['max_target'] &&
-						quotas[trialType]['nc']['cur_distractor'] == quotas[trialType]['nc']['max_target'] &&
-						quotas[trialType]['nc']['cur_contrastDistractor'] == quotas[trialType]['nc']['max_competitor']) {
-
-						console.log("ERROR: Quotas are full! Current item: " + i);
+						console.log("ERROR: Quota is full! Current item: " + i);
 						break;
 				    }
 
+            if(x > 10) {
+              console.log("ERROR: Exceeded threshold.");
+              console.log(quotas);
+              break;
+            }
+
 				    condition = randomCondition();
 				    targetId = randomTarget(condition);
+
+            console.log('Trying #' + item + ': ' + trialType + ' ' + condition + ' ' + targetTypes[targetId]);
 				}
 
 			    quotas[trialType][condition]['cur_' + targetTypes[targetId]] += 1;
 			}
 
+      console.log(targetId);
+
 			// Get the objects for the trial and randomize them
-			var objects = [trials[item + condition]['target'], trials[item + condition]['competitor'], trials[item + condition]['contrastDistractor'], trials[item + condition]['distractor']];
-			var shuffledObjects = jsPsych.randomization.shuffle(objects);
+			var objects = [trials[item + condition]['distractor'], trials[item + condition]['contrastDistractor'], trials[item + condition]['target'], trials[item + condition]['competitor']];
+
+      console.log('Target image is ' + objects[targetId]);
+
+      var shuffledObjects = jsPsych.randomization.shuffle(objects);
 
 			// Need to find position of the target so we can point to it
 			var pos = 0;
@@ -97,9 +114,9 @@ function initProductionTrials() {
 			}
 
 			// Make question
-			var question = '<p><b>' + i + '.</b></p><p class="text-center"><table><tr><td><img width="150" src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table></p><br/><p>"Click on the..."</p>'
-			//console.log(trialType);
-			var trial = {
+			var question = '<p><b>' + i + '.</b></p><p><table style="margin: auto;"><tr><td><img width="150" src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table></p><br/><p class="text-center">"Click on the..."</p>'
+
+      var trial = {
 				type: 'vm-production-response',
 				preamble: 'INSTRUCTIONS: Describe the object indicated by the arrow as if you are instructing a partner to click on it. Keep in mind that this partner can only see the images, not the arrow.',
 				question: question,

@@ -41,19 +41,19 @@ jsPsych.plugins['vm-production-response'] = (function() {
       }));
 
     // add question text
-    $("#jspsych-survey-text").append('<p class="jspsych-survey-text">' + trial.question + '</p>');
+    $("#jspsych-survey-text").append('<p class="jspsych-survey-text text-center">' + trial.question + '</p>');
 
     // add text box
-    $("#jspsych-survey-text").append('<p><input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + trial.rows + ' columns="' + trial.columns + '"></p></input>');
+    $("#jspsych-survey-text").append('<p class="text-center"><input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + trial.rows + ' columns="' + trial.columns + '"></p></input>');
 
 
 
     // add submit button
-    display_element.append($('<button>', {
+    display_element.append($('<p>', {
       'id': 'jspsych-survey-text-next',
-      'class': 'jspsych-btn jspsych-survey-text'
+      'class': 'text-center',
+      'html': '<button class="jspsych-btn jspsych-survey-text">Next</button>'
     }));
-    $("#jspsych-survey-text-next").html('Next');
 
     function submit() {
       var response = $("div.jspsych-survey-text-question").children('input').val();
