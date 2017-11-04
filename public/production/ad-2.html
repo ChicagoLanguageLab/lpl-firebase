@@ -96,13 +96,15 @@ $( document ).ready(function() {
 
     var assignmentId = turkGetParam('assignmentId', '');
     var workerId = turkGetParam('workerId', '');
+    
+    var listType = '${List}';
 
     var questions = ['${Trial1}','${Trial2}','${Trial3}','${Trial4}','${Trial5}','${Trial6}','${Trial7}','${Trial8}','${Trial9}','${Trial10}','${Trial11}','${Trial12}','${Trial13}','${Trial14}','${Trial15}','${Trial16}','${Trial17}'];
 
     var studyLink = 'https://language-processing-lab.firebaseapp.com/production/experiment-2.html?';
 
     if(workerId != '' && workerId != undefined) {
-        studyLink += 'workerId=' + workerId;
+        studyLink += 'workerId=' + workerId + '&listType=' + listType;
     }
     else {
         studyLink += 'workerId=temp';
