@@ -1,5 +1,12 @@
 // production-utils.js
 
+function addObjectsToTimeline(timeline, list) {
+  _.each(list, function(item, index, list) {
+    timeline.push(item);
+  });
+  return timeline;
+}
+
 function randomCondition() {
   var coinFlip = Math.floor(Math.random() * 2);
   if(coinFlip == 1) { // If "NoContrast", choose from target and competitor
@@ -19,6 +26,20 @@ function randomTarget(condition) {
 
 function initProductionTrials() {
 	var params = getAllUrlParams();
+  var trials;
+
+  if(params.listType === 'tmorec') {
+    trials = tmc_trials;
+    console.log('List set to tmorec_trials');
+  }
+  if(params.listType === 'tlessc') {
+    trials = tlc_trials;
+    console.log('List set to tlessc_trials');
+  }
+  if(params.listType === 'tequalc') {
+    trials = tec_trials;
+    console.log('List set to tequalc_trials');
+  }
 
 	// questions holds HTML-formated strings; targets stores chosen target for description
 	var questions = [];
@@ -53,7 +74,7 @@ function initProductionTrials() {
 	}
 
 	var timeline = _.chain(params)
-		.omit('workerId')
+		.omit(['workerId', 'listType'])
 		.map(function(value, key, list) {
 			var i = key.replace('q', '');
 
