@@ -15,13 +15,13 @@ var database = firebase.database();
 
 var params = getAllUrlParams();
 
-var workerId = params.workerId;
-if(workerId == undefined || workerId == "")
-    workerId = "TEST";
+var id = params.id;
+if(id == undefined || id == "")
+    id = "TEST";
 
-var code = 'TURK' + jsPsych.randomization.randomID(10);
+var code = 'tc' + jsPsych.randomization.randomID(10);
 
-var dataRef = storageRef.child('production-remainder/TmoreC-11-03-2017/' + params.workerId + '.csv');
+var dataRef = storageRef.child('production-' + version + '/' + params.condition + '-11-19-2017/' + params.id + '.csv');
 
 browser_test_block = {
   timeline: [{
@@ -43,64 +43,70 @@ browser_test_block = {
 
 var timeline = [];
 
-var productionInstructionsblock = initInstructions(productionInstructions, [' ']);
+if(version === 'production_3_item')
+var productionInstructionsblock = initInstructions(threeItemInstructions);
+else
+  var productionInstructionsblock = initInstructions(productionInstructions);
+
 var productionBlock = initProductionTrials();
 
+var welcomePage = {
+  type: 'text',
+  text: `<div class="header row">
+           <div class="col-2 text-right">
+             <img class="logo" src="../shared/images/shield.png" alt="UChicago Logo"/>
+           </div>
+           <div class="col-10">
+             <h1>Language Processing Laboratory</h1>
+             <p class="lead">Department of Linguistics, The University of Chicago</p>
+           </div>
+         </div>
+         <div>
+           <p class="mt-4 lead">
+             Thank you for your interest in our study!
+           </p>
+           <p>
+             As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
+           </p>
+         </div>`,
+  cont_key: [' ']
+};
+
+var consentPage = {
+  type: 'consent',
+  requirements: 'You must be at least 18 years old to participate in this study. ',
+  purpose: 'In this research, we are investigating the processes involved in the comprehension of sentences. ',
+  procedures: 'In this study, you will provide brief descriptions of one image out of a set of images. ',
+  time: 'about 10 minutes',
+  pay: '$1 USD',
+  name: 'Dr. Ming Xiang',
+  address: '1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637',
+  phone: '(773) 702-8023',
+  email: 'mxiang@uchicago.edu'
+};
+
+timeline.push(welcomePage);
+timeline.push(consentPage);
+timeline.push({
+  'type': 'demographics'
+});
 timeline.push(productionInstructionsblock);
 timeline.push(browser_test_block);
+
 timeline = addObjectsToTimeline(timeline, productionBlock);
 
-var productionEndBlock = initInstructions(productionEndInstructions, [' ']);
+var productionEndBlock = initText(productionEndInstructions);
+productionEndBlock.on_finish = function() {
+  saveData(jsPsych.data.dataAsCSV(), dataRef, function() {
+    console.log('Complete.');
+  });
+}
 timeline.push(productionEndBlock);
-
-/* Init and add OSPAN trials */
-
-var startingInstructionsBlock = initInstructions(startingInstructions, [' ']);
-var letterPracticeInstructionsBlock = initInstructions(letterPracticeInstructions, [' ']);
-var letterPracticeBlock = makeOspanTrials(pracLetterSize, "LetterPractice");
-var mathPracticeInstructionsBlock = initInstructions(mathPracticeInstructions, [' ']);
-var mathPracticeBlock = makeOspanTrials([], "MathPractice");
-var bothPracticeInstructions = initInstructions(bothPracticeInstructions, [' ']);
-var bothPracticeBlock = makeOspanTrials(pracBothSetSize, "BothPractice");
-var experimentInstructionsBlock = initInstructions(experimentInstructions, [' ']);
-var experimentBlock = makeOspanTrials(jsPsych.randomization.shuffle(testBothSetSize), "Experiment");
-
-timeline.push(startingInstructionsBlock);
-timeline.push(letterPracticeInstructionsBlock);
-timeline = addObjectsToTimeline(timeline, letterPracticeBlock);
-timeline.push(mathPracticeInstructionsBlock);
-timeline = addObjectsToTimeline(timeline, mathPracticeBlock);
-timeline.push(bothPracticeInstructions);
-timeline = addObjectsToTimeline(timeline, bothPracticeBlock);
-timeline.push(experimentInstructionsBlock);
-timeline = addObjectsToTimeline(timeline, experimentBlock);
-
-var feedbackBlock = {
-  type: "text",
-  text: function() { return "<p>You have finished the memory task. These are your final results:</p><p>You answered " + (results.total_math_problems - results.total_math_wrong) + " math problems correctly out of " + results.total_math_problems + " total problems. Of your incorrect answers, " + results.total_math_accuracy_errors + " were accuracy errors, and " + results.total_math_speed_errors + " were speed errors.</p><p>You recalled " + results.total_letters_correct + " letters correctly out of " + results.total_letters + " total letters. You responded with 100% accuracy on " + results.total_strings_correct + " strings out of " + results.total_strings + " total strings.</p><p>Press <strong>space</strong> to continue to your survey code.</p>"; },
-  cont_key: [' '],
-  on_finish: function() {
-    addWorker(workerId, "production-OSPAN");
-    saveData(jsPsych.data.dataAsCSV(), dataRef);
-  }
-};
-
-timeline.push(feedbackBlock);
-
-var endBlock = {
-  type: "text",
-  cont_key: [''],
-  text: function(){
-      return "<p>Thank you for your participation! Your responses have been saved.</p><p>Your survey code is <b>" + code + "</b>. Please enter this code into your HIT. You may then close this window.</p><p>If you have any questions or concerns, please do not hesitate to contact the lab at <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.";
-  }
-};
-
-timeline.push(endBlock);
 
 /* start the experiment */
 $(document).ready(function(){
 
-  checkWorker(workerId, 'production-OSPAN').then(function(snapshot) {
+  checkWorker(id, 'production-OSPAN').then(function(snapshot) {
     if(snapshot.val() && snapshot.val().complete == 1) {
       console.log('Worker has already completed the experiment.');
       showError();
@@ -112,7 +118,17 @@ $(document).ready(function(){
         display_element: $('#jspsych-target'),
         timeline: timeline,
         show_progress_bar: true,
-        timing_post_trial: 0
+        timing_post_trial: 0,
+        on_finish: function() {
+          $('#jspsych-target').append('<p>Thank you for your participation! Your responses have been saved.</p><p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. You may then close this window.</p><p>If you have any questions or concerns, please do not hesitate to contact the lab at <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>.</p>');
+          addWorker(id, 'production-OSPAN')
+        }
+      });
+
+      jsPsych.data.addProperties({
+        'id': params.id,
+        'list': params.condition,
+        'version': version
       });
     }
   });

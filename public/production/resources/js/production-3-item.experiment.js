@@ -1,0 +1,181 @@
+
+var version = 'production_3_item';
+
+function addObjectsToTimeline(timeline, list) {
+  _.each(list, function(item, index, list) {
+    timeline.push(item);
+  });
+  return timeline;
+}
+
+function randomCondition() {
+  var coinFlip = Math.floor(Math.random() * 2);
+  if(coinFlip == 1) {
+    return 'nc'
+  }
+  else {
+    return 'c'
+  }
+}
+
+function randomTarget() {
+	return targetId = Math.floor(Math.random() * 3);
+}
+
+function initProductionTrials() {
+	var params = getAllUrlParams();
+  var trials;
+
+  if(params.condition === 'tmorec') {
+    trials = tmc_trials;
+    console.log('List set to tmorec_trials');
+  }
+  if(params.condition === 'tlessc') {
+    trials = tlc_trials;
+    console.log('List set to tlessc_trials');
+  }
+  if(params.condition === 'tequalc') {
+    trials = tec_trials;
+    console.log('List set to tequalc_trials');
+  }
+
+	// questions holds HTML-formated strings; targets stores chosen target for description
+	var questions = [];
+	var targets = [];
+
+  // Keep track of how many of each contrast/nocontrast condition has been added to the experiment
+  var quotas = {
+    'Test': {
+      'c': {
+        'max_target': 2,
+        'cur_target': 0,
+        'max_distractor': 2,
+        'cur_distractor': 0,
+        'max_contrastDistractor': 2,
+        'cur_contrastDistractor': 0
+      },
+      'nc': {
+        'max_target': 2,
+        'cur_target': 0,
+        'max_distractor': 2,
+        'cur_distractor': 0,
+        'max_contrastDistractor': 2,
+        'cur_contrastDistractor': 0
+      },
+    },
+    'Color': {
+      'c': {
+        'max_target': 1,
+        'cur_target': 0,
+        'max_contrastDistractor': 1,
+        'cur_contrastDistractor': 0,
+        'max_distractor': 1,
+        'cur_distractor': 0
+      },
+      'nc': {
+        'max_target': 1,
+        'cur_target': 0,
+        'max_distractor': 1,
+        'cur_distractor': 0,
+        'max_contrastDistractor': 1,
+        'cur_contrastDistractor': 0
+      },
+    }
+  }
+
+	var timeline = _.chain(params)
+		.omit(['id', 'condition', 'version'])
+		.map(function(value, key, list) {
+			var i = key.replace('q', '');
+
+			// Get trial to use from URL params
+			var item = value;
+			item = (item == undefined ? "1" : item);
+
+			var condition = randomCondition();
+			var targetId = randomTarget();
+
+			var trialType = trials[item + condition]['type'];
+
+      if(trialType == 'Test' || trialType == 'Color') {
+        var x = 0;
+				while(quotas[trialType][condition]['cur_' + targetTypes3Item[targetId]] == quotas[trialType][condition]['max_' + targetTypes3Item[targetId]]) {
+          x++;
+
+					if(quotas[trialType]['c']['cur_target'] == quotas[trialType]['c']['max_target'] &&
+						 quotas[trialType]['c']['cur_distractor'] == quotas[trialType]['c']['max_distractor'] &&
+						 quotas[trialType]['c']['cur_contrastDistractor'] == quotas[trialType]['c']['max_contrastDistractor'] &&
+             quotas[trialType]['nc']['cur_target'] == quotas[trialType]['nc']['max_target'] &&
+   					 quotas[trialType]['nc']['cur_distractor'] == quotas[trialType]['nc']['max_distractor'] &&
+   					 quotas[trialType]['nc']['cur_contrastDistractor'] == quotas[trialType]['nc']['max_contrastDistractor']) {
+
+						console.log("ERROR: Quota is full! Current item: " + i);
+						break;
+				    }
+
+            if(x > 20) {
+              console.log("ERROR: Exceeded threshold.");
+              break;
+            }
+
+				    condition = randomCondition();
+				    targetId = randomTarget();
+				}
+
+			    quotas[trialType][condition]['cur_' + targetTypes3Item[targetId]] += 1;
+			}
+
+			// Get the objects for the trial and randomize them
+			var objects = [trials[item + condition]['target'], trials[item + condition]['distractor'], trials[item + condition]['contrastDistractor']];
+      var shuffledObjects = jsPsych.randomization.shuffle(objects);
+
+      console.log('Target image is ' + objects[targetId]);
+
+			// Need to find position of the target so we can point to it
+			var pos = 0;
+			for(var j = 0; j < objects.length; j++) {
+				if(shuffledObjects[j] == objects[targetId])
+					pos = j;
+			}
+
+			// Make question
+			var question = '<p><b>' + i + '.</b></p><p><table style="margin: auto;"><tr><td></td><td></td><td></td></tr><tr><td><img src="resources/images/' + shuffledObjects[0] + '" /></td><td><img src="resources/images/' + three_arrow[pos] + '" /></td><td><img src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td></td><td></td></tr></table></p><br/><p class="text-center">"Click on the..."</p>'
+
+      var trial = {
+				type: 'vm-production-response',
+				preamble: 'INSTRUCTIONS: Describe the object indicated by the arrow as if you are instructing a partner to click on it. Keep in mind that this partner can only see the images, not the arrow.',
+				question: question,
+				required: true,
+				data: {
+					question_number: i,
+					item_number: item,
+					trial__type: trialType,
+					original_item_id: trials[item + condition].originalItemId,
+					target_type: targetTypes3Item[targetId],
+					target_adjective: trials[item + condition].targetAdjective,
+					target_condition: condition,
+					target_image: trials[item + condition][targetTypes3Item[targetId]],
+					original_target: trials[item + condition].target,
+					original_competitor: trials[item + condition].competitor,
+					original_contrastDistractor: trials[item + condition].contrastDistractor,
+					original_distractor: trials[item + condition].distractor
+				},
+				rows: 1,
+				columns: 40,
+				on_finish: function(data){
+				}
+			}
+
+			//console.log(trial);
+
+			if(i % 10 == 0) {
+			   	trial["on_finish"] = function(data){
+			    	saveData(jsPsych.data.dataAsCSV(), dataRef);
+			    };
+			}
+
+			return trial;
+		})
+		.value();
+	return timeline;
+}

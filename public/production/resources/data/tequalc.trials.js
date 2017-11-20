@@ -975,7 +975,7 @@ tec_trials = {
         'originalItemId': '48',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#table1.jpg',
+        'target': 'table1.jpg',
         'competitor': 'palm5.jpg',
         'distractor': 'thick1.jpg',
         'contrastDistractor': 'rottenorange.jpg'
@@ -984,7 +984,7 @@ tec_trials = {
         'originalItemId': '48',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#table1.jpg',
+        'target': 'table1.jpg',
         'competitor': 'palm5.jpg',
         'distractor': 'thick1.jpg',
         'contrastDistractor': 'waka1.jpg'
@@ -993,7 +993,7 @@ tec_trials = {
         'originalItemId': '51',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'chips1.jpg',
         'distractor': 'bw_stripe_fish5.jpg',
         'contrastDistractor': 'dog.jpg'
@@ -1002,7 +1002,7 @@ tec_trials = {
         'originalItemId': '51',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'chips1.jpg',
         'distractor': 'bw_stripe_fish5.jpg',
         'contrastDistractor': 'squash2.jpg'
@@ -1011,7 +1011,7 @@ tec_trials = {
         'originalItemId': '41',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'candle1.jpg',
         'distractor': 'straightrod1.jpg',
         'contrastDistractor': 'rottenstrawberry.jpg'
@@ -1020,7 +1020,7 @@ tec_trials = {
         'originalItemId': '41',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'candle1.jpg',
         'distractor': 'straightrod1.jpg',
         'contrastDistractor': 'bentnail5.jpg'
@@ -1515,7 +1515,7 @@ tec_trials = {
         'originalItemId': '36',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'paintbrush1.jpg',
         'distractor': 'curvedbridge3.jpg',
         'contrastDistractor': 'thick4.jpg'
@@ -1524,7 +1524,7 @@ tec_trials = {
         'originalItemId': '36',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'paintbrush1.jpg',
         'distractor': 'curvedbridge3.jpg',
         'contrastDistractor': 'ceramicpitcher.jpg'
@@ -1533,7 +1533,7 @@ tec_trials = {
         'originalItemId': '34',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': '#thick5.jpg',
+        'target': 'thick5.jpg',
         'competitor': 'marker5.jpg',
         'distractor': 'smalldog.jpg',
         'contrastDistractor': 'thick2.jpg'
@@ -1542,7 +1542,7 @@ tec_trials = {
         'originalItemId': '34',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': '#thick5.jpg',
+        'target': 'thick5.jpg',
         'competitor': 'marker5.jpg',
         'distractor': 'smalldog.jpg',
         'contrastDistractor': 'angryman.jpg'
@@ -1551,7 +1551,7 @@ tec_trials = {
         'originalItemId': '3',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'beer1.jpg',
         'distractor': 'pillow1.jpg',
         'contrastDistractor': 'trash4.jpg'
@@ -1560,7 +1560,7 @@ tec_trials = {
         'originalItemId': '3',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'beer1.jpg',
         'distractor': 'pillow1.jpg',
         'contrastDistractor': 'rottenorange.jpg'
@@ -1569,7 +1569,7 @@ tec_trials = {
         'originalItemId': '5',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': '#trash5.jpg',
+        'target': 'trash5.jpg',
         'competitor': 'tub5.jpg',
         'distractor': 'yellow_F3.jpg',
         'contrastDistractor': 'trash2.jpg'
@@ -1578,7 +1578,7 @@ tec_trials = {
         'originalItemId': '5',
         'targetAdjective': 'full ',
         'type': 'Test',
-        'target': '#trash5.jpg',
+        'target': 'trash5.jpg',
         'competitor': 'tub5.jpg',
         'distractor': 'yellow_F3.jpg',
         'contrastDistractor': 'cable2.jpg'

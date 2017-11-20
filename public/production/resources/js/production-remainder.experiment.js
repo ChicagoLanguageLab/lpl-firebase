@@ -1,4 +1,5 @@
-// production-utils.js
+
+var version = 'production_remainder';
 
 function addObjectsToTimeline(timeline, list) {
   _.each(list, function(item, index, list) {
@@ -126,7 +127,7 @@ function initProductionTrials() {
 			}
 
 			// Make question
-			var question = '<p><b>' + i + '.</b></p><p><table style="margin: auto;"><tr><td><img height="150" src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img height="150" src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img height="150" src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img height="150" src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img height="150" src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table></p><br/><p class="text-center">"Click on the..."</p>'
+			var question = '<p><b>' + i + '.</b></p><p><table style="margin: auto;"><tr><td><img src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table></p><br/><p class="text-center">"Click on the..."</p>'
 
       var trial = {
 				type: 'vm-production-response',

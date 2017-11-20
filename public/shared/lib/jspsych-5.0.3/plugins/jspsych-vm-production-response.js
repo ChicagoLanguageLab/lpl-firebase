@@ -55,7 +55,10 @@ jsPsych.plugins['vm-production-response'] = (function() {
       'html': '<button class="jspsych-btn jspsych-survey-text">Next</button>'
     }));
 
-    function submit() {
+    function submit(e) {
+
+      e.preventDefault();
+
       var response = $("#jspsych-survey-text-response").val();
 
       if(response == '') {
@@ -80,14 +83,14 @@ jsPsych.plugins['vm-production-response'] = (function() {
     }
 
     $('#jspsych-survey-text-response').bind("enterKey",function(e){
-      submit();
+      submit(e);
     });
     $('#jspsych-survey-text-response').on('keyup', function(e){
         if(e.keyCode == 13) $(this).trigger("enterKey");
     });
 
-    $("#jspsych-survey-text-next").click(function() {
-      submit();
+    $("#jspsych-survey-text-next").click(function(e) {
+      submit(e);
     });
 
     var startTime = (new Date()).getTime();

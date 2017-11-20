@@ -167,7 +167,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'red_F1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': '#thick4.jpg',
+        'distractor': 'thick4.jpg',
         'contrastDistractor': 'freshapple.jpg'
     },
     '10nc': {
@@ -176,7 +176,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'red_F1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': '#thick4.jpg',
+        'distractor': 'thick4.jpg',
         'contrastDistractor': 'beer5.jpg'
     },
     '11c': {
@@ -185,7 +185,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'red_F2.jpg',
         'competitor': 'yellow_T2.jpg',
-        'distractor': '#table2.jpg',
+        'distractor': 'table2.jpg',
         'contrastDistractor': 'yellow_F3.jpg'
     },
     '11nc': {
@@ -194,7 +194,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'red_F2.jpg',
         'competitor': 'yellow_T2.jpg',
-        'distractor': '#table2.jpg',
+        'distractor': 'table2.jpg',
         'contrastDistractor': 'browneggs.jpg'
     },
     '12c': {
@@ -311,7 +311,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'yellow_F3.jpg',
         'competitor': 'red_F1.jpg',
-        'distractor': '#thick3.jpg',
+        'distractor': 'thick3.jpg',
         'contrastDistractor': 'red_T2.jpg'
     },
     '18nc': {
@@ -320,7 +320,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'yellow_F3.jpg',
         'competitor': 'red_F1.jpg',
-        'distractor': '#thick3.jpg',
+        'distractor': 'thick3.jpg',
         'contrastDistractor': 'waka1.jpg'
     },
     '19c': {
@@ -365,7 +365,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'yellow_T3.jpg',
         'competitor': 'red_F2.jpg',
-        'distractor': '#thick4.jpg',
+        'distractor': 'thick4.jpg',
         'contrastDistractor': 'blackumbrella.jpg'
     },
     '21nc': {
@@ -374,7 +374,7 @@ tmc_trials = {
         'type': 'Color',
         'target': 'yellow_T3.jpg',
         'competitor': 'red_F2.jpg',
-        'distractor': '#thick4.jpg',
+        'distractor': 'thick4.jpg',
         'contrastDistractor': 'garagedoor1.jpg'
     },
     '22c': {
@@ -456,7 +456,7 @@ tmc_trials = {
         'target': 'dentedtrashcan.jpg',
         'competitor': 'dentedcar.jpg',
         'distractor': 'bw_stripe_fish4.jpg',
-        'contrastDistractor': '#trashcan.jpg'
+        'contrastDistractor': 'trashcan.jpg'
     },
     '26nc': {
         'originalItemId': '56',
@@ -474,7 +474,7 @@ tmc_trials = {
         'target': 'dentedtin.jpg',
         'competitor': 'dentedcar.jpg',
         'distractor': 'bw_stripe_fish1.jpg',
-        'contrastDistractor': '#tin.jpg'
+        'contrastDistractor': 'tin.jpg'
     },
     '27nc': {
         'originalItemId': '57',
@@ -591,7 +591,7 @@ tmc_trials = {
         'target': 'glittery_T3.jpg',
         'competitor': 'glittery_T2.jpg',
         'distractor': 'bw_stripe_fish3.jpg',
-        'contrastDistractor': '#thick4.jpg'
+        'contrastDistractor': 'thick4.jpg'
     },
     '34c': {
         'originalItemId': '64',
@@ -671,7 +671,7 @@ tmc_trials = {
         'type': 'Filler',
         'target': 'plasticknife.jpg',
         'competitor': 'plastic_T3.jpg',
-        'distractor': '#trash2.jpg',
+        'distractor': 'trash2.jpg',
         'contrastDistractor': 'knife2.jpg'
     },
     '38nc': {
@@ -680,7 +680,7 @@ tmc_trials = {
         'type': 'Filler',
         'target': 'plasticknife.jpg',
         'competitor': 'plastic_T3.jpg',
-        'distractor': '#trash2.jpg',
+        'distractor': 'trash2.jpg',
         'contrastDistractor': 'intactplate.jpg'
     },
     '39c': {
@@ -771,7 +771,7 @@ tmc_trials = {
         'target': 'wooden_F1.jpg',
         'competitor': 'stonebowl.jpg',
         'distractor': 'stack4.jpg',
-        'contrastDistractor': '#trash3.jpg'
+        'contrastDistractor': 'trash3.jpg'
     },
     '44c': {
         'originalItemId': '74',
@@ -1048,7 +1048,7 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'blue_T2.jpg',
-        'competitor': '#trash3.jpg',
+        'competitor': 'trash3.jpg',
         'distractor': 'wooden_T3.jpg',
         'contrastDistractor': 'brokenprinter.jpg'
     },
@@ -1057,7 +1057,7 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'blue_T2.jpg',
-        'competitor': '#trash3.jpg',
+        'competitor': 'trash3.jpg',
         'distractor': 'wooden_T3.jpg',
         'contrastDistractor': 'papercup.jpg'
     },
@@ -1084,7 +1084,7 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'broken_F1.jpg',
-        'competitor': '#thick1.jpg',
+        'competitor': 'thick1.jpg',
         'distractor': 'shoe2.jpg',
         'contrastDistractor': 'ladybug2.jpg'
     },
@@ -1093,7 +1093,7 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'broken_F1.jpg',
-        'competitor': '#thick1.jpg',
+        'competitor': 'thick1.jpg',
         'distractor': 'shoe2.jpg',
         'contrastDistractor': 'pillow1.jpg'
     },
@@ -1194,7 +1194,7 @@ tmc_trials = {
         'target': 'shoe1.jpg',
         'competitor': 'ladybug3.jpg',
         'distractor': 'broken_T3.jpg',
-        'contrastDistractor': '#trash2.jpg'
+        'contrastDistractor': 'trash2.jpg'
     },
     '67nc': {
         'originalItemId': '37',
@@ -1246,8 +1246,8 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'palm1.jpg',
-        'competitor': '#table4.jpg',
-        'distractor': '#thick3.jpg',
+        'competitor': 'table4.jpg',
+        'distractor': 'thick3.jpg',
         'contrastDistractor': 'red_T2.jpg'
     },
     '70nc': {
@@ -1255,15 +1255,15 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'palm1.jpg',
-        'competitor': '#table4.jpg',
-        'distractor': '#thick3.jpg',
+        'competitor': 'table4.jpg',
+        'distractor': 'thick3.jpg',
         'contrastDistractor': 'hallway2.jpg'
     },
     '71c': {
         'originalItemId': '41',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'candle1.jpg',
         'distractor': 'straightrod1.jpg',
         'contrastDistractor': 'rottenstrawberry.jpg'
@@ -1272,7 +1272,7 @@ tmc_trials = {
         'originalItemId': '41',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'candle1.jpg',
         'distractor': 'straightrod1.jpg',
         'contrastDistractor': 'bentnail5.jpg'
@@ -1319,7 +1319,7 @@ tmc_trials = {
         'type': 'NoAdj',
         'target': 'garagedoor1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': '#trash1.jpg',
+        'distractor': 'trash1.jpg',
         'contrastDistractor': 'orangebutterfly.jpg'
     },
     '74nc': {
@@ -1328,7 +1328,7 @@ tmc_trials = {
         'type': 'NoAdj',
         'target': 'garagedoor1.jpg',
         'competitor': 'yellow_F3.jpg',
-        'distractor': '#trash1.jpg',
+        'distractor': 'trash1.jpg',
         'contrastDistractor': 'shirt2.jpg'
     },
     '75c': {
@@ -1372,7 +1372,7 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'cable1.jpg',
-        'competitor': '#thick2.jpg',
+        'competitor': 'thick2.jpg',
         'distractor': 'boat2.jpg',
         'contrastDistractor': 'blackumbrella.jpg'
     },
@@ -1381,26 +1381,26 @@ tmc_trials = {
         'targetAdjective': 'none',
         'type': 'NoAdj',
         'target': 'cable1.jpg',
-        'competitor': '#thick2.jpg',
+        'competitor': 'thick2.jpg',
         'distractor': 'boat2.jpg',
-        'contrastDistractor': '#trash1.jpg'
+        'contrastDistractor': 'trash1.jpg'
     },
     '78c': {
         'originalItemId': '48',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#table1.jpg',
+        'target': 'table1.jpg',
         'competitor': 'palm5.jpg',
-        'distractor': '#thick1.jpg',
+        'distractor': 'thick1.jpg',
         'contrastDistractor': 'rottenorange.jpg'
     },
     '78nc': {
         'originalItemId': '48',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#table1.jpg',
+        'target': 'table1.jpg',
         'competitor': 'palm5.jpg',
-        'distractor': '#thick1.jpg',
+        'distractor': 'thick1.jpg',
         'contrastDistractor': 'waka1.jpg'
     },
     '79c': {
@@ -1437,13 +1437,13 @@ tmc_trials = {
         'target': 'candle1.jpg',
         'competitor': 'sofa4.jpg',
         'distractor': 'straightrod4.jpg',
-        'contrastDistractor': '#table3.jpg'
+        'contrastDistractor': 'table3.jpg'
     },
     '81c': {
         'originalItemId': '51',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'chips1.jpg',
         'distractor': 'bw_stripe_fish5.jpg',
         'contrastDistractor': 'dog.jpg'
@@ -1452,7 +1452,7 @@ tmc_trials = {
         'originalItemId': '51',
         'targetAdjective': 'none',
         'type': 'NoAdj',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'chips1.jpg',
         'distractor': 'bw_stripe_fish5.jpg',
         'contrastDistractor': 'squash2.jpg'
@@ -1551,16 +1551,16 @@ tmc_trials = {
         'originalItemId': '3',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'beer2.jpg',
         'distractor': 'pillow1.jpg',
-        'contrastDistractor': '#trash5.jpg'
+        'contrastDistractor': 'trash5.jpg'
     },
     '87nc': {
         'originalItemId': '3',
         'targetAdjective': 'empty ',
         'type': 'Test',
-        'target': '#trash1.jpg',
+        'target': 'trash1.jpg',
         'competitor': 'beer2.jpg',
         'distractor': 'pillow1.jpg',
         'contrastDistractor': 'rottenorange.jpg'
@@ -1570,7 +1570,7 @@ tmc_trials = {
         'targetAdjective': 'empty ',
         'type': 'Test',
         'target': 'beer1.jpg',
-        'competitor': '#theater2.jpg',
+        'competitor': 'theater2.jpg',
         'distractor': 'sofa5.jpg',
         'contrastDistractor': 'beer5.jpg'
     },
@@ -1579,7 +1579,7 @@ tmc_trials = {
         'targetAdjective': 'empty ',
         'type': 'Test',
         'target': 'beer1.jpg',
-        'competitor': '#theater2.jpg',
+        'competitor': 'theater2.jpg',
         'distractor': 'sofa5.jpg',
         'contrastDistractor': 'palm5.jpg'
     },
@@ -1587,17 +1587,17 @@ tmc_trials = {
         'originalItemId': '5',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': '#trash5.jpg',
-        'competitor': '#theater4.jpg',
+        'target': 'trash5.jpg',
+        'competitor': 'theater4.jpg',
         'distractor': 'yellow_F3.jpg',
-        'contrastDistractor': '#trash1.jpg'
+        'contrastDistractor': 'trash1.jpg'
     },
     '89nc': {
         'originalItemId': '5',
         'targetAdjective': 'full',
         'type': 'Test',
-        'target': '#trash5.jpg',
-        'competitor': '#theater4.jpg',
+        'target': 'trash5.jpg',
+        'competitor': 'theater4.jpg',
         'distractor': 'yellow_F3.jpg',
         'contrastDistractor': 'cable2.jpg'
     },
@@ -1606,7 +1606,7 @@ tmc_trials = {
         'targetAdjective': 'full',
         'type': 'Test',
         'target': 'beer5.jpg',
-        'competitor': '#trash4.jpg',
+        'competitor': 'trash4.jpg',
         'distractor': 'curvedbridge1.jpg',
         'contrastDistractor': 'beer1.jpg'
     },
@@ -1615,7 +1615,7 @@ tmc_trials = {
         'targetAdjective': 'full',
         'type': 'Test',
         'target': 'beer5.jpg',
-        'competitor': '#trash4.jpg',
+        'competitor': 'trash4.jpg',
         'distractor': 'curvedbridge1.jpg',
         'contrastDistractor': 'bentnail3.jpg'
     },
@@ -1697,7 +1697,7 @@ tmc_trials = {
         'type': 'Test',
         'target': 'squash1.jpg',
         'competitor': 'shoe2.jpg',
-        'distractor': '#trash2.jpg',
+        'distractor': 'trash2.jpg',
         'contrastDistractor': 'squash5.jpg'
     },
     '95nc': {
@@ -1706,7 +1706,7 @@ tmc_trials = {
         'type': 'Test',
         'target': 'squash1.jpg',
         'competitor': 'shoe2.jpg',
-        'distractor': '#trash2.jpg',
+        'distractor': 'trash2.jpg',
         'contrastDistractor': 'yellow_F3.jpg'
     },
     '96c': {
@@ -1768,7 +1768,7 @@ tmc_trials = {
         'targetAdjective': 'spotted',
         'type': 'Test',
         'target': 'ladybug5.jpg',
-        'competitor': '#tie2.jpg',
+        'competitor': 'tie2.jpg',
         'distractor': 'shoe1.jpg',
         'contrastDistractor': 'ladybug1.jpg'
     },
@@ -1777,7 +1777,7 @@ tmc_trials = {
         'targetAdjective': 'spotted',
         'type': 'Test',
         'target': 'ladybug5.jpg',
-        'competitor': '#tie2.jpg',
+        'competitor': 'tie2.jpg',
         'distractor': 'shoe1.jpg',
         'contrastDistractor': 'greenmug.jpg'
     },
@@ -1930,7 +1930,7 @@ tmc_trials = {
         'targetAdjective': 'tall',
         'type': 'Test',
         'target': 'candle5.jpg',
-        'competitor': '#table4.jpg',
+        'competitor': 'table4.jpg',
         'distractor': 'plastic_F1.jpg',
         'contrastDistractor': 'candle1.jpg'
     },
@@ -1939,7 +1939,7 @@ tmc_trials = {
         'targetAdjective': 'tall',
         'type': 'Test',
         'target': 'candle5.jpg',
-        'competitor': '#table4.jpg',
+        'competitor': 'table4.jpg',
         'distractor': 'plastic_F1.jpg',
         'contrastDistractor': 'bluebook.jpg'
     },
@@ -2001,16 +2001,16 @@ tmc_trials = {
         'originalItemId': '34',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': '#thick5.jpg',
+        'target': 'thick5.jpg',
         'competitor': 'marker3.jpg',
         'distractor': 'boat1.jpg',
-        'contrastDistractor': '#thick1.jpg'
+        'contrastDistractor': 'thick1.jpg'
     },
     '112nc': {
         'originalItemId': '34',
         'targetAdjective': 'thick',
         'type': 'Test',
-        'target': '#thick5.jpg',
+        'target': 'thick5.jpg',
         'competitor': 'marker3.jpg',
         'distractor': 'boat1.jpg',
         'contrastDistractor': 'angryman.jpg'
@@ -2020,7 +2020,7 @@ tmc_trials = {
         'targetAdjective': 'thin',
         'type': 'Test',
         'target': 'marker1.jpg',
-        'competitor': '#thick2.jpg',
+        'competitor': 'thick2.jpg',
         'distractor': 'bentnail5.jpg',
         'contrastDistractor': 'marker5.jpg'
     },
@@ -2029,7 +2029,7 @@ tmc_trials = {
         'targetAdjective': 'thin',
         'type': 'Test',
         'target': 'marker1.jpg',
-        'competitor': '#thick2.jpg',
+        'competitor': 'thick2.jpg',
         'distractor': 'bentnail5.jpg',
         'contrastDistractor': 'brokenviolin.jpg'
     },
@@ -2037,16 +2037,16 @@ tmc_trials = {
         'originalItemId': '36',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'paintbrush2.jpg',
         'distractor': 'curvedbridge3.jpg',
-        'contrastDistractor': '#thick5.jpg'
+        'contrastDistractor': 'thick5.jpg'
     },
     '114nc': {
         'originalItemId': '36',
         'targetAdjective': 'thin',
         'type': 'Test',
-        'target': '#thick1.jpg',
+        'target': 'thick1.jpg',
         'competitor': 'paintbrush2.jpg',
         'distractor': 'curvedbridge3.jpg',
         'contrastDistractor': 'ceramicpitcher.jpg'
