@@ -15,24 +15,23 @@ var database = firebase.database();
 
 var params = getAllUrlParams();
 
-var workerId = params.workerId;
-if(workerId == undefined || workerId == "") {
-    workerId = "TEST";
+var id = params.id;
+if(id == undefined || id == "") {
+    id = "TEST";
 }
 
-var code = 'TURK' + jsPsych.randomization.randomID(10);
-var dataRef = storageRef.child('OSPAN-only/07-25-2017/' + workerId + '.csv');
+var dataRef = storageRef.child('Jeff_OSPAN/' + id + '.csv');
 
 /* Generate OSPAN sections */
 
-var startingInstructionsBlock = initInstructions(startingInstructions, [' ']);
-var letterPracticeInstructionsBlock = initInstructions(letterPracticeInstructions, [' ']);
+var startingInstructionsBlock = initInstructions(startingInstructions);
+var letterPracticeInstructionsBlock = initInstructions(letterPracticeInstructions);
 var letterPracticeBlock = makeOspanTrials(pracLetterSize, "LetterPractice");
-var mathPracticeInstructionsBlock = initInstructions(mathPracticeInstructions, [' ']);
+var mathPracticeInstructionsBlock = initInstructions(mathPracticeInstructions);
 var mathPracticeBlock = makeOspanTrials([], "MathPractice");
-var bothPracticeInstructions = initInstructions(bothPracticeInstructions, [' ']);
+var bothPracticeInstructions = initInstructions(bothPracticeInstructions);
 var bothPracticeBlock = makeOspanTrials(pracBothSetSize, "BothPractice");
-var experimentInstructionsBlock = initInstructions(experimentInstructions, [' ']);
+var experimentInstructionsBlock = initInstructions(experimentInstructions);
 var experimentBlock = makeOspanTrials(jsPsych.randomization.shuffle(testBothSetSize), "Experiment");
 
 /* Add sections to timeline */
@@ -50,10 +49,9 @@ timeline = addObjectsToTimeline(timeline, experimentBlock);
 
 var feedbackBlock = {
   type: "text",
-  text: function() { return "<p>You have finished the memory task. These are your final results:</p><p>You answered " + (results.total_math_problems - results.total_math_wrong) + " math problems correctly out of " + results.total_math_problems + " total problems. Of your incorrect answers, " + results.total_math_accuracy_errors + " were accuracy errors, and " + results.total_math_speed_errors + " were speed errors.</p><p>You recalled " + results.total_letters_correct + " letters correctly out of " + results.total_letters + " total letters. You responded with 100% accuracy on " + results.total_strings_correct + " strings out of " + results.total_strings + " total strings.</p><p>Press <strong>space</strong> to continue to your survey code.</p>"; },
+  text: function() { return "<p>You have finished the memory task. These are your final results:</p><p>You answered " + (results.total_math_problems - results.total_math_wrong) + " math problems correctly out of " + results.total_math_problems + " total problems. Of your incorrect answers, " + results.total_math_accuracy_errors + " were accuracy errors, and " + results.total_math_speed_errors + " were speed errors.</p><p>You recalled " + results.total_letters_correct + " letters correctly out of " + results.total_letters + " total letters. You responded with 100% accuracy on " + results.total_strings_correct + " strings out of " + results.total_strings + " total strings.</p><p>Press <strong>space</strong> to continue.</p>"; },
   cont_key: [' '],
   on_finish: function() {
-    addWorker(workerId, "production-study");
     saveData(jsPsych.data.dataAsCSV(), dataRef);
   }
 };
@@ -64,7 +62,7 @@ var endBlock = {
   type: "text",
   cont_key: [''],
   text: function(){
-      return "<p>Thank you for your participation! Your responses have been saved.</p><p>Your survey code is <b>" + code + "</b>. Please enter this code into your HIT. You may then close this window.</p><p>If you have any questions or concerns, please do not hesitate to contact the lab at <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.";
+      return "<p>Thank you for your participation! Your responses have been saved.</p>";
   }
 };
 
@@ -73,22 +71,14 @@ timeline.push(endBlock);
 /* Start the experiment */
 
 $(document).ready(function(){
-
-  checkWorker(workerId, 'ospan').then(function(snapshot) {
-    if(snapshot.val() && snapshot.val().complete == 1) {
-      console.log('Worker has already completed the experiment.');
-      showError();
-    }
-    else {
-      console.log('Worker has not yet completed the experiment.');
-
-      jsPsych.init({
-        display_element: $('#jspsych-target'),
-        timeline: timeline,
-        show_progress_bar: true,
-        timing_post_trial: 0
-      });
-    }
+  jsPsych.init({
+    display_element: $('#jspsych-target'),
+    timeline: timeline,
+    show_progress_bar: true,
+    timing_post_trial: 0
   });
 
+  jsPsych.data.addProperties({
+    'ID': id
+  })
 });

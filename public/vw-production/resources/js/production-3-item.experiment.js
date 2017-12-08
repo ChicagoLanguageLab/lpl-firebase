@@ -113,13 +113,13 @@ function initProductionTrials() {
 						break;
 				    }
 
-            if(x > 20) {
-              console.log("ERROR: Exceeded threshold.");
-              break;
-            }
+          if(x > 30) {
+            console.log("ERROR: Exceeded threshold.");
+            break;
+          }
 
-				    condition = randomCondition();
-				    targetId = randomTarget();
+			    condition = randomCondition();
+			    targetId = randomTarget();
 				}
 
 			    quotas[trialType][condition]['cur_' + targetTypes3Item[targetId]] += 1;
