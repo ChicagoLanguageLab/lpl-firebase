@@ -1,0 +1,54 @@
+{
+  "conditions": {
+    "pos": {
+      "reg": {
+        "sentence": "The triangles are green."
+      },
+      "abs": {
+        "sentence": "All of the triangles are green."
+      }
+    },
+    "neg": {
+      "reg": {
+        "sentence": "The triangles are not green."
+      },
+      "abs": {
+        "sentence": "None of the triangles are green."
+      }
+    }
+  },
+  "factors": {
+    "polarity": ["positive", "negative"],
+    "intensity": ["reg", "abs"],
+    "correlation": ["rand", "nonrand"],
+    "distribution": [
+      {
+        "targets": 12,
+        "color_ntarget": 0,
+        "other": 0
+      }, {
+        "targets": 2,
+        "color_ntarget": 2,
+        "other": 8
+      },{
+        "targets": 2,
+        "color_ntarget": 4,
+        "other": 6
+      },{
+        "targets": 2,
+        "color_ntarget": 6,
+        "other": 4
+      },{
+        "targets": 2,
+        "color_ntarget": 8,
+        "other": 2
+      },{
+        "targets": 2,
+        "color_ntarget": 10,
+        "other": 0
+      }
+    ],
+    "shape": ["triangle", "square", "pentagon", "star", "spiral", "circle"],
+    "color": ["red", "orange", "yellow", "green", "blue", "purple"]
+  }
+}
