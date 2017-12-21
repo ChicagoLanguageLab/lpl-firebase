@@ -1,54 +1,75 @@
 {
-  "conditions": {
-    "pos": {
-      "reg": {
-        "sentence": "The triangles are green."
-      },
-      "abs": {
-        "sentence": "All of the triangles are green."
-      }
-    },
-    "neg": {
-      "reg": {
-        "sentence": "The triangles are not green."
-      },
-      "abs": {
-        "sentence": "None of the triangles are green."
-      }
-    }
+  "block_size": 3,
+  "shape_factors": {
+    "shape": ["triangle", "square", "star", "circle"],
+    "color": ["red", "orange", "yellow", "green", "blue", "purple"]
   },
-  "factors": {
-    "polarity": ["positive", "negative"],
-    "intensity": ["reg", "abs"],
-    "correlation": ["rand", "nonrand"],
+  "blocked_factors": {
     "distribution": [
       {
-        "targets": 12,
+        "tag": "ratio0",
+        "targets": 3,
         "color_ntarget": 0,
-        "other": 0
-      }, {
-        "targets": 2,
-        "color_ntarget": 2,
-        "other": 8
+        "other": 9
       },{
-        "targets": 2,
-        "color_ntarget": 4,
+        "tag": "ratio3",
+        "targets": 3,
+        "color_ntarget": 3,
         "other": 6
       },{
-        "targets": 2,
+        "tag": "ratio6",
+        "targets": 3,
         "color_ntarget": 6,
-        "other": 4
+        "other": 3
       },{
-        "targets": 2,
-        "color_ntarget": 8,
-        "other": 2
-      },{
-        "targets": 2,
-        "color_ntarget": 10,
+        "tag": "ratio9",
+        "targets": 3,
+        "color_ntarget": 9,
         "other": 0
       }
     ],
-    "shape": ["triangle", "square", "pentagon", "star", "spiral", "circle"],
-    "color": ["red", "orange", "yellow", "green", "blue", "purple"]
+    "polarity": ["positive", "negative"],
+    "is_true": [true, false],
+    "coloring": ["random", "categorical"]
+  },
+  "ncolor_blocked_factors": {
+    "distribution": [
+      {
+        "tag": "ratio0",
+        "targets": 3,
+        "color_ntarget": 0,
+        "other": 9
+      },{
+        "tag": "ratio3",
+        "targets": 3,
+        "color_ntarget": 3,
+        "other": 6
+      },{
+        "tag": "ratio6",
+        "targets": 3,
+        "color_ntarget": 6,
+        "other": 3
+      },{
+        "tag": "ratio9",
+        "targets": 3,
+        "color_ntarget": 9,
+        "other": 0
+      }
+    ],
+    "polarity": ["ncolor-negative"],
+    "is_true": [true],
+    "correlation": ["rand", "nonrand"]
+  },
+  "nblocked_factors": {
+    "distribution": [
+      {
+        "targets": 15,
+        "color_ntarget": 0,
+        "other": 0
+      }
+    ],
+    "polarity": ["positive", "negative"],
+    "is_true": [true, false],
+    "correlation": ["nonrand"]
   }
 }
