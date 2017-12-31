@@ -38,10 +38,13 @@ function attemptLoad() {
 }
 
 function initializeExperiment(experiment) {
-  //dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
+  var d = new Date();
+  var date_string = [d.getDate(), d.getMonth(), d.getFullYear()].join('-');
+
+  dataRef = storageRef.child('negation/' + date_string + '/' + experiment.getSubjectId() + '.csv');
 
   experiment.createTimeline();
-  //experiment.addPropertiesTojsPsych();
+  experiment.addPropertiesTojsPsych();
 
   jsPsych.init({
     timeline: experiment.getTimeline(),
