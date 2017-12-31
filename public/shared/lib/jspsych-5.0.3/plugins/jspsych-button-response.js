@@ -46,6 +46,11 @@ jsPsych.plugins["button-response"] = (function() {
       }));
     }
 
+    //show prompt if there is one
+    if (trial.prompt !== "") {
+      display_element.append(trial.prompt);
+    }
+
     //display buttons
     var buttons = [];
     if (Array.isArray(trial.button_html)) {
@@ -63,16 +68,12 @@ jsPsych.plugins["button-response"] = (function() {
     for (var i = 0; i < trial.choices.length; i++) {
       var str = buttons[i].replace(/%choice%/g, trial.choices[i]);
       $('#jspsych-button-response-btngroup').append(
-        $(str).attr('id', 'jspsych-button-response-button-' + i).data('choice', i).addClass('jspsych-button-response-button').on('click', function(e) {
+        $(str).attr('id', 'jspsych-button-response-button-' + i).data('choice', trial.choices[i]).addClass('jspsych-button-response-button').on('click', function(e) {
+          e.preventDefault();
           var choice = $('#' + this.id).data('choice');
           after_response(choice);
         })
       );
-    }
-
-    //show prompt if there is one
-    if (trial.prompt !== "") {
-      display_element.append(trial.prompt);
     }
 
     // store response
