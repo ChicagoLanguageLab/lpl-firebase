@@ -68,7 +68,7 @@ function NegationExperiment(params) {
     {
       type: 'text',
       cont_key: [' '],
-      text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>In this experiment, you will see a sequence of images, and a sentence. Your task is to decide whether the sentence is "true" or "false" depending on the images in front of you.</p><p>If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p>To see some practice questions, please press the <strong>space bar</space>.</p>'
+      text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>In this experiment, you will see a sequence of images, and a sentence. Your task is to decide whether the sentence is "true" or "false" depending on the images in front of you.</p><p>If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p>To try some practice questions, please press the <strong>space bar</space>.</p>'
     });
   }
 
