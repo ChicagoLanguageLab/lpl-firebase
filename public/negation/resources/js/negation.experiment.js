@@ -45,7 +45,7 @@ function NegationExperiment(params) {
       purpose: 'In this research, we are investigating the processes involved in the comprehension of sentences. ',
       procedures: 'In this study, you will be presented with sets of shapes and determine whether statements about them are true or false. ',
       time: 'about 10 minutes',
-      pay: '$1 USD',
+      pay: '$1.50 USD',
       name: 'Dr. Ming Xiang',
       address: '1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637',
       phone: '(773) 702-8023',
@@ -73,7 +73,7 @@ function NegationExperiment(params) {
   }
 
   var initPractice = function() {
-    var trials = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.blocked_factors, 1), 4, false);
+    var trials = jsPsych.randomization.factorial(params.practice_factors, 1);
     var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors, 1), 4, true);
 
     trials = _.zip(trials, shapes);
@@ -110,13 +110,15 @@ function NegationExperiment(params) {
   }
 
   this.createTimeline = function() {
+    //preloadImages(params.shape_factors.shape, params.shape_factors.color);
+
     initPreamble();
     initPractice();
 
     timeline.push({
       type: 'text',
       cont_key: [' '],
-      text: '<p class="text-center lead">You have finished the practice section.</p><p class="text-center">Press the <strong>space bar</strong> when you are ready to begin the real task.</p>'
+      text: '<p class="lead">You have finished the practice section.</p><p>The real task will now begin. You will not receive feedback on your responses during this part of the study, but your accuracy will be recorded.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
     });
 
     initTrials();
@@ -148,8 +150,21 @@ function makeStimulus(block_size, polarity, is_true, distribution, correlation, 
   });
 }
 
+function makePracticePrompt(polarity, intensity, shape, color, is_true, distribution) {
+  if (is_true) {
+    return "There are " + distribution.targets + " " + shape + "s."
+  }
+  else {
+    var number = Math.floor(Math.random() * 9 + 2);
+    while (number == distribution.targets) {
+      number = Math.floor(Math.random() * 9 + 2);
+    }
+    return "There are " + number + " " + shape + "s."
+  }
+}
+
 function makePrompt(polarity, intensity, shape, color) {
-  if(polarity === "positive") {
+  if (polarity === "positive") {
     if(intensity === "reg")
       return "The " + shape + "s are " + color + ".";
     else
@@ -265,7 +280,10 @@ function createTrials(trials, params, isPractice) {
     }
     else {
       stimulus = makeStimulus(params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors.shape, trial[1].shape), _.without(params.shape_factors.color, trial[1].color));
-      prompt = makePrompt(trial[0].polarity, params.condition, trial[1].shape, trial[1].color);
+      if(isPractice)
+        prompt = makePracticePrompt(trial[0].polarity, params.condition, trial[1].shape, trial[1].color, trial[0].is_true, trial[0].distribution);
+      else
+        prompt = makePrompt(trial[0].polarity, params.condition, trial[1].shape, trial[1].color);
     }
 
     var on_finish = undefined;
@@ -324,4 +342,15 @@ function createTrials(trials, params, isPractice) {
     }
   });
   return block;
+}
+
+function preloadImages(shapes, colors) {
+  var images = new Array()
+
+  for(var i = 0; i < shapes.length; i++) {
+    for (var j = 0; j < colors.length; j++) {
+      images[i] = new Image()
+      images[i].src = "resources/images/" + shapes[i] + "_" + colors[j] + ".png";
+    }
+  }
 }

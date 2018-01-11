@@ -71,5 +71,16 @@
     "polarity": ["positive", "negative"],
     "is_true": [true, false],
     "correlation": ["nonrand"]
+  },
+  "practice_factors": {
+    "distribution": [{
+      "tag": "ratio6",
+      "targets": 3,
+      "color_ntarget": 6,
+      "other": 3
+    }],
+    "polarity": ["positive"],
+    "is_true": [true, false],
+    "correlation": ["rand", "nonrand"]
   }
 }

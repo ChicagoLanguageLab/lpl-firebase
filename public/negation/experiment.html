@@ -46,6 +46,26 @@
     <body>
       <div id="progress-bar"></div>
       <div id="jspsych-target"><div id="load-text" class="very-large">Loading experiment</div></div>
+      <div class="hidden">
+      	<script type="text/javascript">
+          <!--//--><![CDATA[//><!--
+      			var images = new Array()
+      			function preload() {
+              var shapes = ["circle", "square", "star", "triangle"];
+              var colors = ["blue", "green", "orange", "purple", "red", "yellow"];
+
+              for(var i = 0; i < shapes.length; i++) {
+                for (var j = 0; j < colors.length; j++) {
+                  images[i] = new Image()
+        					images[i].src = "resources/images/" + shapes[i] + "_" + colors[j] + ".png";
+                }
+              }
+      			}
+
+      			preload();
+          //--><!]]>
+      	</script>
+      </div>
     </body>
 
 </html>
