@@ -1,7 +1,7 @@
 function NegationExperiment(params) {
 
   var timeline = [];
-  var id = params.id;
+  var id = params.workerId;
 
   this.getSubjectId = function() {
     return id;
@@ -78,7 +78,7 @@ function NegationExperiment(params) {
 
     trials = _.zip(trials, shapes);
 
-    timeline.push(createTrials(trials, params, true));
+    timeline = timeline.concat(createTrials(trials, params, true));
   }
 
   var initTrials = function() {
@@ -87,7 +87,7 @@ function NegationExperiment(params) {
 
     trials = _.zip(trials, shapes);
 
-    timeline.push(createTrials(trials, params, false));
+    timeline = timeline.concat(createTrials(trials, params, false));
 
     timeline.push({
       type: 'text',
@@ -100,7 +100,7 @@ function NegationExperiment(params) {
           });
 
           return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
-                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT.' +
+                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
                   `You may then close this window.</p><p>If you have any questions or concerns,
                     please do not hesitate to contact the lab at
                     <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
@@ -263,10 +263,7 @@ function makeRandomTrial(block_size, polarity, is_true, distribution, shape, col
 }
 
 function createTrials(trials, params, isPractice) {
-  var block = {
-    type: "single-stim",
-    timeline: []
-  };
+  var block = [];
 
   _.each(trials, function(trial, i) {
 
@@ -293,7 +290,7 @@ function createTrials(trials, params, isPractice) {
       }
     }
 
-    block.timeline.push({
+    block.push({
       type: "button-response",
       is_html: true,
       prompt: '<p class="text-center large">"' + prompt + '"</p>',
@@ -326,7 +323,7 @@ function createTrials(trials, params, isPractice) {
     });
 
     if(isPractice) {
-      block.timeline.push({
+      block.push({
         type: 'text',
         cont_key: [' '],
         text: function() {
@@ -341,6 +338,7 @@ function createTrials(trials, params, isPractice) {
       });
     }
   });
+
   return block;
 }
 
