@@ -39,7 +39,7 @@ function attemptLoad() {
 
 function initializeExperiment(experiment) {
   var d = new Date();
-  var date_string = [d.getDate(), d.getMonth(), d.getFullYear()].join('-');
+  var date_string = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
 
   dataRef = storageRef.child('negation/' + date_string + '/' + experiment.getSubjectId() + '.csv');
 
