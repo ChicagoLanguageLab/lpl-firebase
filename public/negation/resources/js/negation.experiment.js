@@ -292,7 +292,7 @@ function createTrials(trials, params, isPractice) {
     if(i + 1 == trials.length && !isPractice) {
       on_finish = function() {
         saveData(jsPsych.data.dataAsCSV(), dataRef);
-        addWorker("negation-study");
+        addWorker(params.workerId, "negation-study");
       }
     }
 
