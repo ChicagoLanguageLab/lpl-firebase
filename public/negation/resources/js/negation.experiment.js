@@ -22,7 +22,7 @@ function NegationExperiment(params) {
       type: 'text',
       text: `<div class="header row">
                <div class="col-2 text-right">
-                 <img class="logo" src="../shared/images/shield.png" alt="UChicago Logo"/>
+                 <img class="logo" src="../static/images/shield.png" alt="UChicago Logo"/>
                </div>
                <div class="col-10">
                  <h1>Language Processing Laboratory</h1>
@@ -34,7 +34,7 @@ function NegationExperiment(params) {
                  Thank you for your interest in our study!
                </p>
                <p>
-                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
+                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong>.
                </p>
              </div>`,
       cont_key: [' ']
@@ -68,7 +68,7 @@ function NegationExperiment(params) {
     {
       type: 'text',
       cont_key: [' '],
-      text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>In this experiment, you will see a sequence of images, and a sentence. Your task is to decide whether the sentence is "true" or "false" depending on the images in front of you.</p><p>If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p>To try some practice questions, please press the <strong>space bar</space>.</p>'
+      text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>In this experiment, each question will present you with a set of images. Take a moment to study the images. After a few seconds, a sentence will appear beneath the images. Your task is to decide whether the sentence is "true" or "false" based on the images you see.</p><p>If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p>To try some practice questions, please press the <strong>space bar</strong>.</p>'
     });
   }
 
@@ -296,11 +296,22 @@ function createTrials(trials, params, isPractice) {
       }
     }
 
+    // Preview
+    block.push({
+      type: 'single-stim',
+      is_html: true,
+      stimulus: '<p class="text-center">' + stimulus.stimulus_string + '</p>',
+      response_ends_trial: false,
+      timing_response: 3000,
+      timing_post_trial: 0
+    });
+
     block.push({
       type: "button-response",
       is_html: true,
       prompt: '<p class="text-center large">"' + prompt + '"</p>',
       stimulus: '<p class="text-center">' + stimulus.stimulus_string + '</p>',
+      stimuli: stimulus.stimulus_list,
       choices: ['True', 'False'],
       on_finish: on_finish,
       data: {
@@ -345,6 +356,7 @@ function createTrials(trials, params, isPractice) {
     }
   });
 
+  console.log(block);
   return block;
 }
 
