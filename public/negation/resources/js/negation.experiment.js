@@ -66,8 +66,6 @@ function NegationExperiment(params) {
   }
 
   this.createTimeline = function() {
-    //preloadImages(params.shape_factors.shape, params.shape_factors.color);
-
     initPreamble();
     initPractice();
 
@@ -91,13 +89,25 @@ function makeStimulus(block_size, polarity, is_true, distribution, correlation, 
   else
     trial_shapes = makeRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors);
 
-  var header = ' <img src="resources/images/';
+  var header = '<img src="resources/images/';
   var footer = '.png" width="50px" />';
 
   trial_shapes = _.flatten(jsPsych.randomization.shuffle(trial_shapes));
 
+  var target_count = 0;
   _.each(trial_shapes, function(trial) {
+    buffer += ' ';
+    var cur_shape = trial.split('_')[0] ;
+    if(cur_shape === shape) {
+      target_count++;
+    }
+    if(target_count == 1) {
+      buffer += '<span class="border-around">';
+    }
     buffer += header + trial + footer;
+    if(target_count == distribution.targets) {
+      buffer += '</span>';
+    }
   });
 
   return ({
@@ -205,8 +215,6 @@ function makeRandomTrial(block_size, polarity, is_true, distribution, shape, col
   for(var i=0; i < (distribution.color_ntarget + distribution.other) / 3; i++) {
     var rand_shape = shuffled_shapes.pop();
 
-
-
     var temp = [];
     for(var j=0; j<3; j++) {
       var rand_color = shuffled_colors.pop();
@@ -311,8 +319,6 @@ function createTrials(trials, params, isPractice) {
       });
     }
   });
-
-  console.log(block);
   return block;
 }
 

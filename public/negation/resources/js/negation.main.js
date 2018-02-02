@@ -58,7 +58,7 @@ function initializeExperiment(experiment) {
 
 $( document ).ready(function() {
 
-  checkWorker(jsPsych.data.urlVariables().workerId, 'negation-workers').then(function(snapshot) {
+  checkWorker(jsPsych.data.urlVariables().workerId, 'negation-study').then(function(snapshot) {
 
     if(snapshot.val() && snapshot.val().complete == 1) {
       console.log('Worker has already completed the experiment.');
