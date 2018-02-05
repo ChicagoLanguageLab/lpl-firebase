@@ -84,7 +84,7 @@ function initProductionTrials() {
   }
 
 	var timeline = _.chain(params)
-		.omit(['id', 'condition', 'version'])
+		.omit(['workerId', 'condition', 'version'])
 		.map(function(value, key, list) {
 			var i = key.replace('q', '');
 

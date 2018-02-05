@@ -9,9 +9,10 @@ var threeItemInstructions = ['<p>This experiment consists of a single task, whic
 var productionEndInstructions = ['<p>You have finished the study!</p><p>Press <strong>space</strong> to continue to your study code.</p>'];
 
 // Define possible targets
+var targetTypes = ['target', 'competitor', 'contrastDistractor'];
 var targetTypesRemainder = ['distractor', 'contrastDistractor'];
 var targetTypes3Item = ['target', 'distractor', 'contrastDistractor'];
 
 // Store list of arrow images
-var arrows = ['tl_arrow.png', 'tr_arrow.png', 'bl_arrow.png'];
+var arrows = ['tl_arrow.png', 'tr_arrow.png', 'bl_arrow.png', 'br_arrow.png'];
 var three_arrow = ['l_arrow.jpg', 'r_arrow.jpg', 'd_arrow.jpg'];

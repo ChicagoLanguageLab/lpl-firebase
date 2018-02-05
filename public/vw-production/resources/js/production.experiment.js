@@ -1,4 +1,5 @@
 // production-utils.js
+var version = "production";
 
 function randomCondition() {
   var coinFlip = Math.floor(Math.random() * 2);
@@ -60,8 +61,23 @@ function initProductionTrials() {
 	  }
 	}
 
+  var trials;
+
+  if(params.condition === 'tmorec') {
+    trials = tmc_trials;
+    console.log('List set to tmorec_trials');
+  }
+  if(params.condition === 'tlessc') {
+    trials = tlc_trials;
+    console.log('List set to tlessc_trials');
+  }
+  if(params.condition === 'tequalc') {
+    trials = tec_trials;
+    console.log('List set to tequalc_trials');
+  }
+
 	var timeline = _.chain(params)
-		.omit('workerId')
+		.omit('workerId', 'condition')
 		.map(function(value, key, list) {
 			var i = key.replace('q', '');
 
@@ -71,6 +87,8 @@ function initProductionTrials() {
 
 			var condition = randomCondition();
 			var targetId = randomTarget(condition);
+
+      console.log(item + condition);
 
 			var trialType = trials[item + condition]['type'];
 
@@ -107,7 +125,7 @@ function initProductionTrials() {
 			}
 
 			// Make question
-			var question = '<p><b>' + i + '.</b></p><table><tr><td><img width="150" src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table><br/><p>"Click on the..."</p>'
+			var question = '<p><b>' + i + '.</b></p><table style="margin: auto;"><tr><td><img width="150" src="resources/images/' + shuffledObjects[0] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[1] + '" /></td></tr><tr><td></td><td><img width="150" src="resources/images/' + arrows[pos] + '" /></td><td></td></tr><tr><td><img width="150" src="resources/images/' + shuffledObjects[2] + '" /></td><td></td><td><img width="150" src="resources/images/' + shuffledObjects[3] + '" /></td></tr></table><br/><p class="text-center">"Click on the..."</p>'
 			//console.log(trialType);
 			var trial = {
 				type: 'vm-production-response',

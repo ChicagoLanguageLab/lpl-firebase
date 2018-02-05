@@ -15,13 +15,13 @@ var database = firebase.database();
 
 var params = getAllUrlParams();
 
-var id = params.id;
+var id = params.workerId;
 if(id == undefined || id == "")
     id = "TEST";
 
 var code = 'tc' + jsPsych.randomization.randomID(10);
 
-var dataRef = storageRef.child('production-' + version + '/' + params.condition + '-11-19-2017/' + params.id + '.csv');
+var dataRef = storageRef.child('production-' + version + '/' + params.condition + '-11-19-2017/' + params.workerId + '.csv');
 
 browser_test_block = {
   timeline: [{
@@ -54,7 +54,7 @@ var welcomePage = {
   type: 'text',
   text: `<div class="header row">
            <div class="col-2 text-right">
-             <img class="logo" src="../shared/images/shield.png" alt="UChicago Logo"/>
+             <img class="logo" src="../static/images/shield.png" alt="UChicago Logo"/>
            </div>
            <div class="col-10">
              <h1>Language Processing Laboratory</h1>
@@ -66,7 +66,7 @@ var welcomePage = {
              Thank you for your interest in our study!
            </p>
            <p>
-             As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
+             As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong>.
            </p>
          </div>`,
   cont_key: [' ']
@@ -126,7 +126,7 @@ $(document).ready(function(){
       });
 
       jsPsych.data.addProperties({
-        'id': params.id,
+        'id': params.workerId,
         'list': params.condition,
         'version': version
       });

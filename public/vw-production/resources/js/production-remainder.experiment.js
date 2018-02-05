@@ -29,15 +29,15 @@ function initProductionTrials() {
 	var params = getAllUrlParams();
   var trials;
 
-  if(params.listType === 'tmorec') {
+  if(params.condition === 'tmorec') {
     trials = tmc_trials;
     console.log('List set to tmorec_trials');
   }
-  if(params.listType === 'tlessc') {
+  if(params.condition === 'tlessc') {
     trials = tlc_trials;
     console.log('List set to tlessc_trials');
   }
-  if(params.listType === 'tequalc') {
+  if(params.condition === 'tequalc') {
     trials = tec_trials;
     console.log('List set to tequalc_trials');
   }
@@ -75,7 +75,7 @@ function initProductionTrials() {
 	}
 
 	var timeline = _.chain(params)
-		.omit(['workerId', 'listType'])
+		.omit(['workerId', 'condition'])
 		.map(function(value, key, list) {
 			var i = key.replace('q', '');
 
