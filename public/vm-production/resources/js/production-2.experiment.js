@@ -82,7 +82,7 @@ var prefabs = {
       type: 'text',
       text: `<div class="header row">
                <div class="col-2 text-right">
-                 <img class="logo" src="../shared/images/shield.png" alt="UChicago Logo"/>
+                 <img class="logo" src="../static/images/shield.png" alt="UChicago Logo"/>
                </div>
                <div class="col-10">
                  <h1>Language Processing Laboratory</h1>
@@ -94,7 +94,7 @@ var prefabs = {
                  Thank you for your interest in our study!
                </p>
                <p>
-                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
+                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong>.
                </p>
              </div>`,
       cont_key: [' ']
@@ -129,7 +129,7 @@ var prefabs = {
       type: 'text',
       text: `<p class="lead mt-4">Thank you for deciding to participate in our study!</p>
              <p>In this study, you will be presented with sets of a few words each. Your task is to create a sentence using these words. You may add additional words as necessary.</p>
-             <p>When you are ready to begin, please press the space bar. You will first see a practice question.</p>`,
+             <p>When you are ready to begin, please press the <strong>space bar</strong>. You will first see a practice question.</p>`,
       cont_key: [' ']
     },
     {

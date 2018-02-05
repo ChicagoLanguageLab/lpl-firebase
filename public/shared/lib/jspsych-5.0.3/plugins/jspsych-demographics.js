@@ -201,8 +201,6 @@ jsPsych.plugins["demographics"] = (function() {
       demographics.parent_lg = $('input[id=parentLg]').val();
       demographics.other_lg = $('input[id=otherLg]').val();
 
-      console.log(demographics);
-
       end_trial();
     };
 

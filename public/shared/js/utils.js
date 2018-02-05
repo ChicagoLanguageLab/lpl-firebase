@@ -27,11 +27,13 @@ function checkWorker(workerId, studyName) {
 }
 
 function addWorker(workerId, studyName) {
+  if(workerId !== "demo") {
     var tokenRef = database.ref(studyName + '/' + workerId);
     tokenRef.set({
         complete : 1
     });
     console.log("Added a worker with completion value 1.");
+  }
 }
 
 function showError() {

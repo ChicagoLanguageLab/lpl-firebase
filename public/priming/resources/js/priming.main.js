@@ -13,7 +13,7 @@ var database = firebase.database();
 var subjectData = {};
 
 var timeline = [];
-timeline.concat(prefabs.pre_experiment_block);
+timeline = timeline.concat(prefabs.pre_experiment_block);
 
 timeline.push({
   type: 'text',

@@ -723,7 +723,7 @@ var prefabs = {
                  Thank you for your interest in our study!
                </p>
                <p>
-                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong> .
+                 As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the  <strong>space bar</strong>.
                </p>
              </div>`,
       cont_key: [' ']
@@ -756,7 +756,7 @@ var prefabs = {
     },
     {
       type: 'text',
-      text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the  <strong>space bar</strong> .</p>',
+      text: '<p class="lead mt-4">Thank you for deciding to participate in our study!</p><p>This study has multiple sections. Each section is only a few minutes long. In between sections, you can take short breaks if you need to, but please do not take breaks within a section. When you are ready to begin, please press the  <strong>space bar</strong>.</p>',
       cont_key: [' ']
     }
   ],

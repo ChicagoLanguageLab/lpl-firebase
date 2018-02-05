@@ -116,7 +116,6 @@ jsPsych.plugins["audio-consent"] = (function() {
     });
 
     $('.consent').on('click', function(e) {
-      console.log(this);
       if($(this).children(':last').hasClass('form-error'))
         $(this).children(':last').remove();
     });
