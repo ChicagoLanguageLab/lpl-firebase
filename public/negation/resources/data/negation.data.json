@@ -119,7 +119,7 @@
     "post_demographics": {
       "type": "text",
       "cont_key": [" "],
-      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In each question, you will see two sets of images and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the second set of images.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please press the <strong>space bar</strong>.</p>"
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In each question, you some images and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the second set of images.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please press the <strong>space bar</strong>.</p>"
     }
   }
 }
