@@ -218,7 +218,7 @@ function makeCategoricalTrial(block_size, polarity, is_true, distribution, shape
 
 function makeRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
   var targets = [];
-  var other = [];
+  var others = [];
 
   var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
 
