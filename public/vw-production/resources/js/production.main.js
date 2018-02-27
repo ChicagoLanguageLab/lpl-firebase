@@ -24,7 +24,7 @@ var code = 'tc' + jsPsych.randomization.randomID(10);
 var d = new Date();
 var date_string = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
 
-var dataRef = storageRef.child('production-' + version + '/' + params.condition + '-' + date_string + '/' + params.workerId + '.csv');
+var dataRef = storageRef.child(version + '/' + params.condition + '-' + date_string + '/' + params.workerId + '.csv');
 
 browser_test_block = {
   timeline: [{
