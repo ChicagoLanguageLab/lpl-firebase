@@ -186,7 +186,7 @@ function makeRandomShapeBlock(num_shapes, shape, colors) {
 }
 
 function makeCategoricalTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
-  var other = [];
+  var others = [];
   var targets = [];
 
   var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
@@ -205,15 +205,15 @@ function makeCategoricalTrial(block_size, polarity, is_true, distribution, shape
 
   for(var i = 0; i < distribution.color_ntarget / block_size; i++) {
     var rand_shape = shuffled_shapes.pop();
-    other.push(makeShapeBlock(block_size, rand_shape, color));
+    others.push(makeShapeBlock(block_size, rand_shape, color));
   }
   for(var i = 0; i < distribution.other / block_size; i++) {
     var rand_shape = shuffled_shapes.pop();
     var rand_color = shuffled_colors.pop();
-    other.push(makeShapeBlock(block_size, rand_shape, rand_color));
+    others.push(makeShapeBlock(block_size, rand_shape, rand_color));
   }
 
-  return (targets, other);
+  return (targets, others);
 }
 
 function makeRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
@@ -249,7 +249,7 @@ function makeRandomTrial(block_size, polarity, is_true, distribution, shape, col
     others.push(temp);
   }
 
-  return (targets, other);
+  return (targets, others);
 }
 
 function createTrials(trials, params, isPractice) {
