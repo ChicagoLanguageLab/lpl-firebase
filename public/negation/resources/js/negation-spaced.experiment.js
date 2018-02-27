@@ -213,7 +213,7 @@ function makeCategoricalTrial(block_size, polarity, is_true, distribution, shape
     others.push(makeShapeBlock(block_size, rand_shape, rand_color));
   }
 
-  return (targets, others);
+  return [targets, others];
 }
 
 function makeRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
@@ -249,7 +249,7 @@ function makeRandomTrial(block_size, polarity, is_true, distribution, shape, col
     others.push(temp);
   }
 
-  return (targets, others);
+  return [targets, others];
 }
 
 function createTrials(trials, params, isPractice) {
@@ -300,13 +300,21 @@ function createTrials(trials, params, isPractice) {
       }
     }
 
+    var instructions;
+    if(isPractice) {
+      instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question about some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+    }
+    else {
+      instructions = '<p class="text-center">Look at the colors of these shapes. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+    }
+
     // Preview 1
     block.push({
       type: 'single-stim',
       is_html: true,
       stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
-      prompt: 'Look at the colors of these shapes. On the next screen you will answer a question about the color of some other shapes. Press the <strong>space bar</strong> to proceed.',
-      response_ends_trial: false,
+      prompt: instructions,
+      response_ends_trial: true,
       timing_response: -1,
       choices: [' '],
       timing_post_trial: 0,
@@ -338,7 +346,7 @@ function createTrials(trials, params, isPractice) {
     block.push({
       type: "button-response",
       is_html: true,
-      prompt: '<p class="text-center large">"' + prompt + '"</p>',
+      prompt: '<p class="text-center large">' + prompt + '</p>',
       stimulus: '<p class="text-center">' + stimulus.targets_string + '</p>',
       stimuli: stimulus.stimulus_list,
       choices: ['True', 'False'],
