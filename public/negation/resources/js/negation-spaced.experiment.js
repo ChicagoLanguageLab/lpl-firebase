@@ -224,7 +224,7 @@ function makeRandomTrial(block_size, polarity, is_true, distribution, shape, col
 
   if(((polarity === "positive" || polarity === "ncolor-negative") && is_true) || (polarity === "negative" && !is_true)) {
     for(var i = 0; i < distribution.targets / block_size; i++)
-      targetTypes.push(makeShapeBlock(block_size, shape, color));
+      targets.push(makeShapeBlock(block_size, shape, color));
   }
   else if((polarity === "negative" && is_true) || (polarity === "positive" && !is_true)) {
     var rand_color = jsPsych.randomization.sample(colors, 1, false);
