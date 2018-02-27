@@ -48,7 +48,7 @@ var timeline = [];
 
 if(version === 'production_3_item')
 var productionInstructionsblock = initInstructions(threeItemInstructions);
-else {
+else
   var productionInstructionsblock = initInstructions(productionInstructions);
 
 var productionBlock = initProductionTrials();
