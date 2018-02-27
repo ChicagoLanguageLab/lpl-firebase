@@ -119,7 +119,7 @@
     "post_demographics": {
       "type": "text",
       "cont_key": [" "],
-      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In this experiment, each question will present you with a set of images. Take a moment to study the images, <strong>especially the images surrounded by a rectangular frame</strong>. After a few seconds, a sentence will appear beneath the images. Your task is to decide whether the sentence is \"true\" or \"false\" based on the images you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please press the <strong>space bar</strong>.</p>"
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In each question, you will see two sets of images and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the second set of images.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please press the <strong>space bar</strong>.</p>"
     }
   }
 }
