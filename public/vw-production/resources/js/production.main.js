@@ -21,7 +21,10 @@ if(id == undefined || id == "")
 
 var code = 'tc' + jsPsych.randomization.randomID(10);
 
-var dataRef = storageRef.child('production-' + version + '/' + params.condition + '-11-19-2017/' + params.workerId + '.csv');
+var d = new Date();
+var date_string = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
+
+var dataRef = storageRef.child('production-' + version + '/' + params.condition + '-' + date_string + '/' + params.workerId + '.csv');
 
 browser_test_block = {
   timeline: [{
@@ -45,7 +48,7 @@ var timeline = [];
 
 if(version === 'production_3_item')
 var productionInstructionsblock = initInstructions(threeItemInstructions);
-else
+else {
   var productionInstructionsblock = initInstructions(productionInstructions);
 
 var productionBlock = initProductionTrials();

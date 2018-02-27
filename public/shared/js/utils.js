@@ -158,3 +158,10 @@ function initText(textArray) {
 
   return textBlock;
 }
+
+function addObjectsToTimeline(timeline, list) {
+  _.each(list, function(item, index, list) {
+    timeline.push(item);
+  });
+  return timeline;
+}

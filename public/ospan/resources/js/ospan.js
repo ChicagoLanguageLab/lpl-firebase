@@ -395,10 +395,3 @@ function makeOspanTrials(sizes, type) {
       return makeLetterStimuli(sizes, type);
   }
 }
-
-function addObjectsToTimeline(timeline, list) {
-  _.each(list, function(item, index, list) {
-    timeline.push(item);
-  });
-  return timeline;
-}
