@@ -41,7 +41,9 @@ function initializeExperiment(experiment) {
   var d = new Date();
   var date_string = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
 
-  dataRef = storageRef.child('negation/' + date_string + '/' + experiment.getSubjectId() + '.csv');
+  var vars = jsPsych.data.urlVariables();
+
+  dataRef = storageRef.child('negation-spaced/' + vars.condition + '-' + vars.color_condition + '-' + date_string + '/' + experiment.getSubjectId() + '.csv');
 
   experiment.createTimeline();
   experiment.addPropertiesTojsPsych();
