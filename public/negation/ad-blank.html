@@ -97,7 +97,7 @@ $( document ).ready(function() {
     var assignmentId = turkGetParam('assignmentId', '');
     var workerId = turkGetParam('workerId', '');
 
-    var studyLink = 'https://language-processing-lab.firebaseapp.com/negation/experiment-spaced.html?';
+    var studyLink = 'https://language-processing-lab.firebaseapp.com/negation/experiment-blank.html?';
 
     if(workerId != '' && workerId != undefined) {
         studyLink += 'workerId=' + workerId;
@@ -106,7 +106,7 @@ $( document ).ready(function() {
         studyLink += 'workerId=temp';
     }
 
-    studyLink += '&condition=reg&color_condition=5color';
+    studyLink += '&condition=reg';
 
     $('#expt-link').attr('href', studyLink);
 
