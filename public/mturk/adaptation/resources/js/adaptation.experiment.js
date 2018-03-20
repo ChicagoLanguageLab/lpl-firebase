@@ -1,7 +1,3 @@
-/** adaptation.experiment.js
- * @fileoverview Constructor for the AdaptationExperiment class.
- */
-
 /** Construct an instance of the AdaptationExperiment class.
   * @constructor
   * @param {Object} params - The experiment parameters.

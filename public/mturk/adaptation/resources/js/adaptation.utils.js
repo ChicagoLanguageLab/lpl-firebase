@@ -1,7 +1,3 @@
-/** adaptation.utils.js
- * @fileoverview Utilities for the adaptation experiment.
- */
-
 /**
  * @namespace
  */
