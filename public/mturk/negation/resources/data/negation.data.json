@@ -1,0 +1,125 @@
+{
+  "block_size": 3,
+  "shape_factors": {
+    "shape": ["triangle", "square", "star", "circle"],
+    "color": ["red", "orange", "yellow", "green", "blue", "purple"]
+  },
+  "shape_factors_2color": {
+    "shape": ["triangle", "square", "star", "circle"],
+    "color": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
+  },
+  "blocked_factors": {
+    "distribution": [
+      {
+        "tag": "ratio0",
+        "targets": 3,
+        "color_ntarget": 0,
+        "other": 9
+      },{
+        "tag": "ratio3",
+        "targets": 3,
+        "color_ntarget": 3,
+        "other": 6
+      },{
+        "tag": "ratio6",
+        "targets": 3,
+        "color_ntarget": 6,
+        "other": 3
+      },{
+        "tag": "ratio9",
+        "targets": 3,
+        "color_ntarget": 9,
+        "other": 0
+      }
+    ],
+    "polarity": ["positive", "negative"],
+    "is_true": [true, false],
+    "coloring": ["random", "categorical"]
+  },
+  "ncolor_blocked_factors": {
+    "distribution": [
+      {
+        "tag": "ratio0",
+        "targets": 3,
+        "color_ntarget": 0,
+        "other": 9
+      },{
+        "tag": "ratio3",
+        "targets": 3,
+        "color_ntarget": 3,
+        "other": 6
+      },{
+        "tag": "ratio6",
+        "targets": 3,
+        "color_ntarget": 6,
+        "other": 3
+      },{
+        "tag": "ratio9",
+        "targets": 3,
+        "color_ntarget": 9,
+        "other": 0
+      }
+    ],
+    "polarity": ["ncolor-negative"],
+    "is_true": [true],
+    "correlation": ["rand", "nonrand"]
+  },
+  "nblocked_factors": {
+    "distribution": [
+      {
+        "targets": 15,
+        "color_ntarget": 0,
+        "other": 0
+      }
+    ],
+    "polarity": ["positive", "negative"],
+    "is_true": [true, false],
+    "correlation": ["nonrand"]
+  },
+  "practice_factors": {
+    "distribution": [{
+      "tag": "ratio6",
+      "targets": 3,
+      "color_ntarget": 6,
+      "other": 3
+    }],
+    "polarity": ["positive"],
+    "is_true": [true, false],
+    "correlation": ["rand"],
+    "type": ["color", "number"]
+  },
+  "preamble": {
+    "intro": {
+      "type": "text",
+      "text": "<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our study!</p><p>As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.</p></div>",
+      "cont_key": [" "]
+    },
+    "consent": {
+      "type": "consent",
+      "requirements": "You must be at least 18 years old to participate in this study. ",
+      "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
+      "procedures": "In this study, you will be presented with sets of shapes and determine whether statements about them are true or false. ",
+      "time": "about 10 minutes",
+      "pay": "$1.50 USD",
+      "name": "Dr. Ming Xiang",
+      "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
+      "phone": "(773) 702-8023",
+      "email": "mxiang@uchicago.edu"
+    },
+    "consent_check": {
+      "timeline": [{
+        "type": "text",
+        "cont_key": [""],
+        "text": "<p class=\"text-center lead\">Thank you for considering participation in this study!</p><p>We\"re sorry it wasn\"t for you. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+      }]
+    },
+    "demographics": {
+      "type": "demographics"
+    },
+    "post_demographics": {
+      "type": "text",
+      "cont_key": [" "],
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In each question, you will see some images and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the images you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please press the <strong>space bar</strong>.</p>"
+    }
+  }
+}

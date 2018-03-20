@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+	<title>Record a sentence!</title>
+
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src='https://www.gstatic.com/firebasejs/3.0.2/firebase.js'></script>
+  <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-storage.js"></script>
+
+	<script src="../../src/vendor/jquery-3.2.1/js/jquery.min.js"></script>
+	<script src="../../src/vendor/underscore-1.8.3/js/underscore.min.js" type="text/javascript"></script>
+
+	<link href="../../src/vendor/bootstrap-4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" type="text/css"></link>
+	<link href="../../src/vendor/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+	<link href="../../src/vendor/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<script src="../../src/js/utils.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		/* Firebase initialization */
+		var config = {
+		    apiKey: "AIzaSyAlzTpCs3uxIXW6i6I7zsHLElb1GUpoDh8",
+		    databaseURL: "https://language-processing-lab.firebaseio.com/",
+		    storageBucket: "gs://language-processing-lab.appspot.com"
+		};
+		firebase.initializeApp(config);
+
+		var storage = firebase.storage();
+		var storageRef = storage.ref();
+		var database = firebase.database();
+
+		window.handleIFrameMessage = function(e) {
+		 	var args = e.data.split(":");
+		 	var iframe = false;
+		 	if (args.length > 2) {
+		 		iframe = document.getElementById("JotFormIFrame-" + args[2]);
+		 	}
+		 	else {
+		 		iframe = document.getElementById("JotFormIFrame");
+		 	}
+		 	if (!iframe)
+		 		return;
+
+		 	switch (args[0]) {
+		 		case "scrollIntoView":
+		 			iframe.scrollIntoView();
+		 			break;
+		 		case "setHeight":
+		 			iframe.style.height = args[1] + "px";
+		 			break;
+		 		case "collapseErrorPage":
+		 			if (iframe.clientHeight > window.innerHeight) {
+		 				iframe.style.height = window.innerHeight + "px";
+		 			}
+		 			break;
+		 		case "reloadPage":
+		 			window.location.reload();
+		 			break;
+		 	}
+
+		 	var isJotForm = (e.origin.indexOf("jotform") > -1) ? true : false;
+
+		 	if(isJotForm && "contentWindow" in iframe && "postMessage" in iframe.contentWindow) {
+		 		var urls = {
+		 			"docurl":encodeURIComponent(document.URL),
+		 			"referrer":encodeURIComponent(document.referrer)
+		 		};
+
+		 		iframe.contentWindow.postMessage(JSON.stringify({"type":"urls","value":urls}), "*");
+		 	}
+		 };
+
+		 if (window.addEventListener) {
+		 	window.addEventListener("message", handleIFrameMessage, false);
+		 }
+		 else if (window.attachEvent) {
+		 	window.attachEvent("onmessage", handleIFrameMessage);
+		 }
+
+		 $( document ).ready(function() {
+
+		 	if(window.location.href && window.location.href.indexOf("?") > -1) {
+			 	var ifr = false;
+			 	ifr = document.getElementById("JotFormIFrame-70556163298160");
+
+			 	var get = window.location.href.substr(window.location.href.indexOf("?") + 1);
+
+			 	if(ifr && get.length > 0) {
+			 		var src = ifr.src;
+			 		src = src.indexOf("?") > -1 ? src + "&" + get : src + "?" + get;
+			 		ifr.src = src;
+			 	}
+			 }
+
+		 	var params = getAllUrlParams();
+		 	var workerId = params.workerId;
+			var image = params.image;
+
+		 	addWorker(workerId, 'priming-study');
+			$(".insert-image").attr("src", "resources/images/" + image + ".jpg");
+
+		 });
+	</script>
+
+	</head>
+
+	<body>
+		<div class="text-center mt-2" style="width: 50%; margin: auto;">
+			<img class="insert-image" style="width: 350px; margin: auto;"></img>
+		</div>
+
+		<div id="recording-form"><iframe id="JotFormIFrame-70556163298160" onload="window.parent.scrollTo(0,0)" allowtransparency="true" src="https://form.jotform.com/70556163298160" frameborder="0" style="width:100%; height:539px; border:none;" scrolling="no"></iframe></div>
+	</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <title>Production-OSPAN</title>
+
+    <link href="../../src/vendor/bootstrap-4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../src/vendor/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <link href="../../src/css/style.css" rel="stylesheet" type="text/css"></link>
+
+    <script src='https://www.gstatic.com/firebasejs/3.0.2/firebase.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-storage.js"></script>
+
+    <script src="../../src/vendor/jquery-3.2.1/js/jquery.min.js"></script>
+    <script src="../../src/vendor/jspsych-5.0.3/js/jspsych.js"></script>
+    <script src="../../src/vendor/underscore-1.8.3/js/underscore.min.js"></script>
+
+    <script src="../../src/vendor/jspsych-5.0.3/plugins/jspsych-vm-production-response.js"></script>
+    <script src="../../src/vendor/jspsych-5.0.3/plugins/jspsych-text.js"></script>
+    <script src="../../src/vendor/jspsych-5.0.3/plugins/jspsych-consent.js"></script>
+    <script src="../../src/vendor/jspsych-5.0.3/plugins/jspsych-instructions.js"></script>
+    <script src="../../src/vendor/jspsych-5.0.3/plugins/jspsych-demographics.js"></script>
+
+
+    <script src="../../src/js/utils.js"></script>
+    <script src="resources/data/production.data.js"></script>
+    <script src="resources/data/tmorec.trials.js"></script>
+    <script src="resources/data/tlessc.trials.js"></script>
+    <script src="resources/data/tequalc.trials.js"></script>
+
+    <script src="resources/js/production-remainder.experiment.js"></script>
+    <script src="resources/js/production.main.js"></script>
+
+    <style type="text/css">
+      table, tr, td {
+        padding: 10px;
+      }
+      img {
+        max-width: 150px !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="progress-bar"></div>
+    <div id="jspsych-target"></div>
+  </body>
+</html>
