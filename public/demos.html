@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
     <title>Language Lab Demo Page</title>
 
@@ -14,6 +13,27 @@
     <link href="shared/lib/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"></link>
     <link href="shared/css/style.css" rel="stylesheet" type="text/css"></link>
 
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
+
+    <script>
+      var config = {
+          apiKey: "AIzaSyAlzTpCs3uxIXW6i6I7zsHLElb1GUpoDh8",
+          authDomain: "language-processing-lab.firebaseapp.com",
+          databaseURL: "https://language-processing-lab.firebaseio.com/",
+      };
+      firebase.initializeApp(config);
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+        } else {
+          console.log("Not logged in!");
+          window.location.replace('index.html');
+        }
+      });
+    </script>
   </head>
 
   <body>
