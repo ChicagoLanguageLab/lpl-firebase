@@ -1,0 +1,749 @@
+{
+	"trials": {
+		"1": {
+			"a": {
+				"subject": "Rick",
+				"verb": "labeled",
+				"object": "the jar."
+			},
+			"c": {
+				"subject": "The jar",
+				"verb": "was labeled",
+				"object": "by Rick."
+			},
+			"e": {
+				"subject": "The jar",
+				"verb": "lured",
+				"object": "Rick."
+			},
+			"g": {
+				"subject": "Rick",
+				"verb": "was lured",
+				"object": "by the jar."
+			}
+		},
+		"2": {
+			"a": {
+				"subject": "Joanna",
+				"verb": "completed",
+				"object": "the puzzle."
+			},
+			"c": {
+				"subject": "The puzzle",
+				"verb": "was completed",
+				"object": "by Joanna."
+			},
+			"e": {
+				"subject": "The puzzle",
+				"verb": "amused",
+				"object": "Joanna."
+			},
+			"g": {
+				"subject": "Joanna",
+				"verb": "was amused",
+				"object": "by the puzzle."
+			}
+		},
+		"3": {
+			"a": {
+				"subject": "Katie",
+				"verb": "altered",
+				"object": "the plan."
+			},
+			"c": {
+				"subject": "The plan",
+				"verb": "was altered",
+				"object": "by Katie."
+			},
+			"e": {
+				"subject": "The plan",
+				"verb": "delighted",
+				"object": "Katie."
+			},
+			"g": {
+				"subject": "Katie",
+				"verb": "was delighted",
+				"object": "by the plan."
+			}
+		},
+		"4": {
+			"a": {
+				"subject": "Julia",
+				"verb": "finished",
+				"object": "the ritual."
+			},
+			"c": {
+				"subject": "The ritual",
+				"verb": "was finished",
+				"object": "by Julia."
+			},
+			"e": {
+				"subject": "The ritual",
+				"verb": "bored",
+				"object": "Julia."
+			},
+			"g": {
+				"subject": "Julia",
+				"verb": "was bored",
+				"object": "by the ritual."
+			}
+		},
+		"5": {
+			"a": {
+				"subject": "Maya",
+				"verb": "muted",
+				"object": "the song."
+			},
+			"c": {
+				"subject": "The song",
+				"verb": "was muted",
+				"object": "by Maya."
+			},
+			"e": {
+				"subject": "The song",
+				"verb": "annoyed",
+				"object": "Maya."
+			},
+			"g": {
+				"subject": "Maya",
+				"verb": "was annoyed",
+				"object": "by the song."
+			}
+		},
+		 "6": {
+			"a": {
+				"subject": "Alana",
+				"verb": "evaded",
+				"object": "the cliff."
+			},
+			"c": {
+				"subject": "The cliff",
+				"verb": "was evaded",
+				"object": "by Alana."
+			},
+			"e": {
+				"subject": "The cliff",
+				"verb": "impressed",
+				"object": "Alana."
+			},
+			"g": {
+				"subject": "Alana",
+				"verb": "was impressed",
+				"object": "by the cliff."
+			}
+		},
+		"7": {
+			"a": {
+				"subject": "Mia",
+				"verb": "escorted",
+				"object": "the parade."
+			},
+			"c": {
+				"subject": "The parade",
+				"verb": "was escorted",
+				"object": "by Mia."
+			},
+			"e": {
+				"subject": "The parade",
+				"verb": "frustrated",
+				"object": "Mia."
+			},
+			"g": {
+				"subject": "Mia",
+				"verb": "was frustrated",
+				"object": "by the parade."
+			}
+		},
+		"8": {
+			"a": {
+				"subject": "Sarah",
+				"verb": "heeded",
+				"object": "the warning."
+			},
+			"c": {
+				"subject": "The warning",
+				"verb": "was heeded",
+				"object": "by Sarah."
+			},
+			"e": {
+				"subject": "The warning",
+				"verb": "disturbed",
+				"object": "Sarah."
+			},
+			"g": {
+				"subject": "Sarah",
+				"verb": "was disturbed",
+				"object": "by the warning."
+			}
+		},
+		"9": {
+			"a": {
+				"subject": "Marina",
+				"verb": "rejected",
+				"object": "the compliment."
+			},
+			"c": {
+				"subject": "The compliment",
+				"verb": "was rejected",
+				"object": "by Marina."
+			},
+			"e": {
+				"subject": "The compliment",
+				"verb": "excited",
+				"object": "Marina."
+			},
+			"g": {
+				"subject": "Marina",
+				"verb": "was excited",
+				"object": "by the compliment."
+			}
+		},
+		"10": {
+			"a": {
+				"subject": "Hannah",
+				"verb": "weighed",
+				"object": "the necklace."
+			},
+			"c": {
+				"subject": "The necklace",
+				"verb": "was weighed",
+				"object": "by Hannah."
+			},
+			"e": {
+				"subject": "The necklace",
+				"verb": "soothed",
+				"object": "Hannah."
+			},
+			"g": {
+				"subject": "Hannah",
+				"verb": "was soothed",
+				"object": "by the necklace."
+			}
+		},
+		"11": {
+			"a": {
+				"subject": "Jack",
+				"verb": "wrote",
+				"object": "the advertisement."
+			},
+			"c": {
+				"subject": "The advertisement",
+				"verb": "was written",
+				"object": "by Jack."
+			},
+			"e": {
+				"subject": "The advertisement",
+				"verb": "angered",
+				"object": "Jack."
+			},
+			"g": {
+				"subject": "Jack",
+				"verb": "was angered",
+				"object": "by the advertisement."
+			}
+		},
+		"12": {
+			"a": {
+				"subject": "Camille",
+				"verb": "built",
+				"object": "the pyramid."
+			},
+			"c": {
+				"subject": "The pyramid",
+				"verb": "was built",
+				"object": "by Camille."
+			},
+			"e": {
+				"subject": "The pyramid",
+				"verb": "awed",
+				"object": "Camille."
+			},
+			"g": {
+				"subject": "Camille",
+				"verb": "was awed",
+				"object": "by the pyramid."
+			}
+		},
+		"13": {
+			"a": {
+				"subject": "Cristina",
+				"verb": "recorded",
+				"object": "the criticism."
+			},
+			"c": {
+				"subject": "The criticism",
+				"verb": "was recorded",
+				"object": "by Cristina."
+			},
+			"e": {
+				"subject": "The criticism",
+				"verb": "disappointed",
+				"object": "Cristina."
+			},
+			"g": {
+				"subject": "Cristina",
+				"verb": "was disappointed",
+				"object": "by the criticism."
+			}
+		},
+		  "14": {
+			"a": {
+				"subject": "Cindy",
+				"verb": "embraced",
+				"object": "the doll."
+			},
+			"c": {
+				"subject": "The doll",
+				"verb": "was embraced",
+				"object": "by Cindy."
+			},
+			"e": {
+				"subject": "The doll",
+				"verb": "interested",
+				"object": "Cindy."
+			},
+			"g": {
+				"subject": "Cindy",
+				"verb": "was interested",
+				"object": "by the doll."
+			}
+		},
+		"15": {
+			"a": {
+				"subject": "Nikki",
+				"verb": "edited",
+				"object": "the article."
+			},
+			"c": {
+				"subject": "The article",
+				"verb": "was edited",
+				"object": "by Nikki."
+			},
+			"e": {
+				"subject": "The article",
+				"verb": "alarmed",
+				"object": "Nikki."
+			},
+			"g": {
+				"subject": "Nikki",
+				"verb": "was alarmed",
+				"object": "by the article."
+			}
+		},
+		 "16": {
+			"a": {
+				"subject": "Rebecca",
+				"verb": "released",
+				"object": "the announcement."
+			},
+			"c": {
+				"subject": "The announcement",
+				"verb": "was released",
+				"object": "by Rebecca."
+			},
+			"e": {
+				"subject": "The announcement",
+				"verb": "bothered",
+				"object": "Rebecca."
+			},
+			"g": {
+				"subject": "Rebecca",
+				"verb": "was bothered",
+				"object": "by the announcement."
+			}
+		},
+		"17": {
+			"a": {
+				"subject": "Isabel",
+				"verb": "controlled",
+				"object": "the plane."
+			},
+			"c": {
+				"subject": "The plane",
+				"verb": "was controlled",
+				"object": "by Isabel."
+			},
+			"e": {
+				"subject": "The plane",
+				"verb": "amazed",
+				"object": "Isabel."
+			},
+			"g": {
+				"subject": "Isabel",
+				"verb": "was amazed",
+				"object": "by the plane."
+			}
+		},
+		 "18": {
+			"a": {
+				"subject": "Lisa",
+				"verb": "scratched",
+				"object": "the label."
+			},
+			"c": {
+				"subject": "The label",
+				"verb": "was scratched",
+				"object": "by Lisa."
+			},
+			"e": {
+				"subject": "The label",
+				"verb": "tempted",
+				"object": "Lisa."
+			},
+			"g": {
+				"subject": "Lisa",
+				"verb": "was tempted",
+				"object": "by the label."
+			}
+		},
+		"19": {
+			"a": {
+				"subject": "Brian",
+				"verb": "reproduced",
+				"object": "the experiment."
+			},
+			"c": {
+				"subject": "The experiment",
+				"verb": "was reproduced",
+				"object": "by Brian."
+			},
+			"e": {
+				"subject": "The experiment",
+				"verb": "convinced",
+				"object": "Brian."
+			},
+			"g": {
+				"subject": "Brian",
+				"verb": "was convinced",
+				"object": "by the experiment."
+			}
+		},
+		 "20": {
+			"a": {
+				"subject": "Louis",
+				"verb": "neglected",
+				"object": "the castle."
+			},
+			"c": {
+				"subject": "The castle",
+				"verb": "was neglected",
+				"object": "by Louis."
+			},
+			"e": {
+				"subject": "The castle",
+				"verb": "astounded",
+				"object": "Louis."
+			},
+			"g": {
+				"subject": "Louis",
+				"verb": "was astounded",
+				"object": "by the castle."
+			}
+		},
+		"21": {
+			"a": {
+				"subject": "Mark",
+				"verb": "denounced",
+				"object": "the story."
+			},
+			"c": {
+				"subject": "The story",
+				"verb": "was denounced",
+				"object": "by Mark."
+			},
+			"e": {
+				"subject": "The story",
+				"verb": "provoked",
+				"object": "Mark."
+			},
+			"g": {
+				"subject": "Mark",
+				"verb": "was provoked",
+				"object": "by the story."
+			}
+		},
+		"22": {
+			"a": {
+				"subject": "Jeremy",
+				"verb": "authorized",
+				"object": "the interview."
+			},
+			"c": {
+				"subject": "The interview",
+				"verb": "was authorized",
+				"object": "by Jeremy."
+			},
+			"e": {
+				"subject": "The interview",
+				"verb": "embarrassed",
+				"object": "Jeremy."
+			},
+			"g": {
+				"subject": "Jeremy",
+				"verb": "was embarrassed",
+				"object": "by the interview."
+			}
+		},
+		"23": {
+			"a": {
+				"subject": "Liam",
+				"verb": "taped",
+				"object": "the fight."
+			},
+			"c": {
+				"subject": "The fight",
+				"verb": "was taped",
+				"object": "by Liam."
+			},
+			"e": {
+				"subject": "The fight",
+				"verb": "frightened",
+				"object": "Liam."
+			},
+			"g": {
+				"subject": "Liam",
+				"verb": "was frightened",
+				"object": "by the fight."
+			}
+		},
+		 "24": {
+			"a": {
+				"subject": "Isaac",
+				"verb": "lost",
+				"object": "the script."
+			},
+			"c": {
+				"subject": "The script",
+				"verb": "was lost",
+				"object": "by Isaac."
+			},
+			"e": {
+				"subject": "The script",
+				"verb": "demoralized",
+				"object": "Isaac."
+			},
+			"g": {
+				"subject": "Isaac",
+				"verb": "was demoralized",
+				"object": "by the script."
+			}
+		},
+
+		"25": {
+			"a": {
+				"subject": "Jackson",
+				"verb": "removed",
+				"object": "the dust."
+			},
+			"c": {
+				"subject": "The dust",
+				"verb": "was removed",
+				"object": "by Jackson."
+			},
+			"e": {
+				"subject": "The dust",
+				"verb": "shocked",
+				"object": "Jackson."
+			},
+			"g": {
+				"subject": "Jackson",
+				"verb": "was shocked",
+				"object": "by the dust."
+			}
+		},
+
+		"26": {
+			"a": {
+				"subject": "Solomon",
+				"verb": "timed",
+				"object": "the match."
+			},
+			"c": {
+				"subject": "The match",
+				"verb": "was timed",
+				"object": "by Solomon."
+			},
+			"e": {
+				"subject": "The match",
+				"verb": "thrilled",
+				"object": "Solomon."
+			},
+			"g": {
+				"subject": "Solomon",
+				"verb": "was thrilled",
+				"object": "by the match."
+			}
+		},
+
+		"27": {
+			"a": {
+				"subject": "Kevin",
+				"verb": "praised",
+				"object": "the book."
+			},
+			"c": {
+				"subject": "The book",
+				"verb": "was praised",
+				"object": "by Kevin."
+			},
+			"e": {
+				"subject": "The book",
+				"verb": "pleased",
+				"object": "Kevin."
+			},
+			"g": {
+				"subject": "Kevin",
+				"verb": "was pleased",
+				"object": "by the book."
+			}
+		},
+		"28": {
+			"a": {
+				"subject": "Zach",
+				"verb": "analyzed",
+				"object": "the finances."
+			},
+			"c": {
+				"subject": "The finances",
+				"verb": "were analyzed",
+				"object": "by Zach."
+			},
+			"e": {
+				"subject": "The finances",
+				"verb": "upset",
+				"object": "Zach."
+			},
+			"g": {
+				"subject": "Zach",
+				"verb": "was upset",
+				"object": "by the finances."
+			}
+		},
+
+		"29": {
+			"a": {
+				"subject": "Christian",
+				"verb": "cut",
+        "object": "the ropes."
+			},
+			"c": {
+				"subject": "The ropes",
+				"verb": "were cut",
+				"object": "by Christian."
+			},
+			"e": {
+				"subject": "The ropes",
+				"verb": "terrified",
+				"object": "Christian."
+			},
+			"g": {
+				"subject": "Christian",
+				"verb": "was terrified",
+				"object": "by the ropes."
+			}
+		},
+
+		"30": {
+			"a": {
+				"subject": "James",
+				"verb": "interrupted",
+				"object": "the lecture."
+			},
+			"c": {
+				"subject": "The lecture",
+				"verb": "was interrupted",
+				"object": "by James."
+			},
+			"e": {
+				"subject": "The lecture",
+				"verb": "discouraged",
+				"object": "James."
+			},
+			"g": {
+				"subject": "James",
+				"verb": "was discouraged",
+				"object": "by the lecture."
+			}
+		},
+
+		"31": {
+			"a": {
+				"subject": "Steve",
+				"verb": "identified",
+				"object": "the flash."
+			},
+			"c": {
+				"subject": "The flash",
+				"verb": "was identified",
+				"object": "by Steve."
+			},
+			"e": {
+				"subject": "The flash",
+				"verb": "scared",
+				"object": "Steve."
+			},
+			"g": {
+				"subject": "Steve",
+				"verb": "was scared",
+				"object": "by the flash."
+			}
+		},
+
+		"32": {
+			"a": {
+				"subject": "Christopher",
+				"verb": "concealed",
+				"object": "the jewel."
+			},
+			"c": {
+				"subject": "The jewel",
+				"verb": "was concealed",
+				"object": "by Christopher."
+			},
+			"e": {
+				"subject": "The jewel",
+				"verb": "stunned",
+				"object": "Christopher."
+			},
+			"g": {
+				"subject": "Christopher",
+				"verb": "was stunned",
+				"object": "by the jewel."
+			}
+		}
+	},
+  "preamble": {
+    "intro": {
+      "type": "text",
+      "text": "<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our study!</p><p>As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.</p></div>",
+      "cont_key": [" "]
+    },
+    "consent": {
+      "type": "consent",
+      "requirements": "You must be at least 18 years old to participate in this study. ",
+      "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
+      "procedures": "You will read sentences a few words at a time and attempt to recall them. ",
+      "time": "30 minutes",
+      "pay": "$3",
+      "name": "Dr. Ming Xiang",
+      "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
+      "phone": "(773) 702-8023",
+      "email": "mxiang@uchicago.edu"
+    },
+    "consent_check": {
+      "timeline": [{
+        "type": "text",
+        "cont_key": [""],
+        "text": "<p class=\"text-center lead\">Thank you for considering participation in this study!</p><p>We\"re sorry it wasn\"t for you. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+      }]
+    },
+    "demographics": {
+      "type": "demographics"
+    },
+    "post_demographics": {
+      "type": "text",
+      "cont_key": [" "],
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In this simple task, you will test your memory.</p><p>Each item will present you with a sentence, which you will read a few words at a time. You can read at your own pace; pressing the button labeled \"&gt;\" will cause the next set of words to be displayed.</p><p>After the final set of words, there will be a pause. You will then be asked to type the sentence you read as accurately as you can.</p><p>To continue, please press the <strong>space bar</strong>.</p>"
+    }
+  }
+}
