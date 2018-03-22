@@ -310,10 +310,10 @@ function createTrials(trials, params, isPractice) {
 
     var instructions;
     if(isPractice) {
-      instructions = '<p class="text-center">Look at these shapes. Some shapes (marked by a dashed outline) are hidden. On the next screen you will answer a question about some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+      instructions = '<p class="text-center">Look at these shapes. Some shapes (marked by a dashed outline) might be hidden. On the next screen you will answer a question about some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
     }
     else {
-      instructions = '<p class="text-center">Look at these shapes. Some shapes (marked by a dashed outline) are hidden. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+      instructions = '<p class="text-center">Look at these shapes. Some shapes (marked by a dashed outline) might be hidden. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
     }
 
     // Preview 1
