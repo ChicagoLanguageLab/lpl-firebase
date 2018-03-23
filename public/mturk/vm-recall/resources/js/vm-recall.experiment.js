@@ -58,82 +58,16 @@ function VmRecallExperiment(params) {
     var temp = _.chain(urlParams)
   		.omit(['workerId'])
   		.map(function(value, key, list) {
+
   			var i = key.replace('q', '');
-
-        trials = []
-
         var data = value.split('_');
-        var trial = params.trials[data[0]][data[1]];
-        var timing = parseInt(data[2]) * 100;
 
-        trials.push({
-          type: "button-response",
-          is_html: true,
-          stimulus: '<p class="large text-center">' + trial.subject + "</p>",
-          choices: ['>'],
-          data: {
-            trial_number: i,
-            item_number: data[0],
-            condition: data[1],
-            pause_length: timing,
-            stimulus: trial.subject
-          },
-          timing_post_trial: 0
-        });
-
-        trials.push({
-          type: "button-response",
-          is_html: true,
-          stimulus: '<p class="large text-center">' + trial.verb + "</p>",
-          choices: ['>'],
-          data: {
-            trial_number: i,
-            item_number: data[0],
-            condition: data[1],
-            pause_length: timing,
-            stimulus: trial.verb
-          },
-          timing_post_trial: 0
-        });
-
-        trials.push({
-          type: "button-response",
-          is_html: true,
-          stimulus: '<p class="large text-center">' + trial.object + "</p>",
-          choices: ['>'],
-          data: {
-            trial_number: i,
-            item_number: data[0],
-            condition: data[1],
-            pause_length: timing,
-            stimulus: trial.object
-          },
-          timing_post_trial: timing
-        });
-
-        trials.push({
-          type: "vm-recall",
-          data: {
-            trial_number: i,
-            item_number: data[0],
-            condition: data[1],
-            pause_length: timing
-          },
-          on_finish: function() {
-            var data = jsPsych.data.getLastTrialData();
-            if(data.trial_number == 32 || data.trial_number % 8 == 0) {
-              saveData(jsPsych.data.dataAsCSV(), dataRef);
-              if(data.trial_number == 32) {
-                addWorker(subject.id, 'vm-recall');
-              }
-            }
-          }
-        });
-
-        return ({
-          type: "button-response",
-          timeline: trials
-        });
+        if(params.trials[data[0]].filler) {
+          return(makeFillerTrial(i, data, params));
+        }
+        else {
+          return(makeTestTrial(i, data, params));
+        }
       }).value();
 
     timeline = timeline.concat(temp);
@@ -163,7 +97,105 @@ function VmRecallExperiment(params) {
   /** Build the experiment.
   */
   this.createTimeline = function() {
-    initPreamble();
+    //initPreamble();
     initTrials();
   }
 };
+
+function makeTestTrial(i, data, params) {
+  var trials = [];
+  var chunks = ['subject', 'verb', 'object'];
+  var trial = params.trials[data[0]][data[1]];
+
+  var timing = 0;
+  for(var x = 0; x < 3; x++) {
+    if(x == 2) {
+      timing = parseInt(data[2]) * 100;
+    }
+    trials.push(makeReadingTrial(i, trial, data, chunks[x], timing, false));
+  }
+
+  trials.push({
+    type: "vm-recall",
+    data: {
+      trial_number: i,
+      item_number: data[0],
+      condition: data[1],
+      filler: false,
+      pause_length: timing
+    },
+    on_finish: function() {
+      var data = jsPsych.data.getLastTrialData();
+      if(data.trial_number == 32 || data.trial_number % 8 == 0) {
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
+        if(data.trial_number == 32) {
+          addWorker(subject.id, 'vm-recall');
+        }
+      }
+    }
+  });
+
+  return ({
+    type: "button-response",
+    timeline: trials
+  });
+}
+
+function makeFillerTrial(i, data, params) {
+  var trials = [];
+  var chunks = ['chunk_1', 'chunk_2', 'chunk_3'];
+  var trial = params.trials[data[0]];
+
+  var timing = 0;
+  for(var x = 0; x < 3; x++) {
+    if(x == 2) {
+      timing = 600;
+    }
+    trials.push(makeReadingTrial(i, trial, data, chunks[x], timing, true));
+  }
+
+  trials.push({
+    type: "button-response",
+    is_html: true,
+    stimulus: '<p class="large text-center">Please press the button to proceed to the next item.</p>',
+    choices: ['Next'],
+    data: {
+      trial_number: i,
+      filler: true,
+      item_number: data[0],
+      pause_length: 600
+    },
+    on_finish: function() {
+      var data = jsPsych.data.getLastTrialData();
+      if(data.trial_number == 32 || data.trial_number % 8 == 0) {
+        saveData(jsPsych.data.dataAsCSV(), dataRef);
+        if(data.trial_number == 32) {
+          addWorker(subject.id, 'vm-recall');
+        }
+      }
+    }
+  });
+
+  return ({
+    type: "button-response",
+    timeline: trials
+  });
+}
+
+function makeReadingTrial(i, trial, data, chunk, timing, is_filler) {
+  return ({
+    type: "button-response",
+    is_html: true,
+    stimulus: '<p class="large text-center">' + trial[chunk] + "</p>",
+    choices: ['>'],
+    data: {
+      trial_number: i,
+      item_number: data[0],
+      condition: data[1],
+      pause_length: timing,
+      filler: is_filler,
+      stimulus: trial[chunk]
+    },
+    timing_post_trial: timing
+  });
+}
