@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>Language Processing Lab</title>
+
     <!-- jQuery for JavaScript check -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
@@ -12,7 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
     <!-- Custom styles -->
-    <style type="text/css">
+    <style>
 
         .ad-container {
           width: 800px;
@@ -55,7 +57,6 @@
 
     <script rel="text/javascript">
 
-      // Helper function for URL params
       function turkGetParam( name ) {
           name = name.replace(/[[]/,"\[").replace(/[]]/,"\]");
           var regexS = "[?&]"+name+"=([^&#]*)";
@@ -69,7 +70,6 @@
 
       $( document ).ready(function() {
 
-          // JavaScript warning will be visible if jQuery fails to load
           $('#check-javascript').hide();
 
           $('.btn-start-exp').on('click', function(e) {
@@ -80,12 +80,10 @@
 
           var assignmentId = turkGetParam('assignmentId', '');
           var workerId = turkGetParam('workerId', '');
-          var questions = ['${Trial1}', '${Trial2}', '${Trial3}', '${Trial4}', '${Trial5}', '${Trial6}', '${Trial7}', '${Trial8}', '${Trial9}', '${Trial10}', '${Trial11}', '${Trial12}', '${Trial13}', '${Trial14}', '${Trial15}', '${Trial16}', '${Trial17}', '${Trial18}', '${Trial19}', '${Trial20}', '${Trial21}', '${Trial22}', '${Trial23}', '${Trial24}', '${Trial25}', '${Trial26}', '${Trial27}', '${Trial28}', '${Trial29}', '${Trial30}', '${Trial31}', '${Trial32}', '${Trial33}', '${Trial34}', '${Trial35}', '${Trial36}', '${Trial37}', '${Trial38}', '${Trial39}', '${Trial40}', '${Trial41}', '${Trial42}', '${Trial43}', '${Trial44}', '${Trial45}', '${Trial46}', '${Trial47}', '${Trial48}', '${Trial49}', '${Trial50}', '${Trial51}', '${Trial52}'];
+          var questions = ['${Trial1}','${Trial2}','${Trial3}','${Trial4}','${Trial5}','${Trial6}','${Trial7}','${Trial8}','${Trial9}','${Trial10}','${Trial11}','${Trial12}','${Trial13}','${Trial14}','${Trial15}','${Trial16}','${Trial17}','${Trial18}','${Trial19}','${Trial20}','${Trial21}','${Trial22}','${Trial23}','${Trial24}','${Trial25}','${Trial26}','${Trial27}','${Trial28}','${Trial29}','${Trial30}','${Trial31}','${Trial32}','${Trial33}','${Trial34}','${Trial35}','${Trial36}','${Trial37}','${Trial38}','${Trial39}','${Trial40}','${Trial41}','${Trial42}','${Trial43}','${Trial44}','${Trial45}','${Trial46}','${Trial47}','${Trial48}','${Trial49}','${Trial50}','${Trial51}','${Trial52}'];
 
-          // NOTE: Your study link goes here
           var studyLink = 'https://language-processing-lab.firebaseapp.com/mturk/vm-recall/experiment.html?';
 
-          // Add worker ID to study link
           if(workerId != '' && workerId != undefined) {
               studyLink += 'workerId=' + workerId;
           }
@@ -97,99 +95,95 @@
               studyLink += ('&q' + (i + 1) + '=' + questions[i]);
           }
 
-          // NOTE: If you need to add other URL data, do before this line
           $('#expt-link').attr('href', studyLink);
-
-          // Append submit button to HIT
           $('#submitButton').appendTo($('div#submit-button-container'));
           $('#submitButton').attr("style","width: 300px !important; margin-left:auto; margin-right: auto;");
       });
     </script>
-
-<div><p><a name="top"></a></p></div>
+</head>
+<div id="top"></div>
 
 <div class="container ad-container">
-    <div class="row">
-        <div id="info-card">
-          <div id="check-javascript" class="card card-danger card-inverse mb-3">
-            <div class="card-block">
-                <h4>Error</h4>
-                <p>If you are seeing this message, your browser has either not loaded the page correctly, or is unable to run Javascript code. Please try refreshing the HIT or loading the HIT in a different browser. If this does not fix the problem, please contact the requester for assistance.</p>
-                </dl>
-            </div>
+  <div class="row">
+    <div id="info-card">
+      <div id="check-javascript" class="card card-danger card-inverse mb-3">
+        <div class="card-block">
+              <h4>Error</h4>
+              <p>If you are seeing this message, your browser has either not loaded the page correctly, or is unable to run Javascript code. Please try refreshing the HIT or loading the HIT in a different browser. If this does not fix the problem, please contact the requester for assistance.</p>
           </div>
-          <div class="card mb-3" width="800">
-              <div class="card-block">
-                  <h2>Test your memory!</h2>
-
-                  <p class="lead">Language Processing Laboratory, Department of Linguistics, University of Chicago</p>
-
-                  <div class="bs-callout bs-callout-danger">
-                      <h4 class="text-danger">Attention</h4>
-                      <p>Please do not complete this experiment more than once. You will not be paid for multiple submissions. Upon clicking the study link, you will be checked against our database of workers who have completed this study and will be alerted if you have already participated.</p>
-                  </div>
-
-                  <h4 class="mt-5">Overview</h4>
-
-                  <p>In this study, you will read sentences a few words at a time. After a pause, you will attempt to recall (by typing) the sentence that you read.</p>
-
-                  <h4 class="mt-5">System Requirements</h4>
-
-                  <h6 class="mb-2 text-muted">Web Browser</h6>
-
-                  <p>This study works best in <strong>Chrome</strong> or <strong>Firefox</strong>. Compatibility with Internet Explorer, Safari, or other browers cannot be guaranteed.</p>
-
-                  <h4 class="mt-5">Participant Requirements</h4>
-
-                  <div class="bs-callout bs-callout-warning">
-                      <h4 class="text-warning">Warning</h4>
-                      <p>If you do not meet these requirements, we cannot use your data. Please do not accept this HIT if you are not eligible.</p>
-                  </div>
-
-                  <p>In order to participate in this study, you <b>must</b> meet the following criteria:</p>
-
-                  <ul class="styled">
-                      <li>You are <b>at least 18 years old</b>.</li>
-                      <li>You are <strong>native speaker</strong> of American English. For our purposes, you are a native speaker of American English if:</li>
-                          <ul><li>You were <b>born in the United States</b>.</li>
-                              <li>You <b>lived in the U.S. from birth through age 12</b>.</li>
-                              <li>The <b>members of the household you grew up in spoke primarily English.</b></li>
-                          </ul>
-                      <li>You have <strong>no history</strong> of history of hearing loss, language disorders, or communication disorders.</li>
-                      <li>You have <b>no history</b> of substance dependence, stroke, mental retardation, traumatic brain injury (with loss of consciousness lasting for more than one hour), multiple sclerosis, Parkinson's disease, Alzheimer's disease, Huntington's disease, schizophrenia, bipolar, autism, or ADHD.</li>
-                      <li>You are <b>not</b> currently experiencing major depression.</li>
-                  </ul>
-              </div>
-              <div class="card-footer text-center">
-                  <button id="start-experiment" class="btn btn-primary btn-start-exp">Continue to Study Link</button>
-              </div>
-            </div>
-          </div>
-          <div id="study-card" class="card" style="display: none;">
-             <div class="card-block">
-                 <p>The following link will direct you to the study. Please be sure to open the link in a new tab or window.</p>
-
-                 <dl class="row">
-                     <dt class="col-sm-4"><h3>Study link:</h3></dt>
-                     <dd class="col-sm-8"><h3><a href="" id="expt-link" target="blank">Click here</a></h3></dd>
-                 </dl>
-
-                 <p>Once you have finished the study, please enter your code into the box below.</p>
-
-                 <dl class="row">
-                     <dt class="col-sm-4"><b>Enter your code here after finishing the study:</b></dt>
-                     <dd class="col-sm-8"><input id="survey-code" name="survey-code" type="text" required /></dd>
-                 </dl>
-
-             <div class="card card-footer text-center" id="submit-button-container"></div>
-         </div>
       </div>
+      <div class="card mb-3" width="800">
+        <div class="card-block">
+          <h2>Test your memory!</h2>
+
+          <p class="lead">Language Processing Laboratory, Department of Linguistics, University of Chicago</p>
+
+          <div class="bs-callout bs-callout-danger">
+              <h4 class="text-danger">Attention</h4>
+              <p>Please do not complete this experiment more than once. You will not be paid for multiple submissions. Upon clicking the study link, you will be checked against our database of workers who have completed this study and will be alerted if you have already participated.</p>
+          </div>
+
+          <h4 class="mt-5">Overview</h4>
+
+          <p>In this study, you will read sentences a few words at a time. Sometimes you will be asked to reproduce (by typing) the sentence you just read.</p>
+
+          <h4 class="mt-5">System Requirements</h4>
+
+          <h6 class="mb-2 text-muted">Web Browser</h6>
+
+          <p>This study works best in <strong>Chrome</strong> or <strong>Firefox</strong>. Compatibility with Internet Explorer, Safari, or other browers cannot be guaranteed.</p>
+
+          <h4 class="mt-5">Participant Requirements</h4>
+
+          <div class="bs-callout bs-callout-warning">
+              <h4 class="text-warning">Warning</h4>
+              <p>If you do not meet these requirements, we cannot use your data. Please do not accept this HIT if you are not eligible.</p>
+          </div>
+
+          <p>In order to participate in this study, you <b>must</b> meet the following criteria:</p>
+
+          <ul class="styled">
+              <li>You are <b>at least 18 years old</b>.</li>
+              <li>You are <strong>native speaker</strong> of American English. For our purposes, you are a native speaker of American English if:</li>
+                  <ul><li>You were <b>born in the United States</b>.</li>
+                      <li>You <b>lived in the U.S. from birth through age 12</b>.</li>
+                      <li>The <b>members of the household you grew up in spoke primarily English.</b></li>
+                  </ul>
+              <li>You have <strong>no history</strong> of history of hearing loss, language disorders, or communication disorders.</li>
+              <li>You have <b>no history</b> of substance dependence, stroke, mental retardation, traumatic brain injury (with loss of consciousness lasting for more than one hour), multiple sclerosis, Parkinson's disease, Alzheimer's disease, Huntington's disease, schizophrenia, bipolar, autism, or ADHD.</li>
+              <li>You are <b>not</b> currently experiencing major depression.</li>
+          </ul>
+      </div>
+      <div class="card-footer text-center">
+        <button id="start-experiment" class="btn btn-primary btn-start-exp">Continue to Study Link</button>
+      </div>
+    </div>
+  </div>
+  <div id="study-card" class="card" style="display: none;">
+    <div class="card-block">
+      <p>The following link will direct you to the study. Please be sure to open the link in a new tab or window.</p>
+
+      <dl class="row">
+        <dt class="col-sm-4"><h3>Study link:</h3></dt>
+        <dd class="col-sm-8"><h3><a href="" id="expt-link" target="blank">Click here</a></h3></dd>
+      </dl>
+
+      <p>Once you have finished the study, please enter your code into the box below.</p>
+
+      <dl class="row">
+        <dt class="col-sm-4"><b>Enter your code here after finishing the study:</b></dt>
+        <dd class="col-sm-8"><input id="survey-code" name="survey-code" type="text" required /></dd>
+      </dl>
+
+      <div class="card card-footer text-center" id="submit-button-container"></div>
+    </div>
+  </div>
   </div>
 </div>
 
 <!-- close container section -->
 
-<style type="text/css">
+<style>
     td {
         font-size:1.0em;
         padding:5px 5px;
