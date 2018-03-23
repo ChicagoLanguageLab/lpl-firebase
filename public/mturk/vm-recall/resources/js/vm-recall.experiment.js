@@ -97,7 +97,7 @@ function VmRecallExperiment(params) {
   /** Build the experiment.
   */
   this.createTimeline = function() {
-    //initPreamble();
+    initPreamble();
     initTrials();
   }
 };
