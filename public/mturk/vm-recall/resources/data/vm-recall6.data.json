@@ -1,0 +1,530 @@
+{
+	"trials": {
+		"1": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Rick", "labeled", "the jar.", "Tim", "did too."],
+		  "b": ["Rick", "labeled", "the jar.", "The bowl", "was too."],
+		  "c": ["The jar", "was labeled", "by Rick.", "The bowl", "was too."],
+		  "d": ["The jar", "was labeled", "by Rick.",  "Tim", "did too."],
+		  "e": ["The jar", "lured", "Rick.", "The bowl", "did too."],
+		  "f": ["The jar", "lured", "Rick.", "Tim", "was too."],
+		  "g": ["Rick", "was lured", "by the jar.", "Tim", "was too."],
+		  "h": ["Rick", "was lured", "by the jar.", "The bowl", "did too."]
+		},
+		"2": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Joanna", "completed", "the puzzle.", "Madeleine", "did too."],
+		  "b": ["Joanna", "completed", "the puzzle.", "The crossword", "was too."],
+		  "c": ["The puzzle", "was completed", "by Joanna.", "The crossword", "was too."],
+		  "d": ["The puzzle", "was completed", "by Joanna.", "Madeleine", "did too."],
+		  "e": ["The puzzle", "amused", "Joanna.", "The crossword", "did too."],
+		  "f": ["The puzzle", "amused", "Joanna.", "Madeleine", "was too."],
+		  "g": ["Joanna", "was amused", "by the puzzle.", "Madeleine", "was too."],
+		  "h": ["Joanna", "was amused", "by the puzzle.", "The crossword", "did too."]
+		},
+		"3": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Katie", "altered", "the plan.", "Carissa", "did too."],
+		  "b": ["Katie", "altered", "the plan.", "The directions", "were too."],
+		  "c": ["The plan", "was altered", "by Katie.", "The directions", "were too."],
+		  "d": ["The plan", "was altered", "by Katie.", "Carissa", "did too."],
+		  "e": ["The plan", "delighted", "Katie.", "The directions", "did too."],
+		  "f": ["The plan", "delighted", "Katie.", "Carissa", "was too."],
+		  "g": ["Katie", "was delighted", "by the plan.", "Carissa", "was too."],
+		  "h": ["Katie", "was delighted", "by the plan.", "The directions", "did too."]
+		},
+		"4": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Julia", "finished", "the ritual.", "Audrey", "did too."],
+		  "b": ["Julia", "finished", "the ritual.", "The ceremony", "was too."],
+		  "c": ["The ritual", "was finished", "by Julia.", "The ceremony", "was too."],
+		  "d": ["The ritual", "was finished", "by Julia.", "Audrey", "did too."],
+		  "e": ["The ritual", "bored", "Julia.", "The ceremony", "did too."],
+		  "f": ["The ritual", "bored", "Julia.", "Audrey", "was too."],
+		  "g": ["Julia", "was bored", "by the ritual.", "Audrey", "was too."],
+		  "h": ["Julia", "was bored", "by the ritual.", "The ceremony", "did too."]
+		},
+		"5": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Maya", "muted", "the song.", "Kristen", "did too."],
+		  "b": ["Maya", "muted", "the song.", "The static", "was too."],
+		  "c": ["The song", "was muted", "by Maya.", "The static", "was too."],
+		  "d": ["The song", "was muted", "by Maya.", "Kristen", "did too."],
+		  "e": ["The song", "annoyed", "Maya.", "The static", "did too."],
+		  "f": ["The song", "annoyed", "Maya.", "Kristen", "was too."],
+		  "g": ["Maya", "was annoyed", "by the song.", "Kristen", "was too."],
+		  "h": ["Maya", "was annoyed", "by the song.", "The static", "did too."]
+		},
+
+		"6": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Alana", "evaded", "the cliff.", "Evelyn", "did too."],
+		  "b": ["Alana", "evaded", "the cliff.", "The gorge", "was too."],
+		  "c": ["The cliff", "was evaded", "by Alana.", "The gorge", "was too."],
+		  "d": ["The cliff", "was evaded", "by Alana.", "Evelyn", "did too."],
+		  "e": ["The cliff", "impressed", "Alana.", "The gorge", "did too."],
+		  "f": ["The cliff", "impressed", "Alana.", "Evelyn", "was too."],
+		  "g": ["Alana", "was impressed", "by the cliff.", "Evelyn", "was too."],
+		  "h": ["Alana", "was impressed", "by the cliff.", "The gorge", "did too."]
+		},
+		"7": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Mia", "escorted", "the parade.", "Olivia", "did too."],
+		  "b": ["Mia", "escorted", "the parade.", "The procession", "was too."],
+		  "c": ["The parade", "was escorted", "by Mia.", "The procession", "was too."],
+		  "d": ["The parade", "was escorted", "by Mia.", "Olivia", "did too."],
+		  "e": ["The parade", "frustrated", "Mia.", "The procession", "did too."],
+		  "f": ["The parade", "frustrated", "Mia.", "Olivia", "was too."],
+		  "g": ["Mia", "was frustrated", "by the parade.", "Olivia", "was too."],
+		  "h": ["Mia", "was frustrated", "by the parade.", "The procession", "did too."]
+		},
+		"8": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Sarah", "heeded", "the warning.", "Abbie", "did too."],
+		  "b": ["Sarah", "heeded", "the warning.", "The omen", "was too."],
+		  "c": ["The warning", "was heeded", "by Sarah.", "The omen", "was too."],
+		  "d": ["The warning", "was heeded", "by Sarah.", "Abbie", "did too."],
+		  "e": ["The warning", "disturbed", "Sarah.", "The omen", "did too."],
+		  "f": ["The warning", "disturbed", "Sarah.", "Abbie", "was too."],
+		  "g": ["Sarah", "was disturbed", "by the warning.", "Abbie", "was too."],
+		  "h": ["Sarah", "was disturbed", "by the warning.", "The omen", "did too."]
+		},
+		"9": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Marina", "rejected", "the compliment.", "Kayla", "did too."],
+		  "b": ["Marina", "rejected", "the compliment.", "The suggestion", "was too."],
+		  "c": ["The compliment", "was rejected", "by Marina.", "The suggestion", "was too."],
+		  "d": ["The compliment", "was rejected", "by Marina.", "Kayla", "did too."],
+		  "e": ["The compliment", "excited", "Marina.", "The suggestion", "did too."],
+		  "f": ["The compliment", "excited", "Marina.", "Kayla", "was too."],
+		  "g": ["Marina", "was excited", "by the compliment.", "Kayla", "was too."],
+		  "h": ["Marina", "was excited", "by the compliment.", "The suggestion", "did too."]
+		},
+		"10": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Hannah", "weighed", "the necklace.", "Emily", "did too."],
+		  "b": ["Hannah", "weighed", "the necklace.", "The talisman", "was too."],
+		  "c": ["The necklace", "was weighed", "by Hannah.", "The talisman", "was too."],
+		  "d": ["The necklace", "was weighed", "by Hannah.", "Emily", "did too."],
+		  "e": ["The necklace", "soothed", "Hannah.", "The talisman", "did too."],
+		  "f": ["The necklace", "soothed", "Hannah.", "Emily", "was too."],
+		  "g": ["Hannah", "was soothed", "by the necklace.", "Emily", "was too."],
+		  "h": ["Hannah", "was soothed", "by the necklace.", "The talisman", "did too."]
+		},
+		"11": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Jack", "wrote", "the advertisement.", "David", "did too."],
+		  "b": ["Jack", "wrote", "the advertisement.", "The quote", "was too."],
+		  "c": ["The advertisement", "was written", "by Jack.", "The quote", "was too."],
+		  "d": ["The advertisement", "was written", "by Jack.", "David", "did too."],
+		  "e": ["The advertisement", "angered", "Jack.", "The quote", "did too."],
+		  "f": ["The advertisement", "angered", "Jack.", "David", "was too."],
+		  "g": ["Jack", "was angered", "by the advertisement.", "David", "was too."],
+		  "h": ["Jack", "was angered", "by the advertisement.", "The quote", "did too."]
+		},
+		"12": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Camille", "built", "the pyramid.", "Sophia", "did too."],
+		  "b": ["Camille", "built", "the pyramid.", "The monument", "was too."],
+		  "c": ["The pyramid", "was built", "by Camille.", "The monument", "was too."],
+		  "d": ["The pyramid", "was built", "by Camille.", "Sophia", "did too."],
+		  "e": ["The pyramid", "awed", "Camille.", "The monument", "did too."],
+		  "f": ["The pyramid", "awed", "Camille.", "Sophia", "was too."],
+		  "g": ["Camille", "was awed", "by the pyramid.", "Sophia", "was too."],
+		  "h": ["Camille", "was awed", "by the pyramid.", "The monument", "did too."]
+		},
+		"13": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Cristina", "recorded", "the criticism.", "Michelle", "did too."],
+		  "b": ["Cristina", "recorded", "the criticism.", "The question", "was too."],
+		  "c": ["The criticism", "was recorded", "by Cristina.", "The question", "was too."],
+		  "d": ["The criticism", "was recorded", "by Cristina.", "Michelle", "did too."],
+		  "e": ["The criticism", "disappointed", "Cristina.", "The question", "did too."],
+		  "f": ["The criticism", "disappointed", "Cristina.", "Michelle", "was too."],
+		  "g": ["Cristina", "was disappointed", "by the criticism.", "Michelle", "was too."],
+		  "h": ["Cristina", "was disappointed", "by the criticism.", "The question", "did too."]
+		},
+		"14": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Cindy", "embraced", "the doll.", "Deirdre", "did too."],
+		  "b": ["Cindy", "embraced", "the doll.", "The dress", "was too."],
+		  "c": ["The doll", "was embraced", "by Cindy.", "The dress", "was too."],
+		  "d": ["The doll", "was embraced", "by Cindy.", "Deirdre", "did too."],
+		  "e": ["The doll", "interested", "Cindy.", "The dress", "did too."],
+		  "f": ["The doll", "interested", "Cindy.", "Deirdre", "was too."],
+		  "g": ["Cindy", "was interested", "by the doll.", "Deirdre", "was too."],
+		  "h": ["Cindy", "was interested", "by the doll.", "The dress", "did too."]
+		},
+		"15": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Nikki", "edited", "the article.", "Margaret", "did too."],
+		  "b": ["Nikki", "edited", "the article.", "The headline", "was too."],
+		  "c": ["The article", "was edited", "by Nikki.", "The headline", "was too."],
+		  "d": ["The article", "was edited", "by Nikki.", "Margaret", "did too."],
+		  "e": ["The article", "alarmed", "Nikki.", "The headline", "did too."],
+		  "f": ["The article", "alarmed", "Nikki.", "Margaret", "was too."],
+		  "g": ["Nikki", "was alarmed", "by the article.", "Margaret", "was too."],
+		  "h": ["Nikki", "was alarmed", "by the article.", "The headline", "did too."]
+		},
+		"16": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Rebecca", "released", "the announcement.", "Emma", "did too."],
+		  "b": ["Rebecca", "released", "the announcement.", "The result", "was too."],
+		  "c": ["The announcement", "was released", "by Rebecca.", "The result", "was too."],
+		  "d": ["The announcement", "was released", "by Rebecca.", "Emma", "did too."],
+		  "e": ["The announcement", "bothered", "Rebecca.", "The result", "did too."],
+		  "f": ["The announcement", "bothered", "Rebecca.", "Emma", "was too."],
+		  "g": ["Rebecca", "was bothered", "by the announcement.", "Emma", "was too."],
+		  "h": ["Rebecca", "was bothered", "by the announcement.", "The result", "did too."]
+		},
+		"17": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Isabel", "controlled", "the plane.", "Helen", "did too."],
+		  "b": ["Isabel", "controlled", "the plane.", "The robot", "was too."],
+		  "c": ["The plane", "was controlled", "by Isabel.", "The robot", "was too."],
+		  "d": ["The plane", "was controlled", "by Isabel.", "Helen", "did too."],
+		  "e": ["The plane", "amazed", "Isabel.", "The robot", "did too."],
+		  "f": ["The plane", "amazed", "Isabel.", "Helen", "was too."],
+		  "g": ["Isabel", "was amazed", "by the plane.", "Helen", "was too."],
+		  "h": ["Isabel", "was amazed", "by the plane.", "The robot", "did too."]
+		},
+		"18": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Lisa", "scratched", "the label.", "Claudette", "did too."],
+		  "b": ["Lisa", "scratched", "the label.", "The sign", "was too."],
+		  "c": ["The label", "was scratched", "by Lisa.", "The sign", "was too."],
+		  "d": ["The label", "was scratched", "by Lisa.", "Claudette", "did too."],
+		  "e": ["The label", "tempted", "Lisa.", "The sign", "did too."],
+		  "f": ["The label", "tempted", "Lisa.", "Claudette", "was too."],
+		  "g": ["Lisa", "was tempted", "by the label.", "Claudette", "was too."],
+		  "h": ["Lisa", "was tempted", "by the label.", "The sign", "did too."]
+		},
+		"19": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Brian", "reproduced", "the experiment.", "Roger", "did too."],
+		  "b": ["Brian", "reproduced", "the experiment.", "The tests", "were too."],
+		  "c": ["The experiment", "was reproduced", "by Brian.", "The tests", "were too."],
+		  "d": ["The experiment", "was reproduced", "by Brian.", "Roger", "did too."],
+		  "e": ["The experiment", "convinced", "Brian.", "The tests", "did too."],
+		  "f": ["The experiment", "convinced", "Brian.", "Roger", "was too."],
+		  "g": ["Brian", "was convinced", "by the experiment.", "Roger", "was too."],
+		  "h": ["Brian", "was convinced", "by the experiment.", "The tests", "did too."]
+		},
+		"20": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Louis", "neglected", "the castle.", "John", "did too."],
+		  "b": ["Louis", "neglected", "the castle.", "The house", "was too."],
+		  "c": ["The castle", "was neglected", "by Louis.", "The house", "was too."],
+		  "d": ["The castle", "was neglected", "by Louis.", "John", "did too."],
+		  "e": ["The castle", "astounded", "Louis.", "The house", "did too."],
+		  "f": ["The castle", "astounded", "Louis.", "John", "was too."],
+		  "g": ["Louis", "was astounded", "by the castle.", "John", "was too."],
+		  "h": ["Louis", "was astounded", "by the castle.", "The house", "did too."]
+		},
+		"21": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Mark", "denounced", "the story.", "Tommy", "did too."],
+		  "b": ["Mark", "denounced", "the story.", "The sermon", "was too."],
+		  "c": ["The story", "was denounced", "by Mark.", "The sermon", "was too."],
+		  "d": ["The story", "was denounced", "by Mark.", "Tommy", "did too."],
+		  "e": ["The story", "provoked", "Mark.", "The sermon", "did too."],
+		  "f": ["The story", "provoked", "Mark.", "Tommy", "was too."],
+		  "g": ["Mark", "was provoked", "by the story.", "Tommy", "was too."],
+		  "h": ["Mark", "was provoked", "by the story.", "The sermon", "did too."]
+		},
+		"22": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Jeremy", "authorized", "the interview.", "Phillip", "did too."],
+		  "b": ["Jeremy", "authorized", "the interview.", "The broadcast", "was too."],
+		  "c": ["The interview", "was authorized", "by Jeremy.", "The broadcast", "was too."],
+		  "d": ["The interview", "was authorized", "by Jeremy.", "Phillip", "did too."],
+		  "e": ["The interview", "embarrassed", "Jeremy.", "The broadcast", "did too."],
+		  "f": ["The interview", "embarrassed", "Jeremy.", "Phillip", "was too."],
+		  "g": ["Jeremy", "was embarrassed", "by the interview.", "Phillip", "was too."],
+		  "h": ["Jeremy", "was embarrassed", "by the interview.", "The broadcast", "did too."]
+		},
+		"23": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Liam", "taped", "the fight.", "Mason", "did too."],
+		  "b": ["Liam", "taped", "the fight.", "The argument", "was too."],
+		  "c": ["The fight", "was taped", "by Liam.", "The argument", "was too."],
+		  "d": ["The fight", "was taped", "by Liam.", "Mason", "did too."],
+		  "e": ["The fight", "frightened", "Liam.", "The argument", "did too."],
+		  "f": ["The fight", "frightened", "Liam.", "Mason", "was too."],
+		  "g": ["Liam", "was frightened", "by the fight.", "Mason", "was too."],
+		  "h": ["Liam", "was frightened", "by the fight.", "The argument", "did too."]
+		},
+		"24": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Isaac", "lost", "the script.", "Theodore", "did too."],
+		  "b": ["Isaac", "lost", "the script.", "The letter", "was too."],
+		  "c": ["The script", "was lost", "by Isaac.", "The letter", "was too."],
+		  "d": ["The script", "was lost", "by Isaac.", "Theodore", "did too."],
+		  "e": ["The script", "demoralized", "Isaac.", "The letter", "did too."],
+		  "f": ["The script", "demoralized", "Isaac.", "Theodore", "was too."],
+		  "g": ["Isaac", "was demoralized", "by the script.", "Theodore", "was too."],
+		  "h": ["Isaac", "was demoralized", "by the script.", "The letter", "did too."]
+		},
+		"25": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Jackson", "removed", "the dust.", "Scott", "did too."],
+		  "b": ["Jackson", "removed", "the dust.", "The mold", "was too."],
+		  "c": ["The dust", "was removed", "by Jackson.", "The mold", "was too."],
+		  "d": ["The dust", "was removed", "by Jackson.", "Scott", "did too."],
+		  "e": ["The dust", "shocked", "Jackson.", "The mold", "did too."],
+		  "f": ["The dust", "shocked", "Jackson.", "Scott", "was too."],
+		  "g": ["Jackson", "was shocked", "by the dust.", "Scott", "was too."],
+		  "h": ["Jackson", "was shocked", "by the dust.", "The mold", "did too."]
+		},
+		"26": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Solomon", "timed", "the match.", "Samuel", "did too."],
+		  "b": ["Solomon", "timed", "the match.", "The game", "was too."],
+		  "c": ["The match", "was timed", "by Solomon.", "The game", "was too."],
+		  "d": ["The match", "was timed", "by Solomon.", "Samuel", "did too."],
+		  "e": ["The match", "thrilled", "Solomon.", "The game", "did too."],
+		  "f": ["The match", "thrilled", "Solomon.", "Samuel", "was too."],
+		  "g": ["Solomon", "was thrilled", "by the match.", "Samuel", "was too."],
+		  "h": ["Solomon", "was thrilled", "by the match.", "The game", "did too."]
+		},
+		"27": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Kevin", "praised", "the book.", "Will", "did too."],
+		  "b": ["Kevin", "praised", "the book.", "The essay", "was too."],
+		  "c": ["The book", "was praised", "by Kevin.", "The essay", "was too."],
+		  "d": ["The book", "was praised", "by Kevin.", "Will", "did too."],
+		  "e": ["The book", "pleased", "Kevin.", "The essay", "did too."],
+		  "f": ["The book", "pleased", "Kevin.", "Will", "was too."],
+		  "g": ["Kevin", "was pleased", "by the book.", "Will", "was too."],
+		  "h": ["Kevin", "was pleased", "by the book.", "The essay", "did too."]
+		},
+		"28": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Zach", "analyzed", "the finances.", "Alexander", "did too."],
+		  "b": ["Zach", "analyzed", "the finances.", "The reports", "were too."],
+		  "c": ["The finances", "were analyzed", "by Zach.", "The reports", "were too."],
+		  "d": ["The finances", "were analyzed", "by Zach.", "Alexander", "did too."],
+		  "e": ["The finances", "upset", "Zach.", "The reports", "did too."],
+		  "f": ["The finances", "upset", "Zach.", "Alexander", "was too."],
+		  "g": ["Zach", "was upset", "by the finances.", "Alexander", "was too."],
+		  "h": ["Zach", "was upset", "by the finances.", "The reports", "did too."]
+		},
+		"29": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Christian", "cut", "the ropes.", "Anthony", "did too."],
+		  "b": ["Christian", "cut", "the ropes.", "The restraints", "were too."],
+		  "c": ["The ropes", "were cut", "by Christian.", "The restraints", "were too."],
+		  "d": ["The ropes", "were cut", "by Christian.", "Anthony", "did too."],
+		  "e": ["The ropes", "terrified", "Christian.", "The restraints", "did too."],
+		  "f": ["The ropes", "terrified", "Christian.", "Anthony", "was too."],
+		  "g": ["Christian", "was terrified", "by the ropes.", "Anthony", "was too."],
+		  "h": ["Christian", "was terrified", "by the ropes.", "The restraints", "did too."]
+		},
+		"30": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["James", "interrupted", "the lecture.", "Ian", "did too."],
+		  "b": ["James", "interrupted", "the lecture.", "The speech", "was too."],
+		  "c": ["The lecture", "was interrupted", "by James.", "The speech", "was too."],
+		  "d": ["The lecture", "was interrupted", "by James.", "Ian", "did too."],
+		  "e": ["The lecture", "discouraged", "James.", "The speech", "did too."],
+		  "f": ["The lecture", "discouraged", "James.", "Ian", "was too."],
+		  "g": ["James", "was discouraged", "by the lecture.", "Ian", "was too."],
+		  "h": ["James", "was discouraged", "by the lecture.", "The speech", "did too."]
+		},
+		"31": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Steve", "identified", "the flash.", "Brayden", "did too."],
+		  "b": ["Steve", "identified", "the flash.", "The glow", "was too."],
+		  "c": ["The flash", "was identified", "by Steve.", "The glow", "was too."],
+		  "d": ["The flash", "was identified", "by Steve.", "Brayden", "did too."],
+		  "e": ["The flash", "scared", "Steve.", "The glow", "did too."],
+		  "f": ["The flash", "scared", "Steve.", "Brayden", "was too."],
+		  "g": ["Steve", "was scared", "by the flash.", "Brayden", "was too."],
+		  "h": ["Steve", "was scared", "by the flash.", "The glow", "did too."]
+		},
+		"32": {
+		  "filler": false,
+		  "recall": true,
+		  "a": ["Christopher", "concealed", "the jewel.", "Robert", "did too."],
+		  "b": ["Christopher", "concealed", "the jewel.", "The ring", "was too."],
+		  "c": ["The jewel", "was concealed", "by Christopher.", "The ring", "was too."],
+		  "d": ["The jewel", "was concealed", "by Christopher.", "Robert", "did too."],
+		  "e": ["The jewel", "stunned", "Christopher.", "The ring", "did too."],
+		  "f": ["The jewel", "stunned", "Christopher.", "Robert", "was too."],
+		  "g": ["Christopher", "was stunned", "by the jewel.", "Robert", "was too."],
+		  "h": ["Christopher", "was stunned", "by the jewel.", "The ring", "did too."]
+		},
+		"33": {
+			"filler": true,
+			"recall": true,
+		  "chunks": ["Daniel", "planned to", "send", "his mother", "a note."]
+		},
+		"34": {
+			"filler": true,
+			"recall": true,
+		  "chunks": ["The pastor", "wanted to", "serve", "the visitors", "some food."]
+		},
+		"35": {
+			"filler": true,
+			"recall": true,
+		  "chunks": ["The clerk", "said", "she", "would charge", "the businessman", "full price."]
+		},
+		"36": {
+			"filler": true,
+			"recall": true,
+		  "chunks": ["The representative", "said", "the company", "would", "ship the customers", "a replacement."]
+		},
+		"37": {
+			"filler": true,
+			"recall": true,
+		  "chunks": ["Deanna", "usually", "feeds", "her dog", "a treat", "on Wednesdays."]
+		},
+		"38": {
+			"filler": true,
+			"recall": true,
+		  "chunks": ["Robin", "said", "he", "would", "lend the gambler", "some money."]
+		},
+		"39": {
+		  "filler": true,
+		  "recall": true,
+		  "chunks": ["The board", "wanted to", "allocate", "some funds", "to us."]
+		},
+		"40": {
+		  "filler": true,
+		  "recall": true,
+		  "chunks": ["Jason", "was told", "to repay", "the money", "to the bank."]
+		},
+		"41": {
+		  "filler": true,
+		  "recall": true,
+		  "chunks": ["Reginald", "asked", "Georgette", "to wire", "some money", "to him."]
+		},
+		"42": {
+		  "filler": true,
+		  "recall": true,
+		  "chunks": ["The rescue worker", "needed to", "throw", "the heavy rope", "to the stranded explorer."]
+		},
+		"43": {
+		  "filler": true,
+		  "recall": true,
+		  "chunks": ["The casino owner", "wanted to", "deal the fake card", "to the gamblers."]
+		},
+		"44": {
+		  "filler": true,
+		  "recall": true,
+		  "chunks": ["The foundation", "planned to", "award a grant", "to the university."]
+		},
+		"45": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the father", "that", "the son", "who", "betrayed", "him", "has", "always been", "very unfair."]
+		},
+		"46": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the boy", "that", "the newspaper", "reports", "that the cop", "who beat him up", "was leading", "the operation."]
+		},
+		"47": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the striker", "that I heard", "that", "the defender", "who punched", "in the face", "was kicked out of", "the game."]
+		},
+		"48": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the customer", "that", "the waiter", "who is famous", "for being unfriendly", "hit him."]
+		},
+		"49": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the gentleman", "that", "the girl", "who", "sells", "ripped carpets", "deceived her."]
+		},
+		"50": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the guy", "that", "the man", "who", "could be imprisoned", "for", "reckless driving", "ran him over."]
+		},
+		"51": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the clerk", "that", "the manager", "who", "downgraded him", "has always been", "really mean."]
+		},
+		"52": {
+		  "filler": true,
+		  "recall": false,
+		  "chunks": ["This is the engineer", "that", "the manager", "who", "has always", "had", "trust", "in young people", "hired him."]
+		}
+	},
+  "preamble": {
+    "intro": {
+      "type": "text",
+      "text": "<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our study!</p><p>As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.</p></div>",
+      "cont_key": [" "]
+    },
+    "consent": {
+      "type": "consent",
+      "requirements": "You must be at least 18 years old to participate in this study. ",
+      "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
+      "procedures": "You will read sentences a few words at a time. Sometimes you will do a task involving the sentence(s) you just read. ",
+      "time": "30-40 minutes",
+      "pay": "$3.5",
+      "name": "Dr. Ming Xiang",
+      "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
+      "phone": "(773) 702-8023",
+      "email": "mxiang@uchicago.edu"
+    },
+    "consent_check": {
+      "timeline": [{
+        "type": "text",
+        "cont_key": [""],
+        "text": "<p class=\"text-center lead\">Thank you for considering participation in this study!</p><p>We\"re sorry it wasn\"t for you. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+      }]
+    },
+    "demographics": {
+      "type": "demographics"
+    },
+    "post_demographics": {
+      "type": "text",
+      "cont_key": [" "],
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>Welcome! In this experiment, you'll be reading some sentences and periodically you will be asked to do a task. This experiment requires your <b>full attention</b>. The experiment is very brief and should take no more than 40 minutes. During this time you must give your complete attention.</p><p>If you are ready, please turn off any distractions such as music, television, or a cell phone for the next 30-40 minutes, and press <strong>space</strong> to continue. Thank you!</p>"
+    },
+		"instructions": {
+			"timeline": [{
+				"type": "text",
+				"cont_key": [" "],
+				"text": "<p>In this experiment, you are going to be reading sentences as a series of word \"chunks\". To do this, the experiment will only show one part of a sentence at a time. Every time you finish reading a \"chunk\" and <strong>click on the arrow</strong> to move to the next part of the sentence, the previous word chunk will disappear from the screen.</p><p>After some of the sentences, but not all of them, you will be asked to write down from memory, as accurately as you can, the sentence(s) you just read.</p><p>Press <strong>space</strong> to begin.</p>"
+			}]
+		}
+  }
+}
