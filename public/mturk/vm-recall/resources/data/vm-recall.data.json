@@ -836,7 +836,7 @@
     },
 		"49": {
 			"filler": true,
-      "subject": "This is",
+      "chunk_1": "This is",
 			"chunk_2": "the gentleman that",
 			"chunk_3": "the girl deceived."
     },
@@ -869,9 +869,9 @@
       "type": "consent",
       "requirements": "You must be at least 18 years old to participate in this study. ",
       "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
-      "procedures": "You will read sentences a few words at a time and attempt to recall them. ",
-      "time": "30 minutes",
-      "pay": "$3",
+      "procedures": "You will read sentences a few words at a time. Sometimes you will do a task involving the sentence you just read. ",
+      "time": "20-30 minutes",
+      "pay": "$2.5",
       "name": "Dr. Ming Xiang",
       "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
       "phone": "(773) 702-8023",
@@ -890,7 +890,14 @@
     "post_demographics": {
       "type": "text",
       "cont_key": [" "],
-      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In this simple task, you will test your memory.</p><p>Each item will present you with a sentence, which you will read a few words at a time. You can read at your own pace; pressing the button labeled \"&gt;\" will cause the next set of words to be displayed.</p><p>After the final set of words, there will be a pause. You will then be asked to type the sentence you read as accurately as you can.</p><p>To continue, please press the <strong>space bar</strong>.</p>"
-    }
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>Welcome! In this experiment, you'll be reading some sentences and periodically you will be asked to do a task. This experiment requires your <b>full attention</b>. The experiment is very brief and should take no more than 30 minutes. During this time you must give your complete attention.</p><p>If you are ready, please turn off any distractions such as music, television, or a cell phone for the next 20-30 minutes, and press <strong>space</strong> to continue. Thank you!</p>"
+    },
+		"instructions": {
+			"timeline": [{
+				"type": "text",
+				"cont_key": [" "],
+				"text": "<p>In this experiment, you are going to be reading each sentence as a series of word \"chunks\". To do this, the experiment will only show one part of the sentence at a time. Every time you finish reading a \"chunk\" and press the arrow to move to the next part of the sentence, the previous word chunk will disappear from the screen.</p><p>After some of the sentences, but not all of them, you will be asked to write down from memory, as accurately as you can, the sentence you just read.</p><p>Press <strong>space</strong> to begin.</p>"
+			}]
+		}
   }
 }
