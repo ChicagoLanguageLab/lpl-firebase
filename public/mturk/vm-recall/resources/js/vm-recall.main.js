@@ -10,6 +10,7 @@ firebase.initializeApp(config);
 var storageRef = firebase.storage().ref();
 var database = firebase.database();
 var dataRef;
+var version;
 
 function makeLoadingFun() {
   if($('#load-text').html() === 'Loading experiment....')
@@ -31,19 +32,16 @@ function error(d, textStatus, error) {
   console.error("getJSON failed, status: " + textStatus + ", error: " + error);
 }
 
-function attemptLoad() {
-  $.getJSON("resources/data/vm-recall.data.json",
-            loadExperimentFromJSON)
-   .fail(error);
+function attemptLoad(file) {
+  $.getJSON(file, loadExperimentFromJSON).fail(error);
 }
 
 function initializeExperiment(experiment) {
   var d = new Date();
   var date_string = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
+  var version = jsPsych.data.urlVariables().version;
 
-  var vars = jsPsych.data.urlVariables();
-
-  dataRef = storageRef.child('vm-recall/' + date_string + '/' + experiment.getSubjectId() + '.csv');
+  dataRef = storageRef.child(version + '/' + date_string + '/' + experiment.getSubjectId() + '.csv');
 
   experiment.createTimeline();
   experiment.addPropertiesTojsPsych();
@@ -70,7 +68,8 @@ $( document ).ready(function() {
     }
     else {
       console.log('Worker has not yet completed the experiment.');
-      attemptLoad();
+      var version = jsPsych.data.urlVariables().version;
+      attemptLoad("resources/data/" + version + ".data.json");
     }
   });
 });
