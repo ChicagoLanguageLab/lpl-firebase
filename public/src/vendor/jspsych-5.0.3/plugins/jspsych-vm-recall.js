@@ -17,8 +17,9 @@ jsPsych.plugins['vm-recall'] = (function() {
 
     trial.preamble = typeof trial.preamble == 'undefined' ? "" : trial.preamble;
     trial.rows = typeof trial.rows == 'undefined' ? 1 : trial.rows;
-    trial.columns = typeof trial.columns == 'undefined' ? 80 : trial.columns;
+    trial.columns = typeof trial.columns == 'undefined' ? 150 : trial.columns;
     trial.required = typeof trial.required == 'undefined' ? false : trial.required;
+    trial.prompt = typeof trial.prompt == 'undefined' ? "" : trial.prompt;
 
     // if any trial variables are functions
     // this evaluates the function and replaces
@@ -41,7 +42,7 @@ jsPsych.plugins['vm-recall'] = (function() {
       }));
 
     // add question text
-    $("#jspsych-survey-text").append('<p class="jspsych-survey-text text-center">Please type the sentence you just read in the box below:</p>');
+    $("#jspsych-survey-text").append('<p class="jspsych-survey-text text-center">' + trial.prompt + '</p>');
 
     // add text box
     $("#jspsych-survey-text").append('<p class="text-center"><input type="text" id="jspsych-survey-text-response" name="jspsych-survey-text-response" rows="' + trial.rows + ' columns="' + trial.columns + '"></p></input>');
