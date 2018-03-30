@@ -6,6 +6,10 @@ function NegationExperiment(params) {
   var color_condition = params.color_condition;
   var version = params.version;
 
+  if(version === "question-rb") {
+    params.rb_choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
+  }
+
   this.getSubjectId = function() {
     return id;
   }
@@ -437,6 +441,9 @@ function createTrials(trials, params, isPractice) {
         instructions = '<p class="text-center">Look at the colors of these shapes. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
       }
     }
+    else if(params.version !== "basic") {
+      instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+    }
 
     var on_finish = undefined;
     if((i+1) % 8 == 0) {
@@ -461,7 +468,7 @@ function createTrials(trials, params, isPractice) {
         timing_response: 3000,
         timing_post_trial: 0
       });
-      
+
       block.push({
         type: "button-response",
         is_html: true,
@@ -530,6 +537,23 @@ function createTrials(trials, params, isPractice) {
           prompt: prompt
         }
       });
+
+      if(params.version === "question-yn") {
+        block.push({
+          type: "button-response",
+          is_html: true,
+          choices: ['Yes', 'No'],
+          prompt: '<p class="text-center large">You will see some ' + trial[1].shape + 's next. Will they be ' + trial[1].color + '?</p>'
+        });
+      }
+      else if (params.version === "question-rb") {
+        block.push({
+          type: "button-response",
+          is_html: true,
+          choices: params.rb_choices,
+          prompt: '<p class="text-center large">You will see some ' + trial[1].shape + 's next. What color do you think they will be?</p>'
+        });
+      }
 
       block.push({
         type: "button-response",
