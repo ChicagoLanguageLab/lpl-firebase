@@ -1,22 +1,25 @@
 function NegationExperiment(params) {
 
   var timeline = [];
-  var id = params.workerId;
-  var condition = params.condition;
+
+  var condition = params.condition == undefined ? 'N/A' : params.condition;
   var color_condition = params.color_condition;
   var version = params.version;
 
   if(version === "question-rb") {
-    params.rb_choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
+    params.choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
+  }
+  else if(version === "question-yn") {
+    params.choices = jsPsych.randomization.shuffle(['Yes', 'No']);
   }
 
   this.getSubjectId = function() {
-    return id;
+    return params.workerId;
   }
 
   this.addPropertiesTojsPsych = function () {
     jsPsych.data.addProperties({
-      workerId: id,
+      workerId: params.workerId,
       version: version,
       condition: condition,
       color_condition: color_condition
@@ -40,30 +43,23 @@ function NegationExperiment(params) {
 
   var initPractice = function() {
     var trials = jsPsych.randomization.factorial(params.practice_factors, 1);
+    var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), 4, true);
 
-    if(params.color_condition === "2color") {
-      var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors_2color, 1), 4, true);
-    }
-    else {
-      var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors, 1), 4, true);
-    }
     trials = _.zip(trials, shapes);
-
     timeline = timeline.concat(createTrials(trials, params, true));
   }
 
   var initTrials = function() {
-    var trials = jsPsych.randomization.factorial(params.blocked_factors, 1);
 
-    if(params.color_condition === "2color") {
-      var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors_2color, 1), 32, true);
+    if(version.includes('question')) {
+      var trials = jsPsych.randomization.factorial(params.question_blocked_factors, 1);
+    } else {
+      var trials = jsPsych.randomization.factorial(params.blocked_factors, 1);
     }
-    else {
-      var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors, 1), 32, true);
-    }
+
+    var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), trials.length, true);
 
     trials = _.zip(trials, shapes);
-
     timeline = timeline.concat(createTrials(trials, params, false));
 
     timeline.push({
@@ -88,27 +84,21 @@ function NegationExperiment(params) {
 
   this.createTimeline = function() {
     //initPreamble();
-    initPractice();
-
-    timeline.push({
-      type: 'text',
-      cont_key: [' '],
-      text: '<p class="lead">You have finished the practice section.</p><p>The real task will now begin. You will not receive feedback on your responses during this part of the study, but your accuracy will be recorded.</p><p>Press the <strong>space bar</strong> when you are ready to begin.</p>'
-    });
-
     initTrials();
   }
 };
 
-function makeStimulus(block_size, polarity, is_true, distribution, correlation, shape, color, shapes, colors) {
+function makeStimulus(block_size, polarity, is_true, distribution, correlation, target_shape, target_color, shapes, colors) {
+
   var buffer = "";
   var trial_shapes = [];
   var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
 
-  if(correlation === "categorical")
-    trial_shapes = makeCategoricalTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors);
-  else
-    trial_shapes = makeRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors);
+  if(correlation === "random") {
+    trial_shapes = makeRandomTrial(block_size, polarity, is_true, distribution, target_shape, target_color, shapes, colors);
+  } else {
+    trial_shapes = makeCategoricalTrial(block_size, polarity, is_true, distribution, target_shape, target_color, shapes, colors);
+  }
 
   var header = '<img src="resources/images/';
   var footer = '.png" width="50px" />';
@@ -119,7 +109,7 @@ function makeStimulus(block_size, polarity, is_true, distribution, correlation, 
   _.each(trial_shapes, function(trial) {
     buffer += ' ';
     var cur_shape = trial.split('_')[0] ;
-    if(cur_shape === shape) {
+    if(cur_shape === target_shape) {
       target_count++;
     }
     if(target_count == 1) {
@@ -137,17 +127,18 @@ function makeStimulus(block_size, polarity, is_true, distribution, correlation, 
   });
 }
 
-function makeSpacedStimulus(version, block_size, polarity, is_true, distribution, correlation, shape, color, shapes, colors) {
+function makeSpacedStimulus(version, block_size, polarity, is_true, distribution, correlation, target_shape, target_color, shapes, colors) {
   var targets_buffer = "";
   var others_buffer = "";
 
   var trial_shapes = [];
   var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
 
-  if(correlation === "categorical")
-    trial_shapes = makeSpacedCategoricalTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors);
-  else
-    trial_shapes = makeSpacedRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors);
+  if(correlation === "random") {
+    trial_shapes = makeRandomTrial(version, block_size, polarity, is_true, distribution, target_shape, target_color, shapes, colors);
+  } else {
+    trial_shapes = makeCategoricalTrial(version, block_size, polarity, is_true, distribution, target_shape, target_color, shapes, colors);
+  }
 
   var header = '<img src="resources/images/';
   var footer = '.png" width="50px" />';
@@ -170,7 +161,7 @@ function makeSpacedStimulus(version, block_size, polarity, is_true, distribution
     _.each(others, function(trial) {
       others_buffer += ' ';
       var cur_color = trial.split('_')[1];
-      if(cur_color !== color) {
+      if(cur_color !== target_color) {
         others_buffer += '<span class="border-around">';
         others_buffer += header + 'blank' + footer;
         others_buffer += '</span>';
@@ -187,6 +178,28 @@ function makeSpacedStimulus(version, block_size, polarity, is_true, distribution
     targets_list: targets,
     others_list: others
   });
+}
+
+function makePrompt(version, polarity, intensity, shape, color) {
+  if(version.includes('question')) {
+    if (polarity === "positive") {
+      return "The " + shape + " is " + color + ".";
+    } else {
+      return "The " + shape + " is not " + color + ".";
+    }
+  } else if (polarity === "positive") {
+    if(intensity === "reg") {
+      return "The " + shape + "s are " + color + ".";
+    } else {
+      return "All of the " + shape + "s are " + color + ".";
+    }
+  } else {
+    if(intensity === "reg") {
+      return "The " + shape + "s are not " + color + ".";
+    } else {
+      return "None of the " + shape + "s are " + color + ".";
+    }
+  }
 }
 
 function makePracticePrompt(type, shape, color, is_true, distribution) {
@@ -212,27 +225,12 @@ function makePracticePrompt(type, shape, color, is_true, distribution) {
   }
 }
 
-function makePrompt(polarity, intensity, shape, color) {
-  if (polarity === "positive") {
-    if(intensity === "reg")
-      return "The " + shape + "s are " + color + ".";
-    else
-      return "All of the " + shape + "s are " + color + ".";
-  }
-  else {
-    if(intensity === "reg")
-      return "The " + shape + "s are not " + color + ".";
-    else
-      return "None of the " + shape + "s are " + color + ".";
-  }
-}
-
 function makeShapeBlock(num_shapes, shape, color) {
-  var out = [];
-  for(var i=0; i<num_shapes; i++) {
-    out.push(shape + '_' + color);
+  var shapes = [];
+  for(var i = 0; i < num_shapes; i++) {
+    shapes.push(shape + '_' + color);
   }
-  return out;
+  return shapes;
 }
 
 function makeRandomShapeBlock(num_shapes, shape, colors) {
@@ -244,87 +242,115 @@ function makeRandomShapeBlock(num_shapes, shape, colors) {
   return out;
 }
 
-function makeSpacedCategoricalTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
-  var others = [];
-  var targets = [];
+function makeCategoricalTrial(version, block_size, polarity, is_true, distribution, target_shape, target_color, shapes, colors) {
+
+  if(version === "basic") {
+    var out = [];
+  } else {
+    var targets = [];
+    var others = [];
+  }
 
   var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
   var shuffled_colors = jsPsych.randomization.shuffle(colors);
 
   if(((polarity === "positive" || polarity === "ncolor-negative") && is_true) || (polarity === "negative" && !is_true)) {
-    for(var i = 0; i < distribution.targets / block_size; i++)
-      targets.push(makeShapeBlock(block_size, shape, color));
-  }
-  else if((polarity === "negative" && is_true) || (polarity === "positive" && !is_true)) {
+    if(version.includes('question')) {
+      targets.push(makeShapeBlock(1, target_shape, target_color));
+    } else {
+      for(var i = 0; i < distribution.targets / block_size; i++) {
+        if(version === "basic") {
+          out.push(makeShapeBlock(block_size, target_shape, target_color));
+        } else {
+          targets.push(makeShapeBlock(block_size, target_shape, target_color));
+        }
+      }
+    }
+  } else if((polarity === "negative" && is_true) || (polarity === "positive" && !is_true)) {
     var rand_color = shuffled_colors.pop();
-    for(var i = 0; i < distribution.targets / block_size; i++) {
-      targets.push(makeShapeBlock(block_size, shape, rand_color));
+    if(version.includes('question')) {
+      targets.push(makeShapeBlock(1, target_shape, rand_color));
+    } else {
+      for(var i = 0; i < distribution.targets / block_size; i++) {
+        if(version === "basic") {
+          out.push(makeShapeBlock(block_size, target_shape, rand_color));
+        } else {
+          targets.push(makeShapeBlock(block_size, target_shape, rand_color));
+        }
+      }
     }
   }
 
-  for(var i = 0; i < distribution.color_ntarget / block_size; i++) {
-    var rand_shape = shuffled_shapes.pop();
-    others.push(makeShapeBlock(block_size, rand_shape, color));
-  }
-  for(var i = 0; i < distribution.other / block_size; i++) {
-    var rand_shape = shuffled_shapes.pop();
-    var rand_color = shuffled_colors.pop();
-    others.push(makeShapeBlock(block_size, rand_shape, rand_color));
-  }
+  if(version.includes('question')) {
+    others.push(makeShapeBlock(distribution.color_ntarget, target_shape, target_color));
 
-  return [targets, others];
-}
+    var rand_color = _.without(shuffled_colors, target_color).pop();
+    others.push(makeShapeBlock(distribution.other, target_shape, rand_color));
 
-function makeCategoricalTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
-  var out = [];
+  } else {
+    for(var i = 0; i < distribution.color_ntarget / block_size; i++) {
+      var rand_shape = shuffled_shapes.pop();
+      if(version === "basic") {
+        out.push(makeShapeBlock(block_size, rand_shape, target_color));
+      } else {
+        others.push(makeShapeBlock(block_size, rand_shape, target_color));
+      }
+    }
 
-  var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
-  var shuffled_colors = jsPsych.randomization.shuffle(colors);
-
-  if(((polarity === "positive" || polarity === "ncolor-negative") && is_true) || (polarity === "negative" && !is_true)) {
-    for(var i = 0; i < distribution.targets / block_size; i++)
-      out.push(makeShapeBlock(block_size, shape, color));
-  }
-  else if((polarity === "negative" && is_true) || (polarity === "positive" && !is_true)) {
-    var rand_color = shuffled_colors.pop();
-    for(var i = 0; i < distribution.targets / block_size; i++) {
-      out.push(makeShapeBlock(block_size, shape, rand_color));
+    for(var i = 0; i < distribution.other / block_size; i++) {
+      var rand_shape = shuffled_shapes.pop();
+      var rand_color = shuffled_colors.pop();
+      if(version === "basic") {
+        out.push(makeShapeBlock(block_size, rand_shape, rand_color));
+      } else {
+        others.push(makeShapeBlock(block_size, rand_shape, rand_color));
+      }
     }
   }
 
-  for(var i = 0; i < distribution.color_ntarget / block_size; i++) {
-    var rand_shape = shuffled_shapes.pop();
-    out.push(makeShapeBlock(block_size, rand_shape, color));
+  if(version === "basic") {
+    return out;
+  } else {
+    return [targets, others];
   }
-  for(var i = 0; i < distribution.other / block_size; i++) {
-    var rand_shape = shuffled_shapes.pop();
-    var rand_color = shuffled_colors.pop();
-    out.push(makeShapeBlock(block_size, rand_shape, rand_color));
-  }
-
-  return out;
 }
 
-function makeSpacedRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
-  var targets = [];
-  var others = [];
+function makeRandomTrial(version, block_size, polarity, is_true, distribution, target_shape, target_color, shapes, colors) {
+
+  if(version === "basic") {
+    var out = [];
+  } else {
+    var targets = [];
+    var others = [];
+  }
 
   var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
 
   if(((polarity === "positive" || polarity === "ncolor-negative") && is_true) || (polarity === "negative" && !is_true)) {
-    for(var i = 0; i < distribution.targets / block_size; i++)
-      targets.push(makeShapeBlock(block_size, shape, color));
+    for(var i = 0; i < distribution.targets / block_size; i++) {
+      if(version === "basic") {
+        out.push(makeShapeBlock(block_size, target_shape, target_color));
+      } else {
+        targets.push(makeShapeBlock(block_size, target_shape, target_color));
+      }
+    }
   }
   else if((polarity === "negative" && is_true) || (polarity === "positive" && !is_true)) {
     var rand_color = jsPsych.randomization.sample(colors, 1, false);
-    targets.push(makeShapeBlock(block_size, shape, rand_color));
+    if(version === "basic") {
+      out.push(makeShapeBlock(block_size, target_shape, rand_color));
+    } else {
+      targets.push(makeShapeBlock(block_size, target_shape, target_color));
+    }
   }
 
   var extended_colors = [];
-  for(var i=0; i < distribution.color_ntarget; i++)
-    extended_colors.push(color);
-  for(var i=0; i < distribution.other; i++)
+  for(var i=0; i < distribution.color_ntarget; i++) {
+    extended_colors.push(target_color);
+  }
+  for(var i=0; i < distribution.other; i++) {
     extended_colors.push(jsPsych.randomization.sample(colors, 1, false));
+  }
 
   var shuffled_colors = jsPsych.randomization.shuffle(extended_colors);
   for(var i=0; i < (distribution.color_ntarget + distribution.other) / 3; i++) {
@@ -335,115 +361,133 @@ function makeSpacedRandomTrial(block_size, polarity, is_true, distribution, shap
       var rand_color = shuffled_colors.pop();
       temp.push(rand_shape + '_' + rand_color);
     }
-    others.push(temp);
-  }
-
-  return [targets, others];
-}
-
-function makeRandomTrial(block_size, polarity, is_true, distribution, shape, color, shapes, colors) {
-  var out = [];
-
-  var shuffled_shapes = jsPsych.randomization.shuffle(shapes);
-
-  if(((polarity === "positive" || polarity === "ncolor-negative") && is_true) || (polarity === "negative" && !is_true)) {
-    for(var i = 0; i < distribution.targets / block_size; i++)
-      out.push(makeShapeBlock(block_size, shape, color));
-  }
-  else if((polarity === "negative" && is_true) || (polarity === "positive" && !is_true)) {
-    var rand_color = jsPsych.randomization.sample(colors, 1, false);
-    out.push(makeShapeBlock(block_size, shape, rand_color));
-  }
-
-  var extended_colors = [];
-  for(var i=0; i < distribution.color_ntarget; i++)
-    extended_colors.push(color);
-  for(var i=0; i < distribution.other; i++)
-    extended_colors.push(jsPsych.randomization.sample(colors, 1, false));
-
-  var shuffled_colors = jsPsych.randomization.shuffle(extended_colors);
-  for(var i=0; i < (distribution.color_ntarget + distribution.other) / 3; i++) {
-    var rand_shape = shuffled_shapes.pop();
-
-    var temp = [];
-    for(var j=0; j<3; j++) {
-      var rand_color = shuffled_colors.pop();
-      temp.push(rand_shape + '_' + rand_color);
+    if(version === "basic") {
+      out.push(temp);
+    } else {
+      others.push(temp);
     }
-    out.push(temp);
   }
 
-  return out;
+  if(version === "basic") {
+    return out;
+  } else {
+    return [targets, others];
+  }
 }
 
-function createTrials(trials, params, isPractice) {
+function createTrials(trials, params, is_practice) {
+
   var block = [];
+  var version = params.version;
+  var shape_factors = params.color_conditions[params.color_condition];
 
   _.each(trials, function(trial, i) {
 
     var prompt;
     var stimulus;
 
-    if(trial[0].polarity === "ncolor-negative") {
+    var polarity = trial[0].polarity;
+    var is_true = trial[0].is_true;
+    var distribution = trial[0].distribution;
+    var coloring = trial[0].coloring == undefined ? 'none' : trial[0].coloring;
 
-      if(params.color_condition === "2color") {
-        var false_color = jsPsych.randomization.sample(_.without(params.shape_factors_2color.color, trial[1].color), 1, false)[0];
-        if(params.version === "basic")
-          stimulus = makeStimulus(params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors_2color.shape, trial[1].shape), _.without(params.shape_factors_2color.color, trial[1].color, false_color));
-        else {
-          stimulus = makeSpacedStimulus(version, params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors_2color.shape, trial[1].shape), _.without(params.shape_factors_2color.color, trial[1].color, false_color));
-        }
-      }
-      else {
-        var false_color = jsPsych.randomization.sample(_.without(params.shape_factors.color, trial[1].color), 1, false)[0];
-        if(params.version === "basic")
-          stimulus = makeStimulus(params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors.shape, trial[1].shape), _.without(params.shape_factors.color, trial[1].color, false_color));
-        else
-          stimulus = makeSpacedStimulus(version, params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors.shape, trial[1].shape), _.without(params.shape_factors.color, trial[1].color, false_color));
-        }
+    var target_color = trial[1].color;
+    var target_shape = trial[1].shape;
 
-      prompt = makePrompt(trial[0].polarity, params.condition, trial[1].shape, false_color);
-    }
-    else {
-      if(params.color_condition === "2color") {
-        if(params.version === "basic")
-          stimulus = makeStimulus(params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors_2color.shape, trial[1].shape), _.without(params.shape_factors_2color.color, trial[1].color));
-        else
-          stimulus = makeSpacedStimulus(params.version, params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors_2color.shape, trial[1].shape), _.without(params.shape_factors_2color.color, trial[1].color));
-      }
-      else {
-        if(params.version === "basic")
-          stimulus = makeStimulus(params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors.shape, trial[1].shape), _.without(params.shape_factors.color, trial[1].color));
-        else
-          stimulus = makeSpacedStimulus(params.version, params.block_size, trial[0].polarity, trial[0].is_true, trial[0].distribution, trial[0].coloring, trial[1].shape, trial[1].color, _.without(params.shape_factors.shape, trial[1].shape), _.without(params.shape_factors.color, trial[1].color));
+    var shapes_no_target = _.without(shape_factors.shapes, target_shape);
+    var colors_no_target = _.without(shape_factors.colors, target_color);
+
+    if(polarity === "ncolor-negative") {
+
+      var false_color = jsPsych.randomization.sample(colors_no_target, 1, false)[0];
+      var colors_no_false = _.without(colors_no_target, false_color);
+
+      if(version === "basic") {
+        stimulus = makeStimulus(params.block_size, polarity, is_true, distribution, coloring, target_shape, target_color, shapes_no_target, colors_no_false);
+      } else {
+        stimulus = makeSpacedStimulus(version, params.block_size, polarity, is_true, distribution, coloring, target_shape, target_color, shapes_no_target, colors_no_false);
       }
 
-      if(isPractice)
-        prompt = makePracticePrompt(trial[0].type, trial[1].shape, trial[1].color, trial[0].is_true, trial[0].distribution);
-      else
-        prompt = makePrompt(trial[0].polarity, params.condition, trial[1].shape, trial[1].color);
+      prompt = makePrompt(version, polarity, params.condition, target_shape, false_color);
+
+    } else {
+
+      if(version === "basic") {
+        stimulus = makeStimulus(params.block_size, polarity, is_true, distribution, coloring, target_shape, target_color, shapes_no_target, colors_no_target);
+      } else {
+        stimulus = makeSpacedStimulus(version, params.block_size, polarity, is_true, distribution, coloring, target_shape, target_color, shapes_no_target, colors_no_target);
+      }
+
+      if(is_practice) {
+        prompt = makePracticePrompt(trial[0].type, target_shape, target_color, is_true, distribution);
+      } else {
+        prompt = makePrompt(version, polarity, params.condition, target_shape, target_color);
+      }
     }
 
     var instructions;
-    if(params.version === "masked") {
-      if(isPractice) {
-        instructions = '<p class="text-center">Look at these shapes. Some shapes (marked by a dashed outline) might be hidden. On the next screen you will answer a question about some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
-      }
-      else {
+    switch(version) {
+      case "masked":
         instructions = '<p class="text-center">Look at these shapes. Some shapes (marked by a dashed outline) might be hidden. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
-      }
-    }
-    else if(params.version === "spaced") {
-      if(isPractice) {
-        instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question about some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
-      }
-      else {
+        break;
+      case "spaced":
         instructions = '<p class="text-center">Look at the colors of these shapes. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+        break;
+      case "question-yn":
+        instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">Will this ' + target_shape + ' be ' + target_color + '?</p>';
+        break;
+      case "question-rb":
+        instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">What color will this ' + target_shape + ' be?</p>';
+        break;
+      default:
+        instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
+    }
+
+    if(version === "basic") {
+      block_data = {
+        shape0: stimulus.stimulus_list[0],
+        shape1: stimulus.stimulus_list[1],
+        shape2: stimulus.stimulus_list[2],
+        shape3: stimulus.stimulus_list[3],
+        shape4: stimulus.stimulus_list[4],
+        shape5: stimulus.stimulus_list[5],
+        shape6: stimulus.stimulus_list[6],
+        shape7: stimulus.stimulus_list[7],
+        shape8: stimulus.stimulus_list[8],
+        shape9: stimulus.stimulus_list[9],
+        shape10: stimulus.stimulus_list[10],
+        shape11: stimulus.stimulus_list[11]
       }
+    } else {
+      block_data = {
+        shape0: stimulus.others_list[0],
+        shape1: stimulus.others_list[1],
+        shape2: stimulus.others_list[2],
+        shape3: stimulus.others_list[3],
+        shape4: stimulus.others_list[4],
+        shape5: stimulus.others_list[5],
+        shape6: stimulus.others_list[6],
+        shape7: stimulus.others_list[7],
+        shape8: stimulus.others_list[8],
+        shape9: stimulus.targets_list[0],
+        shape10: stimulus.targets_list[1],
+        shape11: stimulus.targets_list[2]
+      };
     }
-    else if(params.version !== "basic") {
-      instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
-    }
+
+    trial_data = {
+      prompt: prompt,
+      stimulus: '',
+      is_practice: is_practice,
+      target_shape: target_shape,
+      target_color: target_color,
+      ratio: distribution.tag,
+      coloring: coloring,
+      polarity: (polarity == "positive"? "Pos" : "Neg"),
+      is_true: (is_true? "T" : "F")
+    };
+
+    _.extend(block_data, trial_data);
 
     var on_finish = undefined;
     if((i+1) % 8 == 0) {
@@ -451,15 +495,15 @@ function createTrials(trials, params, isPractice) {
         saveData(jsPsych.data.dataAsCSV(), dataRef);
       }
     }
-    if(i + 1 == trials.length && !isPractice) {
+    if(i + 1 == trials.length && !is_practice) {
       on_finish = function() {
         saveData(jsPsych.data.dataAsCSV(), dataRef);
         addWorker(params.workerId, "negation-study");
       }
     }
 
-    if(params.version === "basic") {
-      // Preview
+    if(version === "basic") {
+
       block.push({
         type: 'single-stim',
         is_html: true,
@@ -477,81 +521,34 @@ function createTrials(trials, params, isPractice) {
         stimuli: stimulus.stimulus_list,
         choices: ['True', 'False'],
         on_finish: on_finish,
-        data: {
-          stimulus: '',
-          isPractice: isPractice,
-          target_shape: trial[1].shape,
-          target_color: trial[1].color,
-          polarity: (trial[0].polarity == "positive"? "Pos" : "Neg"),
-          is_true: (trial[0].is_true? "T" : "F"),
-          ratio: trial[0].distribution.tag,
-          coloring: trial[0].coloring,
-          prompt: prompt,
-          shape0: stimulus.stimulus_list[0],
-          shape1: stimulus.stimulus_list[1],
-          shape2: stimulus.stimulus_list[2],
-          shape3: stimulus.stimulus_list[3],
-          shape4: stimulus.stimulus_list[4],
-          shape5: stimulus.stimulus_list[5],
-          shape6: stimulus.stimulus_list[6],
-          shape7: stimulus.stimulus_list[7],
-          shape8: stimulus.stimulus_list[8],
-          shape9: stimulus.stimulus_list[9],
-          shape10: stimulus.stimulus_list[10],
-          shape11: stimulus.stimulus_list[11]
-        }
-      });
-    }
-    else {
-      // Preview 1
-      block.push({
-        type: 'single-stim',
-        is_html: true,
-        stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
-        prompt: instructions,
-        response_ends_trial: true,
-        timing_response: -1,
-        choices: [' '],
-        timing_post_trial: 0,
-        data: {
-          stimulus: '',
-          isPractice: isPractice,
-          target_shape: trial[1].shape,
-          target_color: trial[1].color,
-          shape0: stimulus.others_list[0],
-          shape1: stimulus.others_list[1],
-          shape2: stimulus.others_list[2],
-          shape3: stimulus.others_list[3],
-          shape4: stimulus.others_list[4],
-          shape5: stimulus.others_list[5],
-          shape6: stimulus.others_list[6],
-          shape7: stimulus.others_list[7],
-          shape8: stimulus.others_list[8],
-          shape9: stimulus.targets_list[0],
-          shape10: stimulus.targets_list[1],
-          shape11: stimulus.targets_list[2],
-          ratio: trial[0].distribution.tag,
-          coloring: trial[0].coloring,
-          polarity: (trial[0].polarity == "positive"? "Pos" : "Neg"),
-          is_true: (trial[0].is_true? "T" : "F"),
-          prompt: prompt
-        }
+        data: block_data
       });
 
-      if(params.version === "question-yn") {
+    } else {
+
+      if(version.includes('question')) {
         block.push({
-          type: "button-response",
+          type: 'button-response',
           is_html: true,
-          choices: ['Yes', 'No'],
-          prompt: '<p class="text-center large">You will see some ' + trial[1].shape + 's next. Will they be ' + trial[1].color + '?</p>'
+          stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
+          prompt: instructions,
+          timing_response: -1,
+          choices: params.choices,
+          timing_post_trial: 0,
+          data: block_data
         });
-      }
-      else if (params.version === "question-rb") {
+
+      } else {
         block.push({
-          type: "button-response",
+          type: 'single-stim',
           is_html: true,
-          choices: params.rb_choices,
-          prompt: '<p class="text-center large">You will see some ' + trial[1].shape + 's next. What color do you think they will be?</p>'
+          stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
+          prompt: instructions,
+          response_ends_trial: true,
+          timing_response: -1,
+          choices: [' '],
+          timing_post_trial: 0,
+          data: block_data
         });
       }
 
@@ -563,33 +560,11 @@ function createTrials(trials, params, isPractice) {
         stimuli: stimulus.stimulus_list,
         choices: ['True', 'False'],
         on_finish: on_finish,
-        data: {
-          stimulus: '',
-          isPractice: isPractice,
-          target_shape: trial[1].shape,
-          target_color: trial[1].color,
-          shape0: stimulus.others_list[0],
-          shape1: stimulus.others_list[1],
-          shape2: stimulus.others_list[2],
-          shape3: stimulus.others_list[3],
-          shape4: stimulus.others_list[4],
-          shape5: stimulus.others_list[5],
-          shape6: stimulus.others_list[6],
-          shape7: stimulus.others_list[7],
-          shape8: stimulus.others_list[8],
-          shape9: stimulus.targets_list[0],
-          shape10: stimulus.targets_list[1],
-          shape11: stimulus.targets_list[2],
-          ratio: trial[0].distribution.tag,
-          coloring: trial[0].coloring,
-          polarity: (trial[0].polarity == "positive"? "Pos" : "Neg"),
-          is_true: (trial[0].is_true? "T" : "F"),
-          prompt: prompt
-        }
+        data: block_data
       });
     }
 
-    if(isPractice) {
+    if(is_practice) {
       block.push({
         type: 'text',
         cont_key: [' '],
@@ -605,16 +580,6 @@ function createTrials(trials, params, isPractice) {
       });
     }
   });
+
   return block;
-}
-
-function preloadImages(shapes, colors) {
-  var images = new Array()
-
-  for(var i = 0; i < shapes.length; i++) {
-    for (var j = 0; j < colors.length; j++) {
-      images[i] = new Image()
-      images[i].src = "resources/images/" + shapes[i] + "_" + colors[j] + ".png";
-    }
-  }
 }
