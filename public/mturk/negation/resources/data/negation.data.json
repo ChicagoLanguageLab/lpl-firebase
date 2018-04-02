@@ -1,12 +1,24 @@
 {
   "block_size": 3,
-  "shape_factors": {
-    "shape": ["triangle", "square", "star", "circle"],
-    "color": ["red", "orange", "yellow", "green", "blue", "purple"]
+  "color_conditions": {
+    "5color": {
+      "shapes": ["triangle", "square", "star", "circle"],
+      "colors": ["red", "orange", "yellow", "green", "blue", "purple"]
+    },
+    "2color": {
+      "shapes": ["triangle", "square", "star", "circle"],
+      "colors": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
+    }
   },
-  "shape_factors_2color": {
-    "shape": ["triangle", "square", "star", "circle"],
-    "color": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
+  "shape_factors": {
+    "5color": {
+      "shape": ["triangle", "square", "star", "circle"],
+      "color": ["red", "orange", "yellow", "green", "blue", "purple"]
+    },
+    "2color": {
+      "shape": ["triangle", "square", "star", "circle"],
+      "color": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
+    }
   },
   "blocked_factors": {
     "distribution": [
@@ -36,6 +48,33 @@
     "is_true": [true, false],
     "coloring": ["random", "categorical"]
   },
+  "question_blocked_factors": {
+    "distribution": [
+      {
+        "tag": "ratio0",
+        "targets": 3,
+        "color_ntarget": 0,
+        "other": 9
+      },{
+        "tag": "ratio3",
+        "targets": 3,
+        "color_ntarget": 3,
+        "other": 6
+      },{
+        "tag": "ratio6",
+        "targets": 3,
+        "color_ntarget": 6,
+        "other": 3
+      },{
+        "tag": "ratio9",
+        "targets": 3,
+        "color_ntarget": 9,
+        "other": 0
+      }
+    ],
+    "polarity": ["positive", "negative"],
+    "is_true": [true, false]
+  },
   "ncolor_blocked_factors": {
     "distribution": [
       {
@@ -62,7 +101,7 @@
     ],
     "polarity": ["ncolor-negative"],
     "is_true": [true],
-    "correlation": ["rand", "nonrand"]
+    "correlation": ["random", "categorical"]
   },
   "nblocked_factors": {
     "distribution": [
@@ -74,7 +113,7 @@
     ],
     "polarity": ["positive", "negative"],
     "is_true": [true, false],
-    "correlation": ["nonrand"]
+    "correlation": ["categorical"]
   },
   "practice_factors": {
     "distribution": [{
