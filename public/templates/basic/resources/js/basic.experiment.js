@@ -39,20 +39,46 @@ function BasicExperiment(params) {
     });
   }
 
-  /** Initialize and append the default preamble to the timeline. This includes a generic intro page, consent form, and demographic questionnaire. Values for some of these are altered via the JSON file.
+  /** Initialize and append the default preamble to the timeline.
+    * This includes a generic intro page, consent form, and demographic questionnaire.
+    * Values for some of these are altered via the JSON file.
   */
   var initPreamble = function() {
     var preamble = params.preamble;
 
+    // NOTE: Functions cannot be included in JSON files - must be appended here instead.
+
+    /* This function checks whether or not the subject consented to the experiment.
+     * jsPsych uses the return value (true/false) to determine whether or not to
+     * display the conditional trial. True -> display the trial. False -> continue
+     * the experiment.
+    */
     preamble.consent_check.conditional_function = function() {
       var data = jsPsych.data.getLastTrialData();
       return !data.consented;
     }
 
-    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.post_demographics]);
+    // Check that the participant entered a valid age.
+    preamble.demographics_check.conditional_function = function() {
+      var data = jsPsych.data.getLastTrialData();
+      console.log(data);
+      if(parseInt(data.age) < 18) return false;
+      return true;
+    }
+
+    // Add the preamble to the timeline
+    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
   }
 
+  /** This function handles setting up the experimental trials.
+    * Here, it just pushes two sample trials onto the timeline.
+    * In a more complex experiment, you might use it to call various helper functions.
+  */
   var initTrials = function() {
+
+    // A trial consisting only of text.
+    // To use HTML, the "is_html" flag must be set.
+    // "cont_key" defines the keys to be used to progress to the next trial.
     var sampleTextTrial = {
       "type": "text",
       "is_html": true,
@@ -61,6 +87,13 @@ function BasicExperiment(params) {
     }
     timeline.push(sampleTextTrial);
 
+    /* A trial consisting of a stimulus and optional prompt.
+     * To use HTML/text/etc., the "is_html" flag must be set.
+     * Without it, this trial type will expect an image.
+     * "choices" defines the keys to be used for responding.
+     * "timing_response" is the number of miliseconds to display the trial.
+     * "response_ends_trial" signals that a key press can end the trial regardless of "timing_response".
+    */
     var sampleSingleStimTrial = {
       "type": "single-stim",
       "is_html": true,
@@ -69,7 +102,8 @@ function BasicExperiment(params) {
       "response_ends_trial": true,
       "timing_response": 3000,
       "choices": [' '],
-      // NOTE: Add this function to your last trial before the code screen and uncomment its contents.
+      // NOTE: Add this function to your last trial and uncomment its contents.
+      // This saves the experimental data and logs the worker so that they cannot do the same experiment twice.
       on_finish: function() {
         //saveData(jsPsych.data.dataAsCSV(), dataRef);
 

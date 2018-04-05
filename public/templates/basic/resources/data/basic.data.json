@@ -27,6 +27,13 @@
     "demographics": {
       "type": "demographics"
     },
+    "demographics_check": {
+      "timeline": [{
+        "type": "text",
+        "cont_key": [""],
+        "text": "<p class=\"lead\">Thank you for your interest in this study!</p><p>Unfortunately, you do not meet our requirements. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+      }]
+    },
     "post_demographics": {
       "type": "text",
       "cont_key": [" "],
