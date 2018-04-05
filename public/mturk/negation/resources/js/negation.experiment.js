@@ -6,11 +6,15 @@ function NegationExperiment(params) {
   var color_condition = params.color_condition;
   var version = params.version;
 
-  if(version === "question-rb") {
-    params.choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
-  }
-  else if(version === "question-yn") {
-    params.choices = jsPsych.randomization.shuffle(['Yes', 'No']);
+  if(version.includes('question')) {
+    _.each(params.question_blocked_factors.distribution, function(dist) {
+      dist.shapes = jsPsych.randomization.shuffle(dist.shapes);
+    });
+    if(version === "question-rb") {
+      params.choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
+    } else if(version === "question-yn") {
+      params.choices = ['Yes', 'No'];
+    }
   }
 
   this.getSubjectId = function() {
@@ -42,8 +46,17 @@ function NegationExperiment(params) {
   }
 
   var initPractice = function() {
-    var trials = jsPsych.randomization.factorial(params.practice_factors, 1);
-    var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), 4, true);
+
+    var trials;
+    var shapes;
+
+    if(version.includes("question")) {
+      trials = jsPsych.randomization.factorial(params.question_practice_factors, 1);
+      shapes = [{shape: "circle", color: "green"}];
+    } else {
+      jsPsych.randomization.factorial(params.practice_factors, 1);
+      shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), 4, true);
+    }
 
     trials = _.zip(trials, shapes);
     timeline = timeline.concat(createTrials(trials, params, true));
@@ -51,13 +64,18 @@ function NegationExperiment(params) {
 
   var initTrials = function() {
 
+    var trials;
+    var shapes;
+
     if(version.includes('question')) {
-      var trials = jsPsych.randomization.factorial(params.question_blocked_factors, 1);
+      trials = jsPsych.randomization.factorial(params.question_blocked_factors, 1);
+      console.log(trials);
+      shapes = jsPsych.randomization.shuffle(jsPsych.randomization.factorial(params.shape_factors[color_condition]));
     } else {
-      var trials = jsPsych.randomization.factorial(params.blocked_factors, 1);
+      trials = jsPsych.randomization.factorial(params.blocked_factors, 1);
+      shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), trials.length, true);
     }
 
-    var shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), trials.length, true);
 
     trials = _.zip(trials, shapes);
     timeline = timeline.concat(createTrials(trials, params, false));
@@ -83,7 +101,8 @@ function NegationExperiment(params) {
   }
 
   this.createTimeline = function() {
-    //initPreamble();
+    initPreamble();
+    initPractice();
     initTrials();
   }
 };
@@ -206,20 +225,17 @@ function makePracticePrompt(type, shape, color, is_true, distribution) {
   if (is_true) {
     if(type === 'number') {
       return "There are " + distribution.targets + " " + shape + "s."
-    }
-    else {
+    } else {
       return "There are " + distribution.targets + " " + color + " " + shape + "s."
     }
-  }
-  else {
+  } else {
     if(type === 'number') {
       var number = Math.floor(Math.random() * 9 + 2);
       while (number == distribution.targets) {
         number = Math.floor(Math.random() * 9 + 2);
       }
       return "There are " + number + " " + shape + "s."
-    }
-    else {
+    } else {
       return "There are " + distribution.targets + " " + color + " " + shape + "s."
     }
   }
@@ -391,8 +407,16 @@ function createTrials(trials, params, is_practice) {
     var distribution = trial[0].distribution;
     var coloring = trial[0].coloring == undefined ? 'none' : trial[0].coloring;
 
-    var target_color = trial[1].color;
-    var target_shape = trial[1].shape;
+    var target_color;
+    var target_shape;
+
+    if(version.includes("question")) {
+      target_color = trial[0].color;
+      target_shape = distribution.shapes.pop();
+    } else {
+      target_color = trial[1].color;
+      target_shape = trial[1].shape;
+    }
 
     var shapes_no_target = _.without(shape_factors.shapes, target_shape);
     var colors_no_target = _.without(shape_factors.colors, target_color);
@@ -418,7 +442,7 @@ function createTrials(trials, params, is_practice) {
         stimulus = makeSpacedStimulus(version, params.block_size, polarity, is_true, distribution, coloring, target_shape, target_color, shapes_no_target, colors_no_target);
       }
 
-      if(is_practice) {
+      if(is_practice && !version.includes("question")) {
         prompt = makePracticePrompt(trial[0].type, target_shape, target_color, is_true, distribution);
       } else {
         prompt = makePrompt(version, polarity, params.condition, target_shape, target_color);
@@ -434,10 +458,10 @@ function createTrials(trials, params, is_practice) {
         instructions = '<p class="text-center">Look at the colors of these shapes. On the next screen you will answer a question about the color of some other shapes.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
         break;
       case "question-yn":
-        instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">Will this ' + target_shape + ' be ' + target_color + '?</p>';
+        instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">Do you think the next ' + target_shape + ' will be ' + target_color + '?</p>';
         break;
       case "question-rb":
-        instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">What color will this ' + target_shape + ' be?</p>';
+        instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">What color do you think the next ' + target_shape + ' will be?</p>';
         break;
       default:
         instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question.</p><p class="text-center">Press the <strong>space bar</strong> to proceed.</p>';
@@ -477,6 +501,7 @@ function createTrials(trials, params, is_practice) {
 
     trial_data = {
       prompt: prompt,
+      trial_num: i,
       stimulus: '',
       is_practice: is_practice,
       target_shape: target_shape,
@@ -500,6 +525,25 @@ function createTrials(trials, params, is_practice) {
         saveData(jsPsych.data.dataAsCSV(), dataRef);
         addWorker(params.workerId, "negation-study");
       }
+    }
+
+    if(i != 0 && i != 30 && i % 10 == 0) {
+      block.push({
+        type: 'single-stim',
+        is_html: true,
+        stimulus: '<p class="text-center">You will now take a short break. Please do not leave your computer. The task will start again in 10 seconds.</p>',
+        response_ends_trial: false,
+        timing_response: 15000,
+        timing_post_trial: 0
+      });
+      block.push({
+        type: 'single-stim',
+        is_html: true,
+        stimulus: '<p class="text-center">The break is now over. To continue, press the <strong>space bar</strong>.</p>',
+        response_ends_trial: true,
+        choices: [' '],
+        timing_response: -1
+      });
     }
 
     if(version === "basic") {
@@ -571,10 +615,10 @@ function createTrials(trials, params, is_practice) {
         text: function() {
           var data = jsPsych.data.getLastTrialData();
           if((data.button_pressed === "True" && data.is_true === "T") || (data.button_pressed === "False" && data.is_true === "F"))
-            return '<p class="text-center">Correct!</p><p class="text-center">Press the <strong>space bar</strong> to continue.</p>';
+            return '<p class="text-center">Correct!</p><p class="text-center">To repeat, If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
           else {
             var correct_answer = data.is_true === "T" ? "true" : "false";
-            return '<p class="text-center">Oops! The correct answer was "' + correct_answer +'".</p><p class="text-center">Press the <strong>space bar</strong> to continue.</p>';
+            return '<p class="text-center">Oops! The correct answer was "' + correct_answer +'".</p><p class="text-center">To repeat, If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
           }
         }
       });
