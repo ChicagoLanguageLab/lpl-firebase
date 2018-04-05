@@ -1,26 +1,30 @@
 function NegationExperiment(params) {
 
+  /** Hold experimental trials.
+   * @type {Array<object>}
+   */
   var timeline = [];
 
+  // Variables that affect the layout of the experiment
+  var version = params.version;
   var condition = params.condition == undefined ? 'N/A' : params.condition;
   var color_condition = params.color_condition;
-  var version = params.version;
 
+  // "Question" versions use a different stimuli layout
   if(version.includes('question')) {
     _.each(params.question_blocked_factors.distribution, function(dist) {
       dist.shapes = jsPsych.randomization.shuffle(dist.shapes);
     });
-    if(version === "question-rb") {
+
+    // Randomize options for the pre-TF question
+    if(version === "question-rb") { // "What color will it be?"
       params.choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
-    } else if(version === "question-yn") {
+    } else if(version === "question-yn") { // "Will it be red (blue)?"
       params.choices = ['Yes', 'No'];
     }
   }
 
-  this.getSubjectId = function() {
-    return params.workerId;
-  }
-
+  // Add experimental variables to jsPsych's data object.
   this.addPropertiesTojsPsych = function () {
     jsPsych.data.addProperties({
       workerId: params.workerId,
@@ -30,21 +34,51 @@ function NegationExperiment(params) {
     });
   }
 
+  /** Return the subject's ID.
+   * @returns {String}
+   */
+  this.getSubjectId = function() {
+    return params.workerId;
+  }
+
+  /** Return the timeline.
+   * @returns {Array<Obejct>}
+   */
   this.getTimeline = function() {
     return timeline;
   }
 
+  /** Add the standard preamble (welcome, consent, demographics, intro) to the timeline.
+   *  Preamble input data can be edited in negation.data.json.
+   */
   var initPreamble = function() {
     var preamble = params.preamble;
 
+    // NOTE: Functions cannot be included in JSON files - must be appended here instead.
+
+    /* This function checks whether or not the subject consented to the experiment.
+     * jsPsych uses the return value (true/false) to determine whether or not to
+     * display the conditional trial. True -> display the trial. False -> continue
+     * the experiment.
+    */
     preamble.consent_check.conditional_function = function() {
       var data = jsPsych.data.getLastTrialData();
       return !data.consented;
     }
 
-    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.post_demographics]);
+    // Check that the participant entered a valid age.
+    preamble.demographics_check.conditional_function = function() {
+      var data = jsPsych.data.getLastTrialData();
+      console.log(data);
+      if(data.age < 18) return false;
+      return true;
+    }
+
+    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
   }
 
+  /* Initialize the practice trials.
+  */
   var initPractice = function() {
 
     var trials;
