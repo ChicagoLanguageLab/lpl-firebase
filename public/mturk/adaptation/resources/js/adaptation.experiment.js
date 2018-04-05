@@ -150,7 +150,7 @@ function AdaptationExperiment(params) {
   }
 
   /** Return the timeline.
-   * @returns {String}
+   * @returns {Array<Obejct>}
    */
   this.getTimeline = function() {
     return timeline;
