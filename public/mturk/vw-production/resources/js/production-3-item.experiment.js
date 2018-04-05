@@ -99,6 +99,7 @@ function initProductionTrials() {
 
       if(trialType == 'Test' || trialType == 'Color') {
         var x = 0;
+        // Keep trying to produce a trial that doesn't exceed any quotas
 				while(quotas[trialType][condition]['cur_' + targetTypes3Item[targetId]] == quotas[trialType][condition]['max_' + targetTypes3Item[targetId]]) {
           x++;
 
