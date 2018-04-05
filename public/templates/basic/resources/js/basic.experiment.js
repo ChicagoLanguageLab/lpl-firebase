@@ -78,27 +78,6 @@ function BasicExperiment(params) {
       }
     }
     timeline.push(sampleSingleStimTrial);
-
-    // Return a code for the HIT
-    // NOTE: No need to change this unless you want to remove it or add a prefix to the code.
-    timeline.push({
-      type: 'text',
-      cont_key: [''],
-      text: function(){
-          var code = 'TURK' + jsPsych.randomization.randomID(10);
-
-          jsPsych.data.addProperties({
-            code: code
-          });
-
-          return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
-                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
-                  `You may then close this window.</p><p>If you have any questions or concerns,
-                    please do not hesitate to contact the lab at
-                    <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
-                  </p>`;
-      }
-    });
   }
 
   /** Build the experiment.
