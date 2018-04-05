@@ -70,7 +70,7 @@ function NegationExperiment(params) {
     preamble.demographics_check.conditional_function = function() {
       var data = jsPsych.data.getLastTrialData();
       console.log(data);
-      if(data.age < 18) return false;
+      if(parseInt(data.age) < 18) return false;
       return true;
     }
 
