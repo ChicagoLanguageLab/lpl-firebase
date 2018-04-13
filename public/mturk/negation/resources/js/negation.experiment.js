@@ -110,12 +110,12 @@ function NegationExperiment(params) {
       }
     }
 
-    trials = jsPsych.randomization.factorial(factors, 1);
+    trials =  _.sortBy(jsPsych.randomization.factorial(factors, 1), 'color');
 
     // "Question" trial factors include the shapes.
     if(version.includes('question')) {
       if(condition != 'N/A' && !is_practice) {
-        shapes = jsPsych.randomization.factorial(params.conditioned_shape_factors, 1);
+        shapes = params.conditioned_shapes.concat(params.conditioned_shapes);
       }
       else {
         shapes = [];
@@ -126,8 +126,6 @@ function NegationExperiment(params) {
 
     // Combine trials data and shapes
     trials = jsPsych.randomization.shuffle(_.zip(trials, shapes));
-
-
 
     // Create trials and add to timeline
     timeline = timeline.concat(createTrials(trials, params, is_practice));

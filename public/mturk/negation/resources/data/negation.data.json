@@ -20,10 +20,7 @@
       "color": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
     }
   },
-  "conditioned_shape_factors": {
-    "color": ["red", "blue"],
-    "shape": ["triangle", "square", "star", "circle"]
-  },
+  "conditioned_shapes" : [{"shape": "triangle"}, {"shape": "square"}, {"shape": "star"}, {"shape": "circle"}],
   "conditioned_factors": {
     "ratio0": {
       "distribution": [{
