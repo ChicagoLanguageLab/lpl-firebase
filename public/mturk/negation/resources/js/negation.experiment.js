@@ -72,8 +72,8 @@ function NegationExperiment(params) {
     preamble.demographics_check.conditional_function = function() {
       var data = jsPsych.data.getLastTrialData();
       console.log(data);
-      if(parseInt(data.age) < 18) return false;
-      return true;
+      if(parseInt(data.age) < 18) return true;
+      return false;
     }
 
     timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
@@ -90,13 +90,21 @@ function NegationExperiment(params) {
     // Retrive the correct set of factors based on version.
     if(is_practice) {
       if(version.includes('question')) {
-        factors = params.question_practice_factors;
+        if(condition != 'N/A') {
+          factors = params.conditioned_practice_factors[condition];
+        } else {
+          factors = params.question_practice_factors;
+        }
       } else {
         factors = params.practice_factors;
       }
     } else {
       if(version.includes('question')) {
-        factors = params.question_blocked_factors;
+        if(condition != 'N/A') {
+          factors = params.conditioned_factors[condition];
+        } else {
+          factors = params.question_blocked_factors;
+        }
       } else {
         factors = params.blocked_factors;
       }
@@ -106,16 +114,23 @@ function NegationExperiment(params) {
 
     // "Question" trial factors include the shapes.
     if(version.includes('question')) {
-      shapes = [];
+      if(condition != 'N/A' && !is_practice) {
+        shapes = jsPsych.randomization.factorial(params.conditioned_shape_factors, 1);
+      }
+      else {
+        shapes = [];
+      }
     } else { // In older versions, the shapes are balanced and randomized separately.
       shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), trials.length, true);
     }
 
     // Combine trials data and shapes
-    trials = _.zip(trials, shapes);
+    trials = jsPsych.randomization.shuffle(_.zip(trials, shapes));
+
+
 
     // Create trials and add to timeline
-    timeline = timeline.concat(createTrials(trials, params, false));
+    timeline = timeline.concat(createTrials(trials, params, is_practice));
 
   }
 
@@ -131,7 +146,7 @@ function NegationExperiment(params) {
       block.push({
         type: 'text',
         cont_key: [' '],
-        text: '<p class="text-center">You have finished the practice section!</p><p class="text-center">To repeat, If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>'
+        text: '<p class="text-center">You have finished the practice section!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>'
       });
     }
 

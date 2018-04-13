@@ -339,7 +339,12 @@ function createTrials(trials, params, is_practice) {
 
     if(version.includes("question")) {
       target_color = trial[0].color;
-      target_shape = distribution.shapes.pop();
+      if(params.condition === 'N/A' || is_practice) {
+        target_shape = distribution.shapes.pop();
+      }
+      else {
+        target_shape = trial[1].shape;
+      }
     } else {
       target_color = trial[1].color;
       target_shape = trial[1].shape;
@@ -542,11 +547,12 @@ function createTrials(trials, params, is_practice) {
           cont_key: [' '],
           text: function() {
             var data = jsPsych.data.getLastTrialData();
+            console.log(data);
             if((data.button_pressed === "True" && data.is_true === "T") || (data.button_pressed === "False" && data.is_true === "F"))
-              return '<p class="text-center">Correct!</p><p class="text-center">To repeat, If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
+              return '<p class="text-center">Correct!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
             else {
               var correct_answer = data.is_true === "T" ? "true" : "false";
-              return '<p class="text-center">Oops! The correct answer was "' + correct_answer +'".</p><p class="text-center">To repeat, If the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
+              return '<p class="text-center">Oops! The correct answer was "' + correct_answer +'".</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
             }
           }
         });
