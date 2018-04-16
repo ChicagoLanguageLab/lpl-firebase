@@ -44,7 +44,7 @@ function initializeExperiment(experiment) {
   var vars = jsPsych.data.urlVariables();
 
   var cond = vars.condition == undefined ? '' : vars.condition + '-';
-  dataRef = storageRef.child('negation-' + vars.version + '/' + date_string + '-' + cond + vars.color_condition + '/' + experiment.getSubjectId() + '.csv');
+  dataRef = storageRef.child('nordmeyer/phase1/' + date_string + '/' + experiment.getSubjectId() + '.csv');
 
   experiment.createTimeline();
   experiment.addPropertiesTojsPsych();
@@ -74,7 +74,7 @@ function initializeExperiment(experiment) {
 
 $( document ).ready(function() {
 
-  checkWorker(jsPsych.data.urlVariables().workerId, 'negation-study').then(function(snapshot) {
+  checkWorker(jsPsych.data.urlVariables().workerId, 'nordmeyer-study').then(function(snapshot) {
 
     if(snapshot.val() && snapshot.val().complete == 1) {
       console.log('Worker has already completed the experiment.');

@@ -138,8 +138,12 @@ function NegationExperiment(params) {
         type: 'single-stim',
         is_html: true,
         stimulus: '<p class="text-center">' + _.reduce(context, function(memo, str){ return memo + ' ' + str; }, '') + '</p>',
-        prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p>',
-        timing_response: 3000,
+        timeline: [
+          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait .</i></p>'},
+          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . .</i></p>'},
+          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . . .</i></p>'}
+        ],
+        timing_response: 1000,
         response_ends_trial: false,
         choices: [],
         timing_post_trial: 0
