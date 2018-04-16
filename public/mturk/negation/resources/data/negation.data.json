@@ -189,7 +189,8 @@
     }],
     "polarity": ["negative"],
     "is_true": [false],
-    "color": ["yellow"]
+    "color": ["yellow"],
+    "false_color": ["green"]
   },
   "conditioned_practice_factors": {
     "ratio0": {
@@ -202,7 +203,8 @@
       }],
       "polarity": ["negative"],
       "is_true": [false],
-      "color": ["yellow"]
+      "color": ["yellow"],
+      "false_color": ["green"]
     },
     "ratio3": {
       "distribution": [{
@@ -214,7 +216,8 @@
       }],
       "polarity": ["negative"],
       "is_true": [false],
-      "color": ["yellow"]
+      "color": ["yellow"],
+      "false_color": ["green"]
     },
     "ratio6": {
       "distribution": [{
@@ -226,7 +229,8 @@
       }],
       "polarity": ["negative"],
       "is_true": [false],
-      "color": ["yellow"]
+      "color": ["yellow"],
+      "false_color": ["green"]
     },
     "ratio9": {
       "distribution": [{
@@ -238,7 +242,8 @@
       }],
       "polarity": ["negative"],
       "is_true": [false],
-      "color": ["yellow"]
+      "color": ["yellow"],
+      "false_color": ["green"]
     }
   },
   "preamble": {
@@ -252,8 +257,8 @@
       "requirements": "You must be at least 18 years old to participate in this study. ",
       "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
       "procedures": "In this study, you will be presented with sets of shapes and determine whether statements about them are true or false. ",
-      "time": "about 10 minutes",
-      "pay": "$1.50 USD",
+      "time": "about 5 minutes",
+      "pay": "$0.50 USD",
       "name": "Dr. Ming Xiang",
       "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
       "phone": "(773) 702-8023",

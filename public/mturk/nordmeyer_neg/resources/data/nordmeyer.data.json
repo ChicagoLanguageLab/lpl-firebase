@@ -2,8 +2,7 @@
   "factors": {
     "polarity": ["positive", "negative"],
     "stimulus": ["item", "nothing"],
-    "context": [0, 1, 2, 3],
-    "block_size": [3]
+    "context": [0, 1, 2, 3]
   },
   "items": ["apples", "balloons", "bananas", "bows", "buckets", "cakes", "carrots", "crayons", "cars", "cats", "cookies", "daisies", "dogs", "donuts", "fish", "flowers", "forks", "guitars", "ice cream cones", "keys", "kites", "lollipops", "mittens", "pencils", "phones", "plants", "presents", "purses", "rainboots", "scissors", "shovels", "umbrellas"],
   "person": ["Bob", "Nancy", "Josh", "Natalie", "Abby", "Michael", "Katie", "Molly", "Susan", "Jasmine", "Jeff", "David", "Daniel", "Grace", "Sophia", "Lila", "Ethan", "John", "Kevin", "Kyle", "Sam", "Mark", "Alison", "Andrew", "Julia", "Jacob", "Lauren", "Lizzie", "Olivia", "Samantha", "Isabelle", "Alex"],
@@ -12,6 +11,15 @@
     "positive": " has ",
     "negative": " has no "
   },
+  "practice_factors": {
+    "stimulus": ["item"],
+    "context": [0, 1, 2, 3]
+  },
+  "practice_adjectives": ["green ", "blue ", "green ", "pink ", "yellow ", "orange ", "pink ", "purple "],
+  "practice_answers": [false, true, true, true, true, false, false, false],
+  "practice_items": ["dress", "spots", "book", "hat", "sweater", "house", "blanket", "collar"],
+  "practice_person": ["Lizzie", "Buddy", "Laura", "Olivia", "John", "George", "Tom", "Sparky"],
+  "practice_people": ["girls", "dogs", "girls", "girls", "boys", "boys", "boys", "dogs"],
   "preamble": {
     "intro": {
       "type": "text",
@@ -50,7 +58,7 @@
     "post_demographics": {
       "type": "text",
       "cont_key": [" "],
-      "text": "<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first see some images and answer a question. After you have answered the question, you will see a new image and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the image you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try a practice question, please press the <strong>space bar</strong>.</p>"
+      "text": "<p class=\"lead\">Thank you for participating in our study!</p><p>In this experiment, first you will see three pictures for three seconds. During this time, please focus on the pictures. After three seconds, the experiment will automatically continue. Next you will see a single picture and a sentence about that picture. Your job is to decide whether these sentences are true or false. If the content of the sentence is compatible with what the images show, then it is \"true\"; otherwise it is \"false\".</p><p><strong>Your responses in this experiment are timed. Please try to respond to each question as quickly and accurately as possible.</strong></p><p>To begin, please press the <strong>space bar</strong>.</p>"
     }
   }
 }
