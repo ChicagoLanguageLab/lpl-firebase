@@ -201,7 +201,7 @@ function NegationExperiment(params) {
 
     // Add preamble
     // NOTE: Comment out for faster testing.
-    initPreamble();
+    //initPreamble();
 
     timeline.push({
       type: 'text',
