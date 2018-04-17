@@ -198,7 +198,7 @@ function makeCategoricalStimulus(version, block_size, polarity, is_true, distrib
   var shuffled_colors = jsPsych.randomization.shuffle(colors);
 
   if(is_practice) {
-    shuffled_colors = jsPsych.randomization.shuffle(['purple','purple', 'green', 'green','orange', 'orange']);
+    shuffled_colors = jsPsych.randomization.shuffle(['orange','orange', 'orange', 'orange','orange', 'orange']);
   }
 
   if(((polarity === "positive" || polarity === "ncolor-negative") && is_true) || (polarity === "negative" && !is_true)) {
@@ -324,6 +324,8 @@ function makeRandomStimulus(version, block_size, polarity, is_true, distribution
 
 function createTrials(trials, params, is_practice) {
 
+  console.log(is_practice);
+  console.log(params.condition)
   var block = [];
   var version = params.version;
   var shape_factors = params.color_conditions[params.color_condition];
@@ -343,10 +345,11 @@ function createTrials(trials, params, is_practice) {
 
     if(version.includes("question")) {
       target_color = trial[0].color;
-      if(params.condition === 'N/A' || is_practice) {
+      if(params.condition == undefined || is_practice) {
         target_shape = distribution.shapes.pop();
       }
       else {
+        console.log(trial)
         target_shape = trial[1].shape;
       }
     } else {
@@ -510,13 +513,19 @@ function createTrials(trials, params, is_practice) {
 
       if(version.includes('question')) {
         if(is_practice) {
+          if(version === "question-rb") {
+            var practice_choices_temp = ['Yellow', 'Orange']
+          }
+          else {
+            var practice_choices_temp = ['Yes', 'No']
+          }
           mini_timeline.push({
             type: 'button-response',
             is_html: true,
             stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
             prompt: instructions,
             timing_response: -1,
-            choices: ['yellow', 'orange'],
+            choices: practice_choices_temp,
             timing_post_trial: 0,
             data: block_data
           });
