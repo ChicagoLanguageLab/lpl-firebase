@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+
 .hidden {
    display: none;
 }
@@ -63,13 +65,13 @@ form {
 
 .jspsych-display-element {
   width: 100% !important;
-  font-family: 'Open Sans', 'Arial', sans-serif;
   font-size: 18px;
   margin: auto;
 }
 
 body {
   background-color: #f3f3f3 !important;
+  font-family: 'Open Sans', 'Arial, sans-serif;
 }
 
 p, h1, h2, h3, h4  {
@@ -88,8 +90,12 @@ p, h1, h2, h3, h4  {
   z-index: 1071;
 }
 
+#jspsych-html-button-response-btngroup {
+  text-align: center !important;
+}
+
 button {
-  font-family: 'Open Sans', 'Arial', sans-serif !important;
+  font-family: 'Open Sans' !important;
 }
 
 .center-screen {

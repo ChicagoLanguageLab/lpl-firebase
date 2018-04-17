@@ -53,7 +53,6 @@ function NegationExperiment(params) {
     // Check that the participant entered a valid age.
     preamble.demographics_check.conditional_function = function() {
       var data = jsPsych.data.getLastTrialData();
-      console.log(data);
       if(parseInt(data.age) < 18) return true;
       return false;
     }
@@ -119,68 +118,89 @@ function NegationExperiment(params) {
       var context = [];
       var header = '<img src="resources/images/';
       var footer = '.jpg"></img>';
+      var data = {};
 
       if(is_practice) {
         context.push(header + trial.item.object + '_contextL'  + footer);
+        data.context1 = trial.item.object + '_contextL'
         context.push(header + trial.item.object + '_contextR'  + footer);
+        data.context2 = trial.item.object + '_contextR'
         context.push(header + trial.item.object + '_contextC'  + footer);
+        data.context3 = trial.item.object + '_contextC'
       } else {
+        var j = 1;
         for(var x = 0; x < trial.context; x++) {
           context.push(header + trial.item + '_context' + (x + 1) + '_item' + footer);
+          data[context + j] = trial.item + '_context' + (x + 1) + '_item';
+          j++;
         }
         for(var x = 0; x < 3 - trial.context; x++) {
          context.push(header + trial.item + '_context' + (x + 1)  + '_nothing' + footer);
+         data[context + j] = trial.item + '_context' + (x + 1) + '_item';
+         j++;
         }
         context = jsPsych.randomization.shuffle(context);
       }
 
+      data.stimulus = "";
+
       timeline.push({
-        type: 'single-stim',
+        type: 'html-keyboard-response',
         is_html: true,
         stimulus: '<p class="text-center">' + _.reduce(context, function(memo, str){ return memo + ' ' + str; }, '') + '</p>',
         timeline: [
-          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait .</i></p>'},
-          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . .</i></p>'},
-          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . . .</i></p>'}
+          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait .</i></p>', post_trial_gap: 0},
+          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . .</i></p>', post_trial_gap: 0},
+          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . . .</i></p>', post_trial_gap: 0}
         ],
-        timing_response: 1000,
+        trial_duration: 1000,
+        data: data,
         response_ends_trial: false,
         choices: [],
-        timing_post_trial: 0
       });
 
       var prompt;
       var stimulus;
       var loop_function = undefined;
-      var data = {}
+      data = {};
+
       if(is_practice) {
         prompt = '<p class="text-center large"><strong>' + trial.person + params.strings.positive + trial.item.adjective + trial.item.object + '.</p>';
         stimulus = '<p class="text-center">' + header + trial.item.object + '_' + trial.stimulus + footer + '</p>',
-        loop_function = function() {
-          var data = jsPsych.data.getLastTrialData();
-          console.log(data);
+
+        data.target_item = trial.item.object;
+        data.target_adjective = trial.item.adjective;
+        data.target_condition = trial.stimulus;
+        data.stimulus = trial.item.object + '_' + trial.stimulus;
+
+        data.loop_function = function() {
+          var data = jsPsych.data.getLastTrialData().values()[0];
           return !data.correct;
         }
         data.is_true = trial.item.is_true;
       } else {
         prompt = '<p class="text-center">' + trial.person + params.strings[trial.polarity] + trial.item + '.</p>';
         stimulus = '<p class="text-center">' + header + trial.item + '_' + trial.stimulus + footer + '</p>';
+
+        data.target_item = trial.item.object;
+        data.target_condition = trial.stimulus;
+        data.stimulus = trial.item + '_' + trial.stimulus;
         data.is_true = trial.is_true;
+        data.ratio = 'ratio' + trial.ratio;
       }
 
       data.is_practice = is_practice;
+      data.trial_num = i + 1;
 
       timeline.push({
-        type: 'button-response',
+        type: 'html-button-response',
         timeline: [{
-          is_html: true,
-          stimulus: stimulus,
-          prompt: prompt,
+          stimulus: stimulus + prompt,
           choices: ['True', 'False'],
           data: data,
           on_finish: function() {
-            var data = jsPsych.data.getLastTrialData();
-            if(data.button_pressed == 'True' && data.is_true || data.button_pressed == 'False' && !data.is_true) {
+            var data = jsPsych.data.getLastTrialData().values()[0];
+            if(data.button_pressed === "0" && data.is_true || data.button_pressed === "1" && !data.is_true) {
               jsPsych.data.addDataToLastTrial({correct: 1});
             } else {
               jsPsych.data.addDataToLastTrial({correct: 0});
@@ -188,8 +208,12 @@ function NegationExperiment(params) {
                 alert("Oops! Try again!");
               }
             }
+            console.log(data.trial_num);
+            if(data.trial_num % 8 == 0 || data.trial_num == 32) {
+              saveData(jsPsych.data.get().csv(), dataRef);
+            }
           },
-          timing_post_trial: 0
+          post_trial_gap: 0
         }],
         loop_function: loop_function
       });
@@ -201,21 +225,27 @@ function NegationExperiment(params) {
 
     // Add preamble
     // NOTE: Comment out for faster testing.
-    //initPreamble();
+    initPreamble();
 
     timeline.push({
-      type: 'text',
-      text: '<p class="lead"><strong>Practice Questions:</strong></p><p>First you will have a chance to practice. Remember, first you will see three pictures, which you should focus on for three seconds. Then you will see a picture and a sentence about that picture. You must decide as quickly as possible whether the sentence is true or false. Press Q for FALSE and P for TRUE.</p><p>Press the <strong>space bar</strong> to continue.</p>',
-      cont_key: [' ']
+      type: 'instructions',
+      pages: ['<p class="lead"><strong>Practice Questions:</strong></p><p>First you will have a chance to practice. Remember, first you will see three pictures, which you should focus on for three seconds. Then you will see a picture and a sentence about that picture. You must decide as quickly as possible whether the sentence is true or false.</p><p>Please <strong>click the button below</strong> to continue.</p>'],
+      key_forward: " ",
+      "button_label_next": "Begin practice",
+      "show_clickable_nav": true,
+      "allow_backward": false
     });
 
     // Build the practice sequence
     initTrials(true);
 
     timeline.push({
-      type: 'text',
-      text: '<p class="lead">This is the end of the practice questions.</p><p>Remember, during the game we will be recording how quickly you respond, so please respond as quickly and accurately as possible.</p><p>Please press the <strong>space bar</strong> to begin the matching game!',
-      cont_key: [' ']
+      type: 'instructions',
+      pages: ['<p class="lead">This is the end of the practice questions.</p><p>Remember, during the game we will be recording how quickly you respond, so please respond as quickly and accurately as possible.</p><p>Please <strong>click the button below</strong> to begin the matching game!'],
+      key_forward: " ",
+      "button_label_next": "Begin experiment",
+      "show_clickable_nav": true,
+      "allow_backward": false
     });
 
     // Build the experiment trials
