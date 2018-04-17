@@ -44,7 +44,7 @@ function initializeExperiment(experiment) {
   var vars = jsPsych.data.urlVariables();
 
   var cond = vars.condition == undefined ? '' : vars.condition + '-';
-  dataRef = storageRef.child('negation-' + vars.version + '/' + date_string + '-' + cond + vars.color_condition + '/' + experiment.getSubjectId() + '.csv');
+  dataRef = storageRef.child('negation/' + vars.version + '/' + date_string + '/' + cond + vars.color_condition + '/' + experiment.getSubjectId() + '.csv');
 
   experiment.createTimeline();
   experiment.addPropertiesTojsPsych();
