@@ -15,7 +15,7 @@
     "stimulus": ["item"],
     "context": [0, 1, 2, 3]
   },
-  "practice_adjectives": ["green ", "blue ", "green ", "pink ", "yellow ", "orange ", "pink ", "purple "],
+  "practice_adjectives": ["green ", "blue ", "green ", "pink ", "yellow ", "red ", "pink ", "purple "],
   "practice_answers": [false, true, true, true, true, false, false, false],
   "practice_items": ["dress", "spots", "book", "hat", "sweater", "house", "blanket", "collar"],
   "practice_person": ["Lizzie", "Buddy", "Laura", "Olivia", "John", "George", "Tom", "Sparky"],
