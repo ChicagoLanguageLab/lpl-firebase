@@ -64,13 +64,13 @@ function NegationExperiment(params) {
      * the experiment.
     */
     preamble.consent_check.conditional_function = function() {
-      var data = jsPsych.data.getLastTrialData();
+      var data = jsPsych.data.getLastTrialData().values()[0];
       return !data.consented;
     }
 
     // Check that the participant entered a valid age.
     preamble.demographics_check.conditional_function = function() {
-      var data = jsPsych.data.getLastTrialData();
+      var data = jsPsych.data.getLastTrialData().values()[0];
       console.log(data);
       if(parseInt(data.age) < 18) return true;
       return false;
@@ -142,9 +142,12 @@ function NegationExperiment(params) {
     initTrials(true);
     if(!version.includes("question")) {
       block.push({
-        type: 'text',
-        cont_key: [' '],
-        text: '<p class="text-center">You have finished the practice section!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>'
+        type: 'instructions',
+        "key_forward": " ",
+        "show_clickable_nav": true,
+        "allow_backward": false,
+        "button_label_next": "Begin experiment",
+        text: '<p class="text-center">You have finished the practice section!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Please <strong>click the button below</strong> to continue.</p>'
       });
     }
 

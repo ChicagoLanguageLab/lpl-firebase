@@ -408,33 +408,33 @@ function createTrials(trials, params, is_practice) {
 
     if(version === "basic") {
       block_data = {
-        shape0: stimulus.stimulus_list[0],
-        shape1: stimulus.stimulus_list[1],
-        shape2: stimulus.stimulus_list[2],
-        shape3: stimulus.stimulus_list[3],
-        shape4: stimulus.stimulus_list[4],
-        shape5: stimulus.stimulus_list[5],
-        shape6: stimulus.stimulus_list[6],
-        shape7: stimulus.stimulus_list[7],
-        shape8: stimulus.stimulus_list[8],
-        shape9: stimulus.stimulus_list[9],
-        shape10: stimulus.stimulus_list[10],
-        shape11: stimulus.stimulus_list[11]
+        context1: stimulus.stimulus_list[0],
+        context2: stimulus.stimulus_list[1],
+        context3: stimulus.stimulus_list[2],
+        context4: stimulus.stimulus_list[3],
+        context5: stimulus.stimulus_list[4],
+        context6: stimulus.stimulus_list[5],
+        context7: stimulus.stimulus_list[6],
+        context8: stimulus.stimulus_list[7],
+        context9: stimulus.stimulus_list[8],
+        target1: stimulus.stimulus_list[9],
+        target2: stimulus.stimulus_list[10],
+        target3: stimulus.stimulus_list[11]
       }
     } else {
       block_data = {
-        shape0: stimulus.others_list[0],
-        shape1: stimulus.others_list[1],
-        shape2: stimulus.others_list[2],
-        shape3: stimulus.others_list[3],
-        shape4: stimulus.others_list[4],
-        shape5: stimulus.others_list[5],
-        shape6: stimulus.others_list[6],
-        shape7: stimulus.others_list[7],
-        shape8: stimulus.others_list[8],
-        shape9: stimulus.targets_list[0],
-        shape10: stimulus.targets_list[1],
-        shape11: stimulus.targets_list[2]
+        context1: stimulus.others_list[0],
+        context2: stimulus.others_list[1],
+        context3: stimulus.others_list[2],
+        context4: stimulus.others_list[3],
+        context5: stimulus.others_list[4],
+        context6: stimulus.others_list[5],
+        context7: stimulus.others_list[6],
+        context8: stimulus.others_list[7],
+        context9: stimulus.others_list[8],
+        target1: stimulus.targets_list[0],
+        target2: stimulus.targets_list[1],
+        target3: stimulus.targets_list[2]
       };
     }
 
@@ -456,12 +456,12 @@ function createTrials(trials, params, is_practice) {
     var on_finish = undefined;
     if((i+1) % 8 == 0) {
       on_finish = function() {
-        saveData(jsPsych.data.dataAsCSV(), dataRef);
+        saveData(jsPsych.data.get().csv(), dataRef);
       }
     }
     if(i + 1 == trials.length && !is_practice) {
       on_finish = function() {
-        saveData(jsPsych.data.dataAsCSV(), dataRef);
+        saveData(jsPsych.data.get().csv(), dataRef);
         addWorker(params.workerId, "negation-study");
       }
     }
@@ -470,36 +470,35 @@ function createTrials(trials, params, is_practice) {
 
     if(i != 0 && i != 30 && i % 10 == 0) {
       block.push({
-        type: 'single-stim',
-        is_html: true,
+        type: 'html-keyboard-response',
         stimulus: '<p class="text-center">You will now take a short break. Please do not leave your computer. The task will start again in 10 seconds.</p>',
         response_ends_trial: false,
-        timing_response: 15000,
-        timing_post_trial: 0
+        trial_duration: 15000,
+        post_trial_gap: 0
       });
       block.push({
-        type: 'single-stim',
-        is_html: true,
-        stimulus: '<p class="text-center">The break is now over. To continue, press the <strong>space bar</strong>.</p>',
-        response_ends_trial: true,
-        choices: [' '],
-        timing_response: -1
+        type: 'instructions',
+        pages: ['<p class="text-center">The break is now over. To continue, <strong>click the button below</strong>.</p>'],
+        allow_backward: false,
+        key_forward: " ",
+        button_label_next: "Continue",
+        show_clickable_nav: true
       });
     }
 
     if(version === "basic") {
 
       block.push({
-        type: 'single-stim',
+        type: 'html-keyboard-response',
         is_html: true,
         stimulus: '<p class="text-center">' + stimulus.stimulus_string + '</p>',
         response_ends_trial: false,
-        timing_response: 3000,
-        timing_post_trial: 0
+        trial_duration: 3000,
+        post_trial_gap: 0
       });
 
       block.push({
-        type: "button-response",
+        type: "html-button-response",
         is_html: true,
         prompt: '<p class="text-center large">"' + prompt + '"</p>',
         stimulus: '<p class="text-center">' + stimulus.stimulus_string + '</p>',
@@ -520,46 +519,39 @@ function createTrials(trials, params, is_practice) {
             var practice_choices_temp = ['Yes', 'No']
           }
           mini_timeline.push({
-            type: 'button-response',
+            type: 'html-button-response',
             is_html: true,
-            stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
-            prompt: instructions,
-            timing_response: -1,
+            stimulus: '<p class="text-center">' + stimulus.others_string + '</p><p class="text-center">' + instructions + '</p>',
             choices: practice_choices_temp,
-            timing_post_trial: 0,
+            post_trial_gap: 0,
             data: block_data
           });
         } else {
           mini_timeline.push({
-            type: 'button-response',
+            type: 'html-button-response',
             is_html: true,
-            stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
-            prompt: instructions,
-            timing_response: -1,
+            stimulus: '<p class="text-center">' + stimulus.others_string + '</p><p class="text-center">' + instructions + '</p>',
             choices: params.choices,
-            timing_post_trial: 0,
+            post_trial_gap: 0,
             data: block_data
           });
         }
       } else {
         mini_timeline.push({
-          type: 'single-stim',
+          type: 'html-keyboard-response',
           is_html: true,
-          stimulus: '<p class="text-center">' + stimulus.others_string + '</p>',
-          prompt: instructions,
+          stimulus: '<p class="text-center">' + stimulus.others_string + '</p><p class="text-center">' + instructions + '</p>',
           response_ends_trial: true,
-          timing_response: -1,
           choices: [' '],
-          timing_post_trial: 0,
+          post_trial_gap: 0,
           data: block_data
         });
       }
 
       mini_timeline.push({
-        type: "button-response",
+        type: "html-button-response",
         is_html: true,
-        prompt: '<p class="text-center large">' + prompt + '</p>',
-        stimulus: '<p class="text-center">' + stimulus.targets_string + '</p>',
+        stimulus: '<p class="text-center">' + stimulus.targets_string + '</p><p class="text-center large">' + prompt + '</p>',
         stimuli: stimulus.stimulus_list,
         choices: ['True', 'False'],
         on_finish: on_finish,
@@ -570,20 +562,30 @@ function createTrials(trials, params, is_practice) {
     if(is_practice) {
       if(version.includes("question")) {
         mini_timeline.push({
-          type: 'text',
-          cont_key: [' '],
-          text: function() {
-            var data = jsPsych.data.getLastTrialData();
-            if((data.button_pressed === "True" && data.is_true === "T") || (data.button_pressed === "False" && data.is_true === "F"))
-              return '<p class="text-center">Correct!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Press the <strong>space bar</strong> to continue.</p>';
+          type: 'instructions',
+          "key_forward": " ",
+          "show_clickable_nav": true,
+          "allow_backward": false,
+          "button_label_next": function() {
+            var data = jsPsych.data.getLastTrialData().values()[0];
+            if((data.button_pressed === "0" && data.is_true === "T") || (data.button_pressed === "1" && data.is_true === "F"))
+              return "Begin experiment";
             else {
               var correct_answer = data.is_true === "T" ? "true" : "false";
-              return '<p class="text-center">Oops! That\'s not correct.</p><p class="text-center">Press the <strong>space bar</strong> to try the question again.</p>';
+              return "Try again";
+            }
+          },
+          pages: function() {
+            var data = jsPsych.data.getLastTrialData().values()[0];
+            if((data.button_pressed === "0" && data.is_true === "T") || (data.button_pressed === "1" && data.is_true === "F"))
+              return ['<p class="text-center">Correct!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">Press <strong>click the button below</strong> to continue.</p>'];
+            else {
+              return ['<p class="text-center">Oops! That\'s not correct.</p><p class="text-center">Please <strong>click the button below</strong> to try the question again.</p>'];
             }
           },
           data: function() {
-            var data = jsPsych.data.getLastTrialData();
-            if((data.button_pressed === "True" && data.is_true === "T") || (data.button_pressed === "False" && data.is_true === "F")) {
+            var data = jsPsych.data.getLastTrialData().values()[0];
+            if((data.button_pressed === "0" && data.is_true === "T") || (data.button_pressed === "1" && data.is_true === "F")) {
               return({correct:1});
             } else {
               return({correct:0});
@@ -592,19 +594,21 @@ function createTrials(trials, params, is_practice) {
         });
       } else {
         mini_timeline.push({
-          type: 'text',
-          cont_key: [' '],
-          text: function() {
-            var data = jsPsych.data.getLastTrialData();
+          type: 'instructions',
+          "key_forward": " ",
+          "show_clickable_nav": true,
+          "allow_backward": false,
+          pages: function() {
+            var data = jsPsych.data.getLastTrialData().values()[0];
             if((data.button_pressed === "True" && data.is_true === "T") || (data.button_pressed === "False" && data.is_true === "F"))
-              return '<p class="text-center">Correct!</p><p class="text-center"><p class="text-center">Press the <strong>space bar</strong> to continue.</p>';
+              return ['<p class="text-center">Correct!</p><p class="text-center"><p class="text-center">Press the <strong>space bar</strong> to continue.</p>'];
             else {
               var correct_answer = data.is_true === "T" ? "true" : "false";
-              return '<p class="text-center">Oops! That\'s not correct.</p><p class="text-center">Press the <strong>space bar</strong> to try the question again.</p>';
+              return ['<p class="text-center">Oops! That\'s not correct.</p><p class="text-center">Press the <strong>space bar</strong> to try the question again.</p>'];
             }
           },
           data: function() {
-            var data = jsPsych.data.getLastTrialData();
+            var data = jsPsych.data.getLastTrialData().values()[0];
             if((data.button_pressed === "True" && data.is_true === "T") || (data.button_pressed === "False" && data.is_true === "F")) {
               return({correct:1});
             } else {
@@ -616,7 +620,7 @@ function createTrials(trials, params, is_practice) {
       block.push({
         timeline: mini_timeline,
         loop_function: function (){
-          var data = jsPsych.data.getLastTrialData();
+          var data = jsPsych.data.getLastTrialData().values()[0];
           return !data.correct;
         }
       });

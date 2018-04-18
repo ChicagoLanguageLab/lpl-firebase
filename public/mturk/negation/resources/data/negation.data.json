@@ -248,9 +248,11 @@
   },
   "preamble": {
     "intro": {
-      "type": "text",
-      "text": "<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our study!</p><p>As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by pressing the <strong>space bar</strong>.</p></div>",
-      "cont_key": [" "]
+      "type": "instructions",
+      "key_forward": " ",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our study!</p><p>As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by clicking the <strong>\"next\"</strong> button below.</p></div>"]
     },
     "consent": {
       "type": "consent",
@@ -266,25 +268,30 @@
     },
     "consent_check": {
       "timeline": [{
-        "type": "text",
-        "cont_key": [""],
-        "text": "<p class=\"text-center lead\">Thank you for considering participation in this study!</p><p>We\"re sorry it wasn\"t for you. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+        "type": "instructions",
+        "key_forward": "",
+        "pages": ["<p class=\"lead\">Thank you for considering participation in this study!</p><p>We're sorry it wasn't for you. You may close this window and return your HIT. There is no penalty for returning our lab's HITs.</p>"]
       }]
     },
     "demographics": {
-      "type": "demographics"
+      "type": "demographics",
+      "placeholder": "null"
     },
     "demographics_check": {
       "timeline": [{
-        "type": "text",
-        "cont_key": [""],
-        "text": "<p class=\"text-center lead\">Thank you for your desire to participate in this study!</p><p>Unfortunately, you do not meet our requirements. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+        "type": "instructions",
+        "key_forward": "",
+        "pages": ["<p class=\"lead\">Thank you for your interest in this study!</p><p>Unfortunately, you do not meet our requirements. You may close this window and return your HIT. There is no penalty for returning our lab's HITs.</p>"]
       }]
     },
     "post_demographics": {
-      "type": "text",
+      "type": "instructions",
       "cont_key": [" "],
-      "text": "<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first see some images and answer a question. After you have answered the question, you will see a new image and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the image you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try a practice question, please press the <strong>space bar</strong>.</p>"
+      "key_forward": " ",
+      "button_label_next": "Start",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first see some images and answer a question. After you have answered the question, you will see a new image and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the image you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try a practice question, please <strong>click the button below</strong>.</p>"]
     }
   }
 }
