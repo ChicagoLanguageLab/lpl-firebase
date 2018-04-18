@@ -165,7 +165,8 @@ function NegationExperiment(params) {
       data = {};
 
       if(is_practice) {
-        prompt = '<p class="text-center large"><strong>' + trial.person + params.strings.positive + trial.item.adjective + trial.item.object + '.</p>';
+
+        prompt = '<p class="text-center large"><strong>' + trial.person + params.strings.positive + 'a ' + trial.item.adjective + trial.item.object + '.</p>';
         stimulus = '<p class="text-center">' + header + trial.item.object + '_' + trial.stimulus + footer + '</p>',
 
         data.target_item = trial.item.object;
@@ -173,11 +174,12 @@ function NegationExperiment(params) {
         data.target_condition = trial.stimulus;
         data.stimulus = trial.item.object + '_' + trial.stimulus;
 
-        data.loop_function = function() {
+        loop_function = function() {
           var data = jsPsych.data.getLastTrialData().values()[0];
           return !data.correct;
         }
         data.is_true = trial.item.is_true;
+
       } else {
         prompt = '<p class="text-center">' + trial.person + params.strings[trial.polarity] + trial.item + '.</p>';
         stimulus = '<p class="text-center">' + header + trial.item + '_' + trial.stimulus + footer + '</p>';
