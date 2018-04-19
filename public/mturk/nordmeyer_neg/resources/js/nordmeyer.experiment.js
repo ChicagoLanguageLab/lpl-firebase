@@ -13,8 +13,7 @@ function NegationExperiment(params) {
   this.addPropertiesTojsPsych = function () {
     jsPsych.data.addProperties({
       workerId: params.workerId,
-      version: version,
-      condition: condition
+      version: version
     });
   }
 
@@ -46,18 +45,18 @@ function NegationExperiment(params) {
      * the experiment.
     */
     preamble.consent_check.conditional_function = function() {
-      var data = jsPsych.data.getLastTrialData();
+      var data = jsPsych.data.getLastTrialData().values()[0];
       return !data.consented;
     }
 
     // Check that the participant entered a valid age.
     preamble.demographics_check.conditional_function = function() {
-      var data = jsPsych.data.getLastTrialData();
+      var data = jsPsych.data.getLastTrialData().values()[0];
       if(parseInt(data.age) < 18) return true;
       return false;
     }
 
-    timeline = timeline.concat([/*preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check,*/ preamble.post_demographics]);
+    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
   }
 
   /** Initialize trials.
@@ -148,12 +147,8 @@ function NegationExperiment(params) {
         type: 'html-keyboard-response',
         is_html: true,
         stimulus: '<p class="text-center">' + _.reduce(context, function(memo, str){ return memo + ' ' + str; }, '') + '</p>',
-        timeline: [
-          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait .</i></p>', post_trial_gap: 0},
-          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . .</i></p>', post_trial_gap: 0},
-          {prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . . .</i></p>', post_trial_gap: 0}
-        ],
-        trial_duration: 1000,
+        prompt: '<p class="text-center large"><strong>Look at these ' + trial.people + '!</strong></p><p class="text-center"><i>Please wait . . .</i></p>',
+        trial_duration: 5000,
         data: data,
         response_ends_trial: false,
         choices: [],
@@ -193,15 +188,19 @@ function NegationExperiment(params) {
 
       data.is_practice = is_practice;
       data.trial_num = i + 1;
+      data.choices = ["True", "False"];
 
       timeline.push({
         type: 'html-button-response',
         timeline: [{
           stimulus: stimulus + prompt,
-          choices: ['True', 'False'],
+          choices: ["True", "False"],
           data: data,
           on_finish: function() {
             var data = jsPsych.data.getLastTrialData().values()[0];
+
+            jsPsych.data.addDataToLastTrial({response: data.choices[parseInt(data.button_pressed)]});
+
             if(data.button_pressed === "0" && data.is_true || data.button_pressed === "1" && !data.is_true) {
               jsPsych.data.addDataToLastTrial({correct: 1});
             } else {
@@ -231,7 +230,7 @@ function NegationExperiment(params) {
 
     timeline.push({
       type: 'instructions',
-      pages: ['<p class="lead"><strong>Practice Questions:</strong></p><p>First you will have a chance to practice. Remember, first you will see three pictures, which you should focus on for three seconds. Then you will see a picture and a sentence about that picture. You must decide as quickly as possible whether the sentence is true or false.</p><p>Please <strong>click the button below</strong> to continue.</p>'],
+      pages: ['<p class="lead"><strong>Practice Questions:</strong></p><p>First you will have a chance to practice. Remember, first you will see three pictures, which you should focus on for a few seconds. Then you will see a picture and a sentence about that picture. You must decide as quickly as possible whether the sentence is true or false.</p><p>Please <strong>click the button below</strong> to continue.</p>'],
       key_forward: " ",
       "button_label_next": "Begin practice",
       "show_clickable_nav": true,
@@ -243,7 +242,7 @@ function NegationExperiment(params) {
 
     timeline.push({
       type: 'instructions',
-      pages: ['<p class="lead">This is the end of the practice questions.</p><p>Remember, during the game we will be recording how quickly you respond, so please respond as quickly and accurately as possible.</p><p>Please <strong>click the button below</strong> to begin the matching game!'],
+      pages: ['<p class="lead">This is the end of the practice questions.</p><p>Remember, during the experiment we will be recording how quickly you respond, so please respond as quickly and accurately as possible.</p><p>Please <strong>click the button below</strong> to begin!'],
       key_forward: " ",
       "button_label_next": "Begin experiment",
       "show_clickable_nav": true,
