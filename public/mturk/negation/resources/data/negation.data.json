@@ -181,7 +181,7 @@
       "button_label_next": "Start",
       "show_clickable_nav": true,
       "allow_backward": false,
-      "pages": ["<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first be given a few seconds to look at a set of images. After a few seconds, <strong>the experiment will automatically continue</strong>. On the next screen, you will see three images and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the images you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please <strong>click the button below</strong>.</p>"]
+      "pages": ["<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first be given a few seconds to look at a set of images. After a few seconds, <strong>the experiment will automatically continue</strong>. On the next screen, you will see an image and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the images you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please <strong>click the button below</strong>.</p>"]
     }
   }
 }

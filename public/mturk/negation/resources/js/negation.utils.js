@@ -345,15 +345,12 @@ function createTrials(trials, params, is_practice) {
     var target_shape;
 
     if(!is_practice) {
-      if(version != '1shape') {
-        var temp = _.find(params.factors.distribution, function(dist){ return dist.tag === distribution.tag}).shape_factors.pop();
-        target_shape = temp.shape;
-        target_color = temp.color;
-            console.log(distribution.tag + ' ' + target_color + ' ' + target_shape);
-      }
-    } else {
-      target_shape = distribution.shapes.pop();
-      target_color = trial.color;
+      var shape_factors = _.find(params.factors.distribution, function(dist){ return dist.tag === distribution.tag}).shape_factors;
+      var shape_color = _.filter(shape_factors, function(factor) {return factor.color === trial.color}).pop();
+      _.find(params.factors.distribution, function(dist){ return dist.tag === distribution.tag}).shape_factors = _.without(shape_factors, shape_color);
+
+      target_shape = shape_color.shape;
+      target_color = shape_color.color;
     }
 
     var shapes_no_target = _.without(shapes, target_shape);
@@ -400,7 +397,7 @@ function createTrials(trials, params, is_practice) {
         instructions = '<p class="text-center large">Look at these ' + target_shape + 's. On the next screen you will see another ' + target_shape + '.</p><p class="text-center large">What color do you think the next ' + target_shape + ' will be?</p>';
         break;
       default:
-        instructions = '<p class="text-center">Look at these shapes. On the next screen you will answer a question.</p><p class="text-center"><i>Please wait...<i></p>';
+        instructions = '<p class="text-center">Look at these ' + target_shape + 's. On the next screen you see another ' + target_shape + '.</p><p class="text-center"><i>Please wait...<i></p>';
     }
 
     if(version === "basic") {
@@ -465,24 +462,22 @@ function createTrials(trials, params, is_practice) {
 
     var mini_timeline = [];
 
-    if(version.includes('question')) {
-      if(i != 0 && i != 30 && i % 10 == 0) {
-        block.push({
-          type: 'html-keyboard-response',
-          stimulus: '<p class="text-center">You will now take a short break. Please do not leave your computer. The task will start again in 10 seconds.</p>',
-          response_ends_trial: false,
-          trial_duration: 15000,
-          post_trial_gap: 0
-        });
-        block.push({
-          type: 'instructions',
-          pages: ['<p class="text-center">The break is now over. To continue, <strong>click the button below</strong>.</p>'],
-          allow_backward: false,
-          key_forward: " ",
-          button_label_next: "Continue",
-          show_clickable_nav: true
-        });
-      }
+    if(i != 0 && i != 30 && i % 10 == 0) {
+      block.push({
+        type: 'html-keyboard-response',
+        stimulus: '<p class="text-center">You will now take a short break. Please do not leave your computer. The task will start again in 10 seconds.</p>',
+        response_ends_trial: false,
+        trial_duration: 15000,
+        post_trial_gap: 0
+      });
+      block.push({
+        type: 'instructions',
+        pages: ['<p class="text-center">The break is now over. To continue, <strong>click the button below</strong>.</p>'],
+        allow_backward: false,
+        key_forward: " ",
+        button_label_next: "Continue",
+        show_clickable_nav: true
+      });
     }
 
     if(version === "basic") {
@@ -617,10 +612,8 @@ function createTrials(trials, params, is_practice) {
           data: function() {
             var data = jsPsych.data.getLastTrialData().values()[0];
             if((data.button_pressed === "0" && data.is_true === "T") || (data.button_pressed === "1" && data.is_true === "F")) {
-              console.log(1);
               return({correct:1});
             } else {
-              console.log(0);
               return({correct:0});
             }
           }

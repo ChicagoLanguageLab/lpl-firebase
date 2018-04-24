@@ -55,7 +55,6 @@ function NegationExperiment(params) {
     // Check that the participant entered a valid age.
     preamble.demographics_check.conditional_function = function() {
       var data = jsPsych.data.getLastTrialData().values()[0];
-      console.log(data);
       if(parseInt(data.age) < 18) return true;
       return false;
     }
@@ -116,6 +115,8 @@ function NegationExperiment(params) {
         factors.is_true = params.factors.is_true;
         if(params.condition != '1shape') {
           factors.coloring = params.factors.coloring;
+        } else {
+          factors.color = params.factors.color;
         }
       } else {
         factors.distribution = params.factors.distribution;
@@ -125,22 +126,12 @@ function NegationExperiment(params) {
       }
     }
 
-    trials =  jsPsych.randomization.factorial(factors, reps);
+    trials = jsPsych.randomization.shuffle(jsPsych.randomization.factorial(factors, reps));
 
     if(!is_practice) {
-      if(condition !== '1shape') {
         _.each(params.factors.distribution, function(dist) {
           dist.shape_factors = jsPsych.randomization.shuffle(jsPsych.randomization.factorial(params.shape_factors[params.color_condition]));
       });
-      } else {
-        _.each(params.factors.distribution, function(dist) {
-          var a = jsPsych.randomization.shuffle(["triangle", "circle", "square", "star"]);
-          var b = jsPsych.randomization.shuffle(["red", "blue", "red", "blue"]);
-          dist.shape_factors = _.map(_.zip(a,b), function(c) {
-            return ({shape: c[0], color: c[1]});
-          });
-      });
-      }
     }
 
     // Create trials and add to timeline
