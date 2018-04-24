@@ -1,15 +1,5 @@
 {
   "block_size": 3,
-  "color_conditions": {
-    "5color": {
-      "shapes": ["triangle", "square", "star", "circle"],
-      "colors": ["red", "orange", "yellow", "green", "blue", "purple"]
-    },
-    "2color": {
-      "shapes": ["triangle", "square", "star", "circle"],
-      "colors": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
-    }
-  },
   "shape_factors": {
     "5color": {
       "shape": ["triangle", "square", "star", "circle"],
@@ -17,57 +7,16 @@
     },
     "2color": {
       "shape": ["triangle", "square", "star", "circle"],
-      "color": ["red", "red", "red", "red", "blue", "blue", "blue", "blue"]
-    }
-  },
-  "conditioned_shapes" : [{"shape": "triangle"}, {"shape": "square"}, {"shape": "star"}, {"shape": "circle"}],
-  "conditioned_factors": {
-    "ratio0": {
-      "distribution": [{
-        "tag": "ratio0",
-        "targets": 3,
-        "color_ntarget": 0,
-        "other": 9
-      }],
-      "polarity": ["positive", "negative"],
-      "is_true": [true, false],
-      "color": ["red", "blue"]
-    },
-    "ratio3": {
-      "distribution": [{
-        "tag": "ratio3",
-        "targets": 3,
-        "color_ntarget": 3,
-        "other": 6
-      }],
-      "polarity": ["positive", "negative"],
-      "is_true": [true, false],
-      "color": ["red", "blue"]
-    },
-    "ratio6": {
-      "distribution": [{
-        "tag": "ratio6",
-        "targets": 3,
-        "color_ntarget": 6,
-        "other": 3
-      }],
-      "polarity": ["positive", "negative"],
-      "is_true": [true, false],
-      "color": ["red", "blue"]
-    },
-    "ratio9": {
-      "distribution": [{
-        "tag": "ratio9",
-        "targets": 3,
-        "color_ntarget": 9,
-        "other": 0
-      }],
-      "polarity": ["positive", "negative"],
-      "is_true": [true, false],
       "color": ["red", "blue"]
     }
   },
-  "blocked_factors": {
+  "2color": {
+    "colors": ["red", "blue", "red", "blue", "red", "blue", "red", "blue"]
+  },
+  "5color": {
+    "colors": ["red", "orange", "yellow", "green", "blue", "purple"]
+  },
+  "factors": {
     "distribution": [
       {
         "tag": "ratio0",
@@ -93,79 +42,8 @@
     ],
     "polarity": ["positive", "negative"],
     "is_true": [true, false],
-    "coloring": ["random", "categorical"]
-  },
-  "question_blocked_factors": {
-    "distribution": [
-      {
-        "tag": "ratio0",
-        "targets": 3,
-        "color_ntarget": 0,
-        "other": 9,
-        "shapes": ["triangle", "square", "star", "circle", "triangle", "square", "star", "circle"]
-      },{
-        "tag": "ratio3",
-        "targets": 3,
-        "color_ntarget": 3,
-        "other": 6,
-        "shapes": ["triangle", "square", "star", "circle", "triangle", "square", "star", "circle"]
-      },{
-        "tag": "ratio6",
-        "targets": 3,
-        "color_ntarget": 6,
-        "other": 3,
-        "shapes": ["triangle", "square", "star", "circle", "triangle", "square", "star", "circle"]
-      },{
-        "tag": "ratio9",
-        "targets": 3,
-        "color_ntarget": 9,
-        "other": 0,
-        "shapes": ["triangle", "square", "star", "circle", "triangle", "square", "star", "circle"]
-      }
-    ],
-    "polarity": ["positive", "negative"],
-    "is_true": [true, false],
+    "coloring": ["random", "categorical"],
     "color": ["red", "blue"]
-  },
-  "ncolor_blocked_factors": {
-    "distribution": [
-      {
-        "tag": "ratio0",
-        "targets": 3,
-        "color_ntarget": 0,
-        "other": 9
-      },{
-        "tag": "ratio3",
-        "targets": 3,
-        "color_ntarget": 3,
-        "other": 6
-      },{
-        "tag": "ratio6",
-        "targets": 3,
-        "color_ntarget": 6,
-        "other": 3
-      },{
-        "tag": "ratio9",
-        "targets": 3,
-        "color_ntarget": 9,
-        "other": 0
-      }
-    ],
-    "polarity": ["ncolor-negative"],
-    "is_true": [true],
-    "correlation": ["random", "categorical"]
-  },
-  "nblocked_factors": {
-    "distribution": [
-      {
-        "targets": 15,
-        "color_ntarget": 0,
-        "other": 0
-      }
-    ],
-    "polarity": ["positive", "negative"],
-    "is_true": [true, false],
-    "correlation": ["categorical"]
   },
   "practice_factors": {
     "distribution": [{
@@ -191,6 +69,18 @@
     "is_true": [false],
     "color": ["yellow"],
     "false_color": ["orange"]
+  },
+  "twod_practice_factors": {
+    "distribution": [{
+      "tag": "ratio6",
+      "targets": 3,
+      "color_ntarget": 6,
+      "other": 3,
+      "shapes": ["star", "square"],
+      "is_true": [true, false]
+    }],
+    "polarity": ["positive"],
+    "color": ["red", "blue"]
   },
   "conditioned_practice_factors": {
     "ratio0": {
@@ -259,8 +149,8 @@
       "requirements": "You must be at least 18 years old to participate in this study. ",
       "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
       "procedures": "In this study, you will be presented with sets of shapes and determine whether statements about them are true or false. ",
-      "time": "about 10 minutes",
-      "pay": "$1.00 USD",
+      "time": "about 5 minutes",
+      "pay": "$0.50 USD",
       "name": "Dr. Ming Xiang",
       "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
       "phone": "(773) 702-8023",
@@ -291,7 +181,7 @@
       "button_label_next": "Start",
       "show_clickable_nav": true,
       "allow_backward": false,
-      "pages": ["<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first see some images and answer a question. After you have answered the question, you will see a new image and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the image you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try a practice question, please <strong>click the button below</strong>.</p>"]
+      "pages": ["<p class=\"lead\">Thank you for participating in our study!</p><p>This experiment consists of a series of trials. In each trial, you will first be given a few seconds to look at a set of images. After a few seconds, <strong>the experiment will automatically continue</strong>. On the next screen, you will see three images and a statement. Your task is to decide whether the statement is \"true\" or \"false\" based on the images you see.</p><p>If the content of the sentence is compatible with what the images show, then it is \"True\"; otherwise it is \"False\".</p><p>To try some practice questions, please <strong>click the button below</strong>.</p>"]
     }
   }
 }

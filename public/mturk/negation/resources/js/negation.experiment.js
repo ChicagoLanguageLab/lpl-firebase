@@ -10,22 +10,6 @@ function NegationExperiment(params) {
   var condition = params.condition == undefined ? 'N/A' : params.condition;
   var color_condition = params.color_condition;
 
-  // "Question" versions use a different stimuli layout
-  if(version.includes('question')) {
-
-    _.each(params.question_blocked_factors.distribution, function(dist) {
-      dist.shapes = jsPsych.randomization.shuffle(dist.shapes);
-    });
-
-    // Randomize options for the pre-TF question
-    if(version === "question-rb") { // "What color will it be?"
-      params.choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
-    } else if(version === "question-yn") { // "Will it be red (blue)?"
-      params.choices = ['Yes', 'No'];
-    }
-
-  }
-
   // Add experimental variables to jsPsych's data object.
   this.addPropertiesTojsPsych = function () {
     jsPsych.data.addProperties({
@@ -83,49 +67,81 @@ function NegationExperiment(params) {
    */
   var initTrials = function(is_practice) {
 
-    var factors;
+    var factors = {}
     var trials;
     var shapes;
+    var reps = 1;
 
     // Retrive the correct set of factors based on version.
     if(is_practice) {
-      if(version.includes('question')) {
-        if(condition != 'N/A') {
-          factors = params.conditioned_practice_factors[condition];
-        } else {
-          factors = params.question_practice_factors;
-        }
-      } else {
-        factors = params.practice_factors;
+      switch(version) {
+        case 'question-yn':
+        case 'question-rb':
+          if(condition === 'bysubj') {
+            factors = params.conditioned_practice_factors[condition];
+          } else {
+            factors = params.question_practice_factors;
+          }
+          break;
+        case '2display':
+          factors = params.twod_practice_factors;
+          break;
+        default:
+          factors = params.practice_factors
       }
     } else {
       if(version.includes('question')) {
-        if(condition != 'N/A') {
-          factors = params.conditioned_factors[condition];
+        if(condition == 'withinsubj') {
+          factors.distribution = params.factors.distribution;
+          factors.polarity = params.factors.polarity;
+          factors.is_true = params.factors.is_true;
+          reps = 2;
         } else {
-          factors = params.question_blocked_factors;
+          factors.ratio = [params.factors.distribution[condition]];
+          factors.polarity = params.factors.polarity;
+          factors.color = params.factors.color;
+          factors.is_true = params.factors.is_true;
+        }
+
+        // Randomize options for the pre-TF question
+        if(version === "question-rb") { // "What color will it be?"
+          params.choices = jsPsych.randomization.shuffle(['Red', 'Blue']);
+        } else if(version === "question-yn") { // "Will it be red (blue)?"
+          params.choices = ['Yes', 'No'];
+        }
+
+      } else if(version === '2display') {
+        factors.distribution = params.factors.distribution;
+        factors.polarity = params.factors.polarity;
+        factors.is_true = params.factors.is_true;
+        if(params.condition != '1shape') {
+          factors.coloring = params.factors.coloring;
         }
       } else {
-        factors = params.blocked_factors;
+        factors.distribution = params.factors.distribution;
+        factors.polarity = params.factors.polarity;
+        factors.is_true = params.factors.is_true;
+        factors.coloring = params.factors.coloring;
       }
     }
 
-    trials =  _.sortBy(jsPsych.randomization.factorial(factors, 1), 'color');
+    trials =  jsPsych.randomization.factorial(factors, reps);
 
-    // "Question" trial factors include the shapes.
-    if(version.includes('question')) {
-      if(condition != 'N/A' && !is_practice) {
-        shapes = params.conditioned_shapes.concat(params.conditioned_shapes);
+    if(!is_practice) {
+      if(condition !== '1shape') {
+        _.each(params.factors.distribution, function(dist) {
+          dist.shape_factors = jsPsych.randomization.shuffle(jsPsych.randomization.factorial(params.shape_factors[params.color_condition]));
+      });
+      } else {
+        _.each(params.factors.distribution, function(dist) {
+          var a = jsPsych.randomization.shuffle(["triangle", "circle", "square", "star"]);
+          var b = jsPsych.randomization.shuffle(["red", "blue", "red", "blue"]);
+          dist.shape_factors = _.map(_.zip(a,b), function(c) {
+            return ({shape: c[0], color: c[1]});
+          });
+      });
       }
-      else {
-        shapes = [];
-      }
-    } else { // In older versions, the shapes are balanced and randomized separately.
-      shapes = jsPsych.randomization.sample(jsPsych.randomization.factorial(params.shape_factors[color_condition], 1), trials.length, true);
     }
-
-    // Combine trials data and shapes
-    trials = jsPsych.randomization.shuffle(_.zip(trials, shapes));
 
     // Create trials and add to timeline
     timeline = timeline.concat(createTrials(trials, params, is_practice));
@@ -140,16 +156,15 @@ function NegationExperiment(params) {
 
     // Build the practice sequence
     initTrials(true);
-    if(!version.includes("question")) {
-      block.push({
-        type: 'instructions',
-        "key_forward": " ",
-        "show_clickable_nav": true,
-        "allow_backward": false,
-        "button_label_next": "Begin experiment",
-        text: '<p class="text-center">You have finished the practice section!</p><p class="text-center">To repeat, if the content of the sentence is compatible with what the images show, then it is "True"; otherwise it is "False".</p><p class="text-center">The real experiment will now begin. Please <strong>click the button below</strong> to continue.</p>'
-      });
-    }
+
+    timeline.push({
+      type: 'instructions',
+      pages: ['<p class="lead">This is the end of the practice questions.</p><p>Remember, during the experiment we will be recording how quickly you respond, so please respond as quickly and accurately as possible.</p><p>Please <strong>click the button below</strong> to begin!'],
+      key_forward: " ",
+      "button_label_next": "Begin experiment",
+      "show_clickable_nav": true,
+      "allow_backward": false
+    });
 
     // Build the experiment trials
     initTrials(false);
