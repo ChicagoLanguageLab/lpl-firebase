@@ -127,6 +127,13 @@ function NegationExperiment(params) {
         context.push(header + trial.item.object + '_contextC'  + footer);
         data.context3 = trial.item.object + '_contextC'
       } else {
+        var tag = '';
+        if(params.condition === 'otherv1') {
+          tag = '_other'
+        } else {
+          tag = '_nothing'
+        }
+
         var j = 1;
         for(var x = 0; x < trial.context; x++) {
           context.push(header + trial.item + '_context' + (x + 1) + '_item' + footer);
@@ -134,7 +141,7 @@ function NegationExperiment(params) {
           j++;
         }
         for(var x = 0; x < 3 - trial.context; x++) {
-         context.push(header + trial.item + '_context' + (x + 1)  + '_nothing' + footer);
+         context.push(header + trial.item + '_context' + (x + 1)  + tag + footer);
          data['context' + j] = trial.item + '_context' + (x + 1) + '_item';
          j++;
         }
@@ -230,7 +237,7 @@ function NegationExperiment(params) {
 
     // Add preamble
     // NOTE: Comment out for faster testing.
-    initPreamble();
+    //initPreamble();
 
     timeline.push({
       type: 'instructions',
@@ -242,7 +249,7 @@ function NegationExperiment(params) {
     });
 
     // Build the practice sequence
-    initTrials(true);
+    //initTrials(true);
 
     timeline.push({
       type: 'instructions',
