@@ -351,6 +351,9 @@ function createTrials(trials, params, is_practice) {
 
       target_shape = shape_color.shape;
       target_color = shape_color.color;
+    } else {
+      target_shape = distribution.shapes.pop();
+      target_color = trial.color;
     }
 
     var shapes_no_target = _.without(shapes, target_shape);
