@@ -7,7 +7,6 @@ function NegationExperiment(params) {
 
   // Variables that affect the layout of the experiment
   var version = params.version;
-  var condition = params.condition;
 
   // Add experimental variables to jsPsych's data object.
   this.addPropertiesTojsPsych = function () {
@@ -83,7 +82,14 @@ function NegationExperiment(params) {
       }).value();
     }
 
-    var factors = jsPsych.randomization.shuffle(jsPsych.randomization.factorial(factors, 2));
+    var factors = _.sortBy(_.sortBy(_.sortBy(_.sortBy(jsPsych.randomization.factorial(factors, 2), 'is_true'), 'polarity'), 'stimulus'), 'context');
+
+    for(var j = 0; j < parseInt(params.shift, 10); j++) {
+      person.push(person.shift());
+      people.push(people.shift());
+      items.push(items.shift());
+    }
+
     var trials = jsPsych.randomization.shuffle(
       _.chain(items)
       .zip(person)
@@ -128,7 +134,7 @@ function NegationExperiment(params) {
         data.context3 = trial.item.object + '_contextC'
       } else {
         var tag = '';
-        if(params.condition === 'otherv1') {
+        if(params.version === 'otherv1') {
           tag = '_other'
         } else {
           tag = '_nothing'
@@ -136,13 +142,13 @@ function NegationExperiment(params) {
 
         var j = 1;
         for(var x = 0; x < trial.context; x++) {
-          context.push(header + trial.item + '_context' + (x + 1) + '_item' + footer);
-          data['context' + j] = trial.item + '_context' + (x + 1) + '_item';
+          context.push(header + trial.item + '_context' + j + '_item' + footer);
+          data['context' + j] = trial.item + '_context' + j + '_item';
           j++;
         }
         for(var x = 0; x < 3 - trial.context; x++) {
-         context.push(header + trial.item + '_context' + (x + 1)  + tag + footer);
-         data['context' + j] = trial.item + '_context' + (x + 1) + '_item';
+         context.push(header + trial.item + '_context' + j  + tag + footer);
+         data['context' + j] = trial.item + '_context' + j + '_item';
          j++;
         }
         context = jsPsych.randomization.shuffle(context);
