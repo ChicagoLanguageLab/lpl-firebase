@@ -4,7 +4,12 @@
     "stimulus": ["item", "nothing"],
     "context": [0, 1, 2, 3]
   },
-  "items": ["apples", "balloons", "bananas", "bows", "buckets", "cakes", "carrots", "crayons", "cars", "cats", "cookies", "daisies", "dogs", "donuts", "fish", "flowers", "forks", "guitars", "ice cream cones", "keys", "kites", "lollipops", "mittens", "pencils", "phones", "plants", "presents", "purses", "rainboots", "scissors", "shovels", "umbrellas"],
+  "v2_factors": {
+    "polarity": ["positive", "negative"],
+    "stimulus": ["item", "other"],
+    "context": [0, 1, 2, 3]
+  },
+  "items": ["apples", "balloons", "bananas", "bows", "buckets", "cakes", "carrots", "crayons", "cars", "cats", "cookies", "daisies", "dogs", "donuts", "fish", "flowers", "forks", "guitars", "ice cream cones", "keys", "kites", "lollipops", "mittens", "pencils", "phones", "plants", "boxes", "purses", "rainboots", "scissors", "shovels", "umbrellas"],
   "person": ["Bob", "Nancy", "Josh", "Natalie", "Abby", "Michael", "Katie", "Molly", "Susan", "Jasmine", "Jeff", "David", "Daniel", "Grace", "Sophia", "Lila", "Ethan", "John", "Kevin", "Kyle", "Sam", "Mark", "Alison", "Andrew", "Julia", "Jacob", "Lauren", "Lizzie", "Olivia", "Samantha", "Isabelle", "Alex"],
   "people": ["boys", "girls", "boys", "girls", "girls", "boys", "girls", "girls",	"girls", "girls", "boys", "boys", "boys", "girls", "girls", "girls", "boys", "boys", "boys","boys", "boys",	"boys", "girls", "boys", "girls", "boys", "girls", "girls", "girls", "girls", "girls", "boys"],
   "strings": {

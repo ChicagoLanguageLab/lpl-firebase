@@ -63,6 +63,9 @@ function NegationExperiment(params) {
   var initTrials = function(is_practice) {
 
     var factors = is_practice ? params.practice_factors : params.factors;
+    if((params.version === 'otherv2' || params.version === 'otherv3') && !is_practice) {
+      factors = params.v2_factors;
+    }
 
     var items = is_practice ? params.practice_items : params.items;
     var person = is_practice ? params.practice_person : params.person;
@@ -101,7 +104,8 @@ function NegationExperiment(params) {
 
         if(factors[i].polarity != undefined) {
           if(factors[i].stimulus === 'item'    && factors[i].polarity === 'positive' ||
-             factors[i].stimulus === 'nothing' && factors[i].polarity === 'negative') {
+             factors[i].stimulus === 'nothing' && factors[i].polarity === 'negative' ||
+             factors[i].stimulus === 'other' && factors[i].polarity === 'negative') {
                factors[i].is_true = true;
           } else {
            factors[i].is_true = false;
@@ -134,7 +138,7 @@ function NegationExperiment(params) {
         data.context3 = trial.item.object + '_contextC'
       } else {
         var tag = '';
-        if(params.version === 'otherv1') {
+        if(params.version === 'otherv1' || params.version === 'otherv2') {
           tag = '_other'
         } else {
           tag = '_nothing'
@@ -148,7 +152,7 @@ function NegationExperiment(params) {
         }
         for(var x = 0; x < 3 - trial.context; x++) {
          context.push(header + trial.item + '_context' + j  + tag + footer);
-         data['context' + j] = trial.item + '_context' + j + '_item';
+         data['context' + j] = trial.item + '_context' + j + tag;
          j++;
         }
         context = jsPsych.randomization.shuffle(context);
@@ -194,7 +198,7 @@ function NegationExperiment(params) {
         stimulus = '<p class="text-center">' + header + trial.item + '_' + trial.stimulus + footer + '</p>';
 
         data.polarity = trial.polarity;
-        data.target_item = trial.object;
+        data.target_item = trial.item;
         data.target_condition = trial.stimulus;
         data.stimulus = trial.item + '_' + trial.stimulus;
         data.is_true = trial.is_true;
@@ -243,7 +247,7 @@ function NegationExperiment(params) {
 
     // Add preamble
     // NOTE: Comment out for faster testing.
-    //initPreamble();
+    initPreamble();
 
     timeline.push({
       type: 'instructions',
@@ -255,7 +259,7 @@ function NegationExperiment(params) {
     });
 
     // Build the practice sequence
-    //initTrials(true);
+    initTrials(true);
 
     timeline.push({
       type: 'instructions',
