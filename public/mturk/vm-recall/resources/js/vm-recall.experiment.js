@@ -18,6 +18,7 @@ function VmRecallExperiment(params) {
   }
 
   var version = params.version;
+  var display = params.display;
 
   /** Return the subject's ID.
    * @returns {string} - The subject's Worker ID or SONA subject number.
@@ -74,7 +75,12 @@ function VmRecallExperiment(params) {
           }
         }
         else {
-          return(makeTrial67(i, data, params, subject));
+          if(display = 'byword') {
+            return(makeTrial67(i, data, params, subject, true));
+          }
+          else {
+            return(makeTrial67(i, data, params, subject, false));
+          }
         }
       }).value();
 
@@ -208,7 +214,35 @@ function makeReadingTrial(i, trial, data, chunk, timing, pause, is_filler) {
   });
 }
 
-function makeReadingTrial67(i, data, item, chunk, timing, pause) {
+function makeReadingTrial67(i, data, item, chunk, timing, pause, is_by_word) {
+  if(is_by_word) {
+    var trials = [];
+    _.each(chunk.split(' '), function(word) {
+      trials.push({
+        type: "single-stim",
+        is_html: true,
+        stimulus: '<p class="large text-center">' + chunk + "</p>",
+        choices: [''],
+        timing_response: 200,
+        timing_post_trial: 300,
+        response_ends_trial: false,
+        data: {
+          trial_number: i,
+          item_number: data[0],
+          condition: data[1],
+          filler: item.filler,
+          recall: item.recall,
+          stimulus: word
+        },
+        timing_post_trial: timing
+      })
+    });
+
+    return({
+      timeline: trials
+    });
+  }
+
   return ({
     type: "button-response",
     is_html: true,
@@ -227,7 +261,7 @@ function makeReadingTrial67(i, data, item, chunk, timing, pause) {
   });
 }
 
-function makeTrial67(i, data, params, subject) {
+function makeTrial67(i, data, params, subject, is_by_word) {
   var item = params.trials[data[0]];
   var trials = []
 
@@ -243,9 +277,9 @@ function makeTrial67(i, data, params, subject) {
   var timing = 0;
   for(var x = 0; x < trial.length; x++) {
     if(x == trial.length - 1) {
-      timing = 500;
+      timing = 300;
     }
-    trials.push(makeReadingTrial67(i, data, item, trial[x], timing, 500));
+    trials.push(makeReadingTrial67(i, data, item, trial[x], timing, 300, is_by_word));
   }
 
   if(item.recall) {
@@ -258,7 +292,7 @@ function makeTrial67(i, data, params, subject) {
         condition: data[1],
         filler: item.filler,
         recall: item.recall,
-        pause_length: 500
+        pause_length: 300
       },
       on_finish: function() {
         var data = jsPsych.data.getLastTrialData();
