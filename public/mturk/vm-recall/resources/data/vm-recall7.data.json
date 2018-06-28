@@ -447,42 +447,50 @@
 		"45": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the father", "that", "the son", "who", "betrayed", "him", "has", "always been", "very unfair."]
+      "chunks": ["This is the father", "that", "the son", "who", "betrayed", "him", "has", "always been", "very unfair."],
+			"question": "Was the son always unfair?"
 		},
 		"46": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the boy", "that", "the newspaper", "reports", "that the cop", "who beat him up", "was leading", "the operation."]
+      "chunks": ["This is the boy", "that", "the newspaper", "reports", "that the cop", "who beat him up", "was leading", "the operation."],
+			"question": "Who beat up the boy?"
 		},
 		"47": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the striker", "that I heard", "that", "the defender", "who punched", "in the face", "was kicked out of", "the game."]
+      "chunks": ["This is the striker", "that I heard", "that", "the defender", "who punched", "in the face", "was kicked out of", "the game."],
+			"question": "Who was kicked out of the game?"
     },
 		"48": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the customer", "that", "the waiter", "who is famous", "for being unfriendly", "hit him."]
+      "chunks": ["This is the customer", "that", "the waiter", "who is famous", "for being unfriendly", "hit him."],
+			"question": "Was the waiter unfriendly?"
     },
 		"49": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the gentleman", "that", "the girl", "who", "sells", "ripped carpets", "deceived her."]
+      "chunks": ["This is the gentleman", "that", "the girl", "who", "sells", "ripped carpets", "deceived her."],
+			"question": "Did the girl deceive the gentleman?"
     },
 		"50": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the guy", "that", "the man", "who", "could be imprisoned", "for", "reckless driving", "ran him over."]
+      "chunks": ["This is the guy", "that", "the man", "who", "could be imprisoned", "for", "reckless driving", "ran him over."],
+			"question": "Was there an accident?"
     },
 		"51": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the clerk", "that", "the manager", "who", "downgraded him", "has always been", "really mean."]
+      "chunks": ["This is the clerk", "that", "the manager", "who", "downgraded him", "has always been", "really mean."],
+			"question": "Was the manager mean?"
     },
 		"52": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["This is the engineer", "that", "the manager", "who", "has always", "had", "trust", "in young people", "hired him."]
+      "chunks": ["This is the engineer", "that", "the manager", "who", "has always", "had", "trust", "in young people", "hired him."],
+			"question": "Did the manager like young people?"
 		}
 	},
   "preamble": {

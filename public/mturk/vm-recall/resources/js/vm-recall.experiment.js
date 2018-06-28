@@ -60,7 +60,7 @@ function VmRecallExperiment(params) {
     var urlParams = jsPsych.data.urlVariables();
 
     var temp = _.chain(urlParams)
-  		.omit(['workerId', 'version'])
+  		.omit(['workerId', 'version', 'display'])
   		.map(function(value, key, list) {
 
   			var i = key.replace('q', '');
@@ -75,7 +75,7 @@ function VmRecallExperiment(params) {
           }
         }
         else {
-          if(display = 'byword') {
+          if(display == 'byword') {
             return(makeTrial67(i, data, params, subject, true));
           }
           else {
@@ -221,7 +221,7 @@ function makeReadingTrial67(i, data, item, chunk, timing, pause, is_by_word) {
       trials.push({
         type: "single-stim",
         is_html: true,
-        stimulus: '<p class="large text-center">' + chunk + "</p>",
+        stimulus: '<p class="large text-center">' + word + "</p>",
         choices: [''],
         timing_response: 200,
         timing_post_trial: 300,
@@ -234,7 +234,6 @@ function makeReadingTrial67(i, data, item, chunk, timing, pause, is_by_word) {
           recall: item.recall,
           stimulus: word
         },
-        timing_post_trial: timing
       })
     });
 
@@ -263,7 +262,7 @@ function makeReadingTrial67(i, data, item, chunk, timing, pause, is_by_word) {
 
 function makeTrial67(i, data, params, subject, is_by_word) {
   var item = params.trials[data[0]];
-  var trials = []
+  var trials = [];
 
   if(item.filler) {
     var trial = params.trials[data[0]].chunks;
@@ -307,10 +306,8 @@ function makeTrial67(i, data, params, subject, is_by_word) {
   }
   else {
     trials.push({
-      type: "button-response",
-      is_html: true,
-      stimulus: '<p class="large text-center">Please press the button to proceed to the next item.</p>',
-      choices: ['Next'],
+      type: "vm-recall",
+      prompt: item.question,
       data: {
         trial_number: i,
         item_number: data[0],
