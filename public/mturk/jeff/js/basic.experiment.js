@@ -76,42 +76,13 @@ function BasicExperiment(params) {
   */
   var initTrials = function() {
 
-    // A trial consisting only of text.
-    // To use HTML, the "is_html" flag must be set.
-    // "cont_key" defines the keys to be used to progress to the next trial.
-    var sampleTextTrial = {
-      "type": "text",
-      "is_html": true,
-      "text": "<p>Hello world! This is a sample text trial. Press SPACE to continue.</p>",
-      "cont_key": [' ']
-    }
-    timeline.push(sampleTextTrial);
+    var temp = ['temp1', 'temp2'];
 
-    /* A trial consisting of a stimulus and optional prompt.
-     * To use HTML/text/etc., the "is_html" flag must be set.
-     * Without it, this trial type will expect an image.
-     * "choices" defines the keys to be used for responding.
-     * "timing_response" is the number of miliseconds to display the trial.
-     * "response_ends_trial" signals that a key press can end the trial regardless of "timing_response".
-    */
-    var sampleSingleStimTrial = {
-      "type": "single-stim",
-      "is_html": true,
-      "stimulus": "<p>Hello world! This is a sample single-stim trial.</p>",
-      "prompt": "<p>Press SPACE to continue, if you're fast enough.</p>",
-      "response_ends_trial": true,
-      "timing_response": 3000,
-      "choices": [' '],
-      // NOTE: Add this function to your last trial and uncomment its contents.
-      // This saves the experimental data and logs the worker so that they cannot do the same experiment twice.
-      on_finish: function() {
-        //saveData(jsPsych.data.dataAsCSV(), dataRef);
-
-        // NOTE: Change this string to the same string you used in main.js
-        //addWorker(params.workerId, "SAMPLE");
-      }
+    _.each(temp, function(stimulus)) {
+      timeline.push({
+        type: 'audio-button-response'
+      })
     }
-    timeline.push(sampleSingleStimTrial);
   }
 
   /** Build the experiment.
