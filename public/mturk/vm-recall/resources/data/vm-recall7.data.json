@@ -1,5 +1,27 @@
 {
 	"trials": {
+		"1p": {
+			"filler": true,
+			"recall": true,
+			"chunks": ["Dave wanted", "to go", "to a concert.", "His friend", "agreed", "to go", "too."]
+		},
+		"2p": {
+			"filler": true,
+			"recall": false,
+			"chunks": ["Jane", "wanted", "to buy", "some cookies,", "but", "in the end", "she couldn't find", "the kind", "that she liked."],
+			"question": "Did Jane buy cookies?"
+		},
+		"3p": {
+			"filler": true,
+			"recall": true,
+			"chunks": ["Rory", "decided to", "take a walk", "by the lake.", "Nathaniel", "joined him."]
+		},
+		"4p": {
+			"filler": true,
+			"recall": false,
+			"chunks": ["This is", "the woman who", "was caught", "stealing", "money", "from the company", "that", "her daughter", "is", "the CEO of."],
+			"question": "Who is the CEO of the company?"
+		},
 		"1": {
 			"filler": false,
 			"recall": true,
@@ -231,14 +253,14 @@
     "20": {
 		  "filler": false,
 			"recall": true,
-			"a": ["Louis", "neglected", "the castle.", "John,","according to", "the tourguide,", "did too."],
-		  "b": ["Louis", "neglected", "the castle.", "The house,","according to", "the tourguide,", "was too."],
-		  "c": ["The castle", "was neglected", "by", "Louis.", "The house,", "according to","the tourguide,", "was too."],
-		  "d": ["The castle", "was neglected", "by", "Louis.", "John,", "according to", "the tourguide,", "did too."],
-		  "e": ["The castle", "astounded", "Louis.", "The house,", "according to", "the tourguide,", "did too."],
-		  "f": ["The castle", "astounded", "Louis.", "John,", "according to", "the tourguide,", "was too."],
-		  "g": ["Louis", "was astounded", "by", "the castle.", "John,", "according to", "the tourguide,", "was too."],
-		  "h": ["Louis", "was astounded", "by", "the castle.", "The house,", "according to", "the tourguide,", "did too."]
+			"a": ["Louis", "neglected", "the castle.", "John,","according to", "the tour guide,", "did too."],
+		  "b": ["Louis", "neglected", "the castle.", "The house,","according to", "the tour guide,", "was too."],
+		  "c": ["The castle", "was neglected", "by", "Louis.", "The house,", "according to","the tour guide,", "was too."],
+		  "d": ["The castle", "was neglected", "by", "Louis.", "John,", "according to", "the tour guide,", "did too."],
+		  "e": ["The castle", "astounded", "Louis.", "The house,", "according to", "the tour guide,", "did too."],
+		  "f": ["The castle", "astounded", "Louis.", "John,", "according to", "the tour guide,", "was too."],
+		  "g": ["Louis", "was astounded", "by", "the castle.", "John,", "according to", "the tour guide,", "was too."],
+		  "h": ["Louis", "was astounded", "by", "the castle.", "The house,", "according to", "the tour guide,", "did too."]
 		},
 		"21": {
 		  "filler": false,
@@ -446,7 +468,7 @@
 		"44": {
 			"filler": true,
 			"recall": false,
-      "chunks": ["According", "to", "the", "reviews,", "The", "foundation", "planned", "to", "award", "a", "grant", "to", "the", "university."],
+      "chunks": ["According", "to", "the", "reviews,", "the", "foundation", "planned", "to", "award", "a", "grant", "to", "the", "university."],
 			"question": "Did the foundation deny the grant to the university?"
 		},
 		"45": {
@@ -535,7 +557,7 @@
 			"timeline": [{
 				"type": "text",
 				"cont_key": [" "],
-				"text": "<p>In this experiment, you are going to be reading sentences as a series of word \"chunks\". To do this, the experiment will only show one part of a sentence at a time. The chunks will be displayed automatically; that is, each chunk will appear for a set amount of time before disappearing and being replaced by the next chunk.</p><p>After some of the sentences, but not all of them, you will be asked to type from memory, as accurately as you can, the sentence(s) you just read.</p><p>Press <strong>space</strong> to try some practice trials.</p>"
+				"text": "<p>In this experiment, you are going to be reading sentences as a series of word \"chunks\". To do this, the experiment will only show one part of a sentence at a time. The chunks will be displayed automatically; that is, each chunk will appear for a set amount of time before disappearing and being replaced by the next chunk.</p><p>After each sentence, you will perform a task. This task will consist either of answering a comprehension question about the sentence, or typing out the sentence you read from memory.</p><p>Press <strong>space</strong> to try some practice trials.</p>"
 			}]
 		}
   }

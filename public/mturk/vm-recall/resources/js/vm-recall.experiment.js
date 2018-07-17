@@ -56,151 +56,74 @@ function VmRecallExperiment(params) {
     timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.post_demographics, preamble.instructions]);
   }
 
-  var initTrials = function() {
-    var urlParams = jsPsych.data.urlVariables();
-
+  var initTrials = function(is_practice) {
     var shifted_items = [];
-    var conditions = ['a','b','c','d','e','f','g','h','a','b','c','d','e','f','g','h','a','b','c','d','e','f','g','h','a','b','c','d','e','f','g','h','','','','','','','','','','','','','','','','','','','',''];
-    for(var i = parseInt(urlParams.shift, 10); i < (32 + parseInt(urlParams.shift, 10)); i++) {
-      shifted_items.push(i % 32 + 1);
+
+    if(is_practice) {
+      shifted_items = jsPsych.randomization.shuffle([["1p",''], ["2p",''], ["3p",''], ["4p",'']]);
+    } else {
+      var urlParams = jsPsych.data.urlVariables();
+      var conditions = ['a','b','c','d','e','f','g','h','a','b','c','d','e','f','g','h','a','b','c','d','e','f','g','h','a','b','c','d','e','f','g','h','','','','','','','','','','','','','','','','','','','',''];
+
+      for(var i = parseInt(urlParams.shift, 10); i < (32 + parseInt(urlParams.shift, 10)); i++) {
+        shifted_items.push(i % 32 + 1);
+      }
+      for(var i = 33; i < 53; i++) {
+        shifted_items.push(i);
+      }
+      shifted_items = jsPsych.randomization.shuffle(_.zip(shifted_items, conditions));
     }
-    for(var i = 33; i < 53; i++) {
-      shifted_items.push(i);
-    }
-    shifted_items = jsPsych.randomization.shuffle(_.zip(shifted_items, conditions));
 
     _.each(shifted_items, function(data, ind) {
       if(version === 'vm-recall') {
         if(params.trials[data[0]].filler) {
           timeline.push(makeFillerTrial(ind, data, params, subject));
-        }
-        else {
+        } else {
           timeline.push(makeTestTrial(ind, data, params, subject));
         }
+      } else {
+        timeline.push(makeTrial67(ind, data, params, subject, false));
       }
-      else {
-        if(display == 'byword') {
-          timeline.push(makeTrial67(ind, data, params, subject, true));
+    });
+
+    if(!is_practice) {
+
+      // Return a code for the HIT
+      // NOTE: No need to change this unless you want to remove it or add a prefix to the code.
+      timeline.push({
+        type: 'text',
+        cont_key: [''],
+        text: function(){
+            var code = 'RE' + jsPsych.randomization.randomID(10);
+
+            jsPsych.data.addProperties({
+              code: code
+            });
+
+            return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
+                    '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
+                    `You may then close this window.</p><p>If you have any questions or concerns,
+                      please do not hesitate to contact the lab at
+                      <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
+                    </p>`;
         }
-        else {
-          timeline.push(makeTrial67(ind, data, params, subject, false));
-        }
-      }
-    });
-
-    // Return a code for the HIT
-    // NOTE: No need to change this unless you want to remove it or add a prefix to the code.
-    timeline.push({
-      type: 'text',
-      cont_key: [''],
-      text: function(){
-          var code = 'RE' + jsPsych.randomization.randomID(10);
-
-          jsPsych.data.addProperties({
-            code: code
-          });
-
-          return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
-                  '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
-                  `You may then close this window.</p><p>If you have any questions or concerns,
-                    please do not hesitate to contact the lab at
-                    <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
-                  </p>`;
-      }
-    });
+      });
+    }
   }
-
-  var initPractice = function() {
-    var trials = [];
-    var practice_block = [];
-
-    var chunks = ["Dave wanted", "to go", "to a concert.", "His friend", "agreed", "to go", "too."];
-
-    trials.push({
-      type: "single-stim",
-      is_html: true,
-      stimulus: '<p class="text-center">Get ready...</p>',
-      timing_response: 500,
-      response_ends_trial: false,
-      timing_post_trial: 200,
-      choices: []
-    });
-
-    _.each(chunks, function(chunk) {
-      trials.push(makeReadingTrial67(-1, [-1, "practice"], {"filler": true, "recall": true, "chunks": chunks}, chunk, 300, 300, false));
-    });
-
-    trials.push({
-      type: "vm-recall",
-      prompt: "Please type the sentences you just read in the box below as accurately as you can:",
-      data: {
-        trial_number: -1,
-        item_number: -1,
-        condition: "practice",
-        filler: true,
-        recall: true,
-        pause_length: 300
-      }
-    });
-
-    practice_block.push({
-      type: "single-stim",
-      timeline: trials
-    });
-
-    var trials = [];
-    var chunks = ["Jane", "wanted", "to buy", "some cookies,", "but", "she couldn't find", "the kind", "that she liked."];
-
-    trials.push({
-      type: "single-stim",
-      is_html: true,
-      stimulus: '<p class="text-center">Get ready...</p>',
-      timing_response: 500,
-      timing_post_trial: 200,
-      response_ends_trial: false,
-      choices: []
-    });
-    _.each(chunks, function(chunk) {
-      trials.push(makeReadingTrial67(-1, [-1, "practice"], {"filler": true, "recall": true, "chunks": chunks}, chunk, 300, 300, false));
-    });
-
-    trials.push({
-      type: "button-response",
-      is_html: true,
-      stimulus: '<p class="large text-center">Please press the button to proceed to the next item.</p>',
-      choices: ['Next'],
-      data: {
-        trial_number: -1,
-        item_number: -1,
-        filler: true,
-        recall: false,
-        condition: "practice",
-        pause_length: 300
-      }
-    });
-
-    practice_block.push({
-      type: "single-stim",
-      timeline: trials
-    });
-
-    practice_block = jsPsych.randomization.shuffle(practice_block);
-    timeline = timeline.concat(practice_block);
-
-    timeline.push({
-      type: "text",
-      text: "<p>You have finished the practice questions! Now the real experiment will begin. When you are ready to proceed, please press the <b>space bar</b>.</p>",
-      cont_key: [' ']
-    })
-  }
-
 
   /** Build the experiment.
   */
   this.createTimeline = function() {
     initPreamble();
-    initPractice();
-    initTrials();
+    initTrials(true);
+
+    timeline.push({
+      type: "text",
+      text: "<p>You have finished the practice questions! Now the real experiment will begin. When you are ready to proceed, please press the <b>space bar</b>.</p>",
+      cont_key: [' ']
+    });
+
+    initTrials(false);
   }
 };
 
