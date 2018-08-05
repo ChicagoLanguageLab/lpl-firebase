@@ -100,6 +100,9 @@ function VmRecallExperiment(params) {
               code: code
             });
 
+            saveData(jsPsych.data.dataAsCSV(), dataRef);
+            addWorker(subject.id, 'vm-recall');
+
             return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
                     '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
                     `You may then close this window.</p><p>If you have any questions or concerns,
@@ -280,18 +283,18 @@ function makeTrial67(i, data, params, subject, is_by_word) {
 
   if(item.filler) {
     var trial = params.trials[data[0]].chunks;
-    var prompt = "Please type the sentence you just read in the box below as accurately as you can:"
+    var prompt = "Did you understand the sentence? What did it say? Please type your answer in the box below."
   }
   else {
     var trial = params.trials[data[0]][data[1]];
-    var prompt = "Please type the sentences you just read in the box below as accurately as you can:"
+    var prompt = "Did you understand the sentences? What did they say? Please type your answer in the box below."
   }
 
   trials.push({
     type: "single-stim",
     is_html: true,
     stimulus: '<p class="text-center">Get ready...</p>',
-    timing_response: 500,
+    timing_response: 600,
     timing_post_trial: 200,
     response_ends_trial: false,
     choices: []
@@ -311,6 +314,7 @@ function makeTrial67(i, data, params, subject, is_by_word) {
       prompt: prompt,
       data: {
         trial_number: i,
+        prompt: prompt,
         item_number: data[0],
         condition: data[1],
         filler: item.filler,
@@ -319,9 +323,9 @@ function makeTrial67(i, data, params, subject, is_by_word) {
       },
       on_finish: function() {
         var data = jsPsych.data.getLastTrialData();
-        if(data.trial_number == 52 || data.trial_number % 8 == 0) {
+        if(data.trial_number == 51 || data.trial_number % 8 == 0) {
           saveData(jsPsych.data.dataAsCSV(), dataRef);
-          if(data.trial_number == 52) {
+          if(data.trial_number == 51) {
             addWorker(subject.id, 'vm-recall');
           }
         }
@@ -331,8 +335,9 @@ function makeTrial67(i, data, params, subject, is_by_word) {
   else {
     trials.push({
       type: "vm-recall",
-      prompt: item.question + " Please type your answer into the box below.",
+      prompt: "Did you understand the sentence? " + item.question + " Please type your answer into the box below.",
       data: {
+        prompt: "Did you understand the sentence? " + item.question + " Please type your answer into the box below.",
         trial_number: i,
         item_number: data[0],
         filler: item.filler,
