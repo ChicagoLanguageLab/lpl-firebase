@@ -41,7 +41,7 @@ var loadInterval = setInterval(function() {
   * @param {object} json - Object contatining data from the experiment's JSON file.
 */
 function loadExperimentFromJSON(json) {
-  var experiment = new BasicExperiment(_.extend(json, jsPsych.data.urlVariables()));
+  var experiment = new Experiment(_.extend(json, jsPsych.data.urlVariables()));
   initializeExperiment(experiment);
 }
 
@@ -60,8 +60,8 @@ function attemptLoad(file) {
   $.getJSON(file, loadExperimentFromJSON).fail(error);
 }
 
-/** Initialize the experiment with a successfully-created BasicExperiment object.
- * @param {object} BasicExperiment - The instance of the experiment.
+/** Initialize the experiment with a successfully-created Experiment object.
+ * @param {object} Experiment - The instance of the experiment.
 */
 function initializeExperiment(experiment) {
   var d = new Date();
@@ -77,9 +77,9 @@ function initializeExperiment(experiment) {
   jsPsych.init({
     timeline: experiment.getTimeline(),
     show_progress_bar: true,
-    display_element: $('#jspsych-target'),
+    display_element: 'jspsych-target',
     on_finish: function() {
-      var code = jsPsych.data.getLastTrialData().code;
+      var code = jsPsych.data.getLastTrialData().values()[0].code;
       $('#jspsych-target').html('<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
           '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
           'You may then close this window.</p><p>If you have any questions or concerns, ' +
@@ -110,7 +110,7 @@ $( document ).ready(function() {
     }
     else {
       console.log('Worker has not yet completed the experiment.');
-      attemptLoad("resources/data/basic.data.json");
+      attemptLoad("resources/data/jeff.data.json");
     }
   });
 });

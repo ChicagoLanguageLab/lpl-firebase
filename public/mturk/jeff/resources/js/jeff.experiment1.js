@@ -1,8 +1,8 @@
-/** Construct an instance of the BasicExperiment class.
+/** Construct an instance of the Experiment class.
   * @constructor
   * @param {Object} params - The experiment parameters from URL data and/or your data.json file.
   */
-function BasicExperiment(params) {
+function Experiment(params) {
 
   /** Hold the trials, instructions, etc. that make up the experiment.
    * @type {Array<object>}
@@ -54,19 +54,17 @@ function BasicExperiment(params) {
      * the experiment.
     */
     preamble.consent_check.conditional_function = function() {
-      var data = jsPsych.data.getLastTrialData();
+      var data = jsPsych.data.getLastTrialData().values()[0];
       return !data.consented;
     }
 
     // Check that the participant entered a valid age.
     preamble.demographics_check.conditional_function = function() {
-      var data = jsPsych.data.getLastTrialData();
-      console.log(data);
-      if(parseInt(data.age) < 18) return false;
-      return true;
+      var data = jsPsych.data.getLastTrialData().values()[0];
+      if(parseInt(data.age) < 18) return true;
+      return false;
     }
 
-    // Add the preamble to the timeline
     timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
   }
 
@@ -76,48 +74,52 @@ function BasicExperiment(params) {
   */
   var initTrials = function() {
 
-    // A trial consisting only of text.
-    // To use HTML, the "is_html" flag must be set.
-    // "cont_key" defines the keys to be used to progress to the next trial.
-    var sampleTextTrial = {
-      "type": "text",
-      "is_html": true,
-      "text": "<p>Hello world! This is a sample text trial. Press SPACE to continue.</p>",
-      "cont_key": [' ']
-    }
-    timeline.push(sampleTextTrial);
+    _.each(jsPsych.randomization.shuffle(params.blocks), function(block) {
+      _.each(jsPsych.randomization.shuffle(block.trials), function(trial) {
+        console.log(trial);
 
-    /* A trial consisting of a stimulus and optional prompt.
-     * To use HTML/text/etc., the "is_html" flag must be set.
-     * Without it, this trial type will expect an image.
-     * "choices" defines the keys to be used for responding.
-     * "timing_response" is the number of miliseconds to display the trial.
-     * "response_ends_trial" signals that a key press can end the trial regardless of "timing_response".
-    */
-    var sampleSingleStimTrial = {
-      "type": "single-stim",
-      "is_html": true,
-      "stimulus": "<p>Hello world! This is a sample single-stim trial.</p>",
-      "prompt": "<p>Press SPACE to continue, if you're fast enough.</p>",
-      "response_ends_trial": true,
-      "timing_response": 3000,
-      "choices": [' '],
-      // NOTE: Add this function to your last trial and uncomment its contents.
-      // This saves the experimental data and logs the worker so that they cannot do the same experiment twice.
-      on_finish: function() {
-        //saveData(jsPsych.data.dataAsCSV(), dataRef);
+        var trial_timeline = [];
 
-        // NOTE: Change this string to the same string you used in main.js
-        //addWorker(params.workerId, "SAMPLE");
-      }
-    }
-    timeline.push(sampleSingleStimTrial);
+        trial_timeline.push({
+          "type": "html-keyboard-response",
+          "prompt": '<p class="text-center"><i>Press the spacebar to hear the sentence.</i></p>',
+          "stimulus": '<p class="text-center"><i>Get ready...</i></p><br><p class="text-center very-large">' + trial.sentence + '</p><br><br>'
+        });
+
+        trial_timeline.push({
+          "type": "audio-keyboard-button-response",
+          "prompt": '<p class="text-center" style="color: #f3f3f3">Get ready...</p><br><p class="text-center very-large">' + trial.sentence + '</p><br><br><p class="text-center">In the sentence you just heard, was the word <b>' + trial.word + '</b>...</p><br>',
+          "stimulus": trial.audio,
+          "keys": ['1','2','3','4','5','6','7'],
+          "min_height": "50px",
+          "min_width": "100px",
+          "buttons": ['1<br>(very de-emphasized)','2','3','4','5','6','7<br>(very emphasized)'],
+          "button_data": ['1','2','3','4','5','6','7']
+        });
+
+        timeline.push({
+          "type": "html-keyboard-response",
+          "timeline": trial_timeline
+        });
+      });
+
+      timeline.push({
+        "type": "image-keyboard-button-response",
+        "prompt": '<br><br><p class="text-center large">What color is this dot?</p><p class="text-center">Use the buttons below or your keyboard to respond.</p><br>',
+        "stimulus": 'resources/images/green.png',
+        "keys": ['r','o','y','g','b','i','v'],
+        "min_height": "50px",
+        "min_width": "100px",
+        "buttons": ['red (R)','orange (O)','yellow (Y)','green (G)','blue (B)','indigo (I)','violet (V)'],
+        "button_data": ['red','orange','yellow','green','blue','indigo','violet']
+      });
+    });
   }
 
   /** Build the experiment.
   */
   this.createTimeline = function() {
-    initPreamble();
+    //initPreamble();
     initTrials();
   }
 };

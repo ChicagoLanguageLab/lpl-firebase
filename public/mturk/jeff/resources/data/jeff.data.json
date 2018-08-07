@@ -1,0 +1,84 @@
+{
+  "blocks": [
+    {
+      "trials": [
+        {
+          "item": 1,
+          "condition": "a",
+          "sentence": "This is an example sentence.",
+          "word": "example",
+          "audio": "resources/sound/1a.mp3"
+        },
+        {
+          "item": 2,
+          "condition": "a",
+          "sentence": "This is an example sentence.",
+          "word": "example",
+          "audio": "resources/sound/6a.mp3"
+        },
+        {
+          "item": 3,
+          "condition": "a",
+          "sentence": "This is an example sentence.",
+          "word": "example",
+          "audio": "resources/sound/10a.mp3"
+        }
+      ]
+    }
+  ],
+  "preamble": {
+    "intro": {
+      "type": "instructions",
+      "key_forward": " ",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our study!</p><p>As a reminder, this study runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by clicking the <strong>\"next\"</strong> button below.</p></div>"]
+    },
+    "consent": {
+      "type": "consent",
+      "requirements": "You must be at least 18 years old to participate in this study. ",
+      "purpose": "DESC_OF_RESEARCH. ",
+      "procedures": "DESC_OF_STUDY. ",
+      "time": "STUDY_LENGTH",
+      "pay": "STUDY_PAY",
+      "name": "Dr. Ming Xiang",
+      "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
+      "phone": "(773) 702-8023",
+      "email": "mxiang@uchicago.edu"
+    },
+    "consent_check": {
+      "timeline": [{
+        "type": "text",
+        "cont_key": [""],
+        "text": "<p class=\"text-center lead\">Thank you for considering participation in this study!</p><p>We\"re sorry it wasn\"t for you. You may close this window and return your HIT. There is no penalty for returning our lab\"s HITs.</p>"
+      }]
+    },
+    "consent_check": {
+      "timeline": [{
+        "type": "instructions",
+        "key_forward": "",
+        "pages": ["<p class=\"lead\">Thank you for considering participation in this study!</p><p>We're sorry it wasn't for you. You may close this window and return your HIT. There is no penalty for returning our lab's HITs.</p>"]
+      }]
+    },
+    "demographics": {
+      "type": "demographics",
+      "placeholder": "null"
+    },
+    "demographics_check": {
+      "timeline": [{
+        "type": "instructions",
+        "key_forward": "",
+        "pages": ["<p class=\"lead\">Thank you for your interest in this study!</p><p>Unfortunately, you do not meet our requirements. You may close this window and return your HIT. There is no penalty for returning our lab's HITs.</p>"]
+      }]
+    },
+    "post_demographics": {
+      "type": "instructions",
+      "cont_key": [" "],
+      "key_forward": " ",
+      "button_label_next": "Start",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<p class=\"lead\">Thank you for participating in our study!</p><p>INSTRUCTIONS_HERE</p><p>To begin, please <strong>click the button below</strong>.</p>"]
+    }
+  }
+}
