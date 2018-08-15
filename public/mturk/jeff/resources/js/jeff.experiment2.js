@@ -65,18 +65,19 @@ function Experiment(params) {
       return false;
     }
 
-    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
+    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.instructions, preamble.practice_start]);
   }
 
   /** This function handles setting up the experimental trials.
     * Here, it just pushes two sample trials onto the timeline.
     * In a more complex experiment, you might use it to call various helper functions.
   */
-  var initTrials = function() {
+  var initTrials = function(is_practice) {
 
-    _.each(jsPsych.randomization.shuffle(params.blocks), function(block) {
+    var blocks = is_practice ? params.practice_blocks : params.blocks;
+
+    _.each(jsPsych.randomization.shuffle(blocks), function(block) {
       _.each(jsPsych.randomization.shuffle(block.trials), function(trial) {
-        console.log(trial);
 
         var trial_timeline = [];
 
@@ -108,7 +109,17 @@ function Experiment(params) {
   /** Build the experiment.
   */
   this.createTimeline = function() {
-    //initPreamble();
-    initTrials();
+    initPreamble();
+    initTrials(true);
+
+    timeline.push({
+      "type": "instructions",
+      "button_label_next": "Begin survey",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<p>You have finished the practice section. What follows is the real survey. We will periodically ask various questions to make sure you are paying attention. When you are ready to begin, please <strong>click the button below</strong>.</p>"]
+    });
+
+    initTrials(false);
   }
-};
+  };

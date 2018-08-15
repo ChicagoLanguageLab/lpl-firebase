@@ -1,0 +1,103 @@
+{
+  "practice_blocks": [
+    {
+      "trials": [
+        {
+          "item": 1,
+          "sentence": "The quick brown fox jumped over the lazy dog.",
+          "word": "lazy",
+          "audio": "resources/sound/1a.mp3"
+        },
+        {
+          "item": 2,
+          "sentence": "The quick brown fox jumped over the lazy dog.",
+          "word": "brown",
+          "audio": "resources/sound/6a.mp3"
+        },
+        {
+          "item": 3,
+          "sentence": "The quick brown fox jumped over the lazy dog.",
+          "word": "quick",
+          "audio": "resources/sound/10a.mp3"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "trials": [
+        {
+          "item": 1,
+          "sentence": "The quick brown fox jumped over the lazy dog.",
+          "word": "lazy",
+          "audio": "resources/sound/1a.mp3"
+        },
+        {
+          "item": 2,
+          "sentence": "The quick brown fox jumped over the lazy dog.",
+          "word": "brown",
+          "audio": "resources/sound/6a.mp3"
+        },
+        {
+          "item": 3,
+          "sentence": "The quick brown fox jumped over the lazy dog.",
+          "word": "quick",
+          "audio": "resources/sound/10a.mp3"
+        }
+      ]
+    }
+  ],
+  "preamble": {
+    "intro": {
+      "type": "instructions",
+      "key_forward": " ",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<div class=\"header row\"><div class=\"col-2 text-right\"><img class=\"logo\" src=\"../../assets/images/shield.png\" alt=\"UChicago Logo\"/></div><div class=\"col-10\"><h1>Language Processing Laboratory</h1><p class=\"lead\">Department of Linguistics, The University of Chicago</p></div></div><div><p class=\"mt-4 lead\">Thank you for your interest in our survey!</p><p>As a reminder, this survey runs best in <b>Chrome</b> or <b>Firefox</b>. If you are not using one of these browers, we recommend switching now to avoid future issues. When you are ready, please proceed by clicking the <strong>\"next\"</strong> button below.</p></div>"]
+    },
+    "consent": {
+      "type": "consent",
+      "requirements": "You must be at least 18 years old to participate in this study. ",
+      "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
+      "procedures": "In this study, you will listen to sentences and answer questions about them. ",
+      "time": "STUDY_LENGTH",
+      "pay": "STUDY_PAY",
+      "name": "Dr. Ming Xiang",
+      "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
+      "phone": "(773) 702-8023",
+      "email": "mxiang@uchicago.edu"
+    },
+    "consent_check": {
+      "timeline": [{
+        "type": "instructions",
+        "key_forward": "",
+        "pages": ["<p class=\"lead\">Thank you for your interest in this survey!</p><p>We're sorry it wasn't for you. You may close this window and return your HIT. There is no penalty for returning our lab's HITs.</p>"]
+      }]
+    },
+    "demographics": {
+      "type": "demographics",
+      "placeholder": "null"
+    },
+    "demographics_check": {
+      "timeline": [{
+        "type": "instructions",
+        "key_forward": "",
+        "pages": ["<p class=\"lead\">Thank you for your interest in this survey!</p><p>Unfortunately, you do not meet our requirements. You may close this window and return your HIT. There is no penalty for returning our lab's HITs.</p>"]
+      }]
+    },
+    "instructions": {
+      "type": "instructions",
+      "button_label_next": "Next",
+      "show_clickable_nav": true,
+      "allow_backward": true,
+      "pages": ["<p class=\"lead\">Instructions</p><p>In this survey, you will listen to a series of sentences. For each sentence, you'll first see a screen telling you to get ready. Here is what the \"get ready\" screen will look like:</p><p class=\"text-center\"><img style=\"border: 1px solid;\" width=\"650px\" src=\"resources/images/example2_1.png\" /></p>", "<p>When you're ready to hear the sentence, press the spacebar. You will immediately hear the sentence and see a screen that looks like this:</p><p class=\"text-center\"><img style=\"border: 1px solid;\" width=\"1000px\" src=\"resources/images/example2_2.png\" /></p><p>Follow the instructions on this screen to respond to the question.</p>"]
+    },
+    "practice_start": {
+      "type": "instructions",
+      "button_label_next": "Begin practice",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<p>You will now rate a few practice sentences to familiarize yourself with the survey format. When you are ready to begin, please <strong>click the button below</strong>.</p>"]
+    }
+  }
+}

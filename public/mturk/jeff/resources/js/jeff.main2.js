@@ -110,7 +110,7 @@ $( document ).ready(function() {
     }
     else {
       console.log('Worker has not yet completed the experiment.');
-      attemptLoad("resources/data/jeff.data.json");
+      attemptLoad("resources/data/jeff.data2.json");
     }
   });
 });

@@ -65,25 +65,31 @@ function Experiment(params) {
       return false;
     }
 
-    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.post_demographics]);
+    timeline = timeline.concat([preamble.intro, preamble.consent, preamble.consent_check, preamble.demographics, preamble.demographics_check, preamble.instructions, preamble.practice_start]);
   }
 
   /** This function handles setting up the experimental trials.
     * Here, it just pushes two sample trials onto the timeline.
     * In a more complex experiment, you might use it to call various helper functions.
   */
-  var initTrials = function() {
+  var initTrials = function(is_practice) {
 
-    _.each(jsPsych.randomization.shuffle(params.blocks), function(block) {
+    var blocks = is_practice ? params.practice_blocks : params.blocks;
+
+    _.each(jsPsych.randomization.shuffle(blocks), function(block) {
       _.each(jsPsych.randomization.shuffle(block.trials), function(trial) {
-        console.log(trial);
 
         var trial_timeline = [];
 
         trial_timeline.push({
           "type": "html-keyboard-response",
           "prompt": '<p class="text-center"><i>Press the spacebar to hear the sentence.</i></p>',
-          "stimulus": '<p class="text-center"><i>Get ready...</i></p><br><p class="text-center very-large">' + trial.sentence + '</p><br><br>'
+          "stimulus": '<p class="text-center"><i>Get ready...</i></p><br><p class="text-center very-large">' + trial.sentence + '</p><br><br>',
+          "data": {
+            "item": trial.item_number,
+            "condition": trial.condition,
+            "practice": is_practice
+          }
         });
 
         trial_timeline.push({
@@ -94,7 +100,12 @@ function Experiment(params) {
           "min_height": "50px",
           "min_width": "100px",
           "buttons": ['1<br>(very de-emphasized)','2','3','4','5','6','7<br>(very emphasized)'],
-          "button_data": ['1','2','3','4','5','6','7']
+          "button_data": ['1','2','3','4','5','6','7'],
+          "data": {
+            "item": trial.item_number,
+            "condition": trial.condition,
+            "practice": is_practice
+          }
         });
 
         timeline.push({
@@ -103,23 +114,35 @@ function Experiment(params) {
         });
       });
 
-      timeline.push({
-        "type": "image-keyboard-button-response",
-        "prompt": '<br><br><p class="text-center large">What color is this dot?</p><p class="text-center">Use the buttons below or your keyboard to respond.</p><br>',
-        "stimulus": 'resources/images/green.png',
-        "keys": ['r','o','y','g','b','i','v'],
-        "min_height": "50px",
-        "min_width": "100px",
-        "buttons": ['red (R)','orange (O)','yellow (Y)','green (G)','blue (B)','indigo (I)','violet (V)'],
-        "button_data": ['red','orange','yellow','green','blue','indigo','violet']
-      });
+      if(!is_practice) {
+        timeline.push({
+          "type": "image-keyboard-button-response",
+          "prompt": '<br><br><p class="text-center large">What color is this dot?</p><p class="text-center">Use the buttons below or your keyboard to respond.</p><br>',
+          "stimulus": 'resources/images/green.png',
+          "keys": ['r','o','y','g','b','i','v'],
+          "min_height": "50px",
+          "min_width": "100px",
+          "buttons": ['red (R)','orange (O)','yellow (Y)','green (G)','blue (B)','indigo (I)','violet (V)'],
+          "button_data": ['red','orange','yellow','green','blue','indigo','violet']
+        });
+      }
     });
   }
 
   /** Build the experiment.
   */
   this.createTimeline = function() {
-    //initPreamble();
-    initTrials();
+    initPreamble();
+    initTrials(true);
+
+    timeline.push({
+      "type": "instructions",
+      "button_label_next": "Begin survey",
+      "show_clickable_nav": true,
+      "allow_backward": false,
+      "pages": ["<p>You have finished the practice section. What follows is the real survey. We will periodically ask various questions to make sure you are paying attention. When you are ready to begin, please <strong>click the button below</strong>.</p>"]
+    });
+
+    initTrials(false);
   }
 };
