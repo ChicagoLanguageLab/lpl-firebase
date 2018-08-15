@@ -283,11 +283,11 @@ function makeTrial67(i, data, params, subject, is_by_word) {
 
   if(item.filler) {
     var trial = params.trials[data[0]].chunks;
-    var prompt = "Did you understand the sentence? What did it say? Please type your answer in the box below."
+    var prompt = "Did you understand the sentence? Can you paraphrase its meaning?<br/>(Please type your answer into the box below.)"
   }
   else {
     var trial = params.trials[data[0]][data[1]];
-    var prompt = "Did you understand the sentences? What did they say? Please type your answer in the box below."
+    var prompt = "Did you understand the sentences? Can you paraphrase its meaning?<br/>(Please type your answer into the box below.)"
   }
 
   trials.push({
@@ -335,9 +335,9 @@ function makeTrial67(i, data, params, subject, is_by_word) {
   else {
     trials.push({
       type: "vm-recall",
-      prompt: "Did you understand the sentence? " + item.question + " Please type your answer into the box below.",
+      prompt: "Did you understand the sentence? " + item.question + "<br/>Please type your answer into the box below.",
       data: {
-        prompt: "Did you understand the sentence? " + item.question + " Please type your answer into the box below.",
+        prompt: "Did you understand the sentence? " + item.question + "<br/>Please type your answer into the box below.",
         trial_number: i,
         item_number: data[0],
         filler: item.filler,
