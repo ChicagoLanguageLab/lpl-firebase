@@ -1,7 +1,7 @@
 /*
  * Author: Dave F. Kleinschmidt
  * Adapted from: John C. Pezzullo/Kevin M. Sullivan http://statpages.org/logistic.html
- * 
+ *
  *    Copyright 2012 Dave Kleinschmidt and
  *        the University of Rochester BCS Department
  *
@@ -49,19 +49,19 @@ function Fmt(x) {
     return v.substring(v.length-10,v.length)
 }
 
-function Fmt3(x) { 
+function Fmt3(x) {
     var v;
     v = "   " + x;
     return v.substring(v.length-3,v.length)
 	         }
 
-function Fmt9(x) { 
+function Fmt9(x) {
     var v;
     v = "         " + x;
     return v.substring(v.length-9,v.length)
 	         }
 
-function vFmt(x) { 
+function vFmt(x) {
     var v;
     if(x>=0) { v='              '+(x+0.0000005) } else { v='          '+(x-0.0000005) }
     v = v.substring(0,v.indexOf('.')+7)
@@ -69,7 +69,7 @@ function vFmt(x) {
 }
 
 // replace instances of `from` with `to`
-function Xlate(s,from,to) { 
+function Xlate(s,from,to) {
     var v = s;
     var l=v.indexOf(from);
     while(l>-1) {
@@ -85,8 +85,8 @@ function crArr(n) {
 }
 
 // 2-d index to 1-d index
-function ix(j,k,nCols) { 
-    return j * nCols + k 
+function ix(j,k,nCols) {
+    return j * nCols + k
 }
 
 var CR = unescape("%0D");
@@ -307,12 +307,12 @@ function LogReg(nC, nR) {
         this.Par[0] = Ln( this.sY1 / this.sY0 );
         // ...predictor slopes are zero
         for (j = 1; j<=nR; j++) {
-	    this.Par[j] = 0;
+	        this.Par[j] = 0;
         }
 
         // Z-score predictors
         this.zScorePredictors();
-        
+
         var LnV = 0; var Ln1mV = 0;
 
         // log-likelihood of last iteration and current iteration
@@ -322,78 +322,78 @@ function LogReg(nC, nR) {
         // optimization loop
 
         while( Abs(LLp-LL)>0.0000001 ) {
-	    LLp = LL;
-	    LL = 0;
-	    for (j = 0; j<=nR; j++) {
-	        for (k = j; k<=nR+1; k++) {
-		    this.Arr[ix(j,k,nR+2)] = 0;
-	        }
-	    }
-	    
-	    for (i = 0; i<nC; i++) {	
-	        var v = this.Par[0];
-	        for (j = 1; j<=nR; j++) {
-		    v = v + this.Par[j] * this.X[ix(i,j,nR+1)];
-	        }
-	        if( v>15 ) { LnV = -Exp(-v); Ln1mV = -v; q = Exp(-v); v=Exp(LnV) }
-	        else { if( v<-15 ) {	LnV = v; Ln1mV = -Exp(v); q = Exp(v); v=Exp(LnV) }
-		       else { v = 1 / ( 1 + Exp(-v) ); LnV = Ln(v); Ln1mV = Ln(1-v); q = v*(1-v) }
-		     }
-	        LL = LL - 2*this.Y1[i]*LnV - 2*this.Y0[i]*Ln1mV;
+	        LLp = LL;
+	        LL = 0;
 	        for (j = 0; j<=nR; j++) {
-		    var xij = this.X[ix(i,j,nR+1)];
-		    this.Arr[ix(j,nR+1,nR+2)] = this.Arr[ix(j,nR+1,nR+2)] + xij * ( this.Y1[i] * (1 - v) + this.Y0[i] * (-v) );
-		    for (k=j; k<=nR; k++) {
-		        this.Arr[ix(j,k,nR+2)] = this.Arr[ix(j,k,nR+2)] + xij * this.X[ix(i,k,nR+1)] * q * (this.Y0[i] + this.Y1[i]);
-		    }
+	            for (k = j; k<=nR+1; k++) {
+		            this.Arr[ix(j,k,nR+2)] = 0;
+	            }
 	        }
-	    }
 
-	    //o = o + ( NL + "-2 Log Likelihood = " + Fmt( LL ) );
-            // record LL of null model (on the first iteration)
-	    if( LLp==1e+10 ) {
-                LLn = LL;
-                //o = o + " (Null Model)"
-            }
-	    //form.output.value = o;
+    	    for (i = 0; i<nC; i++) {
+    	        var v = this.Par[0];
+    	        for (j = 1; j<=nR; j++) {
+        		      v = v + this.Par[j] * this.X[ix(i,j,nR+1)];
+    	        }
+    	        if( v>15 ) { LnV = -Exp(-v); Ln1mV = -v; q = Exp(-v); v=Exp(LnV) }
+    	        else { if( v<-15 ) {	LnV = v; Ln1mV = -Exp(v); q = Exp(v); v=Exp(LnV) }
+    		          else { v = 1 / ( 1 + Exp(-v) ); LnV = Ln(v); Ln1mV = Ln(1-v); q = v*(1-v) }
+    		      }
+    	        LL = LL - 2*this.Y1[i]*LnV - 2*this.Y0[i]*Ln1mV;
+    	        for (j = 0; j<=nR; j++) {
+    		          var xij = this.X[ix(i,j,nR+1)];
+    		          this.Arr[ix(j,nR+1,nR+2)] = this.Arr[ix(j,nR+1,nR+2)] + xij * ( this.Y1[i] * (1 - v) + this.Y0[i] * (-v) );
+    		          for (k=j; k<=nR; k++) {
+    		              this.Arr[ix(j,k,nR+2)] = this.Arr[ix(j,k,nR+2)] + xij * this.X[ix(i,k,nR+1)] * q * (this.Y0[i] + this.Y1[i]);
+    		          }
+	           }
+	       }
 
-	    for (j = 1; j<=nR; j++) {
-	        for (k=0; k<j; k++) {
-		    this.Arr[ix(j,k,nR+2)] = this.Arr[ix(k,j,nR+2)];
+	        //o = o + ( NL + "-2 Log Likelihood = " + Fmt( LL ) );
+	        // record LL of null model (on the first iteration)
+	        if( LLp==1e+10 ) {
+	            LLn = LL;
+	            //o = o + " (Null Model)"
 	        }
-	    }
+	        //form.output.value = o;
 
-	    for (i=0; i<=nR; i++) { 
-                var s = this.Arr[ix(i,i,nR+2)]; this.Arr[ix(i,i,nR+2)] = 1;
-	        for (k=0; k<=nR+1; k++) {
-                    this.Arr[ix(i,k,nR+2)] = this.Arr[ix(i,k,nR+2)] / s;
-                }
-	        for (j=0; j<=nR; j++) {
-		    if (i!=j) {
-                        s = this.Arr[ix(j,i,nR+2)]; this.Arr[ix(j,i,nR+2)] = 0;
-			for (k=0; k<=nR+1; k++) {
-			    this.Arr[ix(j,k,nR+2)] = this.Arr[ix(j,k,nR+2)] - s * this.Arr[ix(i,k,nR+2)];
-			}
-		    }
+	        for (j = 1; j<=nR; j++) {
+	            for (k=0; k<j; k++) {
+	                this.Arr[ix(j,k,nR+2)] = this.Arr[ix(k,j,nR+2)];
+	            }
 	        }
-	    }
 
-	    for( j=0; j<=nR; j++) {
-	        this.Par[j] = this.Par[j] + this.Arr[ix(j,nR+1,nR+2)];
-	    }
-        } // end optimization loop
+	        for (i=0; i<=nR; i++) {
+	            var s = this.Arr[ix(i,i,nR+2)]; this.Arr[ix(i,i,nR+2)] = 1;
+	            for (k=0; k<=nR+1; k++) {
+	                this.Arr[ix(i,k,nR+2)] = this.Arr[ix(i,k,nR+2)] / s;
+	            }
+	            for (j=0; j<=nR; j++) {
+	                if (i!=j) {
+	                    s = this.Arr[ix(j,i,nR+2)]; this.Arr[ix(j,i,nR+2)] = 0;
+	                    for (k=0; k<=nR+1; k++) {
+	                        this.Arr[ix(j,k,nR+2)] = this.Arr[ix(j,k,nR+2)] - s * this.Arr[ix(i,k,nR+2)];
+	                    }
+	                }
+	            }
+	       }
 
-        // calculate un-z-scored parameters, and standard errors
-        for( j=1; j<=nR; j++) {
-            this.Par[j] = this.Par[j] / this.xSD[j];
-            this.SEP[j] = Sqrt( this.Arr[ix(j,j,nP+1)] ) / this.xSD[j];
-            this.Par[0] = this.Par[0] - this.Par[j] * this.xM[j];
-            //o = o + ( "   " + Fmt3(j) + "    " + Fmt(this.Par[j]) + Fmt(this.SEP[j]) + Fmt( Norm(Abs(this.Par[j]/this.SEP[j])) ) + NL );
-        }
+	        for( j=0; j<=nR; j++) {
+	            this.Par[j] = this.Par[j] + this.Arr[ix(j,nR+1,nR+2)];
+          }
+      } // end optimization loop
 
-        // un-Z-score the predictors
-        this.unZscorePredictors();
-    }
+      // calculate un-z-scored parameters, and standard errors
+      for( j=1; j<=nR; j++) {
+          this.Par[j] = this.Par[j] / this.xSD[j];
+          this.SEP[j] = Sqrt( this.Arr[ix(j,j,nP+1)] ) / this.xSD[j];
+          this.Par[0] = this.Par[0] - this.Par[j] * this.xM[j];
+          //o = o + ( "   " + Fmt3(j) + "    " + Fmt(this.Par[j]) + Fmt(this.SEP[j]) + Fmt( Norm(Abs(this.Par[j]/this.SEP[j])) ) + NL );
+      }
+
+      // un-Z-score the predictors
+      this.unZscorePredictors();
+   }
 }
 
 function testLogReg() {
@@ -409,13 +409,12 @@ function testLogReg() {
              1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0,
              0, 1, 1, 0, 0, 1, 0, 0, 1];
 
-    lr = new LogReg(x0.length, 1);   
+    lr = new LogReg(x0.length, 1);
     lr.init(x0);
-    
+
     for (i = 0; i < x.length; i++) {
         lr.addObs(x[i], y[i]);
     }
-    
+
     lr.fit();
 }
-
