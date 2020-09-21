@@ -531,8 +531,8 @@
       "requirements": "You must be at least 18 years old to participate in this study. ",
       "purpose": "In this research, we are investigating the processes involved in the comprehension of sentences. ",
       "procedures": "You will read sentences a few words at a time. After reading each sentence or set of sentences, you will answer a question involving the sentence(s) you just read. ",
-      "time": "about 45 minutes",
-      "pay": "$5",
+      "time": "about 30 minutes",
+      "pay": "$3.5",
       "name": "Dr. Ming Xiang",
       "address": "1115 E. 58th St., Rosenwald 205B, Chicago IL, 60637",
       "phone": "(773) 702-8023",
@@ -551,7 +551,7 @@
     "post_demographics": {
       "type": "text",
       "cont_key": [" "],
-      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In this experiment, you will read some sentences and answer questions about them. This experiment requires your <b>full attention</b>. The experiment should take no more than an 45 minutes. During this time you must give your complete attention.</p><p>If you are ready, please turn off any distractions such as music, television, or a cell phone for the next 45 minutes, and press <strong>space</strong> to continue. Thank you!</p>"
+      "text": "<p class=\"lead mt-4\">Thank you for deciding to participate in our study!</p><p>In this experiment, you will read some sentences and answer questions about them. This experiment requires your <b>full attention</b>. The experiment should take no more than 30-40 minutes. During this time you must give your complete attention.</p><p>If you are ready, please turn off any distractions such as music, television, or a cell phone for the next 30-40 minutes, and press <strong>space</strong> to continue. Thank you!</p>"
     },
 		"instructions": {
 			"timeline": [{
