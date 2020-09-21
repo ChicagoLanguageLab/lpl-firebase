@@ -1,70 +1,96 @@
-/* Firebase initialization */
+// runner.js
 
-var config = {
-    apiKey: "AIzaSyAlzTpCs3uxIXW6i6I7zsHLElb1GUpoDh8",
-    databaseURL: "https://language-processing-lab.firebaseio.com/",
-    storageBucket: "gs://language-processing-lab.appspot.com"
-};
-firebase.initializeApp(config);
+// This file loads the stimuli in stimuli.json and initializes an Experiment
+// object.
 
-var storageRef = firebase.storage().ref();
-var database = firebase.database();
-var dataRef;
+// The trials created by the Experiment are then send to jsPsych,
+// which runs the experiment.
 
-function makeLoadingFun() {
-  if($('#load-text').html() === 'Loading experiment....')
-    $('#load-text').html('Loading experiment.');
-  else
-    $('#load-text').html($('#load-text').html() + '.');
-}
 
-var loadInterval = setInterval(function() {
-  makeLoadingFun();
-}, 500);
+/*************************************************************************
+* ON DOCUMENT READY
+**************************************************************************/
 
-function loadExperimentFromJSON(json) {
-  var experiment = new AdaptationExperiment(_.extend(json, jsPsych.data.urlVariables()));
-  initializeExperiment(experiment);
-}
+$( document ).ready(function() {
 
-function loadExperimentFromJS(d, textStatus, error) {
-  console.error("getJSON failed, status: " + textStatus + ", error: " + error);
-}
+  urlVars = jsPsych.data.urlVariables();
 
-function attemptLoad() {
-  $.getJSON("resources/data/adaptation.data.json",
-            loadExperimentFromJSON)
-   .fail(loadExperimentFromJS);
-}
+  getParticipantCompletion("adaptation-workers", urlVars.participantId, '')
+    .then(function(snapshot) {
 
-function initializeExperiment(experiment) {
-  dataRef = storageRef.child('2-24-2017-run1/' + experiment.getSubjectId() + experiment.getCondition() + experiment.getSubcondition() + experiment.getVoice() + '.csv');
+      if(snapshot.val() && snapshot.val().complete) {
+        console.log('This participant has already completed the experiment!');
+        showUserError();
+      }
 
-  experiment.createTimeline();
-  experiment.addPropertiesTojsPsych();
+      else {
+        console.log('This participant has not yet completed the experiment. :)');
+        loadStimuliAndRun("resources/data/adaptation.data.json");
+      }
+
+  });
+});
+
+
+/*************************************************************************
+* jsPSYCH RUNNER
+**************************************************************************/
+
+/* Calls jsPsych.init() to run the experiment
+ *
+ * experiment.getTimeline() returns the timeline created by the Experiment
+ * object, which is passed to jsPsych.
+ * experiment.onFinish() defines what jsPsych does once the experiment is done.
+ */
+
+function initializeJsPsych(experiment) {
+
+  experiment.createTimeline()
+  experiment.addPropertiesTojsPsych()
+  experiment.setStorageLocation()
 
   jsPsych.init({
     timeline: experiment.getTimeline(),
     show_progress_bar: true,
-    display_element: $('#jspsych-target')
+    display_element: $('#jspsych-target'),
+    on_finish: function() {
+      experiment.onFinish()
+    }
   });
-
-  clearInterval(loadInterval);
 }
 
-$( document ).ready(function() {
 
-  checkWorker(jsPsych.data.urlVariables().workerId, 'adaptation-workers').then(function(snapshot) {
+/*************************************************************************
+* EXPERIMENT LOADER AND HELPER FUNCTIONS
+**************************************************************************/
 
-    if(snapshot.val() && snapshot.val().complete == 1) {
-      console.log('Worker has already completed the experiment.');
-      clearInterval(loadInterval);
-      $('#load-text').remove();
-      showError();
-    }
-    else {
-      console.log('Worker has not yet completed the experiment.');
-      attemptLoad();
-    }
-  });
-});
+/* Try to load the JSON file
+ *
+ * On success - calls returnStimuli()
+ * On failure - displays an error message in the console
+ */
+function loadStimuliAndRun(file) {
+  $.getJSON(file, initializeExperimentWithStimuli).fail(showConsoleError);
+}
+
+/* Initialize an Experiment object with loaded stimuli and storage instance
+ * and send the experiment to jsPsych.
+ * All URL variables are also passed to the Experiment object.
+ */
+function initializeExperimentWithStimuli(json) {
+  var experiment = new AdaptationExperiment(_.extend(json, jsPsych.data.urlVariables()),
+    storage);
+  initializeJsPsych(experiment);
+}
+
+function showConsoleError(d, textStatus, error) {
+  console.error("getJSON failed, status: " + textStatus + ", error: " + error);
+}
+
+function showUserError() {
+  $( '#jspsych-target' ).append($('<div>', {
+     id: 'error',
+     class: 'text-center',
+     html: '<p>According to our records, you have already participated in this experiment or a very similar experiment. </p><p>If you belive this message to be in error, please contact <a href="mailto:uchicagolanglab@gmail.com">uchicagolanglab@gmail.com</a>.</div>'
+   }));
+}

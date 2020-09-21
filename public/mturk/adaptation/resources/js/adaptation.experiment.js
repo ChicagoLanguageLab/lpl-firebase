@@ -2,7 +2,7 @@
   * @constructor
   * @param {Object} params - The experiment parameters.
   */
-function AdaptationExperiment(params) {
+function AdaptationExperiment(params, firebaseStorage) {
 
   /** The stimuli used in the experiment. The flower trials always come last.
    * @type {Array<object>}
@@ -36,6 +36,7 @@ function AdaptationExperiment(params) {
   var subject = {
     id: ''
   };
+  var experimentData = {}
   subject.id = params.workerId ? params.workerId : '';
 
   /** The subject completing the experiment.
@@ -161,12 +162,24 @@ function AdaptationExperiment(params) {
    */
   this.addPropertiesTojsPsych = function () {
     jsPsych.data.addProperties({
-      workerId: subject.id,
+      participant: subject.id,
       condition: data.condition,
       subcondition: data.subcondition,
       voice: data.voice
     });
   };
+
+  this.setStorageLocation = function() {
+
+    var currentDate = new Date();
+    var prettyDate = [currentDate.getFullYear(),
+                      currentDate.getMonth() + 1,
+                      currentDate.getDate()].join('-');
+
+    filename = 'results/adaptation/2020/' + subject.id + '_' + prettyDate + '.csv';
+    experimentData.storageLocation = firebaseStorage.ref().child(filename);
+
+  }
 
   /** Generate all trials that cannot be pre-constructed.
    * @function
@@ -250,17 +263,17 @@ function AdaptationExperiment(params) {
     if(is_post) {
       if(stimulus.name === 'flower') {
         wrap_up.on_finish =  function() {
-          saveData(jsPsych.data.dataAsCSV(), dataRef);
-          addWorker(workerId, 'adaptation-study');
+          saveDataToStorage(jsPsych.data.dataAsCSV(), experimentData.storageLocation);
+          addWorker(subject.id, 'adaptation-workers');
         }
       } else {
         wrap_up.on_finish =  function() {
-          saveData(jsPsych.data.dataAsCSV(), dataRef);
+          saveDataToStorage(jsPsych.data.dataAsCSV(), experimentData.storageLocation);
         }
       }
     } else {
       wrap_up.on_finish = function() {
-        saveData(jsPsych.data.dataAsCSV(), dataRef);
+        saveDataToStorage(jsPsych.data.dataAsCSV(), experimentData.storageLocation);
         var prev_stim = jsPsych.data.getLastTrialData().stimulus;
         if(prev_stim !== 'flower') {
           var ambiguous_point = AdaptationUtils.calculateAmbiguousPoint(prev_stim);
@@ -290,19 +303,23 @@ function AdaptationExperiment(params) {
    * @param {Array<Object>} posttest_trials - An array of post-test trials.
    * @returns {Object}
    */
-  this.makeExposurePosttestBlock = function(exposure_trials, attention_trials, posttest_trials) {
+  this.makeExposurePosttestBlock = function(stimulus, exposure_trials, attention_trials, posttest_trials) {
     var exposure_posttest_trials = this.interleaveTrials(exposure_trials, attention_trials, posttest_trials);
 
-    return ({
+    var block = {
       type: 'single-stim',
       timeline: [
         exposure.instructions,
         exposure.audio_test,
-        exposure_posttest_trials,
-        exposure.end_block
+        exposure_posttest_trials
       ],
       timing_post_trial: 1000
-    });
+    }
+
+    if(stimulus.name != "flower") {
+      block.timeline.push(exposure.end_block);
+    }
+    return block;
   }
 
   /** Generate a block of exposure-posttest trials.
@@ -315,9 +332,9 @@ function AdaptationExperiment(params) {
     var attention_blocks = this.makeAttentionBlocks(4);
     var posttest_blocks  = this.makePosttestBlocks();
 
-    var eap_blocks = _.zip(exposure_blocks, attention_blocks, posttest_blocks);
+    var eap_blocks = _.zip(stimuli, exposure_blocks, attention_blocks, posttest_blocks);
     var exp_posttest_blocks = _.map(eap_blocks, function(block_set) {
-      return this.makeExposurePosttestBlock(block_set[0], block_set[1], block_set[2]);
+      return this.makeExposurePosttestBlock(block_set[0], block_set[1], block_set[2], block_set[3]);
     }, this);
 
     return exp_posttest_blocks;
@@ -371,8 +388,10 @@ function AdaptationExperiment(params) {
     */
   this.interleaveTrials = function(exposure_trials, attention_trials, posttest_trials) {
     var interleaved_trials = [];
+    var num_exposure = exposure_trials.length;
 
-    for(var i = 0; i < exposure_trials.length; i++) {
+    for(var i = 0; i < num_exposure; i++) {
+
       interleaved_trials.push(exposure_trials.shift());
 
       if(_.contains(posttest.locations, i + 1)) {
@@ -434,7 +453,7 @@ function AdaptationExperiment(params) {
 
     } else {
 
-      trial.stimulus = 'resources/images/flower4' + exposure.colors[color_index] + '.jpg';
+      trial.stimulus = 'resources/images/' + exposure.colors[color_index] + 'flower3.jpg';
       trial.prompt = exposure.audio.header + 'flower' + statement + data.voice + exposure.audio.footer;
       trial.data.scalepos = 4;
 
@@ -483,17 +502,19 @@ function AdaptationExperiment(params) {
     };
 
     var presentation_slide = {
-      stimulus: '<p class="text-center center-screen"><span style="font-size: 24pt; color:' + attn_color + ';"><b>+</b></span></p>',
+      prompt: '<p class="text-center center-screen"><span style="font-size: 48pt; color:' + attn_color + ';"><b>+</b></span></p>',
+      stimulus: '',
       response_ends_trial: false,
-      timing_response: 500,
+      timing_response: 1000,
       data: {
         subtype: 'attention-stimulus',
-        stimulus: 'attn_color'
+        stimulus: attn_color
       }
     };
 
     var response_slide = {
-      stimulus: '<p></p>',
+      stimulus: '',
+      is_html: true,
       prompt: '<p class="text-center center-screen">What was the color of the "+" you just saw?<br/>Press <b>R</b> for <b>red</b> and <b>B</b> for <b>blue</b>.</p>',
       data: {
         stimulus: attn_color,
@@ -621,7 +642,7 @@ function AdaptationExperiment(params) {
 
     var presentation_trial = {
       stimulus: 'resources/images/' + color + 'flower' + num_petals + '.jpg',
-      prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="resources/sound/flowerquestion' + data.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
+      prompt: '<p><audio preload="auto" class="hidden" autoplay="autoplay"><source src="resources/sound/flower_question' + data.voice + '.mp3" type="audio/mp3" /> [NOT SUPPORTED]</audio></p><p>&nbsp;&nbsp;</p>',
       data: {
         scalepos: (num_petals + 1),
         stimulus: 'flower',
@@ -775,7 +796,7 @@ var prefabs = {
         });
 
         return '<p class="lead">You have finished the experiment! Your responses have been saved.</p>' +
-                '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT.' +
+                '<p>Your survey code is <b>' + code + '</b>. Please enter this code into your HIT. ' +
                 `You may then close this window.</p><p>If you have any questions or concerns,
                   please do not hesitate to contact the lab at
                   <a href='mailto:uchicagolanglab@gmail.com'>uchicagolanglab@gmail.com</a>.
